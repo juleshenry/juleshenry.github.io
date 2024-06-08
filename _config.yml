@@ -1,0 +1,3 @@
+name: Julian Henry
+markdown: kramdown
+permalink: /blog/:year/:month/:day/:title
