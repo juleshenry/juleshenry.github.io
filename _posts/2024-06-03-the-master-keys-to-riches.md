@@ -7,7 +7,7 @@ categories: wealth
 
 # Context & Review Commentary Italicized (Contesto e commento di revisione in corsivo, 맥락 및 검토 해설 이탤릭체, संदर्भ और समीक्षा टिप्पणी इटैलिकाइज़्ड)
 
-The second installment of Napoleon's sycophantic ravings, come find us knee-deep in "The Eight Princes": *A Happy Man's Creed*
+The second installment of Napoleon Hill's sycophantic ravings, come find us knee-deep in "The Eight Princes": *A Happy Man's Creed*
 
 - I have found happiness by helping others to find it. *"Golden Rule" de ispo facto de Epicureanism*
 - I have sound physical health because I live temperately of all things, and eat only the foods which Nature requires for body maintenance. *Moderation in all things, even moderation*
