@@ -88,8 +88,24 @@ What is your belief?
 What is your goal?
 What is your best chance to negate the bad and achieve the good?
 
-## 
+## The Deep Question
+What does a year from now look like from you?
+If you don't know, let's continue this affair once you do have a clear idea.
+Sell what they want; give them what they need.
 
+## Happiness
+Stay vigilant -> Become confident
+1. Define your happiness
+2. Be present
+3. Stop overthinking
+4. Be positive
+5. Let go
+6. Be fearless
+7. Go for great, not good
+8. Be greatful
+9. Know god
+
+### You now have the tools to become a millionaire...
 
 
 
