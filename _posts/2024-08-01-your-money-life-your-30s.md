@@ -64,3 +64,5 @@ Yes, the American dream is truly in peril when raising a family for the average 
 Apparently, your money life in your 30s will leave you childless, unless you and your partner rise above the fray economically. Therefore, the book is bankrupt on all accounts. To follow financial advice of those who ignore the costs of raising a family, we are not going to have a future in this country. 
 
 "Your Money Life: Your 30s" cannot serve as a proper guide for the average American to raise a family, therefore, it is largely junk.
+
+I will be throwing it away now.
