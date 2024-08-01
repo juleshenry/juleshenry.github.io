@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Book Review: Your Money Life, Your 30's"
+title: "Book Review: Your Money Life Your 30's"
 date: 2024-08-01
 categories: wealth 
 ---
 
 # Context
-Your Money Life is a book series Peter Dunn that advises readers at every decade: 20s, 30s, 40s, etc. on financial prudence
+Your Money Life is a book series Peter Dunn that advises readers at every decade: 20s, 30s, 40s, etc. on financial prudence.
 
 # Content
 This book proposes three "essential truths" about one's thirties.
@@ -19,16 +19,16 @@ The Past chapter concerns debt. In it, Dunn discusses about the various types of
 The Present chapter concerns spending. Mitigating unnecessary expenses like groceries, dining out, and utilities are key to increase cash flow. This is the typical, "don't go to Starbucks or eat avocado toast" financial tribble.
 
 The Pie chapter proposes a budget breakdown. Dunn suggests this layout for post-tax income as follows:
--25% Housing
--15% Transportation
--12% Groceries
--10% Savings
--10% Utilities
--5% Holidays/Gifts
--5% Charity
--5% Clothing
--5% Entertainment
--3% Misc
+- 25% Housing
+- 15% Transportation
+- 12% Groceries
+- 10% Savings
+- 10% Utilities
+- 5% Holidays/Gifts
+- 5% Charity
+- 5% Clothing
+- 5% Entertainment
+- 3% Misc
 
 The Possessions chapter gives common sense understanding of the major purchases in life: the automobile and the domicile. When making these critical decisions, one must account for everything. In housing, understand the interest rate tradeoffs of a 15 year versus 30 year loan. In the vehicle, he emphasizes the realistically assess the car costs including tires, oil changes and washes.
 
@@ -57,12 +57,12 @@ On the other hand, the average household income as of 2022 in the USA was $74,58
 
 That household, then, gets $1,191 for housing, 715 for transportation, $572 for groceries, $476 for savings, $476 for utilities, $238 for holidays/gifts, $238 for charity, $238 for clothing, $238 for entertainment, and 143 for miscellaneous.
 
-If these numbers don't make sense to you, you are not alone. At face value, Dunn is totally out of touch. Cut the charity immediately to go into housing. The budgeted $1,191 will barely get a one bedroom, one bath thirty minutes away from a metropolitan area. The $572 for groceries? The inflation of 2024 makes this number laughable. 
+If these numbers don't make sense to you, you are not alone. Let's try to fix it. Cut the charity immediately to go into housing. The budgeted $1,191 will barely get a one bedroom, one bath thirty minutes away from a metropolitan area. The $572 for groceries? The inflation of 2024 makes this number laughable. On a positive note, the $476 monthly invested in a an 8% returning portfolio will yield $87,084.53 after 10 years. Nevertheless, how will you stash that savings away when children enter the picture?
 
-By admission, Dunn's spread ignores student loans, vacation, and other types of debt. It also ignores, openly, costs of raising children: college tuition funds, recreational activites, clothes, food, diapers, toys and daycare. 
+By admission, Dunn's budget spread ignores student loans, vacation, and other types of debt. It also ignores, openly, costs of raising children: college tuition funds, recreational activites, clothes, food, diapers, toys and daycare. 
 
-Yes, the American dream is truly in peril when raising a family for the average American requires gutting a healthy budget. As usual, the status quo does not suffice. Moreover, the pop-finance of yesteryear, just nine years ago in this country, is wildly out of touch with the needs of the red, white and blue family.
+Yes, the American dream is truly in peril when raising a family for the average American requires gutting a healthy budget. As usual, the status quo does not suffice. The pop-finance of yesteryear, just nine years ago in this country, is wildly out of touch with the needs of the red, white and blue household.
 
-Apparently, your money life in your 30s will leave you childless, unless you and your partner rise above the fray economically. Therefore, the book is bankrupt on all accounts. 
+Apparently, your money life in your 30s will leave you childless, unless you and your partner rise above the fray economically or choose to forego savings of any kind. Therefore, the book is bankrupt on all accounts. 
 
-I will be throwing it away now, eschewing Dunn's trite advice in pursuit of an income that does produce progeny.
+I will be throwing it away now.
