@@ -47,22 +47,22 @@ The last chapter, The Plan, enumerates financial goals to hit by turning forty y
 - Freeing up 20% of your take-home pay for saving and investment
 
 # Review
+"Your Money Life: Your 30s" cannot serve as a proper guide for the average American to produce the next generation; therefore, it is largely junk.
+
 What does this book say concretely? Let's take the average American single income filer Q4 of 2023 was $59,384. That yields roughly $3,925 monthly take-home pay depending on state taxes.
 
-Ultimately, what you'll have is 981 for housing, 588 for transportation, 471 for groceries, 392 for savings, 392 for utilities, 196 for holidays/gifts, 196 for charity, 196 for clothing, 196 for entertainment, 117 for miscellaneous.
+Ultimately, what you'll have is $981 for housing, $588 for transportation, $471 for groceries, $392 for savings, $392 for utilities, $196 for holidays/gifts, $196 for charity, $196 for clothing, $196 for entertainment, and $117 for miscellaneous.
 
 On the other hand, the average household income as of 2022 in the USA was $74,580, yielding roughly $4,767 monthly take-home pay.
 
-That household, then, gets 1191 for housing, 715 for transportation, 572 for groceries, 476 for savings, 476 for utilities, 238 for holidays/gifts, 238 for charity, 238 for clothing, 238 for entertainment, 143 for miscellaneous.
+That household, then, gets $1,191 for housing, 715 for transportation, $572 for groceries, $476 for savings, $476 for utilities, $238 for holidays/gifts, $238 for charity, $238 for clothing, $238 for entertainment, and 143 for miscellaneous.
 
 If these numbers don't make sense to you, you are not alone. At face value, Dunn is totally out of touch. Cut the charity immediately to go into housing. The budgeted $1,191 will barely get a one bedroom, one bath thirty minutes away from a metropolitan area. The $572 for groceries? The inflation of 2024 makes this number laughable. 
 
-By admission Dunn's spread ignores student loans, vacation, and other types of debt. It also ignores, by admission, costs of raising children: college tuition funds, recreational activites, clothes, food, diapers toys and daycare. 
+By admission, Dunn's spread ignores student loans, vacation, and other types of debt. It also ignores, openly, costs of raising children: college tuition funds, recreational activites, clothes, food, diapers, toys and daycare. 
 
 Yes, the American dream is truly in peril when raising a family for the average American requires gutting a healthy budget. As usual, the status quo does not suffice. Moreover, the pop-finance of yesteryear, just nine years ago in this country, is wildly out of touch with the needs of the red, white and blue family.
 
-Apparently, your money life in your 30s will leave you childless, unless you and your partner rise above the fray economically. Therefore, the book is bankrupt on all accounts. To follow financial advice of those who ignore the costs of raising a family, we are not going to have a future in this country. 
+Apparently, your money life in your 30s will leave you childless, unless you and your partner rise above the fray economically. Therefore, the book is bankrupt on all accounts. 
 
-"Your Money Life: Your 30s" cannot serve as a proper guide for the average American to raise a family, therefore, it is largely junk.
-
-I will be throwing it away now.
+I will be throwing it away now, eschewing Dunn's trite advice in pursuit of an income that does produce progeny.
