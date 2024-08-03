@@ -18,4 +18,4 @@ categories: wealth
 - I am on good terms with my conscience. Therefore it guides me correctly in all that I do.
 - I have no enemies because I injure no man for any cause, but I benefit all with whom I come into contact by teaching them the way to enduring riches. 
 - I have more material wealth than I need because I am free from greed and covet only the material things I can use while I live.
- - I won a great estate which is not taxable because it exists mainly in my own mind in intangible riches which cannot he assessed or appropriated except by those who adopt my way of life. I created this vast estate by observing Nature's laws and adapting my habits to conform therewith. 
+ - I own a great estate which is not taxable because it exists mainly in my own mind in intangible riches which cannot he assessed or appropriated except by those who adopt my way of life. I created this vast estate by observing Nature's laws and adapting my habits to conform therewith. 
