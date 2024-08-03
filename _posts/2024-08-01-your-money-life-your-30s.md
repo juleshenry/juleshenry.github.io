@@ -63,6 +63,6 @@ By admission, Dunn's budget spread ignores student loans, vacation, and other ty
 
 Yes, the American dream is truly in peril when raising a family for the average American requires gutting a healthy budget. As usual, the status quo does not suffice. The pop-finance of yesteryear, just nine years ago in this country, is wildly out of touch with the needs of the red, white and blue household.
 
-Apparently, your money life in your 30s will leave you childless, unless you and your partner rise above the fray economically or choose to forego savings of any kind. Therefore, the book is bankrupt on all accounts. 
+Apparently, your money life in your 30's will leave you childless, unless you and your partner rise above the fray economically or choose to forego savings of any kind. Therefore, the book is bankrupt on all accounts. 
 
 I will be throwing it away now.
