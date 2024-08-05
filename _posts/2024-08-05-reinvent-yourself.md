@@ -28,7 +28,9 @@ While it is entirely possible to find a summary of this book by [Altucher himsel
 <ol>
     <li>INTRODUCTION</li>
     <li>IT’S GOING TO BE A STORM! DO YOU HAVE AN UMBRELLA?</li>
+        > abc
     <li>THE ULTIMATE GUIDE TO FINDING A MENTOR</li>
+        > abb
     <li>HOW TO HAVE 1,000 MENTORS IN YOUR LIFE</li>
     <li>THE SEVEN TECHNIQUES TO INFLUENCE ANYONE</li>
     <li>WHAT I LEARNED ABOUT NEGOTIATION FROM THE FBI’S BEST HOSTAGE NEGOTIATOR</li>
@@ -73,4 +75,5 @@ While it is entirely possible to find a summary of this book by [Altucher himsel
     <li>LESSONS I LEARNED FROM PLAYING POKER FOR 365 STRAIGHT DAYS</li>
     <li>WHAT I LEARNED FROM CHESS</li>
 </ol>
+
 # Review
