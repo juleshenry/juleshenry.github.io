@@ -28,9 +28,21 @@ While it is entirely possible to find a summary of this book by [Altucher himsel
 <ol>
     <li>INTRODUCTION</li>
     <li>IT’S GOING TO BE A STORM! DO YOU HAVE AN UMBRELLA?</li>
-        > abc
+        > Freedom is the goal - to reduce duties and diversify income. Have good habits; the five people you spend the most time with, the food you eat, the content you consume, etc.
     <li>THE ULTIMATE GUIDE TO FINDING A MENTOR</li>
-        > abb
+        > One of the most important lessons I've learned is the importance of 
+self-awareness. When we're stuck or feeling overwhelmed, it's easy to get 
+caught up in our own thoughts and emotions. But by taking time to reflect 
+on what's going on inside ourselves, we can gain a deeper understanding of
+our strengths, weaknesses, and motivations.
+
+This is where the concept of "Plus, Minus, Equal" comes in. By 
+acknowledging both our positive qualities (the "Plus") and areas where we 
+need improvement (the "Minus"), we can strive for balance and harmony in 
+our lives. And when we do this consistently, I believe that's when we 
+start to experience exponential growth – not just in our careers or 
+businesses, but in ourselves.
+
     <li>HOW TO HAVE 1,000 MENTORS IN YOUR LIFE</li>
     <li>THE SEVEN TECHNIQUES TO INFLUENCE ANYONE</li>
     <li>WHAT I LEARNED ABOUT NEGOTIATION FROM THE FBI’S BEST HOSTAGE NEGOTIATOR</li>
