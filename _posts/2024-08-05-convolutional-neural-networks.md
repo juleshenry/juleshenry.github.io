@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Jules' Cocktail Notes: Convolutional Neural Networks"
-date: 2024-08-205
+date: 2024-08-05
 categories: machine-learning
 ---
 # Purpose
