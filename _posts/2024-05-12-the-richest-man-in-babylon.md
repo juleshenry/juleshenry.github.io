@@ -8,6 +8,7 @@ categories: wealth
 # Context
 *The Richest Man in Babylon* by George S. Clason, published in 1926, presents a series of parables to instruct the reader on personal finance.
 
+# Content 
 ## Seven Cures for a Lean Purse*
     * Start thy purse to fattening: "For every ten coins though placest within thy purse take out for use but nine"
     * Control thy expenditures: 
@@ -32,6 +33,6 @@ categories: wealth
     
 ## Review
 
-We must amelioriate yesteryear. Financial education is neither art nor a science; it is a grind. Typical knowledge or maids' wisdom cannot apply. Game theoretically, the most common strategy cannot always be dominant.
+We must amelioriate yesteryear. Financial education is neither art nor a science; it is a practice. Typical knowledge or maids' wisdom applies not. Game theoretically, the most popular strategy cannot always be dominant.
 
 The Richest Man in Babylon is not that one who is wealthiest, rather, the one who navigates its customs and aphorisms with knowledge of the urgency to innovate by rebellion, excel by heterodox and recognition of a higher state of affairs, namely, Zion.

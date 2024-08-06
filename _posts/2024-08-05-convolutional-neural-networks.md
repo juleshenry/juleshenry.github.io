@@ -1,12 +1,10 @@
 ---
 layout: post
-title: "Jules' Cocktail Notes: Convolutional Neural Networks"
+title: "Back-of-the-Envelope: Convolutional Neural Networks"
 date: 2024-08-04
 categories: machine-learning
 ---
-# Purpose
-
-Cocktail notes on CNN's.
+# Terse notes on CNN's.
 
 <ol>
     <li>Convolution</li>
@@ -126,12 +124,9 @@ features from input data, such as edges and textures.
 3. **Flexibility in Architecture**: CNNs can be customized with different 
 numbers of convolutional and pooling layers.
 
-## Sources:
-### Lecture on CNN, Washington University
-* https://courses.cs.washington.edu/courses/cse416/22su/lectures/10/lecture_10.pdf
+### Sources
+* [Lecture on CNN, Washington University](https://courses.cs.washington.edu/courses/cse416/22su/lectures/10/lecture_10.pdf)
 
-### 3 Brown 1 Blue
-* https://www.youtube.com/watch?v=KuXjwB4LzSA
+### [3 Brown 1 Blue](https://www.youtube.com/watch?v=KuXjwB4LzSA)
 
-### Microsoft Phi3
-* https://azure.microsoft.com/en-us/products/phi-3
+### [Microsoft Phi3](https://azure.microsoft.com/en-us/products/phi-3)
