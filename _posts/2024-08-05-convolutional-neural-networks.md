@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Jules' Cocktail Notes: Convolutional Neural Networks"
-date: 2024-08-05
+date: 2024-08-04
 categories: machine-learning
 ---
 # Purpose
@@ -19,13 +19,13 @@ Cocktail notes on CNN's.
 A convolution combines information about local pixels such that pixels close to each other in an image are  ”summarized” by a smaller set of pixels.
 
 A discrete convolution is defined like so:
-![sshfs](/blog/assets/_2024-08-05-cnn-files/discrete-convolution.png)
+![sshfs](/blog/assets/2024/discrete-convolution.png)
 
 A continuous convolution is defined like so:
-![sshfs](/blog/assets/_2024-08-05-cnn-files/continuous-convolution.png)
+![sshfs](/blog/assets/2024/continuous-convolution.png)
 
 Comparison
-![sshfs](/blog/assets/_2024-08-05-cnn-files/comparison.png)
+![sshfs](/blog/assets/2024/comparison.png)
 
 
 # Kernel
@@ -46,7 +46,7 @@ maximum, mean, or median, of the set of pixels inside the image that fall undern
 Using max pool has seemed to work better than the average pool.
 
 Here is a concrete example of a pool:
-![sshfs](/blog/assets/_2024-08-05-cnn-files/maxpool.png)
+![sshfs](/blog/assets/2024/maxpool.png)
 
 
 # Microsoft Phi3 Lecture
@@ -124,11 +124,11 @@ features from input data, such as edges and textures.
 numbers of convolutional and pooling layers.
 
 ## Sources:
-- Lecture on CNN, Washington University
-    https://courses.cs.washington.edu/courses/cse416/22su/lectures/10/lecture_10.pdf
+### Lecture on CNN, Washington University
+* https://courses.cs.washington.edu/courses/cse416/22su/lectures/10/lecture_10.pdf
 
-- 3 Brown 1 Blue
-    https://www.youtube.com/watch?v=KuXjwB4LzSA
+### 3 Brown 1 Blue
+* https://www.youtube.com/watch?v=KuXjwB4LzSA
 
-- Microsoft Phi3
-    https://azure.microsoft.com/en-us/products/phi-3
+### Microsoft Phi3
+* https://azure.microsoft.com/en-us/products/phi-3
