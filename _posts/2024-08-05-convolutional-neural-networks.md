@@ -36,7 +36,7 @@ For example, a Gaussian blur can be achieved by iterating a 5x5 kernel over an i
 Kernels are leveraged to downsample from the data. Here are some examples
 
 Comparison
-![sshfs](/blog/assets/_2024-08-05-cnn-files/kernel-examples.png)
+![sshfs](/blog/assets/2024/kernel-examples.png)
 
 
 # Pooling:
@@ -81,6 +81,9 @@ convolutional layers.
 array, which is then fed into fully connected (dense) layers.
 5. **Dense Layers**: One or more dense layers perform classification or 
 regression tasks.
+
+![sshfs](/blog/assets/2024/general-cnn-architecture.png)
+
 
 **How CNNs Work**
 
