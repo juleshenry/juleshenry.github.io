@@ -127,6 +127,6 @@ numbers of convolutional and pooling layers.
 ### Sources
 * [Lecture on CNN, Washington University](https://courses.cs.washington.edu/courses/cse416/22su/lectures/10/lecture_10.pdf)
 
-### [3 Brown 1 Blue](https://www.youtube.com/watch?v=KuXjwB4LzSA)
+* [3 Brown 1 Blue](https://www.youtube.com/watch?v=KuXjwB4LzSA)
 
-### [Microsoft Phi3](https://azure.microsoft.com/en-us/products/phi-3)
+* [Microsoft Phi3](https://azure.microsoft.com/en-us/products/phi-3)
