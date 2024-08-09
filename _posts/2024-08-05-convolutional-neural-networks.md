@@ -17,13 +17,13 @@ categories: machine-learning
 A convolution combines information about local pixels such that pixels close to each other in an image are  ”summarized” by a smaller set of pixels.
 
 A discrete convolution is defined like so:
-![sshfs](/blog/assets/2024/discrete-convolution.png)
+![sshfs](/blog/assets/2024/cnn/discrete-convolution.png)
 
 A continuous convolution is defined like so:
-![sshfs](/blog/assets/2024/continuous-convolution.png)
+![sshfs](/blog/assets/2024/cnn/continuous-convolution.png)
 
 Comparison
-![sshfs](/blog/assets/2024/comparison.png)
+![sshfs](/blog/assets/2024/cnn/comparison.png)
 
 
 # Kernel
@@ -34,7 +34,7 @@ For example, a Gaussian blur can be achieved by iterating a 5x5 kernel over an i
 Kernels are leveraged to downsample from the data. Here are some examples
 
 Comparison
-![sshfs](/blog/assets/2024/kernel-examples.png)
+![sshfs](/blog/assets/2024/cnn/kernel-examples.png)
 
 
 # Pooling:
@@ -44,7 +44,7 @@ maximum, mean, or median, of the set of pixels inside the image that fall undern
 Using max pool has seemed to work better than the average pool.
 
 Here is a concrete example of a pool:
-![sshfs](/blog/assets/2024/maxpool.png)
+![sshfs](/blog/assets/2024/cnn/maxpool.png)
 
 
 # Microsoft Phi3 Lecture
@@ -80,7 +80,7 @@ array, which is then fed into fully connected (dense) layers.
 5. **Dense Layers**: One or more dense layers perform classification or 
 regression tasks.
 
-![sshfs](/blog/assets/2024/general-cnn-architecture.png)
+![sshfs](/blog/assets/2024/cnn/general-cnn-architecture.png)
 
 
 **How CNNs Work**
