@@ -17,6 +17,36 @@ Terse notes on RNN's.
 # Applications
 RNN's are especially adept at sequence data.
 
+
+# Math in a Vanilla Recurrent Neural Network
+1. Vanilla Forward Pass
+2. Vanilla Backward Pass
+3. Vanilla Bidirectional Pass
+4. Training of Vanilla RNN
+5. Vanishing and exploding gradient problem
+
+![back-propagation](/blog/assets/2024/back-propagation.png)
+![feed-forward-lstm](/blog/assets/2024/feed-forward-lstm.png)
+![bidirectional-rnn](/blog/assets/2024/bidirectional-rnn.png)
+![formulae](/blog/assets/2024/formulae.png)
+![computation-graph](/blog/assets/2024/computation-graph.png)
+![lstm-cell](/blog/assets/2024/lstm-cell.svg)
+![example](/blog/assets/2024/example.png)
+![lstm](/blog/assets/2024/lstm.png)
+![example2](/blog/assets/2024/example2.png)
+![rnn-notation](/blog/assets/2024/rnn-notation.png)
+![example3](/blog/assets/2024/example3.png)
+![unrolled-rnn](/blog/assets/2024/unrolled-rnn.png)
+![feed-backward-lstm](/blog/assets/2024/feed-backward-lstm.png)
+![vanilla-forward-pass](/blog/assets/2024/vanilla-forward-pass.png)
+
+
+# LSTM
+The LSTM architecture consists of a set of recurrentlyconnectedsubnets, known as memory blocks. These blocks canbe thoughtofas a differentiable version of the memory chips in a digital
+computer. Each block contains one or more self-connectedmemorycells and three multiplicative units that provide continuousanalogues of write, read and reset operations for the cells
+* The input, output and forget gates.
+
+
 # Python Code Vanilla Example
 https://gist.github.com/karpathy/d4dee566867f8291f086
 
