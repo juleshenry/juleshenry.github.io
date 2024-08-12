@@ -102,11 +102,13 @@ Stay vigilant -> Become confident
 5. Let go
 6. Be fearless
 7. Go for great, not good
-8. Be greatful
+8. Be grateful
 9. Know god
 
 ### You now have the tools to become a millionaire...
 
+# Review
 
+These platitudes are contradictory and self-subsuming, redundant, if you will; yet, what is true is not always profound.
 
 

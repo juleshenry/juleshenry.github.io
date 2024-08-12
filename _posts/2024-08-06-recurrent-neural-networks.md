@@ -21,7 +21,7 @@ Terse notes on RNN's.
 RNN's are especially adept at sequence data. They hold context in weights and can reference all elements of a sequence for ingestion and memory.
 
 
-# Math in a Vanilla Recurrent Neural Network
+# The Mathematics of a Vanilla Recurrent Neural Network
 1. Vanilla Forward Pass
 ![vanilla-forward-pass](/blog/assets/2024/vanilla-forward-pass.png)
 2. Vanilla Backward Pass
@@ -29,13 +29,10 @@ RNN's are especially adept at sequence data. They hold context in weights and ca
 3. Vanilla Bidirectional Pass
 ![bidirectional-rnn](/blog/assets/2024/bidirectional-rnn.png)
 4. Training of Vanilla RNN
+
 5. Vanishing and exploding gradient problem
+> While training using BPTT the gradients have to travel from the last cell all the way to the first cell. The product of these gradients can go to zero or increase exponentially. The exploding gradients problem refers to the large increase in the norm of the gradient during training. The vanishing gradients problem refers to the opposite behavior, when long term components go exponentially fast to norm 0, making it impossible for the model to learn correlation between temporally distant events.
 
-
-
-
-![formulae](/blog/assets/2024/formulae.png)
-![rnn-notation](/blog/assets/2024/rnn-notation.png)
 ![unrolled-rnn](/blog/assets/2024/unrolled-rnn.png)
 ![computation-graph](/blog/assets/2024/computation-graph.png)
 
@@ -47,8 +44,7 @@ RNN's are especially adept at sequence data. They hold context in weights and ca
 
 
 # LSTM
-The LSTM architecture consists of a set of recurrentlyconnectedsubnets, known as memory blocks. These blocks canbe thoughtofas a differentiable version of the memory chips in a digital
-computer. Each block contains one or more self-connectedmemorycells and three multiplicative units that provide continuousanalogues of write, read and reset operations for the cells: namely, the input, output and forget gates.
+The LSTM architecture consists of a set of recurrentlyconnectedsubnets, known as memory blocks. These blocks canbe thoughtofas a differentiable version of the memory chips in a digital computer. Each block contains one or more self-connectedmemorycells and three multiplicative units that provide continuousanalogues of write, read and reset operations for the cells: namely, the input, output and forget gates.
 
 ### formulae
 ![lstm](/blog/assets/2024/lstm.png)
