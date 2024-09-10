@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "attention-is-all-you-need"
+title: "Attention is All You Need"
 date: 2024-09-03
 ---
 This paper changed the world. Given its impact in LLM development, 
