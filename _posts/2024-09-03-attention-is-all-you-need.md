@@ -6,7 +6,6 @@ date: 2024-09-03
 "Attention is All You Need" demands attention because of its profound impact. Given its impact in LLM development, the transformer with attention is a bona fide `e=m*c^2` of our time.
 
 ![viz](/blog/assets/2024/attention/graphic-viz.png)
-Visualization
 
 At the moment, I am unable to do the topic more justice then the attached resources.
 
