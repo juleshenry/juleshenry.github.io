@@ -22,15 +22,15 @@ values) change over time under volatility and random market conditions.
 
 4. **Formula**: The formula for Ito's lemma is given by:
 ```math
-   $$ df(t, X(t)) = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}(dX) + \frac{1}{2}\frac{\partial^2f}{\partial x^2}(dX)^2 $$
+   df(t, X(t)) = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}(dX) + \frac{1}{2}\frac{\partial^2f}{\partial x^2}(dX)^2
 ```
-   where $$\(df\)$$ represents the differential of the function $$\(f(t, X(t))\)$$, and $$\(dX\)$$ is an infinitesimal 
-increment in the random variable $$\(X\)$$. The first term $$\(\frac{\partial f}{\partial t}dt\)$$ captures how the 
-function changes with time. The second term $$\(\frac{\partial f}{\partial x}(dX)\)$$ reflects its sensitivity to 
-changes in $$\(X(t)\)$$, while the last term, a stochastic integral, accounts for random fluctuations within this 
+   where $\(df\)$ represents the differential of the function $\(f(t, X(t))\)$, and $\(dX\)$ is an infinitesimal 
+increment in the random variable $\(X\)$. The first term $\(\frac{\partial f}{\partial t}dt\)$ captures how the 
+function changes with time. The second term $\(\frac{\partial f}{\partial x}(dX)\)$ reflects its sensitivity to 
+changes in $\(X(t)\)$, while the last term, a stochastic integral, accounts for random fluctuations within this 
 process:
    - **Partial Derivatives**: These represent how each component of the function responds to independent and 
-dependent variables—in our case, time t (partial derivative with respect to $$\(dt\)$$) and value $$X(t)$$ (partial derivatives with respect to $$\(dX\)$$).
+dependent variables—in our case, time t (partial derivative with respect to $\(dt\)$) and value $X(t)$ (partial derivatives with respect to $\(dX\)$).
    - **Stochastic Integral Term**: This term incorporates not only changes in the variable but also random fluctuations inherent to stochastic processes. It is a weighted average of squared increments, accounting for both small positive and negative variations within these increments.
 
 In financial mathematics, Itô's lemma plays an instrumental role by allowing analysts and traders to derive the dynamic pricing models (like Black-Scholes formula) that govern modern derivative markets—essentially helping us understand how prices evolve in response to market conditions and risk factors over time.
@@ -117,18 +117,28 @@ In the context of pricing a European Call Option, and in relation to the Black-S
 expanded breakdown:
 
 1. **The European call price C(St; K; T)**, in a Black-Scholes Model context, is calculated by discounting the 
-expected payoff $$(S_T - K)$$ under certain probability distributions of future asset prices at maturity time T. This 
+expected payoff $(S_T - K)$ under certain probability distributions of future asset prices at maturity time T. This 
 approach follows the risk-neutral valuation principle:
    - **ST** represents the stock price at option's expiration date T (maturity).
-   - **K** is the strike price—the predetermined price in the contract wherein, if $$S_T > K$$, a holder of European 
+   - **K** is the strike price—the predetermined price in the contract wherein, if $S_T > K$, a holder of European 
 Call Option can buy shares from the seller for an amount equal to K.
    - The discounted time-t expected value refers to calculating this payoff's present worth by taking its expectation (average over all possible future states) and then applying a risk-free rate discount factor "r" which represents the opportunity cost of capital or, more broadly, reflecting prevail points in financial markets.
 
 2. **Expected Maturity Market (EMM Q):** This denotes the market's anticipated conditions at maturity time T, when the European Call Option will be evaluated for exercise rights. These market predictions include expected asset prices, volatility, and risk-free interest rates—all of which are taken into consideration in pricing the 
 option under the Black-Scholes framework:
-   - **Expected Asset Prices (St)** at maturity represent future stock prices under different scenarios, derived from market forecasts or statistical distributions.
+   - **Expected Asset Prices (S_T)** at maturity represent future stock prices under different scenarios, derived from market forecasts or statistical distributions.
    - **Volatility (\sigma)** refers to the degree of asset price fluctuations over a certain period and is usually an estimate based on historical data. It reflects the uncertainty surrounding the expected return of the underlying security.
    - **Risk-free Interest Rates (r)** denote rates for riskless investments, such as government bonds or bank deposits in stable economic conditions. They provide a baseline to compare other risky securities' returns and are also used in discounting future cash flows.
+
+  
+- **Filtration**: Filtration $\(\mathcal{F}_t\)$ symbolizes our growing knowledge about market events and 
+information up to time t. It's a mathematical structure that models how we gain more insight into asset price 
+dynamics as time progresses, incorporating new data or observable trends within the financial ecosystem.
+
+- **Conditional Expectation**: The conditional expectation $\(E[S_T | F_t]\)$ represents our best guess (or 
+expected value) of the future price $\(S_T\)$, taking into account all available information up to time t 
+$(\(\mathcal{F}_t\))$. This includes any historical data, current market conditions, and relevant assumptions or 
+models that could influence asset prices.
 
 
 ### Further reading
