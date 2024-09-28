@@ -105,6 +105,8 @@ To understand BSM, you will need to learn some stocastic calculus.
 
 ## Deriving From Integration
 ![Valuing a Call](/blog/assets/2024/bsm/business-1.png)
+![eqn 17](/blog/assets/2024/bsm/add-17.png)
+![eqn 19](/blog/assets/2024/bsm/add-19.png)
 
 In the context of pricing a European Call Option, and in relation to the Black-Scholes Model (BSM), "EMM" stands for "Expected Maturity Market," which refers to the market state or conditions at maturity time T. Here's an 
 expanded breakdown:
@@ -154,6 +156,7 @@ In option pricing, changing the numeraire can be particularly useful. For instan
 Summary
 In short, the change of numeraire is a method that simplifies pricing derivatives by changing the reference asset (the numeraire) used to measure value. When we do this, we switch to a new probability measure but retain certain properties, like the fact that discounted asset prices behave in a predictable way (the martingale property). For standard derivatives like European call options, using the risk-free bond as the numeraire makes the pricing straightforward and leads to well-known formulas like Black-Scholes.
 ![more4](/blog/assets/2024/bsm/more-4.png)
+![add14](/blog/assets/2024/bsm/add-14.png)
 ![more5](/blog/assets/2024/bsm/more-5.png)
 ![more6](/blog/assets/2024/bsm/more-6.png)
 ![more7](/blog/assets/2024/bsm/more-7.png)

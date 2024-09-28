@@ -5,7 +5,7 @@ date: 2024-09-27
 ---
 
 # Primer
-The history of this proof is an underdog story, the tale of the infamous Stephen F. Smale, before the glory of the Fields medal, when he was a struggling student in mathematics who prevailed against all expectation to proof the counter-intuitive fact that a sphere can be turned inside-out without cutting it. 
+The history of this proof is an underdog story, the tale of the infamous Stephen F. Smale, before the glory of the Fields medal, when he was a struggling student in mathematics who prevailed against all expectation to prove the counter-intuitive fact that a sphere can be turned inside-out without cutting it. 
 
 We will build up your understanding of topology, the mathematics of the properties of shapes, and dive headfirst into advanced topics required to see the genius of the proof. It is an existence proof alone, meaning no procedure for the transformation is given. Nevertheless, the animated version will be highly motivating.
 
