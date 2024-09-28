@@ -92,9 +92,11 @@ physical laws that govern the quantum realm.
 The \textit{adjoint} or Hermitian conjugate $A^*$ of a complex square matrix $A$ is the transpose of the complex 
 conjugate of $A$. It can be denoted as:
 
+```math
 \[ A^* = (A^\dagger) = \overline{A^T}, \]
+```
 
-where $\overline{A^T}$ indicates taking the complex conjugate of each element in $A^T$, and then transposing the 
+where $$\overline{A^T}$$ indicates taking the complex conjugate of each element in $A^T$, and then transposing the 
 result. The adjoint is crucial in quantum mechanics because it represents the linear operator corresponding to 
 the adjoint or Hermitian operation on quantum states, which has important implications for measurement and 
 observables.
