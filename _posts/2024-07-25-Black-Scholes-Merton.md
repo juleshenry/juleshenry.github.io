@@ -5,8 +5,38 @@ date: 2024-07-24
 categories: wealth 
 ---
 
+# Primer 
+Herein we derive the formula for pricing an option. To follow this article, you will need to know the basics of differential equations and calculus.
+
+## A Detour to Japan
+To follow this derivation, you will need to learn about the world of stochastic calculus. This field was pioneered by Japanese mathematician Kiyosi Itô, who discovered an essential result in stochastic calculus that provides the mathematical foundation for analyzing continuous-time stochastic differential equations (SDEs). 
+
+Here are its key components:
+
+1. **Stochastic Processes**: In finance, many quantities—such as stock prices or interest rates—are modeled as stochastic processes rather than deterministic ones due to their inherent randomness and unpredictability over time. Stochastic differential equations (SDEs) are used to describe these dynamic systems mathematically. In a stochastic system, each movement from one state to the next is governed by a probability, in our case, for the financial markets, the probability is sampled from a normal distribution. The canonical name for such a motion is a Brownian motion from physics or martingale from economics.
+
+2. **Ito's Lemma**: Itô's lemma is a powerful tool for finding the differential of functions of stochastic processes that satisfy an SDE, particularly when applied in financial modeling and derivative pricing. In essence, Ito's lemma enables us to understand how certain observable quantities (like option prices or portfolio 
+values) change over time under volatility and random market conditions.
+
+3. Functional Derivative: At its core, the lemma provides a formula for the differential of a function composed with a stochastic process defined by an SDE. For instance, if we have a function f(t, X(t)), where t denotes time and X(t) represents a stochastic process following an SDE, Ito's Lemma tells us how df changes in relation to dt (time increment) and dX (increment of the random variable).
+
+4. **Formula**: The formula for Ito's lemma is given by:
+```math
+   $$ df(t, X(t)) = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}(dX) + \frac{1}{2}\frac{\partial^2f}{\partial x^2}(dX)^2 $$
+```
+   where $$\(df\)$$ represents the differential of the function $$\(f(t, X(t))\)$$, and $$\(dX\)$$ is an infinitesimal 
+increment in the random variable $$\(X\)$$. The first term $$\(\frac{\partial f}{\partial t}dt\)$$ captures how the 
+function changes with time. The second term $$\(\frac{\partial f}{\partial x}(dX)\)$$ reflects its sensitivity to 
+changes in $$\(X(t)\)$$, while the last term, a stochastic integral, accounts for random fluctuations within this 
+process:
+   - **Partial Derivatives**: These represent how each component of the function responds to independent and 
+dependent variables—in our case, time t (partial derivative with respect to $$\(dt\)$$) and value $$X(t)$$ (partial derivatives with respect to $$\(dX\)$$).
+   - **Stochastic Integral Term**: This term incorporates not only changes in the variable but also random fluctuations inherent to stochastic processes. It is a weighted average of squared increments, accounting for both small positive and negative variations within these increments.
+
+In financial mathematics, Itô's lemma plays an instrumental role by allowing analysts and traders to derive the dynamic pricing models (like Black-Scholes formula) that govern modern derivative markets—essentially helping us understand how prices evolve in response to market conditions and risk factors over time.
+
 # What is an option?
-In the context of finance, an option refers to a contract that gives its owner the right, but not the obligation, to buy or sell an underlying asset e.g. shares in a company... at a predetermined price on or before a specific date. Options are used for various purposes including risk management and speculation.
+Is it optional to know what an option is? No! In the context of finance, an option refers to a contract that gives its owner the right, but not the obligation, to buy or sell an underlying asset e.g. shares in a company... at a predetermined price on or before a specific date. Options are used for various purposes including risk management and speculation.
 
 ## Puts & Calls: Bets Against & Bets In Favor
 
@@ -32,7 +62,7 @@ conditions, making them slightly more complex to price due to this added layer o
 2. **Pricing**: Given their differences in exercise timing, these options are priced differently using different 
 mathematical models:
    - European Options: The most common pricing model used for European options is the Black-Scholes Model (BSM), 
-which assumes constant volatility and risk-free interest rates over time. We delve into the BSM formula [later in the post](##How-do-we-price-one-of-these-things), so keep reading.
+which assumes constant volatility and risk-free interest rates over time. We delve into the BSM formula [later in the post](#How-do-we-price-one-of-these-things), so keep reading.
    - American Options: Pricing an American option generally involves numerical methods such as binomial trees, 
 finite difference method or Monte Carlo simulation because of their flexibility in exercise timing. Each model 
 has its own limitations and assumptions regarding the behavior of asset prices (volatility, return rates) and 
@@ -53,25 +83,55 @@ In summary, while both types of options grant a right to buy or sell an underlyi
 price before maturity, European and American options vary significantly in terms of exercise timing, pricing 
 methods, and their applications within investment strategies and risk management techniques.
 
-## How do we price one of these things?
+# How do we price one of these things?
 
+The canonical formula for the European option was developed by three economists Fischer Black and Myron Scholes, and Robert C. Merton, known as the Black–Scholes–Merton (BSM) model.
 
+![bsm](/blog/assets/2024/bsm/bsm-canonical.png)
+Where N is the normal distribution function, canonically known as ϕ.
 
-# What are the four assumptions?
+## What are the four assumptions?
+
+BSM requires one to make four reasonable assumptions about the market. Further exploration of the difference between the ideal world of BSM and flesh-and-blood markets is discussed in [the Volatility Smile](https://www.wiley.com/en-us/The+Volatility+Smile-p-9781118959169), a seminal book in finance. We couch discussion of the nuances of the assumptions themselves for a future post.
 
 1. The stock price follows a geometric Brownian motion with constant volatility and drift rate. This means the 
 changes in stock prices over time have an exponential distribution, exhibit continuous compounding, and that 
 this process is not influenced by other factors (e.g., market events).
 
 2. There are no dividends during the option's life period. Dividends can reduce the price of a call or increase 
-the price of a put because they decrease the stock price when paid out. By excluding them, we simplify 
-calculations.
+the price of a put because they decrease the stock price when paid out. By excluding them, we simplify calculations.
 
-3. Markets are efficient, meaning that asset prices reflect all available information, and investors cannot 
-profit from trading in an arbitrage opportunity (i.e., buying undervalued securities and selling overvalued 
-ones). 
+3. Markets are efficient, meaning that asset prices reflect all available information, and investors cannot profit from trading in an arbitrage opportunity (i.e., buying undervalued securities and selling overvalued ones). 
 
-4. The risk-free interest rate is constant throughout the option's life. This assumption simplifies calculations 
-by assuming that there are no investment opportunities with guaranteed returns over time.
+4. The risk-free interest rate is constant throughout the option's life. This assumption simplifies calculations by assuming that there are no investment opportunities with guaranteed returns over time.
 
-This is how we can apply the argument that it should grow at the risk free rate, otherwise, as with our previous arguments, we would have an arbitrage opportunity.
+## The BSM Economy
+To understand BSM, you will need to learn some stocastic calculus.
+![1](/blog/assets/2024/bsm/bsm-1.png)
+![2](/blog/assets/2024/bsm/bsm-2.png)
+
+## Deriving From Integration
+![Valuing a Call](/blog/assets/2024/bsm/business-1.png)
+
+In the context of pricing a European Call Option, and in relation to the Black-Scholes Model (BSM), "EMM" stands for "Expected Maturity Market," which refers to the market state or conditions at maturity time T. Here's an 
+expanded breakdown:
+
+1. **The European call price C(St; K; T)**, in a Black-Scholes Model context, is calculated by discounting the 
+expected payoff $$(S_T - K)$$ under certain probability distributions of future asset prices at maturity time T. This 
+approach follows the risk-neutral valuation principle:
+   - **ST** represents the stock price at option's expiration date T (maturity).
+   - **K** is the strike price—the predetermined price in the contract wherein, if $$S_T > K$$, a holder of European 
+Call Option can buy shares from the seller for an amount equal to K.
+   - The discounted time-t expected value refers to calculating this payoff's present worth by taking its expectation (average over all possible future states) and then applying a risk-free rate discount factor "r" which represents the opportunity cost of capital or, more broadly, reflecting prevail points in financial markets.
+
+2. **Expected Maturity Market (EMM Q):** This denotes the market's anticipated conditions at maturity time T, when the European Call Option will be evaluated for exercise rights. These market predictions include expected asset prices, volatility, and risk-free interest rates—all of which are taken into consideration in pricing the 
+option under the Black-Scholes framework:
+   - **Expected Asset Prices (St)** at maturity represent future stock prices under different scenarios, derived from market forecasts or statistical distributions.
+   - **Volatility (\sigma)** refers to the degree of asset price fluctuations over a certain period and is usually an estimate based on historical data. It reflects the uncertainty surrounding the expected return of the underlying security.
+   - **Risk-free Interest Rates (r)** denote rates for riskless investments, such as government bonds or bank deposits in stable economic conditions. They provide a baseline to compare other risky securities' returns and are also used in discounting future cash flows.
+
+
+### Further reading
+
+Excellent post on 4 ways to derive BSM
+[Fabrice Douglas Rouah](https://www.frouah.com/finance%20notes/Black%20Scholes%20Formula.pdf)
