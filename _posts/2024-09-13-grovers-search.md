@@ -35,10 +35,11 @@ where each bi* is complex conjugate of ai. The star symbol (*) denotes the compl
 In addition to representing quantum states, Dirac notation can be used for expressing inner products between two 
 kets and bras:
 
+```math
 ⟨ϕ|ψ⟩ = a₁*b₁ + a₂*b₂ + a₃*b₃.
+```
 
-It's worth noting that the order of multiplication matters in bra-ket notation, as it represents an outer 
-product when taking elements from different vectors (kets).
+It's worth noting that the order of multiplication matters in bra-ket notation, as it represents an outer product when taking elements from different vectors (kets).
 
 In summary, bra-ket notation is a fundamental tool for expressing and manipulating quantum states, operators, 
 inner products, and other essential concepts within quantum mechanics.
@@ -69,7 +70,7 @@ U = np.array([[1/np.sqrt(2), -1j/np.sqrt(2)],
 # Check the property: U†U should equal the identity matrix
 identity_matrix = np.eye(2, dtype=complex)
 is_unitary = np.allclose(np.dot(U.conj().T, U), identity_matrix)
-print("Is U unitary?", is_unitary)  # Should output True if U is a unitary matrix.
+print("Is U unitary?", is_unitary)  # True if U unitary
 ```
 
 The example above creates a specific 2x2 unitary matrix and checks whether it meets the criterion for being 
@@ -137,7 +138,9 @@ The Pauli matrices are four distinct 2x2 complex matrices that form an orthogona
 1. Orthogonality: The Pauli matrices are orthogonal to each other; that is, their inner product equals zero for 
 different matrices and equals 1 for a matrix with itself when complex conjugated. Mathematically represented as:
 
+```math
 ⟨σᵤ|σⱼ⟩ = (σᵤ†σⱼ + σⱼ†σᵤ)/2, where |u=1,j=1,...,3>.
+```
 
 2. Unitary property: Each Pauli matrix is unitary, meaning its Hermitian conjugate multiplied by itself equals 
 the identity matrix:
@@ -146,7 +149,7 @@ the identity matrix:
 
 The three non-trivial Pauli matrices are as follows:
 
-```latex
+```math
 \begin{equation}
     \label{eq:sigma_one} % Label for cross-referencing in the document
     σ₁ = 
@@ -190,7 +193,7 @@ opportunities, mitigate risks associated with potential threats, address weaknes
 
 
 ## Hilbert spaces
-```latex
+```math
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 
