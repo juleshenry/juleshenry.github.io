@@ -114,16 +114,18 @@ matrices.
 
 A matrix A is said to be Hermitian if it satisfies the condition that:
 
+```math
 \[ A = A^\dagger \]
+```
 
-where \( A^\dagger \) (the conjugate transpose, also called the Hermitian adjoint) of a complex matrix A is obtained by taking the transpose of A and then taking the complex conjugate of each element.
+where $$\( A^\dagger \)$$ (the conjugate transpose, also called the Hermitian adjoint) of a complex matrix A is obtained by taking the transpose of A and then taking the complex conjugate of each element.
 
 The key features that define a Hermitian matrix are as follows:
 
 - It is square (same number of rows and columns).
 
 - The elements on the diagonal can be real or complex numbers. However, for off-diagonal elements, each element 
-\( A_{ij} \) where i ≠ j has its conjugate equal to \( A_{ji}^* \), where the asterisk denotes complex conjugation. This means that if an entry in the matrix is (a + bi), then the corresponding position across the diagonal will be (a - bi).
+$$\( A_{ij} \)$$ where i ≠ j has its conjugate equal to $$\( A_{ji}^* \)$$, where the asterisk denotes complex conjugation. This means that if an entry in the matrix is (a + bi), then the corresponding position across the diagonal will be (a - bi).
 
 - The important implication of this structure is that Hermitian matrices are inherently stable and self-adjoint operators, which is a central concept in quantum mechanics. Observables have real eigenvalues because measurements yield real values. Moreover, eigenvectors corresponding to distinct eigenvalues for a Hermitian 
 matrix are orthogonal (perpendicular) to each other, which implies that the system has well-defined quantized states.
@@ -147,7 +149,7 @@ different matrices and equals 1 for a matrix with itself when complex conjugated
 2. Unitary property: Each Pauli matrix is unitary, meaning its Hermitian conjugate multiplied by itself equals 
 the identity matrix:
 
-σᵤ†σᵤ = I (Identity Matrix), for all u=1,2,3.
+σᵤ†σᵤ = I, for all u=1,2,3.
 
 The three non-trivial Pauli matrices are as follows:
 
@@ -185,14 +187,6 @@ These matrices can be represented using bra-ket notation. For instance, if we ha
 |ψ⟩ = √(1/2)|0⟩ + i√(1/2)|1⟩.
 
 We can apply any Pauli matrix to this ket using bra notation, such as for σ₁ and obtain the new state |φ⟩ resulting from its action on |ψ⟩:
-
-|φ⟩ = ⟨ψ|σ₁|ψ⟩ = [√(1/2), i√(1/2)]ᵀ * [0, 1] * [√(1/2), i√(1imation and growth. The company could then set targets for improvement and track progress over time.
-
-The results of the analysis might show that a particular product line has been underperforming in comparison to others or that certain customer segments are not responding well to marketing efforts. Using this information, management can make informed decisions about where to invest resources, which products or services may need reevaluation, and how to tailor strategies for different customer demographics.
-
-In summary, a SWOT analysis coupled with the use of ket-bra notation in Python provides valuable insights into an organization's internal strengths and weaknesses alongside its external opportunities and threats. This information can serve as a foundation for developing strategies that leverage strengths to capitalize on growth 
-opportunities, mitigate risks associated with potential threats, address weaknesses, and ultimately contribute to the overall success of the business.
-
 
 ## Hilbert spaces
 ```math
