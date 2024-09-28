@@ -21,9 +21,9 @@ values) change over time under volatility and random market conditions.
 3. Functional Derivative: At its core, the lemma provides a formula for the differential of a function composed with a stochastic process defined by an SDE. For instance, if we have a function f(t, X(t)), where t denotes time and X(t) represents a stochastic process following an SDE, Ito's Lemma tells us how df changes in relation to dt (time increment) and dX (increment of the random variable).
 
 4. **Formula**: The formula for Itô's lemma is given by:
-```math
+$$
    df(t, X(t)) = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}(dX) + \frac{1}{2}\frac{\partial^2f}{\partial x^2}(dX)^2
-```
+$$
    where $$\(df\)$$ represents the differential of the function $$\(f(t, X(t))\)$$, and $$\(dX\)$$ is an infinitesimal increment in the random variable $$\(X\)$$. The first term $$\(\frac{\partial f}{\partial t}dt\)$$ captures how the function changes with time. The second term $$\(\frac{\partial f}{\partial x}(dX)\)$$ reflects its sensitivity to changes in $$\(X(t)\)$$, while the last term, a stochastic integral, accounts for random fluctuations within this process.
 
 - **Partial Derivatives**: These represent how each component of the function responds to independent and 
