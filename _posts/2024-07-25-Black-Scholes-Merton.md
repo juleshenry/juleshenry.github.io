@@ -25,7 +25,7 @@ values) change over time under volatility and random market conditions.
    df(t, X(t)) = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}(dX) + \frac{1}{2}\frac{\partial^2f}{\partial x^2}(dX)^2
 ```
    where $$\(df\)$$ represents the differential of the function $$\(f(t, X(t))\)$$, and $$\(dX\)$$ is an infinitesimal increment in the random variable $$\(X\)$$. The first term $$\(\frac{\partial f}{\partial t}dt\)$$ captures how the function changes with time. The second term $$\(\frac{\partial f}{\partial x}(dX)\)$$ reflects its sensitivity to changes in $$\(X(t)\)$$, while the last term, a stochastic integral, accounts for random fluctuations within this process.
-   
+
 - **Partial Derivatives**: These represent how each component of the function responds to independent and 
 dependent variables—in our case, time t (partial derivative with respect to $$\(dt\)$$) and value $$X(t)$$ (partial derivatives with respect to $$\(dX\)$$).
 - **Stochastic Integral Term**: This term incorporates not only changes in the variable but also random fluctuations inherent to stochastic processes. It is a weighted average of squared increments, accounting for both small positive and negative variations within these increments.
@@ -81,7 +81,7 @@ In summary, while both types of options grant a right to buy or sell an underlyi
 The canonical formula for the European option was developed by three economists Fischer Black and Myron Scholes, and Robert C. Merton, known as the Black–Scholes–Merton (BSM) model.
 
 ![bsm](/blog/assets/2024/bsm/bsm-canonical.png)
-Where N is the normal distribution function, canonically known as ϕ.
+Where N is the normal distribution function.
 
 ## What are the four assumptions?
 
@@ -112,27 +112,52 @@ expanded breakdown:
 1. **The European call price C(St; K; T)**, in a Black-Scholes Model context, is calculated by discounting the 
 expected payoff $$(S_T - K)$$ under certain probability distributions of future asset prices at maturity time T. This 
 approach follows the risk-neutral valuation principle:
-- **ST** represents the stock price at option's expiration date T (maturity).
-- **K** is the strike price—the predetermined price in the contract wherein, if $$S_T > K$$, a holder of European 
-Call Option can buy shares from the seller for an amount equal to K.
+- **S_T** represents the stock price at option's expiration date T (maturity).
+- **K** is the strike price—the predetermined price in the contract wherein, if $$S_T > K$$, a holder of European Call Option can buy shares from the seller for an amount equal to K.
 - The discounted time-t expected value refers to calculating this payoff's present worth by taking its expectation (average over all possible future states) and then applying a risk-free rate discount factor "r" which represents the opportunity cost of capital or, more broadly, reflecting prevail points in financial markets.
 
 2. **Expected Maturity Market (EMM Q):** This denotes the market's anticipated conditions at maturity time T, when the European Call Option will be evaluated for exercise rights. These market predictions include expected asset prices, volatility, and risk-free interest rates—all of which are taken into consideration in pricing the 
 option under the Black-Scholes framework:
 - **Expected Asset Prices (S_T)** at maturity represent future stock prices under different scenarios, derived from market forecasts or statistical distributions.
-- **Volatility (\sigma)** refers to the degree of asset price fluctuations over a certain period and is usually an estimate based on historical data. It reflects the uncertainty surrounding the expected return of the underlying security.
+- **Volatility ($$\sigma$$)** refers to the degree of asset price fluctuations over a certain period and is usually an estimate based on historical data. It reflects the uncertainty surrounding the expected return of the underlying security.
 - **Risk-free Interest Rates (r)** denote rates for riskless investments, such as government bonds or bank deposits in stable economic conditions. They provide a baseline to compare other risky securities' returns and are also used in discounting future cash flows.
 
   
-- **Filtration**: Filtration $$\(\mathcal{F}_t\)$$ symbolizes our growing knowledge about market events and 
-information up to time t. It's a mathematical structure that models how we gain more insight into asset price 
-dynamics as time progresses, incorporating new data or observable trends within the financial ecosystem.
+- **Filtration**: Filtration $$\(\mathcal{F}_t\)$$ symbolizes our growing knowledge about market events and information up to time t. It's a mathematical structure that models how we gain more insight into asset price dynamics as time progresses, incorporating new data or observable trends within the financial ecosystem.
 
-- **Conditional Expectation**: The conditional expectation $$\(E[S_T | F_t]\)$$ represents our best guess (or 
-expected value) of the future price $$\(S_T\)$$, taking into account all available information up to time t 
-$$(\(\mathcal{F}_t\))$$. This includes any historical data, current market conditions, and relevant assumptions or 
-models that could influence asset prices.
+- **Conditional Expectation**: The conditional expectation $$\(E[S_T | F_t]\)$$ represents our best guess (or expected value) of the future price $$\(S_T\)$$, taking into account all available information up to time t as $$(\(\mathcal{F}_t\))$$. This includes any historical data, current market conditions, and relevant assumptions or models that could influence asset prices.
 
+![more2](/blog/assets/2024/bsm/more-2.png)
+So, what's equation 10? We must take a detour to explore the lognormal distribution.
+![detour](/blog/assets/2024/bsm/detour-1.png)
+![detour2](/blog/assets/2024/bsm/detour-2.png)
+
+![more3](/blog/assets/2024/bsm/more-3.png)
+### Change of Numeraire
+The change of numeraire is a technique in financial mathematics that helps simplify the pricing of derivatives, such as options. The numeraire is essentially the "unit of value" that we use to measure other assets. By changing this unit of measurement, we can sometimes make complicated pricing problems easier to solve.
+
+1. What is a Numeraire?
+A numeraire can be thought of as a reference asset against which all other assets are measured. In typical pricing problems, we often use a risk-free bond as the numeraire because it grows at a predictable rate, making it easier to handle in calculations. However, we can choose other assets as the numeraire, depending on the scenario.
+
+2. Why Change the Numeraire?
+In finance, different assets may behave differently under various market conditions. By switching the asset used as the numeraire, we can sometimes transform a complex pricing problem into one that's easier to calculate. This is particularly useful when pricing exotic options or handling currencies.
+
+3. Martingale Property
+A key concept in pricing derivatives is the martingale property. This means that, under the right conditions (no arbitrage opportunities), the discounted value of an asset evolves in such a way that its expected future value is equal to its current price. When we change the numeraire, we also change the "measure" (the mathematical lens) we use to view future prices, but the martingale property still holds under this new measure.
+
+4. Using a Bond as the Numeraire
+When we use a risk-free bond (which grows at the risk-free rate) as the numeraire, the pricing becomes relatively simple. For example, the price of a European call option (which pays off if the underlying asset’s price is higher than a set strike price) can be calculated by discounting the expected payoff of the option by the bond's growth rate.
+
+5. Application to Option Pricing
+In option pricing, changing the numeraire can be particularly useful. For instance, when pricing a European call option, we typically use the risk-free bond as the numeraire, leading to the familiar Black-Scholes pricing formula. This formula essentially discounts the future expected payoff of the option (based on the stock price exceeding the strike price) by the risk-free rate over time.
+
+Summary
+In short, the change of numeraire is a method that simplifies pricing derivatives by changing the reference asset (the numeraire) used to measure value. When we do this, we switch to a new probability measure but retain certain properties, like the fact that discounted asset prices behave in a predictable way (the martingale property). For standard derivatives like European call options, using the risk-free bond as the numeraire makes the pricing straightforward and leads to well-known formulas like Black-Scholes.
+![more4](/blog/assets/2024/bsm/more-4.png)
+![more5](/blog/assets/2024/bsm/more-5.png)
+![more6](/blog/assets/2024/bsm/more-6.png)
+![more7](/blog/assets/2024/bsm/more-7.png)
+![more8](/blog/assets/2024/bsm/more-8.png)
 
 ### Further reading
 
