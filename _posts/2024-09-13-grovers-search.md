@@ -302,8 +302,17 @@ Finally, we observe:
 Seen in another light, we leverage the arcsin estimation formula for small theta, and of course for N >> 2, we do have a small theta indeed.
 ![intuition](/blog/assets/2024/grovers/finit.png)
 
-The topic of quantum circuit gates is another topic requiring its own deep dive. We couch that dicussion while providing a diagram for Grover's Search, allowing the reader to search for herself this topic
+The topic of quantum circuit gates is another topic requiring its own deep dive. We couch that dicussion while providing a diagram for Grover's Search. The curious reader can delve deeper into this topic for deeper understanding.
 ![diagram](/blog/assets/2024/grovers/grove5.png)
+
+## Conclusion
+Most databases are indeed structured. Therefore, the unsorted nature of the problem appears contrived. Moreover, given the difficulty of maintaining quantum-classical interface and the information loss of qubits, it is unlikely Grover's Search will be used to solve any pressing computations any time soon.
+
+Nevertheless, the algorithm can be used in other quantum simulations to calculate otherwise intractable calculations. 
+
+I hope you enjoyed this introduction to this fascinating result in computer science!
+
+Major Key Alert! 🔑💰
 
 ### Sources
 
