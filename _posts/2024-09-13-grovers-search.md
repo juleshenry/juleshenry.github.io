@@ -83,7 +83,7 @@ In summary, unitary matrices are deeply tied to concepts like probabilities and 
 physical laws that govern the quantum realm.
 
 ## The Adjoint matrix
-```latex
+```math
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 
@@ -219,7 +219,7 @@ to an element $x \in H$.
 ```
 
 ## Hadamard Gate
-```latex
+```math
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 
