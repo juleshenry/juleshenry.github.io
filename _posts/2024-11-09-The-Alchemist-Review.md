@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "revista-o-alquimista"
+title: "The Alchemixed-up Suras"
 date: 2024-11-10
 ---
 
