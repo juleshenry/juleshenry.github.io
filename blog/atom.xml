@@ -1,0 +1,21 @@
+---
+layout: feed
+---
+ <title>Jules Henry's Blog</title>
+ <link href="http://juleshenry.github.io/blog/atom.xml" rel="self"/>
+ <link href="http://juleshenry.github.io/blog"/>
+ <updated>{{ site.time | date_to_xmlschema }}</updated>
+ <id>http://juleshenry.github.io/blog</id>
+ <author>
+   <name>Jules Henry</name>
+ </author>
+
+ {% for post in site.posts limit:20 %}
+ <entry>
+   <title>{{ post.title }}</title>
+   <link href="http://hankquinlan.github.io{{ post.url }}"/>
+   <updated>{{ post.date | date_to_xmlschema }}</updated>
+   <id>http://juleshenry.github.io/{{ post.id }}</id>
+   <content type="html">{{ post.content | xml_escape }}</content>
+ </entry>
+ {% endfor %}
