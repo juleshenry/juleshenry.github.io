@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Prompt to self..."
+title: "A Prompt Engineer for the Blog..."
 date: 2025-02-17
 ---
 Dear Mssr. Jules Philip Henry,
