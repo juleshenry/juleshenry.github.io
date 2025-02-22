@@ -3,6 +3,7 @@ layout: post
 title: "The Alchemixed-up Suras"
 date: 2024-11-10
 ---
+TODO: reformat this 
 # As suras alquimisturadas:  O Alquimista interpretado por Jules Henry
 
 <(-+-)>O universo me mostrar o que preciso fazer pra pegar o dinheiro preciso pra minha familia.

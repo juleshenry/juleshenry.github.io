@@ -30,3 +30,5 @@ The eversion involves the concept of regular homotopy, which is a continuous def
 Smale showed that there exists a regular homotopy between the standard embedding of the 2-sphere S_2 in R_3 and its mirror image, such that at every intermediate stage, the sphere is still an immersion (i.e., it does not intersect itself). This means that there is a continuous path in the space of immersions from the standard embedding to the antipodal embedding, where the sphere is turned inside out.
 
 The key insight of Smale's proof is the use of the h-principle (h for homotopy), which allows one to extend homotopies of embeddings to homotopies of immersions. By applying this principle, Smale was able to construct a homotopy that demonstrates the eversion of the sphere.
+
+TODO: finish 

@@ -24,3 +24,6 @@ Good luck, and I hope your attention mechanism finds the right weights to unders
 
 ### Original Paper
 [Attention is All You Need](/blog/assets/2024/attention/0-ATTN-0.pdf)
+
+### Jax implementation of transformers
+[Saurabh Alone AI](https://github.com/saurabhaloneai/Llama-3-From-Scratch-In-Pure-Jax)
