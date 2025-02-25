@@ -19,7 +19,7 @@ Al nombrarlos:
 * Sardinio
 * Romansh
 * Gallego
-* `Caprese` (piada)
+* `Toscano` (scherzo ... 😛😛😛😛😛!)
 
 E se criollaremos estes lenguajes com o inglês, todo melhor porque ainda e la lingua franca assi que le criolloazación.
 
