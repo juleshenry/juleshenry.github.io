@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "BookSmarktks"
+title: "So-Called, Good-For-Nothing Book Smarts, a Snarky Take"
 date: 2025-02-25
 ---
 
