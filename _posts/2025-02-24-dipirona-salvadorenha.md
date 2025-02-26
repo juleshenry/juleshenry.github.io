@@ -27,7 +27,8 @@ In reality, no, it turns out the life-shocking news of acquiring shingles was fa
 
 Did you follow the discourse on the etymology of shingles and pseudonyms thereof?
 
-![metramizole-worldwide](blog/assets/2025/dipirona/dipirona_diaspora.png)
+![metramizole-worldwide](/blog/assets/2025/dipirona/dipirona_diaspora.png)
+
 
 Ever heard of dipyrone? As a yankee, no mames. Dr. Jekyll's pills rock São Paulo, pushing 488 ton(elada)s circa 2016. 
 
