@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "So-Called, Good-For-Nothing Book Smarts, a Snarky Take"
+title: "Book Smarts, Remarks"
 date: 2025-02-25
 ---
 
-# What is education?
+# What is a So-Called, Good-For-Nothing EDUCATION?
 
 Is it the process by which woman learns the facts of this world, viz a viz a particular subdomain?
 
@@ -12,7 +12,7 @@ No, every caste defies global compatibility, few ye humans be police-doctor-plum
 
 Knowledge is so key to raising man's station; be it in markets, workforces, romantic relationships and war.
 
-Twas' 2022 when my research led me to these papers:
+Twas' late 2022 when my research led me to these papers:
 
 2211.12781 (StrokeNet application of parsing Chinese characters via stroke romantization)
 https://arxiv.org/pdf/2211.12781
@@ -112,8 +112,11 @@ in the next section.
 ```
 
 * You should have hope, still, ye polyglots akimbo for there remains still hope for improvement.
-Neural Machine Translation: A Review of Methods, Resources, and Tools
+
+2012.15515: Neural Machine Translation: A Review of Methods, Resources, and Tools
 https://arxiv.org/pdf/2012.15515
+
+
 
 arxiv.org/pdf/2103.03206
 https://arxiv.org/pdf/2103.03206
@@ -133,6 +136,6 @@ https://aws.amazon.com/what-is/reinforcement-learning-from-human-feedback/
 
 
 
-PSA: DeepSeek R2 seems to be the vector that burst the AI-Pre-Singularity Bubble. Oh, well.
-
-That's why I blog, afterall, a `SYA` masquerading as a `CYA`.
+### PSA: DeepSeek R2 seems to be the vector that burst the AI-Pre-Singularity Bubble. Oh, well.
+### Tesla drops below $1 Trillion with the EV maker's sales falling 42% in Europe and Musk quagmired in  MAGA Mar-A-Lago
+### That's why I blog, afterall, a `SYA` masquerading as a `CYA`.
