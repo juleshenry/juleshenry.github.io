@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "A Prompt Engineer for the Blog..."
-date: 2025-02-17
+date: 2025-01-17
 ---
 Dear Mssr. Jules Philip Henry,
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "O kama pona tawa li kiwen kon"
-date: 2025-02-18
+date: 2025-02-23
 ---
 # **Laciyo**
 ¿ Qué dicen del dique *`Laciyo`* ?

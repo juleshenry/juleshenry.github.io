@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Dipirona Salvadorenha"
-date: 2025-02-25
+date: 2025-02-24
 ---
 
 # A Dipirona salvadorenha no fim do mundo

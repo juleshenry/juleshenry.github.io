@@ -34,31 +34,46 @@ Figure 3.1: Compare KANs to MLPs on five toy examples. KANs can almost saturate 
 1409.0473
 https://arxiv.org/pdf/1409.0473
 
-```sh
+```math
 I'll explain the key formulas that support the attention mechanism introduced in the Bahdanau et al. paper. Here are the most important mathematical foundations:
 
 The Encoder RNN:
 The bidirectional RNN encoder produces annotations for each word in the source sentence. For each word xᵢ, it creates:
+
 hᵢ = [h⃗ᵢ; h⃖ᵢ]
+
 Where h⃗ᵢ is the forward hidden state and h⃖ᵢ is the backward hidden state.
 The Attention Mechanism (core innovation):
 The alignment model (attention) computes a score between the previous decoder hidden state sₜ₋₁ and each encoder annotation hᵢ:
+
 eₜᵢ = a(sₜ₋₁, hᵢ)
+
 This is typically computed as:
 eₜᵢ = vₐᵀ tanh(Wₐsₜ₋₁ + Uₐhᵢ)
+
 Where vₐ, Wₐ, and Uₐ are learned weight matrices.
-The Context Vector:
+
+## The Context Vector:
 The attention weights αₜᵢ are normalized using softmax:
+
 αₜᵢ = exp(eₜᵢ) / ∑ⱼ exp(eₜⱼ)
+
 Then the context vector cₜ is computed as a weighted sum:
+
 cₜ = ∑ᵢ αₜᵢhᵢ
-The Decoder Update:
+
+## The Decoder Update:
 The decoder hidden state is updated using:
+
 sₜ = f(sₜ₋₁, yₜ₋₁, cₜ)
+
 Where f is the RNN unit (GRU in the original paper), yₜ₋₁ is the previous output, and cₜ is the context vector.
-Output Probability:
+
+## Output Probability:
 The probability of the next target word is:
+
 p(yₜ|y₁, ..., yₜ₋₁, x) = g(yₜ₋₁, sₜ, cₜ)
+
 Where g is a feedforward neural network with softmax output.
 
 These formulas together define the attention-based neural machine translation model, which was revolutionary because it allowed the model to focus on different parts of the input sentence when generating each word of the translation, rather than compressing the entire input into a fixed-length vector.
