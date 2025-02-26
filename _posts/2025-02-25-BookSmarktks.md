@@ -79,12 +79,39 @@ Where g is a feedforward neural network with softmax output.
 These formulas together define the attention-based neural machine translation model, which was revolutionary because it allowed the model to focus on different parts of the input sentence when generating each word of the translation, rather than compressing the entire input into a fixed-length vector.
 ```
 
-2211.10877
+2211.10877 AI Interrogation
 https://arxiv.org/pdf/2211.10877
+```math 
+Overall traditional multi-class text classification using the
+latest transformer-based BERT model has shown the best performance in our experiments compared to the other approaches
+for attributing fine-tuned models with their corresponding base
+models. In our experiments, we performed ten-fold crossvalidation on the assembled training data set that did not
+contain any miscellaneous records or responses generated from
+additional third-party models provided by authorities other
+than MLMAC [2]. We strongly think that the absence of such
+miscellaneous records that don’t belong to any of the models
+provided in the contest is the main reason behind the better
+performance of traditional multi-class text classification over
+the one-vs-all strategy using binary text classifiers. The vector
+space models have shown a comparable performance and a
+notable improvement over the translation evaluation metrics
+```
+* Sounded like a dead end tbh.
 
-2004.05809
+2004.05809 : Neural Machine Translation: Challenges, Progress and Future
 https://arxiv.org/pdf/2004.05809
+```sh
+According to the comprehensive investigations conducted by [73], human translations are much preferred over
+MT outputs if using better rating techniques, such as choosing professional translators as raters, evaluating documents
+rather than individual sentences and utilizing original source
+texts instead of source texts translated from target language.
+Current NMT systems still suffer from serious translation errors of mistranslated words or named entities, omissions and
+wrong word order. Obviously, there is much room for NMT
+to improve and we suggest some potential research directions
+in the next section.
+```
 
+* You should have hope, still, ye polyglots akimbo for there remains still hope for improvement.
 Neural Machine Translation: A Review of Methods, Resources, and Tools
 https://arxiv.org/pdf/2012.15515
 
@@ -106,10 +133,6 @@ https://aws.amazon.com/what-is/reinforcement-learning-from-human-feedback/
 
 
 
+PSA: DeepSeek R2 seems to be the vector that burst the AI-Pre-Singularity Bubble. Oh, well.
 
-
-
-
-
-
-
+That's why I blog, afterall, a `SYA` masquerading as a `CYA`.
