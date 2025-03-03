@@ -129,8 +129,6 @@ Zweig demonstrates that despite technological and financial innovations, human p
 - Provides analysis of how various asset classes performed during different inflationary periods
 - Explains why Graham's balanced approach remains sound in inflationary environments
 
-I'd be happy to elaborate on Graham's analysis of inflation's impact on investments and Zweig's modern updates to this critical topic.
-
 ## Graham's Analysis of Inflation and Investments
 
 ### Impact of Inflation on Different Investment Types
@@ -239,7 +237,7 @@ Zweig reinforces the continued relevance of Graham's asset allocation principles
 
 - He explains behavioral challenges of maintaining discipline during inflationary periods and strategies to overcome these psychological barriers.
 
-Zweig's analysis ultimately confirms Graham's core insight: while no investment perfectly protects against all economic scenarios, a balanced approach of high-quality stocks and bonds, consistently maintained through rebalancing, provides the best practical protection against both inflation and deflation for most investors.
+### Zweig's analysis ultimately confirms Graham's core insight: while no investment perfectly protects against all economic scenarios, a balanced approach of high-quality stocks and bonds, consistently maintained through rebalancing, provides the best practical protection against both inflation and deflation for most investors.
 
 ## Chapter 3: A Century of Stock-Market History
 
