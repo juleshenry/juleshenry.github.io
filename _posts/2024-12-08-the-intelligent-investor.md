@@ -6,6 +6,8 @@ date: 2024-12-08
 Herein I machinistically query Claude 3.7 for chapter by chapter bullet points, run out of juice by Chapter 3,
 then switch to ChatGPT-4 to finish up, multithreading queries betweeen odd and even chapters to finish faster!
 
+# Average Read-Time : 38m 50s
+
 ## Introduction: What This Book Expects to Accomplish
 
 **Graham's Key Points:**
