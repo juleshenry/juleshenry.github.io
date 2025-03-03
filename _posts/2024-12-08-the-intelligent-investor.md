@@ -6,8 +6,6 @@ date: 2024-12-08
 Herein I machinistically query Claude 3.7 for chapter by chapter bullet points, run out of juice by Chapter 3,
 then switch to ChatGPT-4 to finish up, multithreading queries betweeen odd and even chapters to finish faster!
 
-# The Intelligent Investor by Benjamin Graham with Commentary by Jason Zweig - Comprehensive Summary
-
 ## Introduction: What This Book Expects to Accomplish
 
 **Graham's Key Points:**
