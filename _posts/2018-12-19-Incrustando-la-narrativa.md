@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Incrustando-la-narrativa"
+title: "Incrustando la narrativa: análisis de "El Rubí" de Rafael Ángel Troyo"
 date: 2018-12-19
 ---
-Un ensayo escrito para Profesora Almeyda-Cohen, en la clase de español 223 - mi mejor escritura de la universidad.
+### Un ensayo escrito para [Profesora Almeyda-Cohen](https://www.colby.edu/people/people-directory/ana-almeyda-cohen/), en la clase de español 223 - mi mejor escritura de la universidad.
 
-# Análisis de "El Rubí" en la Literatura Fantástica
+# Incrustando la narrativa: análisis de "El Rubí" de Rafael Ángel Troyo
 
 El cuento fantástico instaura un espejo deformado que refleja verdades del mundo real para que se vayan de una nueva perspectiva. Por convención, la crítica de la literatura fantástica se formalizó en 1970 con el ensayo *Introducción a la literatura fantástica* de Tzvetan Todorov. Indudablemente, el análisis de la literatura fantástica ha existido desde la época de Aristóteles y Platón en la forma de mímesis y diégesis. Mientras que la primera se trata de relatos que intentan recrear la realidad, la segunda se aplica a los relatos que modifican la realidad por formular reglas propias (Kirby 1). 
 
