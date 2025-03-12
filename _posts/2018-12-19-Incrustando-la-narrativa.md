@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Incrustando la narrativa: análisis de "El Rubí" de Rafael Ángel Troyo"
+title: "Incrustando la narrativa: análisis de 'El Rubí' de Rafael Ángel Troyo"
 date: 2018-12-19
 ---
 ### Un ensayo escrito para [Profesora Almeyda-Cohen](https://www.colby.edu/people/people-directory/ana-almeyda-cohen/), en la clase de español 223 - mi mejor escritura de la universidad.
