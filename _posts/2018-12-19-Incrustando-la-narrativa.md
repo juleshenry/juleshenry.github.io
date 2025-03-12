@@ -47,7 +47,7 @@ De todos los géneros literarios, la narrativa fantástica se distingue entre lo
 
 - Campra, Rosalba. “Los silencios del texto en la literatura fantástica.” En Morillas Ventura, Enriqueta. *El Relato Fantástico En España E Hispanoamérica*. Spain [Madrid?]: Sociedad Estatal Quinto Centenario, 1991. Impreso.
 
-- Kirby, John T. 1991. "MIMESIS AND DIEGESIS: FOUNDATIONS OF AESTHETIC THEORY IN PLATO AND ARISTOTLE." *Helios* 18 (2): 113. [Enlace](https://proxy.library.upenn.edu/login?url=https://proxy.library.upenn.edu:2072/docview/1308776648?accountid=14707)
+- Kirby, John T. 1991. "MIMESIS AND DIEGESIS: FOUNDATIONS OF AESTHETIC THEORY IN PLATO AND ARISTOTLE." *Helios* 18 (2): 113. [Enlace](https://www.academia.edu/4740838/Mimesis_and_Diegesis_Foundations_of_Aesthetic_Theory_in_Plato_and_Aristotle)
 
 - Martínez, José María. “Fantasías Irónicas e Ironías Fantásticas: Sobre Amado Nervo y El Lenguaje Modernista.” *Hispanic Review*, vol. 72, no. 3, 2004, pp. 401–421. [Enlace](https://www.jstor.org/stable/3247125)
 
