@@ -24,12 +24,13 @@ Pintamos o cenário que pariu o Manguebeat.
 
 "Com a redemocratização em 1985, o povo recifense se encontra em uma cidade com pouca inovação musical e muito decaída. Em 1991, um órgão das Nações Unidas elegeu Recife como a quarta pior cidade do mundo para se viver. A população de Recife estava sem orgulho e sem sentimento de pertencimento à própria cidade" (TELES, 2019).
 
-Para compreender o Mangue, precisamos apreciar o maracatu — a etimologia da palavra deriva da reapropriação de um termo racista que descrevia a bagunça da sociedade africana.
-Então, foi a música do povo escravizado em Pernambuco.
+Para compreender o Mangue, precisamos apreciar o maracatu — a etimologia da palavra deriva da reapropriação de um termo racista que descrevia a bagunça da sociedade africana. Então, foi a música do povo escravizado em Pernambuco.
 
 Sua influência surgiu nos ritmos de tambores no Brock (lit. rock brasileiro) renasciu as ondas de ar no só no norte de brasil, mais do mundo enteiro.
 
-Colocou Recife no palco mundial, fonograficamente - foi a música que revitalizou a cultura recifense com raízes subterrâneas presas aos galhos nodosos da mangueira. Em nossa era moderna, a essência do mangue beat é ainda mais relevante. Estamos vendo um mundo sucumbir ao Tik Tok, aos reels do Instagram e à inteligência artificial.
+Colocou Recife no palco mundial, fonograficamente - foi a música que revitalizou a cultura recifense com raízes subterrâneas presas aos galhos nodosos da mangueira. Em nossa era moderna, a essência do mangue beat é ainda mais relevante. Estamos vendo um mundo sucumbir ao Tik Tok, aos reels do Instagram e à inteligência artificial. 
+
+Para combater isso, precisamos de maracatu atômico, quântico e nanotecnológico: precisamos do retorno de instrumentos orgânicos que capturem a alma da música.
 
 
 ```
