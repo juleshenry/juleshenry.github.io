@@ -1,10 +1,12 @@
 ---
 layout: post
-title: "On the Rising Water in Turing's Torture Room"
+title: "On the Boiling Water in Turing's Pot"
 date: 2025-02-18
 ---
 
-The water rises steadily in Turing's torture room. In throwing in the towel on the [vakyume project](https://github.com/juleshenry/vakyume), I have reflected on the true nature of software development going forward. 
+The water boils steadily in Turing's pot. Are we frogs?
+
+In finishing [vakyume project](https://github.com/juleshenry/vakyume), I have reflected on the true nature of software development going forward. 
 
 Really, the assembly line of work has changed. There are now a subset of tasks that LLM's either recognize in the IDE right away to auto-complete, or the individual will prompt engineer in a chat to elicit a chunk of code, either known or unknown in its implementation details, but certainly verifiable in some fashion, or at least the individual believes, will be able to verified somehow someway soon. It is P, person-time computable, those extant software roles, not polynomial time computable.
 
