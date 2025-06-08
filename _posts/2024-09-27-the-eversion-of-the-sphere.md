@@ -61,3 +61,18 @@ For further questions, especially on the topic of [tangent bundles](https://jule
 I hope that with this post you are closer to following the beautiful logic behind Smale's 1958 existence of the eversion of the sphere proof.
 
 Cheers.
+
+# Further Reading
+
+- DIFFERENTIAL TOPOLOGY (Vietor  Guillemin , Alan  Pollaek)
+- A Theorem on Orientable Surfaces in Four-Dimensional Space. (Chern, Shiing-Shen / Spanier, E.)
+- Immersions of manifolds and homotopy theory (Ralph L. Cohen)
+- An Introduction to Riemannian Geometry (Sigmundur Gudmundsson)
+
+# Visualizations
+
+![viz](/blog/assets/2025/eversion/viz1.png)
+![viz](/blog/assets/2025/eversion/viz2.png)
+![viz](/blog/assets/2025/eversion/viz3.png)
+![viz](/blog/assets/2025/eversion/viz4.png)
+![viz](/blog/assets/2025/eversion/viz5.png)
