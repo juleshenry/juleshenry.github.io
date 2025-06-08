@@ -23,7 +23,6 @@ For anyone seeking to understand this proof, below we go into the thick of thing
 ![gemini-2.5-flash](/blog/assets/2025/primitivos/cinco.png)
 ![gemini-2.5-flash](/blog/assets/2025/primitivos/seis.png)
 ![gemini-2.5-flash](/blog/assets/2025/primitivos/sete.png)
-![gemini-2.5-flash](/blog/assets/2025/primitivos/oito.png)
 
 # Conclusion 
 I hope in sharing this you are able to see some beauty in this wonderful proof about the nature of the primes.
