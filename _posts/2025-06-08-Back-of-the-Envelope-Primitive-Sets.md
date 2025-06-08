@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Back of the Envelope Primitive Sets"
+title: "Back-of-the-Envelope: Primitive Sets"
 date: 2025-06-08
 ---
 

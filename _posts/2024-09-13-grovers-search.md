@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Back of the Envelope: Grover's Search"
+title: "Back-of-the-Envelope: Grover's Search"
 date: 2024-09-13
 ---
 TODO: make cleaner and clearer
