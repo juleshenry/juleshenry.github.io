@@ -13,8 +13,8 @@ It was the shingles that wasn't.
 Schrödinger's shingles dealt `el fuego de San Juan` que no lo fue ni
 bien el herpés zona ni culebrona ni culebrilla misma estaba,
 onset by the consumption of dipirona salvadorenha it was hypothesized: 
-metamizol's metrazol electricity hydrotherapy febrile-induced somnambulance,
- not Metamucil, Dr. *******. 
+metamizol's metrazol electricity hydrotherapy febrile-induced
+somnambulance - this is not your mother's Metamucil, Dr. *******. 
 
 New Year's Day's hangover led to a nocturnal sublaxation of the
 shoulder. In turn, she procured Dipirona, la cual que Vijosa
