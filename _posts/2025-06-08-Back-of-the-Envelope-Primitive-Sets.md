@@ -32,3 +32,11 @@ Perhaps, one day, this sort of work will contribute to a proof of the Reimann hy
 Will it be you, dear reader?
 
 Hope so - :)
+
+# Further Reading 
+
+Jared Duker Lichtman [Almost primes and the Banks-Martin conjecture](https://arxiv.org/abs/1909.00804)
+
+Paul Erdős, András Sárközy [On the divisibility of sequences of integers](https://users.renyi.hu/~p_erdos/1970-13.pdf)
+
+Tsz Ho Chan, Jared Duker Lichtman, and Carl Pomerance [On the Critical Exponent for k-primitive Sets](https://math.dartmouth.edu/~carlp/4695pomerance.pdf)
