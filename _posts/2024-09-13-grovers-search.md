@@ -3,7 +3,7 @@ layout: post
 title: "Back-of-the-Envelope: Grover's Search"
 date: 2024-09-13
 ---
-TODO: make cleaner and clearer
+
 # Primer
 Herein we explain one of the most fascinating results in computer science, Grover's Search. You will need to be familiar with linear algebra and Big O notation to understand the signficance of this work. If a concept is mentioned but not explained, keep reading, and it will become more clear!
 
@@ -319,3 +319,4 @@ L. K. Grover. A fast quantum mechanical algorithm for database search. Nov. 19, 
 M. A. Nielsen and I. L. Chuang. Quantum computation and quantum information. 10th anniversary ed. Cam- bridge ; New York: Cambridge University Press, 2010. 676 pp. ISBN: 978-1-107-00217-3.
 
 
+TODO: redo the formatting
