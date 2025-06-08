@@ -31,4 +31,33 @@ Smale showed that there exists a regular homotopy between the standard embedding
 
 The key insight of Smale's proof is the use of the h-principle (h for homotopy), which allows one to extend homotopies of embeddings to homotopies of immersions. By applying this principle, Smale was able to construct a homotopy that demonstrates the eversion of the sphere.
 
-TODO: finish 
+# Into the Weeds 
+
+![gemini](/blog/assets/2025/eversion/1.png)
+![gemini](/blog/assets/2025/eversion/2.png)
+![gemini](/blog/assets/2025/eversion/3.png)
+![gemini](/blog/assets/2025/eversion/4.png)
+![gemini](/blog/assets/2025/eversion/5.png)
+![gemini](/blog/assets/2025/eversion/6.png)
+![gemini](/blog/assets/2025/eversion/7.png)
+![gemini](/blog/assets/2025/eversion/8.png)
+![gemini](/blog/assets/2025/eversion/9.png)
+![gemini](/blog/assets/2025/eversion/10.png)
+![gemini](/blog/assets/2025/eversion/11.png)
+![gemini](/blog/assets/2025/eversion/12.png)
+![gemini](/blog/assets/2025/eversion/13.png)
+![gemini](/blog/assets/2025/eversion/14.png)
+![gemini](/blog/assets/2025/eversion/15.png)
+![gemini](/blog/assets/2025/eversion/16.png)
+![gemini](/blog/assets/2025/eversion/17.png)
+![gemini](/blog/assets/2025/eversion/18.png)
+![gemini](/blog/assets/2025/eversion/19.png)
+![gemini](/blog/assets/2025/eversion/20.png)
+![gemini](/blog/assets/2025/eversion/21.png)
+![gemini](/blog/assets/2025/eversion/22.png)
+
+For further questions, especially on the topic of [tangent bundles](https://juleshenry.github.io/blog/2024/05/22/sphere-eversion-phi3-notes-I#what-is-a-tangent-bundle) and more, see my blog post where I ask Microsoft Phi3 basic questions about differential geometry / topology.
+
+I hope that with this post you are closer to following the beautiful logic behind Smale's 1958 existence of the eversion of the sphere proof.
+
+Cheers.
