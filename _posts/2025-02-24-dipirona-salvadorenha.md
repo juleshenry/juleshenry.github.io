@@ -15,17 +15,21 @@ bien el herpés zona ni culebrona ni culebrilla misma estaba,
 onset by the consumption of dipirona salvadorenha it was hypothesized: 
 metamizol's metrazol electricity hydrotherapy febrile-induced somnambulance,
  not Metamucil, Dr. *******. 
-```
 
-New Year's Day's hangover led to a nocturnal sublaxation of the shoulder. In turn, she procured Dipirona, la cual que Vijosa produce a saber, from the --------- to ease the pain.
+New Year's Day's hangover led to a nocturnal sublaxation of the
+shoulder. In turn, she procured Dipirona, la cual que Vijosa
+produce a saber, from the --------- to ease the pain.
 
 An adult's dose was taken, and not much else was thought of it.
 
-In two weeks' time, an uncanny dorsal rash had her rushing to the doctor, upon which she was misdiagnosed with shingles.
+In two weeks' time, an uncanny dorsal rash had her rushing to
+the doctor, upon which she was misdiagnosed with shingles.
 
-Were the two events connected? The medication was linked to atrocyphalis (low white blood count) in British-blooded consumers.
+Were the two events connected? The medication was linked to
+atrocyphalis (low white blood count) in British-blooded consumers.
 
-In reality, no, it turns out the life-shocking news of acquiring shingles was false.
+In reality, no, it turns out the life-shocking news of acquiring
+shingles was false.
 ```
 
 Did you follow the discourse on the etymology of shingles and pseudonyms thereof?
