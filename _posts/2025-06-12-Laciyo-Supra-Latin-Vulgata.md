@@ -22,12 +22,12 @@ In Europe, *Esperanto* beget an off-spring by reformers seeking to simplify the 
 
 <table>
   <tr>
-    <td width="20%"><img src="/blog/assets/2025/esp.png" width="100%" alt="Image 1"></td>
-    <td width="16%"><img src="/blog/assets/2025/ido.svg" width="100%" alt="Image 1"></td>
-    <td width="16%"><img src="/blog/assets/2025/interlingua.svg" width="100%" alt="Image 2"></td>
-    <td width="16%"><img src="/blog/assets/2025/interlingua2.svg" width="100%" alt="Image 3"></td>
-    <td width="16%"><img src="/blog/assets/2025/novial.svg" width="100%" alt="Image 4"></td>
-    <td width="16%"><img src="/blog/assets/2025/occidental.svg" width="100%" alt="Image 5"></td>
+    <td width="20%"><img src="/blog/assets/2025/laciyo/esp.png" width="100%" alt="Image 1"></td>
+    <td width="16%"><img src="/blog/assets/2025/laciyo/ido.svg" width="100%" alt="Image 1"></td>
+    <td width="16%"><img src="/blog/assets/2025/laciyo/interlingua.svg" width="100%" alt="Image 2"></td>
+    <td width="16%"><img src="/blog/assets/2025/laciyo/interlingua2.svg" width="100%" alt="Image 3"></td>
+    <td width="16%"><img src="/blog/assets/2025/laciyo/novial.svg" width="100%" alt="Image 4"></td>
+    <td width="16%"><img src="/blog/assets/2025/laciyo/occidental.svg" width="100%" alt="Image 5"></td>
   </tr>
   <tr>
     <td colspan="6" align="center">
