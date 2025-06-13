@@ -12,9 +12,9 @@ you and enable you to be independent of others. He, of a truth, is
 the Most Bountiful, the All-Knowing, the All-Informed. This will be
 the cause of unity, could ye but comprehend it, and the greatest
 instrument for promoting harmony and civilization, would that ye
-might understand!"
+might understand!" Bahá'u'lláh, (Kitáb-i-Aqdas 189)
 ```
-- Kitáb-i-Aqdas 189
+
 
 For centuries, bright-eyed idealists have enthused in the creation of a universal one world language, the most famous of which is Esperanto. What becomes clear across these unifying projects is that breaking our tribalistic tendencies by transcending terrain entails a wild dance of a democracy of ideas. There are two elements for the constructed universal language that determine its flavor: morphemes and syntax. In the former case, the language draws source material from existing spoken languages; in the latter, rules are set up governing relationships between said meaning-packets.
 
