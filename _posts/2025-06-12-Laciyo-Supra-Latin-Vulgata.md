@@ -26,13 +26,20 @@ In Europe, *Esperanto* beget an off-spring by reformers seeking to simplify the 
  
  Finally, we would be remiss to forget mathmetician Giuseppe Peano's simplification of Latin, *Latino sine flexione*, a sort of modern Latin Vulgare, the kind of which we will set out to construct in the following project.
 
+To ask the question of the detriments of eurocentrism in this project is valid. As we speak, I write to you as in the effective "Lingua Franca" of the modern world in 2025 A.D., English. And indeed, status of the other continent's world language development reflects the intractability of this endeavor.
+
+In Africa, *Afrihili*, a constructed language designed in 1970 by Ghanaian historian K. A. Kumi Attobrah sought to unify the continent. By contrast, *Guosa*, proposed by Alex Igbinewek in 1967, sought specifically to unify the West African linguistic families: Hausa, Yoruba, and Igbo.
+
+In the Americas, the colonial languages of English, French, Spanish and Portugese from north to south became de facto interlangs. In Oceania, sadly British colonizers erased many of the native languages as well. Regional creoles are of note in these continents: Kreyòl (Haiti), Tok Pisin (Papua New Guinea), Melanesian (Solomon Islands) and Bislama (Vanuatu).
+
+In Asia, divided between Hindustan and the far East, holds the majority of the world population, but no unifiyng projects are well known; Sanskrit (संस्कृत) and Classical Chinese (文言) served as lingua francas in the ancient world, linguistic powerhouses akin to Latin.
 
 <table>
   <tr>
     <td width="20%"><img src="/blog/assets/2025/laciyo/esp.png" width="100%" alt="Image 1"></td>
     <td width="16%"><img src="/blog/assets/2025/laciyo/ido.svg" width="100%" alt="Image 1"></td>
     <td width="16%"><img src="/blog/assets/2025/laciyo/interlingua.svg" width="100%" alt="Image 2"></td>
-    <td width="16%"><img src="/blog/assets/2025/laciyo/interlingua2.jpg" width="100%" alt="Image 3"></td>
+    <td width="16%"><img src="/blog/assets/2025/laciyo/il2.jpg" width="100%" alt="Image 3"></td>
     <td width="16%"><img src="/blog/assets/2025/laciyo/novial.svg" width="100%" alt="Image 4"></td>
     <td width="16%"><img src="/blog/assets/2025/laciyo/occidental.svg" width="100%" alt="Image 5"></td>
   </tr>
