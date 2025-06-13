@@ -5,7 +5,14 @@ date: 2025-06-12
 ---
 
 ```m
-"O members of parliaments throughout the world! Select ye a single language for the use of all on earth, and adopt ye likewise a common script. God, verily, maketh plain for you that which shall profit you and enable you to be independent of others. He, of a truth, is the Most Bountiful, the All-Knowing, the All-Informed. This will be the cause of unity, could ye but comprehend it, and the greatest instrument for promoting harmony and civilization, would that ye might understand!"
+"O members of parliaments throughout the world! Select ye a single
+language for the use of all on earth, and adopt ye likewise a common
+script. God, verily, maketh plain for you that which shall profit
+you and enable you to be independent of others. He, of a truth, is
+the Most Bountiful, the All-Knowing, the All-Informed. This will be
+the cause of unity, could ye but comprehend it, and the greatest
+instrument for promoting harmony and civilization, would that ye
+might understand!"
 ```
 - Kitáb-i-Aqdas 189
 
