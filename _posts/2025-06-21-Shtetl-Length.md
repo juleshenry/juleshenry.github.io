@@ -33,7 +33,7 @@ A healthily geeky persistence Puritan plowing is the key to happiness, in the la
 
 Constituents of my blog, the purpose of this post was to scrutinize the shape and form of a shtetl (optimized blog).
 
-# ![Shtetl,Optimized](https://github.com/juleshenry/-shtetltleths-/blob/main/shtetl-distance-intro)
+# [Shtetl,Optimized](https://github.com/juleshenry/-shtetltleths-/blob/main/shtetl-distance-intro)
 
 
 
