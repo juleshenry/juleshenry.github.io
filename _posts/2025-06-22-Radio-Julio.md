@@ -16,50 +16,54 @@ date: 2025-06-22
         <thead>
             <tr>
                 <th>Season</th>
-                <th style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Houstonian Rapper</th>
-                <th style="background: linear-gradient(orange, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">A Special Album</th>
-                <th style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Female Energy</th>
-                <th style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Seasonal Mood Ambience</th>
-                <th style="background: linear-gradient(blue, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Sensual Masculinity</th>
-                <th style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">L'ambiance</th>
+                <td style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 50%, #ffc643ff 100%)">Summer '24</td>
+                <td style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%);">Fall '24</td>
+                <td style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 50%, #2f6fff 100%);">Winter '24/'25</td>
+                <td style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 50%, #38b06a 100%);">Spring '25</td>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 50%, #ffc643ff 100%)">Summer '24</td>
-                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Big Moe</td>    
-                <td style="background: linear-gradient(orange, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">UGK : Ridin' Dirty</td>
-                <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Baby Monster</td>
-                <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Daddy Yankee</td>
-                <td style="background: linear-gradient(blue, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Don Omar</td>
-                <td style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">Fernanda Abreu</td>
-            </tr>
-            <tr>
-                <td style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%);">Fall '24</td>
-                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Zero</td>
-                <td style="background: linear-gradient(orange, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Ozuna : Odisea</td>
-                <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Sade Adu</td>
-                <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Kendrick Lamar</td>
-                <td style="background: linear-gradient(blue, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Sean Paul</td>
-                <td style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">LTJ Bukem</td>
-            </tr>
-            <tr>
-                <td style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 50%, #2f6fff 100%);">Winter '24/'25</td>
-                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Lil Flip</td>
-                <td style="background: linear-gradient(orange, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Ceky Veciny : Yamayizzi</td>
-                <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Vitesse X</td>
+                <th style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Seasonal Mood</th>
+                <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Daddy Yankee</td>  
                 <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Joe Arroyo</td>
-                <td style="background: linear-gradient(blue, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Freddie Gibbs</td>
-                <td style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">Bulin47</td>
+                <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Kendrick Lamar</td>
+                <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Stromae</td>
             </tr>
             <tr>
-                <td style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 50%, #38b06a 100%);">Spring '25</td>
-                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Slim Thug</td>
-                <td style="background: linear-gradient(orange, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">혜은이 : 새벽비/철새</td>
-                <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Shakira</td>
-                <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Stromae</td>
-                <td style="background: linear-gradient(blue, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Too $hort</td>
+                <th style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">On a Vibe</th>
+                <td style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">Fernanda Abreu</td>
+                <td style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">LTJ Bukem</td>
+                <td style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">Bulin47</td>
                 <td style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">MC PH</td>
+            </tr>
+            <tr>
+                <th style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Space City Rapper</th>
+                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Big Moe</td>    
+                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Zero</td>
+                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Lil Flip</td>
+                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Slim Thug</td>
+            </tr>
+            <tr>
+                <th style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Feminine Energy</th>
+                <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Baby Monster</td>
+                <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Sade Adu</td>
+                <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Vitesse X</td>
+                <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Shakira</td>
+            </tr>
+            <tr>
+                <th style="background: linear-gradient(blue, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Masculine Edge</th>
+                <td style="background: linear-gradient(blue, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Don Omar</td>
+                <td style="background: linear-gradient(blue, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Sean Paul</td>
+                <td style="background: linear-gradient(blue, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Freddie Gibbs</td>
+                <td style="background: linear-gradient(blue, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Too $hort</td>
+            </tr>
+            <tr>
+                <th style="background: linear-gradient(orange, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">A Special Album</th>
+                <td style="background: linear-gradient(orange, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">UGK : Ridin' Dirty</td>
+                <td style="background: linear-gradient(orange, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Ozuna : Odisea</td>
+                <td style="background: linear-gradient(orange, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Ceky Veciny : Yamayizzi</td>
+                <td style="background: linear-gradient(orange, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">혜은이 : 새벽비/철새</td>
             </tr>
         </tbody>
     </table>    

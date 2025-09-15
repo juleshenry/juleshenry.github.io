@@ -153,7 +153,7 @@ When we use a risk-free bond (which grows at the risk-free rate) as the numerair
 5. Application to Option Pricing
 In option pricing, changing the numeraire can be particularly useful. For instance, when pricing a European call option, we typically use the risk-free bond as the numeraire, leading to the familiar Black-Scholes pricing formula. This formula essentially discounts the future expected payoff of the option (based on the stock price exceeding the strike price) by the risk-free rate over time.
 
-Summary
+# Summary
 In short, the change of numeraire is a method that simplifies pricing derivatives by changing the reference asset (the numeraire) used to measure value. When we do this, we switch to a new probability measure but retain certain properties, like the fact that discounted asset prices behave in a predictable way (the martingale property). For standard derivatives like European call options, using the risk-free bond as the numeraire makes the pricing straightforward and leads to well-known formulas like Black-Scholes.
 ![more4](/blog/assets/2024/bsm/more-4.png)
 ![add14](/blog/assets/2024/bsm/add-14.png)
@@ -166,3 +166,4 @@ In short, the change of numeraire is a method that simplifies pricing derivative
 
 Excellent post on 4 ways to derive BSM
 [Fabrice Douglas Rouah](https://www.frouah.com/finance%20notes/Black%20Scholes%20Formula.pdf)
+
