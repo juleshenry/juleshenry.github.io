@@ -9,12 +9,12 @@ date: 2025-06-22
     <title>Radio Julio : A Musical Escapade</title>
 </head>
 <h1>Introduction</h1>
-<p>It was summer of 2024 when I decided the peripheral vibe of those Austin driving-playlists might really be onto something. In cataloguing my musical tastes, a pattern emerged, a template. For the rest of the year, I set forth to copy the six prominent categories that bubbled up for every season, for a year, as follows:</p>
+<p>It was the summer of 2024 in Austin, TX, when the spark of an idea emerged from introspection on the music I played while driving. Why not capture the mix of songs and typify my listening? For the rest of the year, I set forth to create a template for each passing season. The pattern was as follows:</p>
 <section>
     <table>
         <thead>
             <tr>
-                <th>Season</th>
+                <th></th>
                 <td style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 50%, #ffc643ff 100%)">Summer '24</td>
                 <td style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%);">Fall '24</td>
                 <td style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 50%, #2f6fff 100%);">Winter '24/'25</td>
@@ -23,14 +23,14 @@ date: 2025-06-22
         </thead>
         <tbody>
             <tr>
-                <th style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Seasonal Mood</th>
+                <th style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">The Vibe Setter</th>
                 <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Daddy Yankee</td>  
                 <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Joe Arroyo</td>
                 <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Kendrick Lamar</td>
                 <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Stromae</td>
             </tr>
             <tr>
-                <th style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">On a Vibe</th>
+                <th style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">Season's Essence</th>
                 <td style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">Fernanda Abreu</td>
                 <td style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">LTJ Bukem</td>
                 <td style="background: linear-gradient(violet, black); -webkit-background-clip: text; color: transparent; font-weight: bold; font-style: italic">Bulin47</td>
@@ -45,7 +45,11 @@ date: 2025-06-22
             </tr>
             <tr>
                 <th style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Feminine Energy</th>
-                <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Baby Monster</td>
+                <td style="background: linear-gradient(to bottom, #FFA500, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Baby Monster</td>
                 <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Sade Adu</td>
                 <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Vitesse X</td>
                 <td style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Shakira</td>
@@ -69,7 +73,10 @@ date: 2025-06-22
 </section>
 <h1>Reflections on Musical Taste and the Obligation to Listen</h1>
 <p>
-My father used to say, "the music you listen to in your youth will always be the best." And so it was, to this day the first records of my mid-teens to which I grooved carved out an indelible sweet spot in the tympani of my soul. To wit, I was one of the first needle-droppers, disciples of Anthony Fantano, yes, in 2010 I remember that taste-making Connecticutor earnestly reviewing records. I was a naive 8th grader seeking online the "best music of all time" not only from yesteryore but in-situ. The records I discovered in this time buzz with the nostalgia of an ex-lover's kiss. LCD Soundsystem, Little Dragons, The Roots, Flying Lotus, Arcade Fireand so many more indie artists expanded my mind to the world beyond pop. Technology revolutionized tastemaking in music, from the Rolling Stones to today's YouTube reaction videos. As one of the last of the millenials, I rode the tech revolution from cassette tapes to CD's to iPods to airpods. No doubt, one's taste in music is the product of the zeitgeist.
+My father used to say, "the music you listen to in your youth will always be the best." And so it was: to this day, the first records of my mid-teens to which I grooved carved indelible sweet spot in the tympani of my soul. I was a naive 8th grader seeking online the "best music of all time" not only from yesteryore but in-situ. Voraciously, I scoured the internet for critically acclaimed records of all genres both historical and contemporary. The records I discovered in this time buzz with the nostalgia of a past lover's kiss. Surfing the soundwaves of LCD Soundsystem, Little Dragons, The Roots, Flying Lotus, and Arcade Fire, my mind unmoored from the shores of Billboard pop. As my hormones deepened my emotional capacity, so too, did my taste in music expand to meet that delving.
+</p>
+<p>
+Technology revolutionized tastemaking in music, from the Rolling Stones to today's YouTube reaction videos. In fact, I was one of the first subscribers of Anthony Fantano as far back as 2010. As one of the last of the millenials, I rode the tech revolution from cassette tapes to CD's to iPods to airpods. No doubt, one's taste in music is the product of the zeitgeist, and in the digital age
 </p>
 <p>
 Nevertheless, as of late, the curious phenomenon of typifying my playlists synthesized the imprinting process of youthful impression. Every song was no longer spontaneous but force-fed, leading me to navigate the doldrums of the 7th replay of my favorite artist's B-side. In circumnavigating this year-long quest to custom-tailor my tunes, I became attuned to how my reaction to these songs was a litmus test of my station in life - had a new season just begun and with the optimism of opportunity, or had a become moored to habitual, yearning for the passage of change? 
@@ -96,7 +103,7 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
 </section>
 <section>
     <section>
-        <h2>&lt;3 2 H8 : Guilty Pleasures</h3>
+        <h2>&lt;3 2 H8 : Guilty Pleasures</h2>
         <ul>
             <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Metro, Kendrick, Future - Like That</li>
             <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Wiz Khalifa - The Thrill</li>
@@ -107,7 +114,7 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
 </section>
 <section>
     <section>
-        <h2>Best Turnup : Party Music</h3>
+        <h3>Best Turnup : Party Music</h3>
         <ul>
             <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">BAND4BAND - Central Cee & Lil Baby</li>
             <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">U.M.C. - Common</li>
@@ -126,7 +133,7 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
     </ul>
 </section>
 <section>
-    <h2>TBT : ThrowBacks</h3>
+    <h3>TBT : ThrowBacks</h3>
     <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
         <li >Rap do Solitario - MC Marcinho</li>
         <li >Rap de Armas - Cidinho & Doca</li>
@@ -167,7 +174,7 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
         <li>Wild West</li>
     </ol>
 </section>
-<h2>Mes Femmes: Six Favorite Girl-Powered Tunes</h3>
+<h3>Mes Femmes: Six Favorite Girl-Powered Tunes</h3>
 <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
     <li>BATTERUP</li>
     <li>DREAM</li>
@@ -203,7 +210,7 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
     <li>Nassau</li>
     <li>Última</li>
 </ol>
-<h2>HTWN CROWN : Houston Rappers' Best Tracks from Early Discographies</h3>
+<h3>HTWN CROWN : Houston Rappers' Best Tracks from Early Discographies</h3>
 <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">
     <li>Confidential Playa</li>
     <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">I'll Do It</li>
