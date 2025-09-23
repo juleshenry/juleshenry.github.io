@@ -16,7 +16,7 @@ date: 2025-06-22
             <tr>
                 <th></th>
                 <td style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 50%, #ffc643ff 100%)">Summer '24</td>
-                <td style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%);">Fall '24</td>
+                <td style="background: linear-gradient(90deg, #ff7b00 0%, #f6cdbaff 50%, #02521aff 10%);">Fall '24</td>
                 <td style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 50%, #2f6fff 100%);">Winter '24/'25</td>
                 <td style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 50%, #38b06a 100%);">Spring '25</td>
             </tr>
