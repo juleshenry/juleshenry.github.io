@@ -9,7 +9,7 @@ date: 2025-06-22
     <title>Radio Julio : A Musical Escapade</title>
 </head>
 <h1>Introduction</h1>
-<p>You ever just drive and jam out to some tunes and just think? It was the summer of 2024 in Austin, TX, in such a trance reflecting on my music itself, I asked myself, if my playlists reflect my mood in life and reinforce it, why not take control of that feedback loop? I set forth to create a template of tracks for each passing season that would guide my energy and feelings. The pattern was as follows:</p>
+<p>You ever cruise around and jam out to some tunes just to clear your head? It was the summer of 2024 in Austin, TX, that mystical city of hippies and tech bros and river-walking and parties that grooves a sweet vibe. In such a trance reflecting on my music itself, I asked myself, if my playlists reflect my mood in life and reinforce it, why not take control of that feedback loop? Just as my summer playlist is light, playful and tropical, so too should be my winters gritty, wistful and cold. I set forth to create a template of tracks for each passing season. The pattern, albeit heterodoxical but personally satisfying, was as follows:</p>
 <section>
     <table>
         <thead>
@@ -23,45 +23,85 @@ date: 2025-06-22
         </thead>
         <tbody>
             <tr>
-                <th style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">The Vibe Setter</th>
-                <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Daddy Yankee</td>  
-                <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Joe Arroyo</td>
-                <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Kendrick Lamar</td>
-                <td style="background: linear-gradient(green, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Stromae</td>
+                <th style="background: linear-gradient(to bottom, green, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">The Vibe Setter</th>
+                <td style="background: linear-gradient(to bottom, green, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Daddy Yankee</td>  
+                <td style="background: linear-gradient(to bottom, green, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Joe Arroyo</td>
+                <td style="background: linear-gradient(to bottom, green, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Kendrick Lamar</td>
+                <td style="background: linear-gradient(to bottom, green, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Stromae</td>
             </tr>
             <tr>
-                <th style="ackground: linear-gradient(to bottom, violet, #000); 
+                <th style="background: linear-gradient(to bottom, violet, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
                             text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Season's Essence</th>
-                <td style="ackground: linear-gradient(to bottom, violet, #000); 
+                <td style="background: linear-gradient(to bottom, violet, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
                             text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Fernanda Abreu</td>
-                <td style="ackground: linear-gradient(to bottom, violet, #000); 
+                <td style="background: linear-gradient(to bottom, violet, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
                             text-shadow: 0 1px 1px rgba(0,0,0,0.2); ">LTJ Bukem</td>
-                <td style="ackground: linear-gradient(to bottom, violet, #000); 
+                <td style="background: linear-gradient(to bottom, violet, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
                             text-shadow: 0 1px 1px rgba(0,0,0,0.2); ">Bulin47</td>
-                <td style="ackground: linear-gradient(to bottom, violet, #000); 
+                <td style="background: linear-gradient(to bottom, violet, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
                             text-shadow: 0 1px 1px rgba(0,0,0,0.2);">MC PH</td>
             </tr>
             <tr>
-                <th style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Space City Rapper</th>
-                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Big Moe</td>    
-                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Zero</td>
-                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Lil Flip</td>
-                <td style="background: linear-gradient(red, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Slim Thug</td>
+                <th style="background: linear-gradient(to bottom, red, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Space City Rapper</th>
+                <td style="background: linear-gradient(to bottom, red, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Big Moe</td>    
+                <td style="background: linear-gradient(to bottom, red, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Zero</td>
+                <td style="background: linear-gradient(to bottom, red, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Lil Flip</td>
+                <td style="background: linear-gradient(to bottom, red, #000); 
+                            -webkit-background-clip: text; 
+                            -webkit-text-fill-color: transparent; 
+                            font-weight: bold; 
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Slim Thug</td>
             </tr>
             <tr>
                 <th style="ackground: linear-gradient(to bottom, yellow, #000); 
@@ -190,7 +230,7 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
 </section>
 <section>
     <section>
-        <h3>Best Turnup : Party Music</h3>
+        <h2>Best Turnup : Party Music</h2>
         <ul>
             <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">BAND4BAND - Central Cee & Lil Baby</li>
             <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">U.M.C. - Common</li>
@@ -200,7 +240,7 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
     </section>
 </section>
 <section>
-    <h2>Best Contemporary Singles</p>
+    <h2>Best Contemporary Singles</h2>
     <ul>
         <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">ACTIVE - Asake, Travis Scott</li>
         <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">WHATCHYA KNO ABOUT ME - Megan the Stallion, Glorilla</li>
@@ -209,7 +249,7 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
     </ul>
 </section>
 <section>
-    <h3>TBT : ThrowBacks</h3>
+    <h2>TBT : ThrowBacks</h2>
     <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
         <li >Rap do Solitario - MC Marcinho</li>
         <li >Rap de Armas - Cidinho & Doca</li>
@@ -250,7 +290,7 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
         <li>Wild West</li>
     </ol>
 </section>
-<h3>Mes Femmes: Six Favorite Girl-Powered Tunes</h3>
+<h2>Mes Femmes: Six Favorite Girl-Powered Tunes</h2>
 <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
     <li>BATTERUP</li>
     <li>DREAM</li>
@@ -286,7 +326,7 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
     <li>Nassau</li>
     <li>Última</li>
 </ol>
-<h3>HTWN CROWN : Houston Rappers' Best Tracks from Early Discographies</h3>
+<h2>HTWN CROWN : Houston Rappers' Best Tracks from Early Discographies</h2>
 <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">
     <li>Confidential Playa</li>
     <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">I'll Do It</li>
