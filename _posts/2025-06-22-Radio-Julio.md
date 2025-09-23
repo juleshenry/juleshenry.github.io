@@ -45,7 +45,7 @@ date: 2025-06-22
             </tr>
             <tr>
                 <th style="background: linear-gradient(yellow, black); -webkit-background-clip: text; color: transparent; font-weight: bold;">Feminine Energy</th>
-                <td style="background: linear-gradient(to bottom, #FFA500, #000); 
+                <td style="background: linear-gradient(to bottom, yellow, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
