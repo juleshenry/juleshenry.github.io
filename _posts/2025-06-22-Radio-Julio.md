@@ -9,25 +9,19 @@ date: 2025-06-22
     <title>Radio Julio : A Musical Escapade</title>
 </head>
 <h1>Introduction</h1>
-<p>You ever cruise around and jam out to some tunes just to clear your head? It was the summer of 2024 in Austin, TX, that mystical city of hippies and tech bros and river-walking and parties that grooves a sweet vibe. In such a trance reflecting on my music itself, I asked myself, if my playlists reflect my mood in life and reinforce it, why not take control of that feedback loop? Just as my summer playlist is light, playful and tropical, so too should be my winters gritty, wistful and cold. I set forth to create a template of tracks for each passing season. The pattern, albeit heterodoxical but personally satisfying, was as follows:</p>
+<p>You ever cruise around and jam out to some tunes just to clear your head? It was the summer of 2024 in Austin, TX, that mystical city of hippies and tech bros and river-walking and parties that grooves a sweet vibe. In such a trance reflecting on my music itself, I asked myself, if my playlists reflect my mood in life and reinforce it, why not take control of that feedback loop? Just as my summer playlist is light, playful and tropical, so too should be my winters gritty, wistful and cold. I set forth to create a template of tracks for each passing season. The pattern, albeit heterodoxical but personally satisfying, was as follows: <p style="font-style: italic">The Vibe Setter, Season's Essence, Space City Rapper, Feminine Energy, Masculine Edge, A Special Album</p></p>
 <section>
     <table>
         <thead>
             <tr>
-                <th></th>
                 <td style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 50%, #ffc643ff 100%)">Summer '24</td>
-                <td style="background: linear-gradient(90deg, #ff7b00 0%, #f6cdbaff 50%, #02521aff 10%);">Fall '24</td>
+                <td style="background: linear-gradient(90deg, #ff7b00 0%, #f6cdbaff 50%, #764f0aff 100%);">Fall '24</td>
                 <td style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 50%, #2f6fff 100%);">Winter '24/'25</td>
-                <td style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 50%, #38b06a 100%);">Spring '25</td>
+                <td style="background: linear-gradient(90deg, #fa93e3ff 0%, #4bff8aff 50%, #e2ff23ff 100%);">Spring '25</td>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th style="background: linear-gradient(to bottom, green, #000); 
-                            -webkit-background-clip: text; 
-                            -webkit-text-fill-color: transparent; 
-                            font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">The Vibe Setter</th>
                 <td style="background: linear-gradient(to bottom, green, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
@@ -50,11 +44,6 @@ date: 2025-06-22
                             text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Stromae</td>
             </tr>
             <tr>
-                <th style="background: linear-gradient(to bottom, violet, #000); 
-                            -webkit-background-clip: text; 
-                            -webkit-text-fill-color: transparent; 
-                            font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Season's Essence</th>
                 <td style="background: linear-gradient(to bottom, violet, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
@@ -77,11 +66,6 @@ date: 2025-06-22
                             text-shadow: 0 1px 1px rgba(0,0,0,0.2);">MC PH</td>
             </tr>
             <tr>
-                <th style="background: linear-gradient(to bottom, red, #000); 
-                            -webkit-background-clip: text; 
-                            -webkit-text-fill-color: transparent; 
-                            font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Space City Rapper</th>
                 <td style="background: linear-gradient(to bottom, red, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
@@ -104,11 +88,6 @@ date: 2025-06-22
                             text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Slim Thug</td>
             </tr>
             <tr>
-                <th style="ackground: linear-gradient(to bottom, yellow, #000); 
-                            -webkit-background-clip: text; 
-                            -webkit-text-fill-color: transparent; 
-                            font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Feminine Energy</th>
                 <td style="background: linear-gradient(to bottom, yellow, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
@@ -131,11 +110,6 @@ date: 2025-06-22
                             text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Shakira</td>
             </tr>
             <tr>
-                <th style="background: linear-gradient(to bottom, blue, #000); 
-                            -webkit-background-clip: text; 
-                            -webkit-text-fill-color: transparent; 
-                            font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Masculine Edge</th>
                 <td style="background: linear-gradient(to bottom, blue, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
@@ -158,11 +132,6 @@ date: 2025-06-22
                             text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Too $hort</td>
             </tr>
             <tr>
-                <th style="background: linear-gradient(to bottom, orange, #000); 
-                            -webkit-background-clip: text; 
-                            -webkit-text-fill-color: transparent; 
-                            font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">A Special Album</th>
                 <td style="background: linear-gradient(to bottom, orange, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
@@ -197,7 +166,7 @@ Technology revolutionized tastemaking in music, from the Rolling Stones to today
 <p>
 Nevertheless, as of late, the curious phenomenon of typifying my playlists synthesized the imprinting process of youthful impression. Every song was no longer spontaneous but force-fed, leading me to navigate the doldrums of the 7th replay of my favorite artist's B-side. In circumnavigating this year-long quest to custom-tailor my tunes, I became attuned to how my reaction to these songs was a litmus test of my station in life - had a new season just begun and with the optimism of opportunity, or had a become moored to habitual, yearning for the passage of change? 
 
-Upon obliging myself to constrain the songs I heard, I could pinpoint precisely which records incited the highest pleasure over time. I catalogue them as follows:
+Upon obliging myself to constrain the songs I heard, I pinpointed which records incited the highest pleasure over time. I catalogue them as follows:
 </p>
 <section>
     <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
@@ -291,7 +260,11 @@ Upon obliging myself to constrain the songs I heard, I could pinpoint precisely 
     </ol>
 </section>
 <h2>Mes Femmes: Six Favorite Girl-Powered Tunes</h2>
-<ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+<ol style="background: linear-gradient(90deg, #ff0066, #f9f52c, #ffc643);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: bold;">
     <li>BATTERUP</li>
     <li>DREAM</li>
     <li>FOREVER</li>
