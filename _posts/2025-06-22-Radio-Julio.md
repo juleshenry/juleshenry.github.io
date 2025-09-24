@@ -10,7 +10,7 @@ date: 2025-06-22
 </head>
 <h1>Introduction</h1>
 <p>You ever just cruise—no destination, no passenger-as if the solution to your dilemmas is not an action but a destination? It was the summer of 2024 in Austin, TX, immersed in that patchoulli alloy of dopeheads ensconced in spiritual not religious bric-à-brac and techno venture capitalists convertibles bristling over the polleny river air wherein the highway's hypnosis begat a meditation music itself in me. I asked myself, if my playlists reflect my mood in life and reinforce it, why not take control of that feedback loop? Just as my summer playlist is light, playful and tropical, so too should be my winters gritty, wistful and cold. I set forth to create a template of tracks for each passing season. The pattern, albeit heterodoxical but personally satisfying, was as follows:</p>
-<p style="font-style: italic">The Vibe Setter, Season's Essence, Space City Rapper, Feminine Energy, Masculine Edge, A Special Album</p>
+<p style="text-align:center; font-style: italic;">The Vibe Setter, Season's Essence, Space City Rapper, Feminine Energy, Masculine Edge, A Special Album</p>
 <section>
     <table>
         <thead>
@@ -172,19 +172,19 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
 <section>
     <h2>Vibiest of Vibes</h2>
     <p>These were the "Vibe Setter" songs that smacked the hardest.</p>
-    <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #cc0052 0%, #b3a724 10%, #cc9e36 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);"">
         <li>Kung Fu Fighting (Versão)</li>
         <li>Rio 40 Graus</li>
     </ol>
-    <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>Do What You Gotta Do</li>
         <li>You're Divine</li>
     </ol>
-    <ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>Bajo Mundo</li>
         <li>FUNDÍA</li>
     </ol>
-    <ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>O Menino Tá Com Pacote</li>
         <li>Tenho Que Me Decidir</li>
     </ol>
@@ -194,10 +194,10 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
         <h2>&lt;3 2 H8 </h2>
         <p>These were the intrusive thought that wormed into my ear one day.</p>
         <ul>
-            <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Like That - Metro, Kendrick, Future</li>
-            <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">The Thrill - Wiz Khalifa</li>
-            <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Let's Go 4 - DJ GBR</li>
-            <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Black Hole Sun - Soundgarden</li>
+            <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Like That - Metro, Kendrick, Future</li>
+            <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">The Thrill - Wiz Khalifa</li>
+            <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Let's Go 4 - DJ GBR</li>
+            <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Black Hole Sun - Soundgarden</li>
         </ul>
     </section>
 </section>
@@ -206,10 +206,10 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
         <h2>TURNUPPPPPP!!!!</h2>
         <p>This was the track that had me most hype when in need of a little surge.</p>
         <ul>
-            <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">BAND4BAND - Central Cee & Lil Baby</li>
-            <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">U.M.C. - Common</li>
-            <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Smooth Criminal - Alien Ant Farm</li>
-            <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">No Scrubs - TLC</li>
+            <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">BAND4BAND - Central Cee & Lil Baby</li>
+            <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">U.M.C. - Common</li>
+            <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Smooth Criminal - Alien Ant Farm</li>
+            <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">No Scrubs - TLC</li>
         </ul>
     </section>
 </section>
@@ -217,51 +217,51 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <h2>Best Contemporary Singles</h2>
     <p>My favorite tracks released during the season.</p>
     <ul>
-        <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">ACTIVE - Asake, Travis Scott</li>
-        <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">WHATCHYA KNO ABOUT ME - Megan the Stallion, Glorilla</li>
-        <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Earthquake - Jisoo</li>
-        <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">All the Way - BigXthaPlug</li>
+        <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">ACTIVE - Asake, Travis Scott</li>
+        <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">WHATCHYA KNO ABOUT ME - Megan the Stallion, Glorilla</li>
+        <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Earthquake - Jisoo</li>
+        <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">All the Way - BigXthaPlug</li>
     </ul>
 </section>
 <section>
     <h2>TBT</h2>
     <p>Throwback tracks that popped into my head</p>
-    <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li >Rap do Solitario - MC Marcinho</li>
         <li >Rap de Armas - Cidinho & Doca</li>
     </ol>
-    <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>Safezone - MC Buda</li>
         <li >Still Not a Playa - Big Pun ft. Joe</li>
     </ol>
-    <ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>Passamos Por Isso - Camisa de Venus</li>
-        <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Maracatú Atomico - Chico Science</li>
+        <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Maracatú Atomico - Chico Science</li>
     </ol>
-    <ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li >Peace or Violence - Stromae</li>
-        <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Lonely - Akon</li>
+        <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Lonely - Akon</li>
     </ol>
 </section>
 <section>
     <h2>Malandro Music</h2>
     <p>These were the songs of the "Masculine Edge" artists that gave me the most swagger.</p>
-    <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>Dale Don Dale</li>
         <li>Dile</li>
         <li>Tu Cuerpo Me Arrebata</li>
     </ol>
-    <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>Like Glue</li>
         <li>Get Busy</li>
         <li>I'm Still in Love</li>
     </ol>
-    <ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>Gang Signs</li>
         <li>How We Do ('93)</li>
         <li>Thuggin'</li>
     </ol>
-    <ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+    <ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>Players</li>
         <li>Coke Dealers</li>
         <li>Wild West</li>
@@ -282,7 +282,7 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <li>Stuck in the Middle</li>
 </ol>
 <hr>
-<ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+<ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
     <li>Hang Onto Your Love</li>
     <li>Jezebel</li>
     <li>Maureen</li>
@@ -291,7 +291,7 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <li>Why Can't We Live Together</li>
 </ol>
 <hr>
-<ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">
+<ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
     <li>Rash Devices</li>
     <li>Bliss Beat</li>
     <li>Get in Girls</li>
@@ -300,7 +300,7 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <li>Eternal</li>
 </ol>
 <hr>
-<ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+<ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
     <li>Copa Vacía</li>
     <li>Puntería</li>
     <li>Cómo Dónde y Cúando</li>
@@ -309,7 +309,7 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <li>Última</li>
 </ol>
 <h2>HTWN CROWN : Houston Rappers' Best Tracks from Early Discographies</h2>
-<ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">
+<ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
     <li>Confidential Playa</li>
     <li>I'll Do It</li>
     <li>Leanin'</li>
@@ -319,7 +319,7 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <li>Get Lonely Too</li>
     <li>Just a Dog</li>
 </ol>
-<ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+<ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
     <li>Everyday</li>
     <li>Happy Feelingz</li>
     <li>Hey Lil Mama</li>
@@ -329,7 +329,7 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <li>Respect My Mind</li>
     <li>Thatz Who I Am</li>
 </ol>
-<ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">
+<ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
     <li>Everyday</li>
     <li>Boxers</li>
     <li>Tonight</li>
@@ -339,7 +339,7 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <li>Da Roof</li>
     <li>My Block</li>
 </ol>
-<ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
+<ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
     <li>Thug</li>
     <li>My B***h</li>
     <li>Associates</li>
@@ -354,20 +354,20 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <h2>Latino Flare</h2>
     <p>Mi gente, aquí están las canciones que menean la cadera del alma.</p>
     <ul>
-        <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">El Exitoso - El Fantasma</li>
-        <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Eres Mía - Romeo Santos</li>
-        <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Louco E Sonhador - MC Neguinho do Kaxeta</li>
-        <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Síguelo Bailando - Ozuna</li>
+        <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">El Exitoso - El Fantasma</li>
+        <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Eres Mía - Romeo Santos</li>
+        <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Louco E Sonhador - MC Neguinho do Kaxeta</li>
+        <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Síguelo Bailando - Ozuna</li>
     </ul>
 </section>
 <section>
     <h2>The Romantics</h2>
     <p>Ambience for thinkin' bout my baby.</p>
     <ul>
-        <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Tinashe - Nasty</li>
-        <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Propuesta Indecente - Romeo Santos</li>
-        <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Algo Me Gusta De Ti - Wisin &amp; Yandel</li>
-        <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Charli XCX - Party 4 U</li>
+        <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Tinashe - Nasty</li>
+        <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Propuesta Indecente - Romeo Santos</li>
+        <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Algo Me Gusta De Ti - Wisin &amp; Yandel</li>
+        <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Charli XCX - Party 4 U</li>
     </ul>
 </section>
 <h1>Conclusion</h1>
