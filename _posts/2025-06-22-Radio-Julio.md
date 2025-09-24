@@ -159,17 +159,19 @@ date: 2025-09-03
 </section>
 <h1>Reflections on Musical Taste and the Obligation to Listen</h1>
 <p>
-My father used to say, "the music you listen to in your youth will always be the best." And so it was: to this day, the first records of my mid-teens to which I grooved carved indelible sweet spot in the tympani of my soul. I was a naive 8th grader seeking online the "best music of all time" not only from yesteryore but in-situ. Voraciously, I scoured the internet for critically acclaimed records of all genres both historical and contemporary. The records I discovered in this time buzz with the nostalgia of a past lover's kiss. Surfing the soundwaves of LCD Soundsystem, Little Dragons, The Roots, Flying Lotus, and Arcade Fire, my mind unmoored from the shores of Billboard pop. As my hormones deepened my emotional capacity, so too, did my taste in music expand to meet that delving.
+My father used to say, "the music you listen to in your youth will always be the best." And so it was: to this day, the first records of my mid-teens to which I grooved carved indelible sweet spots in the tympani of my soul. I was a naive 8th grader seeking online the "best music of all time" not only from yesteryore but in-situ. Voraciously, I scoured the internet for critically acclaimed records of all genres both historical and contemporary. The records I discovered in this time buzz with the nostalgia of an ex lover's kiss. Surfing the soundwaves of LCD Soundsystem, Little Dragons, The Roots, Flying Lotus, and Arcade Fire, my mind unmoored from the shores of Billboard pop. As my hormones deepened my emotional capacity, so too, did my taste in music expand to meet that delving.
 </p>
 <p>
-Technology revolutionized tastemaking in music, from the Rolling Stones to today's YouTube reaction videos. In fact, I was one of the first subscribers of Anthony Fantano as far back as 2010. As one of the last of the millenials, I rode the tech revolution from cassette tapes to CD's to iPods to airpods. No doubt, one's taste in music is the product of the zeitgeist, and in the digital age
+Technology revolutionized tastemaking in music, from the Rolling Stones to today's YouTube reaction videos. In fact, I was one of the first subscribers of Anthony Fantano as far back as 2010. As one of the last of the millenials, I rode the tech revolution from cassette tapes to CD's to iPods to airpods. How could I ever forget the cultural shockwaves of MGMT's "Electric Feel", M.I.A.'s "Paper Planes" or Cudi's "Day 'n' Nite" that trembled in my chest? No doubt, one's taste in music is the product of the zeitgeist, and in the digital age music of all types is just a click away. In this sea of infinite choice, the anchors of musical taste are still based on the memories made during those formative years. I remember the ritual of burning a new CD each month, predicting the segments of life under which each song would be appropriate. There were songs for brewing the next text to that girl, for memorizing edgy lyrics to affect upon myself a cool, for inducing melancholy to acknowledge life's struggles, for driving to parties with five friends in four seats with the intention to underage drink. The man made the music made the life made the man. Which, in retrospect, was the point all along: not to soundtrack my life, but to convince myself, however briefly, that my life was worth soundtracking.
 </p>
 <p>
-Nevertheless, as of late, the curious phenomenon of typifying my playlists synthesized the imprinting process of youthful impression. Every song was no longer spontaneous but force-fed, leading me to navigate the doldrums of the 7th replay of my favorite artist's B-side. In circumnavigating this year-long quest to custom-tailor my tunes, I became attuned to how my reaction to these songs was a litmus test of my station in life - had a new season just begun and with the optimism of opportunity, or had a become moored to habitual, yearning for the passage of change? 
-
-Upon obliging myself to constrain the songs I heard, I pinpointed which records incited the highest pleasure over time. I forged my own Grammy's awards, with categories inspired by the transfiguration of my listening habits. You too, should study your own musical memes, the archetypes of your auditory aesthetic. What songs do you return to in times of joy, sorrow, ennui? What songs do you play to celebrate, to commiserate, to motivate? 
+Nevertheless, as of late, the curious phenomenon of typifying my playlists re-synthesized the imprinting process of youthful impression. Each song was no longer spontaneous but force-fed, leading me to navigate the doldrums of the 7th replay of my favorite artist's B-side. In circumnavigating this year-long quest to custom-tailor my tunes, I became attuned to how my reaction to these songs was a litmus test of my station in life - had a new season just begun and with the optimism of opportunity, or had a become bogged down in the habitual, yearning for the passage of change? 
+</p>
+<p>
+Upon obliging myself to constrain my palette, I pinpointed which records incited the highest highs over time. I forged my own Grammy's awards, with categories inspired by the transfiguration of my listening habits. You too, should study your own musical memes, the archetypes of your auditory aesthetic. What songs do you return to in times of joy, sorrow, ennui? What songs do you play to celebrate, to commiserate, to motivate? 
 
 To wit:
+</p>
 <section>
     <h2>The Kernel of the Essence</h2>
     <p>These were the "Season's Essence" songs that smacked the hardest.</p>
@@ -198,6 +200,7 @@ To wit:
   -webkit-text-fill-color: transparent;
   color: transparent;
   font-weight: bold;">
+    <li><img src="https://via.placeholder.com/320x180.png?text=Mes+Femmes" width="320" height="180" alt="Mes Femmes cover"></li>
     <li>BATTERUP</li>
     <li>DREAM</li>
     <li>FOREVER</li>
@@ -323,7 +326,7 @@ To wit:
 </section>
 <section>
     <h2>TBT</h2>
-    <p>Throwback tracks that popped into my head</p>
+    <p>Throwback tracks that popped into my head.</p>
     <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li >Rap do Solitario - MC Marcinho</li>
         <li >Rap de Armas - Cidinho & Doca</li>
