@@ -9,12 +9,13 @@ date: 2025-06-22
     <title>Radio Julio : A Musical Escapade</title>
 </head>
 <h1>Introduction</h1>
-<p>You ever cruise around and jam out to some tunes just to clear your head? It was the summer of 2024 in Austin, TX, that mystical city of hippies and tech bros and river-walking and parties that grooves a sweet vibe. In such a trance reflecting on my music itself, I asked myself, if my playlists reflect my mood in life and reinforce it, why not take control of that feedback loop? Just as my summer playlist is light, playful and tropical, so too should be my winters gritty, wistful and cold. I set forth to create a template of tracks for each passing season. The pattern, albeit heterodoxical but personally satisfying, was as follows: <p style="font-style: italic">The Vibe Setter, Season's Essence, Space City Rapper, Feminine Energy, Masculine Edge, A Special Album</p></p>
+<p>You ever cruise around and jam out to some tunes just to clear your head? It was the summer of 2024 in Austin, TX, that mystical city of hippies and tech bros and river-walking and parties that grooves a sweet vibe. In such a trance reflecting on my music itself, I asked myself, if my playlists reflect my mood in life and reinforce it, why not take control of that feedback loop? Just as my summer playlist is light, playful and tropical, so too should be my winters gritty, wistful and cold. I set forth to create a template of tracks for each passing season. The pattern, albeit heterodoxical but personally satisfying, was as follows:</p>
+<p style="font-style: italic">The Vibe Setter, Season's Essence, Space City Rapper, Feminine Energy, Masculine Edge, A Special Album</p>
 <section>
     <table>
         <thead>
             <tr>
-                <td style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 50%, #ffc643ff 100%); font-weight: bold;"">Summer '24</td>
+                <td style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 50%, #ffc643ff 100%); font-weight: bold;">Summer '24</td>
                 <td style="background: linear-gradient(90deg, #ff7b00 0%, #f6cdbaff 50%, #764f0aff 100%); font-weight: bold;">Fall '24</td>
                 <td style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 50%, #2f6fff 100%); font-weight: bold;">Winter '24/'25</td>
                 <td style="background: linear-gradient(90deg, #fa93e3ff 0%, #4bff8aff 50%, #e2ff23ff 100%); font-weight: bold;">Spring '25</td>
@@ -169,17 +170,19 @@ Nevertheless, as of late, the curious phenomenon of typifying my playlists synth
 Upon obliging myself to constrain the songs I heard, I pinpointed which records incited the highest pleasure over time. I catalogue them as follows:
 </p>
 <section>
+    <h2>Vibiest of Vibes</h2>
+    <p>These were the "Vibe Setter" songs that smacked the hardest.</p>
     <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
         <li>Kung Fu Fighting (Versão)</li>
         <li>Rio 40 Graus</li>
     </ol>
     <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
-        <li>Do What You Gotta Do - LTJ Bukem</li>
-        <li>You're Divine - LTJ Bukem</li>
+        <li>Do What You Gotta Do</li>
+        <li>You're Divine</li>
     </ol>
     <ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
-        <li>Bajo Mundo - Bulin 47</li>
-        <li>FUNDIA - Bulin 47 Ft. Flow 28, Papaa Tyga</li>
+        <li>Bajo Mundo</li>
+        <li>FUNDÍA</li>
     </ol>
     <ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
         <li>O Menino Tá Com Pacote</li>
@@ -188,10 +191,11 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
 </section>
 <section>
     <section>
-        <h2>&lt;3 2 H8 : Guilty Pleasures</h2>
+        <h2>&lt;3 2 H8 </h2>
+        <p>These were the intrusive thought that wormed into my ear one day.</p>
         <ul>
-            <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Metro, Kendrick, Future - Like That</li>
-            <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Wiz Khalifa - The Thrill</li>
+            <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Like That - Metro, Kendrick, Future</li>
+            <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">The Thrill - Wiz Khalifa</li>
             <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Let's Go 4 - DJ GBR</li>
             <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Black Hole Sun - Soundgarden</li>
         </ul>
@@ -220,7 +224,8 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     </ul>
 </section>
 <section>
-    <h2>TBT : ThrowBacks</h2>
+    <h2>TBT</h2>
+    <p>Throwback tracks that popped into my head</p>
     <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
         <li >Rap do Solitario - MC Marcinho</li>
         <li >Rap de Armas - Cidinho & Doca</li>
@@ -239,7 +244,8 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     </ol>
 </section>
 <section>
-    <h2>Malandro Music: Swagger Songs</h2>
+    <h2>Malandro Music</h2>
+    <p>These were the songs of the "Masculine Edge" artists that gave me the most swagger.</p>
     <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
         <li>Dale Don Dale</li>
         <li>Dile</li>
