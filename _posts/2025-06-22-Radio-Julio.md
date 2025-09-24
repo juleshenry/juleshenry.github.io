@@ -9,7 +9,7 @@ date: 2025-06-22
     <title>Radio Julio : A Musical Escapade</title>
 </head>
 <h1>Introduction</h1>
-<p>You ever cruise around and jam out to some tunes just to clear your head? It was the summer of 2024 in Austin, TX, that mystical city of hippies and tech bros and river-walking and parties that grooves a sweet vibe. In such a trance reflecting on my music itself, I asked myself, if my playlists reflect my mood in life and reinforce it, why not take control of that feedback loop? Just as my summer playlist is light, playful and tropical, so too should be my winters gritty, wistful and cold. I set forth to create a template of tracks for each passing season. The pattern, albeit heterodoxical but personally satisfying, was as follows:</p>
+<p>You ever just cruise—no destination, no passenger-as if the solution to your dilemmas is not an action but a destination? It was the summer of 2024 in Austin, TX, immersed in that patchoulli alloy of dopeheads ensconced in spiritual not religious bric-à-brac and techno venture capitalists convertibles bristling over the polleny river air wherein the highway's hypnosis begat a meditation music itself in me. I asked myself, if my playlists reflect my mood in life and reinforce it, why not take control of that feedback loop? Just as my summer playlist is light, playful and tropical, so too should be my winters gritty, wistful and cold. I set forth to create a template of tracks for each passing season. The pattern, albeit heterodoxical but personally satisfying, was as follows:</p>
 <p style="font-style: italic">The Vibe Setter, Season's Essence, Space City Rapper, Feminine Energy, Masculine Edge, A Special Album</p>
 <section>
     <table>
@@ -267,7 +267,8 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
         <li>Wild West</li>
     </ol>
 </section>
-<h2>Mes Femmes: Six Favorite Girl-Powered Tunes</h2>
+<h2>Mes Femmes</h2>
+<p>These were the songs of the "Feminine Energy" artists that made me feel some type of way.</p>
 <ol style="background: linear-gradient(90deg, #ff0066, #f9f52c, #ffc643);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -310,15 +311,14 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
 <h2>HTWN CROWN : Houston Rappers' Best Tracks from Early Discographies</h2>
 <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">
     <li>Confidential Playa</li>
-    <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">I'll Do It</li>
-    <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Leanin'</li>
-    <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Parlay</li>
-    <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Can't Leave Drank Alone</li>
-    <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Dime Piece</li>
-    <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Get Lonely Too</li>
-    <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Just a Dog</li>
+    <li>I'll Do It</li>
+    <li>Leanin'</li>
+    <li>Parlay</li>
+    <li>Can't Leave Drank Alone</li>
+    <li>Dime Piece</li>
+    <li>Get Lonely Too</li>
+    <li>Just a Dog</li>
 </ol>
-<hr>
 <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
     <li>Everyday</li>
     <li>Happy Feelingz</li>
@@ -329,7 +329,6 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <li>Respect My Mind</li>
     <li>Thatz Who I Am</li>
 </ol>
-<hr>
 <ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">
     <li>Everyday</li>
     <li>Boxers</li>
@@ -340,7 +339,6 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <li>Da Roof</li>
     <li>My Block</li>
 </ol>
-<hr>
 <ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
     <li>Thug</li>
     <li>My B***h</li>
@@ -353,7 +351,8 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
 </ol>
 </section>
 <section>
-    <h2>Latino Flare : Lo Que Me Sostiene</h3>
+    <h2>Latino Flare</h2>
+    <p>Mi gente, aquí están las canciones que menean la cadera del alma.</p>
     <ul>
         <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">El Exitoso - El Fantasma</li>
         <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Eres Mía - Romeo Santos</li>
@@ -363,6 +362,7 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
 </section>
 <section>
     <h2>The Romantics</h2>
+    <p>Ambience for thinkin' bout my baby.</p>
     <ul>
         <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Tinashe - Nasty</li>
         <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Propuesta Indecente - Romeo Santos</li>
