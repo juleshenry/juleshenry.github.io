@@ -175,7 +175,7 @@ To wit:
 <section>
     <h2>The Kernel of the Essence</h2>
     <p>These were the "Season's Essence" songs that smacked the hardest.</p>
-    <ol style="background: linear-gradient(90deg, #cc0052 0%, #b3a724 10%, #cc9e36 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+    <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>Kung Fu Fighting (Versão)</li>
         <li>Rio 40 Graus</li>
     </ol>
@@ -195,12 +195,11 @@ To wit:
 <section>
 <h2>Mes Femmes</h2>
 <p>These were the songs of the "Feminine Energy" artists that made me feel some type of way.</p>
-<ol style="background: linear-gradient(90deg, #ff0066, #f9f52c, #ffc643);
+<ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
   font-weight: bold;">
-    <li><img src="https://via.placeholder.com/320x180.png?text=Mes+Femmes" width="320" height="180" alt="Mes Femmes cover"></li>
     <li>BATTERUP</li>
     <li>DREAM</li>
     <li>FOREVER</li>
