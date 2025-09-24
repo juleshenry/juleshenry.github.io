@@ -14,10 +14,10 @@ date: 2025-06-22
     <table>
         <thead>
             <tr>
-                <td style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 50%, #ffc643ff 100%)">Summer '24</td>
-                <td style="background: linear-gradient(90deg, #ff7b00 0%, #f6cdbaff 50%, #764f0aff 100%);">Fall '24</td>
-                <td style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 50%, #2f6fff 100%);">Winter '24/'25</td>
-                <td style="background: linear-gradient(90deg, #fa93e3ff 0%, #4bff8aff 50%, #e2ff23ff 100%);">Spring '25</td>
+                <td style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 50%, #ffc643ff 100%); font-weight: bold;"">Summer '24</td>
+                <td style="background: linear-gradient(90deg, #ff7b00 0%, #f6cdbaff 50%, #764f0aff 100%); font-weight: bold;">Fall '24</td>
+                <td style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 50%, #2f6fff 100%); font-weight: bold;">Winter '24/'25</td>
+                <td style="background: linear-gradient(90deg, #fa93e3ff 0%, #4bff8aff 50%, #e2ff23ff 100%); font-weight: bold;">Spring '25</td>
             </tr>
         </thead>
         <tbody>
@@ -199,7 +199,8 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
 </section>
 <section>
     <section>
-        <h2>Best Turnup : Party Music</h2>
+        <h2>TURNUPPPPPP!!!!</h2>
+        <p>This was the track that had me most hype when in need of a little surge.</p>
         <ul>
             <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">BAND4BAND - Central Cee & Lil Baby</li>
             <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">U.M.C. - Common</li>
@@ -210,6 +211,7 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
 </section>
 <section>
     <h2>Best Contemporary Singles</h2>
+    <p>My favorite tracks released during the season.</p>
     <ul>
         <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">ACTIVE - Asake, Travis Scott</li>
         <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">WHATCHYA KNO ABOUT ME - Megan the Stallion, Glorilla</li>
@@ -237,7 +239,7 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     </ol>
 </section>
 <section>
-    <h2>Malandro Music: Swagger Songs</h3>
+    <h2>Malandro Music: Swagger Songs</h2>
     <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">
         <li>Dale Don Dale</li>
         <li>Dile</li>
@@ -343,19 +345,18 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
     <li>Leanin</li>
     <li>Show Me Love</li>
 </ol>
-<section>
-    <section>
-        <h2>Latino Flare : Lo Que Me Sostiene</h3>
-        <ul>
-            <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">El Exitoso - El Fantasma</li>
-            <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Eres Mía - Romeo Santos</li>
-            <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Louco E Sonhador - MC Neguinho do Kaxeta</li>
-            <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Síguelo Bailando - Ozuna</li>
-        </ul>
-    </section>
 </section>
 <section>
-    <h2>The Romantics</h3>
+    <h2>Latino Flare : Lo Que Me Sostiene</h3>
+    <ul>
+        <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">El Exitoso - El Fantasma</li>
+        <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Eres Mía - Romeo Santos</li>
+        <li style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Louco E Sonhador - MC Neguinho do Kaxeta</li>
+        <li style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold;">Síguelo Bailando - Ozuna</li>
+    </ul>
+</section>
+<section>
+    <h2>The Romantics</h2>
     <ul>
         <li style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Tinashe - Nasty</li>
         <li style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%);-webkit-background-clip: text; color: transparent; font-weight: bold;">Propuesta Indecente - Romeo Santos</li>
@@ -365,13 +366,13 @@ Upon obliging myself to constrain the songs I heard, I pinpointed which records 
 </section>
 <h1>Conclusion</h1>
 <p>
-In one sense, music is a vehicle, a transport vessel to the memories created under the spell of its fresh listens. Adolescence, teenagehood and young adulting are oft the fount of greener and simpler times, hence the power of its nostalgic ambrosia. By the summer of 2025, I realized I could no longer bear to formalize my habits, but set off on a victory lap. I loaded up my favorite 100 songs in Spanish and Portuguese along with the discography of the Black Eyed Peas and set off into the vernal days.
+In one sense, music is a vehicle, a transport vessel to the memories created under the spell of its first listens. Adolescence, teenagehood and young adulting are oft the fount of greener and simpler times, hence the power of its nostalgic ambrosia. By the summer of 2025, I realized I could no longer bear to formalize my habits, but set off on a victory lap. I loaded up my favorite 100 songs in Spanish and Portuguese along with the discography of the Black Eyed Peas and set off into the vernal days.
 </p>
 <p>
 At first, immersing myself in the crème de la crème was fantastic! Hit after hit of my greatest hits made every day a holiday, yet time weathers even the sweetest serenade. Diversity of daily rhythym is essential to process music because of the dithering effects of repetition in savoring. For even one's favorite ice cream becomes a chore served with every meal.
 </p>
 <p>
-As beauty is in the eye of the beholder, I detail these songs principally to catalyze your own reflections on music and life. Listen carefully, and you might just hear a the sound of the good times rolling. 
+As beauty is in the eye of the beholder, I detail these songs principally to catalyze your own reflections on music and life. Listen carefully, and the good times' rolling might just grace your ears. 
 </p>
 </body>
 </html>
