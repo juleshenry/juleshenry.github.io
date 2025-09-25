@@ -76,7 +76,7 @@ date: 2025-09-03
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Zero</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Z-Ro</td>
                 <td style="background: linear-gradient(to bottom, red, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
@@ -273,33 +273,33 @@ To wit:
     <li>Just a Dog</li>
 </ol>
 <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-    <li>Everyday</li>
+    <li>Everyday, Samething</li>
     <li>Happy Feelingz</li>
     <li>Hey Lil Mama</li>
     <li>I'm a Soldier</li>
     <li>Platinum</li>
-    <li>Life</li>
+    <li>Life feat. Pup</li>
     <li>Respect My Mind</li>
     <li>Thatz Who I Am</li>
 </ol>
 <ol style="background: linear-gradient(90deg, #e6f2ff 0%, #9fc9ff 10%, #2f6fff 20%);-webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-    <li>Everyday</li>
-    <li>Boxers</li>
+    <li>Everyday (feat. T.C., Lil’ Marquice, Taz, Shasta & Cresia)</li>
+    <li>Boxers (feat. Deep Threat)</li>
     <li>Tonight</li>
-    <li>Sunshine</li>
+    <li>Sunshine feat. Lea</li>
     <li>Check (Let's Ride)</li>
     <li>I Shoulda Listened</li>
     <li>Da Roof</li>
-    <li>My Block</li>
+    <li>My Block (feat. Crime, Dante of Menace Clan & Godfather) </li>
 </ol>
 <ol style="background: linear-gradient(90deg, #fa93e3ff 0%, #7ee1a0 10%, #38b06a 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
     <li>Thug</li>
     <li>My B***h</li>
-    <li>Associates</li>
+    <li>Associates (feat. J Dawg & Z-Ro)</li>
     <li>I Run</li>
-    <li>Welcome 2 Houston</li>
-    <li>I'm Back</li>
-    <li>Leanin</li>
+    <li>Welcome 2 Houston (feat. Chamillionaire, Mike Jones, Bun-B, Pimp C, Lil Keke, Z-Ro, Paull Wall)</li>
+    <li>I'm Back (feat. Devin The Dude)</li>
+    <li>Leanin (feat. Pimp C & Bun B)</li>
     <li>Show Me Love</li>
 </ol>
 </section>
