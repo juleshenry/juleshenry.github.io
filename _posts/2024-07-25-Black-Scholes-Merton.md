@@ -4,44 +4,21 @@ title: "Back-of-the-Envelope: Black Scholes Merton"
 date: 2024-07-24
 categories: wealth 
 ---
-
-# Primer 
-Herein we derive the formula for pricing an option. To follow this article, you will need to know the basics of differential equations and calculus.
-
-## A Detour to Japan
-To follow this derivation, you will need to learn about the world of stochastic calculus. This field was pioneered by Japanese mathematician Kiyosi Itô, who discovered an essential result in stochastic calculus that provides the mathematical foundation for analyzing continuous-time stochastic differential equations (SDEs). 
-
-Here are its key components:
-
-1. **Stochastic Processes**: In finance, many quantities—such as stock prices or interest rates—are modeled as stochastic processes rather than deterministic ones due to their inherent randomness and unpredictability over time. Stochastic differential equations (SDEs) are used to describe these dynamic systems mathematically. In a stochastic system, each movement from one state to the next is governed by a probability, in our case, for the financial markets, the probability is sampled from a normal distribution. The canonical name for such a motion is a Brownian motion from physics or martingale from economics.
-
-2. **Itô's Lemma**: Itô's lemma is a powerful tool for finding the differential of functions of stochastic processes that satisfy an SDE, particularly when applied in financial modeling and derivative pricing. In essence, Ito's lemma enables us to understand how certain observable quantities (like option prices or portfolio 
-values) change over time under volatility and random market conditions.
-
-3. Functional Derivative: At its core, the lemma provides a formula for the differential of a function composed with a stochastic process defined by an SDE. For instance, if we have a function f(t, X(t)), where t denotes time and X(t) represents a stochastic process following an SDE, Ito's Lemma tells us how df changes in relation to dt (time increment) and dX (increment of the random variable).
-
-4. **Formula**: The formula for Itô's lemma is given by:
-$$
-   df(t, X(t)) = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}(dX) + \frac{1}{2}\frac{\partial^2f}{\partial x^2}(dX)^2
-$$
-   where $$\(df\)$$ represents the differential of the function $$\(f(t, X(t))\)$$, and $$\(dX\)$$ is an infinitesimal increment in the random variable $$\(X\)$$. The first term $$\(\frac{\partial f}{\partial t}dt\)$$ captures how the function changes with time. The second term $$\(\frac{\partial f}{\partial x}(dX)\)$$ reflects its sensitivity to changes in $$\(X(t)\)$$, while the last term, a stochastic integral, accounts for random fluctuations within this process.
-
-- **Partial Derivatives**: These represent how each component of the function responds to independent and 
-dependent variables—in our case, time t (partial derivative with respect to $$\(dt\)$$) and value $$X(t)$$ (partial derivatives with respect to $$\(dX\)$$).
-- **Stochastic Integral Term**: This term incorporates not only changes in the variable but also random fluctuations inherent to stochastic processes. It is a weighted average of squared increments, accounting for both small positive and negative variations within these increments.
-
-In financial mathematics, Itô's lemma plays an instrumental role by allowing analysts and traders to derive the dynamic pricing models (like Black-Scholes formula) that govern modern derivative markets—essentially helping us understand how prices evolve in response to market conditions and risk factors over time.
-
 # What is an option?
-Is it optional to know what an option is? No! In the context of finance, an option refers to a contract that gives its owner the right, but not the obligation, to buy or sell an underlying asset e.g. shares in a company... at a predetermined price on or before a specific date. Options are used for various purposes including risk management and speculation.
+Is it optional to know what an option is? No!
 
-## Puts & Calls: Bets Against & Bets In Favor
+In the context of finance, an option refers to a contract that gives its owner the right, but not the obligation, to buy or sell an underlying asset e.g. shares in a company or bushels of wheat at a predetermined price on or before a specific date.
 
-Two flavors of options can be thought of bets against or bets in favor of the underlying asset: puts and calls.
+Options are used for various purposes including risk management and speculation. Herein we derive the formula for pricing a European option.
 
-A **call option** allows its holder to buy the underlying security at a specified strike price within a certain timeframe. The buyer pays an upfront premium to the seller, who agrees not to sell the asset but can do so if desired. If the market value exceeds the strike price (in-the-money), the call option becomes profitable for its holder as they purchase at lower rates and could then sell it or directly profit from the difference.
+## Calls & Puts: Bets In-Favor & Bets Against
+Options come in two flavors. A *call* is a bet in-favor of the underlying asset whereas a *put* essentially is a bet against underlying asset.
 
-A **put option** provides its buyer with the right but not the obligation to sell an underlying asset at a specified price, known as the strike or exercise price, by a certain date. The seller of the put option has committed to buy the underlier if and when the holder chooses to execute their right.
+A **call option** gives the purchaser the right, but not the obligation to purchase an underlying security, an asset like a stock or commodity, at a specified price, known as the *strike price*, within a certain timeframe, known as the *tenor*. For this right, the purchaser pays an upfront cost, known as the *premium*, to the seller.
+
+If the market value of the security exceeds the strike price, the option becomes profitable, also known as in-the-money. To see this, note that the purchaser can now buy the asset at the strike price and sell the asset at the higher market rate, directly profiting from the difference. Otherwise, why would you execute the contract? You will buy an asset for a higher price than the market will, losing money, hence the option is otherwise out-of-the-money.
+
+A **put option** achieves the opposite effect by enabling its purchaser the right but not the obligation to **sell** the underlying asset at a specified price.
 
 ## Europeans and Americans
 Options in finance come in two types: European and American. Here's a detailed comparison between them based on 
@@ -80,12 +57,28 @@ In summary, while both types of options grant a right to buy or sell an underlyi
 
 The canonical formula for the European option was developed by three economists Fischer Black and Myron Scholes, and Robert C. Merton, known as the Black–Scholes–Merton (BSM) model.
 
-![bsm](/blog/assets/2024/bsm/bsm-canonical.png)
+# Black-Scholes Model
+$$
+C = S⋅N(d_1) - K⋅e^{-r⋅τ}N(d_2)
+$$
+
+$$
+d_1 = \frac{\ln(S/K) + (r + \sigma^2/2)τ}{\sigma\sqrt{τ}} \quad \text{and} \quad d_2 = d_1 - \sigma\sqrt{τ}
+$$
+
+## Required Inputs:
+
+- **S** = Current stock price  
+- **K** = Option strike price  
+- **r** = Risk-free interest rate  
+- **τ** = Time remaining until option expiration, often expressed as T-t
+- **σ** = Volatility of the stock
+
 Where N is the normal distribution function.
 
 ## What are the four assumptions?
 
-BSM requires one to make four reasonable assumptions about the market. Further exploration of the difference between the ideal world of BSM and flesh-and-blood markets is discussed in [the Volatility Smile](https://www.wiley.com/en-us/The+Volatility+Smile-p-9781118959169), a seminal book in finance. We couch discussion of the nuances of the assumptions themselves for a future post.
+BSM requires one to make four reasonable assumptions about the market.
 
 1. The stock price follows a geometric Brownian motion with constant volatility and drift rate. This means the 
 changes in stock prices over time have an exponential distribution, exhibit continuous compounding, and that 
@@ -98,15 +91,109 @@ the price of a put because they decrease the stock price when paid out. By exclu
 
 4. The risk-free interest rate is constant throughout the option's life. This assumption simplifies calculations by assuming that there are no investment opportunities with guaranteed returns over time.
 
-## The BSM Economy
+Further exploration of the difference between the ideal world of BSM and flesh-and-blood markets is discussed in [the Volatility Smile](https://www.wiley.com/en-us/The+Volatility+Smile-p-9781118959169), a seminal book in finance. We couch discussion of the nuances of the assumptions themselves for a future post.
+
+## Stochastic Calculus part///The BSM Economy 
 To understand BSM, you will need to learn some stocastic calculus.
-![1](/blog/assets/2024/bsm/bsm-1.png)
-![2](/blog/assets/2024/bsm/bsm-2.png)
+
+There are two assets: a risky stock $S$ and riskless bond $B$. These assets are driven by the SDEs
+
+$$
+\begin{aligned}
+dS_t &= \mu S_t dt + \sigma S_t dW_t \quad \\
+dB_t &= r_t B_t dt
+\end{aligned}
+$$
+
+The time zero value of the bond is $B_0 = 1$ and that of the stock is $S_0$. 
+By Itô’s Lemma the value $V_t$ of a derivative written on the stock follows the diffusion
+
+$$
+\begin{aligned}
+dV_t &= \frac{\partial V}{\partial t} dt + \frac{\partial V}{\partial S} dS + \frac{1}{2} \frac{\partial^2 V}{\partial S^2} (dS)^2 \quad \text{(3)} \\
+&= \frac{\partial V}{\partial t} dt + \frac{\partial V}{\partial S} dS + \frac{1}{2} \frac{\partial^2 V}{\partial S^2} \sigma^2 S^2 dt \\
+&= \left( \frac{\partial V}{\partial t} + \mu S_t \frac{\partial V}{\partial S} + \frac{1}{2} \sigma^2 S_t^2 \frac{\partial^2 V}{\partial S^2} \right) dt + \left( \sigma S_t \frac{\partial V}{\partial S} \right) dW_t.
+\end{aligned}
+$$
+
+### A Detour to Japan
+To follow this derivation, you will need to learn about the world of stochastic calculus. This field was pioneered by Japanese mathematician Kiyosi Itô, who discovered an essential result in stochastic calculus that provides the mathematical foundation for analyzing continuous-time stochastic differential equations (SDEs). 
+
+Here are its key components:
+
+1. **Stochastic Processes**: In finance, many quantities—such as stock prices or interest rates—are modeled as stochastic processes rather than deterministic ones due to their inherent randomness and unpredictability over time. Stochastic differential equations (SDEs) are used to describe these dynamic systems mathematically. In a stochastic system, each movement from one state to the next is governed by a probability, in our case, for the financial markets, the probability is sampled from a normal distribution. The canonical name for such a motion is a Brownian motion from physics or martingale from economics.
+
+2. **Itô's Lemma**: Itô's lemma is a powerful tool for finding the differential of functions of stochastic processes that satisfy an SDE, particularly when applied in financial modeling and derivative pricing. In essence, Ito's lemma enables us to understand how certain observable quantities (like option prices or portfolio 
+values) change over time under volatility and random market conditions.
+
+3. Functional Derivative: At its core, the lemma provides a formula for the differential of a function composed with a stochastic process defined by an SDE. For instance, if we have a function f(t, X(t)), where t denotes time and X(t) represents a stochastic process following an SDE, Ito's Lemma tells us how df changes in relation to dt (time increment) and dX (increment of the random variable).
+
+4. **Formula**: The formula for Itô's Lemma is given by:
+$$
+df(t, X_t) = \frac{\partial f}{\partial t}\,dt + \frac{\partial f}{\partial x}\,dX_t + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}\,(dX_t)^2,
+$$
+where:
+- $df$ represents the differential of the function $f(t, X_t)$,
+- $dX_t$ is the infinitesimal increment of the stochastic process $X_t$.
+
+The first term, $\frac{\partial f}{\partial t}\,dt$, captures the explicit time dependence of $f$.  
+The second term, $\frac{\partial f}{\partial x}\,dX_t$, reflects the sensitivity of $f$ to changes in $X_t$.  
+The third term, $\frac{1}{2}\frac{\partial^2 f}{\partial x^2}\,(dX_t)^2$, accounts for the quadratic variation of the stochastic process—this is a key feature of Itô calculus that distinguishes it from ordinary calculus. In particular, when $X_t$ follows a diffusion process (e.g., $dX_t = \mu\,dt + \sigma\,dW_t$), the term $(dX_t)^2$ contributes a non-vanishing $O(dt)$ component (e.g., $\sigma^2\,dt$), which must be retained.
+
+- **Partial Derivatives**: These measure how the function $f(t, X_t)$ changes with respect to its independent variables. Specifically:
+  - $\frac{\partial f}{\partial t}$ captures the sensitivity to **time** $t$ (with $X_t$ held fixed),
+  - $\frac{\partial f}{\partial x}$ and $\frac{\partial^2 f}{\partial x^2}$ capture the first- and second-order sensitivities to the **stochastic process** $X_t$ (with time held fixed).
+
+- **Quadratic Variation Term**: The term $\frac{1}{2}\frac{\partial^2 f}{\partial x^2}(dX_t)^2$ arises from the **quadratic variation** of the stochastic process $X_t$. Unlike in ordinary calculus, $(dX_t)^2$ does not vanish; for Itô processes driven by Brownian motion, it contributes a deterministic $O(dt)$ component (e.g., if $dX_t = \mu\,dt + \sigma\,dW_t$, then $(dX_t)^2 = \sigma^2\,dt$). This term accounts for the cumulative effect of random fluctuations and is essential for correctly modeling dynamics in stochastic calculus.
+
+In financial mathematics, Itô's lemma plays an instrumental role by allowing analysts and traders to derive the dynamic pricing models (like Black-Scholes formula) that govern modern derivative markets—essentially helping us understand how prices evolve in response to market conditions and risk factors over time.
 
 ## Deriving From Integration
-![Valuing a Call](/blog/assets/2024/bsm/business-1.png)
-![eqn 17](/blog/assets/2024/bsm/add-17.png)
-![eqn 19](/blog/assets/2024/bsm/add-19.png)
+The European call price $C(S_t, K, T)$ is the discounted time-$t$ expected value of $(S_T - K)^+$ under the EMM $\mathbb{Q}$ and when interest rates are constant. Hence from Equation (17) we have
+
+$$
+\begin{align}
+C(S_t, K, T) &= e^{-rT} E^{\mathbb{Q}}\left[(S_T - K)^+ \mid \mathcal{F}_t\right] \tag{18}\\
+&= e^{-rT} \int_K^{\infty} (S_T - K) dF(S_T) \\
+&= e^{-rT} \int_K^{\infty} S_T dF(S_T) - e^{-rT} K \int_K^{\infty} dF(S_T).
+\end{align}
+$$
+To evaluate the two integrals, we make use of the result derived in Section (3.3) that under $\mathbb{Q}$ and at time $t$ the terminal stock price $S_T$ follows the lognormal distribution with mean $\ln S_t + \left(r - \frac{\sigma^2}{2}\right)\tau$ and variance $\sigma^2\tau$, where $\tau = T - t$ is the time to maturity. The first integral in the last line of Equation (18) uses the conditional expectation of $S_T$ given that $S_T > K$
+
+$$\int_K^{\infty} S_T dF(S_T) = E^{\mathbb{Q}}[S_T \mid S_T > K]$$
+$$= L_{S_T}(K).$$
+
+In the following sections we show four ways in which the Black-Scholes call price can be obtained. Under a constant interest rate $r$ the time-$t$ price of a European call option on a non-dividend paying stock when its spot price is $S_t$ and with strike $K$ and time to maturity $\tau = T - t$ is
+
+$$C(S_t, K, T) = e^{-r\tau} E^{\mathbb{Q}}\left[(S_T - K)^+ \mid \mathcal{F}_t\right] \tag{17}$$
+
+which can be evaluated to produce Equation (1), reproduced here for convenience
+
+$$C(S_t, K, T) = S_t\Phi(d_1) - Ke^{-r\tau}\Phi(d_2)$$
+
+where
+
+$$d_1 = \frac{\log\frac{S_t}{K} + \left(r + \frac{\sigma^2}{2}\right)\tau}{\sigma\sqrt{\tau}}$$
+
+and
+$$
+\begin{align}
+d_2 &= d_1 - \sigma\sqrt{\tau}\\
+&= \frac{\log\frac{S_t}{K} + \left(r - \frac{\sigma^2}{2}\right)\tau}{\sigma\sqrt{\tau}}.
+\end{align}
+$$
+
+This conditional expectation is, from Equation (10)
+$$
+\begin{align}
+L_{S_T}(K) &= \exp\left(\ln S_t + \left(r - \frac{\sigma^2}{2}\right)\tau + \frac{\sigma^2\tau}{2}\right)\\
+&\quad \times\Phi\left(\frac{-\ln K + \ln S_t + \left(r - \frac{\sigma^2}{2}\right)\tau + \sigma^2\tau}{\sigma\sqrt{\tau}}\right)\\
+&= S_t e^{r\tau} \Phi(d_1),
+\end{align}
+$$
+so the first integral in the last line of Equation (18) is
+
+$$S_t\Phi(d_1). \tag{19}$$
 
 In the context of pricing a European Call Option, and in relation to the Black-Scholes Model (BSM), "EMM" stands for "Expected Maturity Market," which refers to the market state or conditions at maturity time T. Here's an 
 expanded breakdown:
@@ -125,16 +212,79 @@ option under the Black-Scholes framework:
 - **Risk-free Interest Rates (r)** denote rates for riskless investments, such as government bonds or bank deposits in stable economic conditions. They provide a baseline to compare other risky securities' returns and are also used in discounting future cash flows.
 
   
-- **Filtration**: Filtration $$\(\mathcal{F}_t\)$$ symbolizes our growing knowledge about market events and information up to time t. It's a mathematical structure that models how we gain more insight into asset price dynamics as time progresses, incorporating new data or observable trends within the financial ecosystem.
+- **Filtration**: The filtration $\{\mathcal{F}_t\}_{t \geq 0}$ represents the accumulation of information about market events up to time $t$. It is a mathematical structure that models how our knowledge of asset price dynamics evolves over time, incorporating new data, observable trends, and other relevant information available in the financial market.
 
-- **Conditional Expectation**: The conditional expectation $$\(E[S_T | F_t]\)$$ represents our best guess (or expected value) of the future price $$\(S_T\)$$, taking into account all available information up to time t as $$(\(\mathcal{F}_t\))$$. This includes any historical data, current market conditions, and relevant assumptions or models that could influence asset prices.
+- **Conditional Expectation**: The conditional expectation $\mathbb{E}[S_T \mid \mathcal{F}_t]$ is the best estimate (in the mean-square sense) of the future asset price $S_T$, given all information available up to time $t$, encoded in the sigma-algebra $\mathcal{F}_t$. This includes historical price paths, current market conditions, and any other observable information that may affect the asset’s future behavior.
 
-![more2](/blog/assets/2024/bsm/more-2.png)
+Using Equation (7), the second integral in the last line of (18) can be written
+
+$$
+\begin{align}
+e^{-r\tau} K \int_K^{\infty} dF(S_T) &= e^{-r\tau} K [1 - F(K)] \tag{20}\\
+&= e^{-r\tau} K \left[1 - \Phi\left(\frac{\ln K - \ln S_t - \left(r - \frac{\sigma^2}{2}\right)\tau}{\sigma\sqrt{\tau}}\right)\right]\\
+&= e^{-r\tau} K [1 - \Phi(-d_2)]\\
+&= e^{-r\tau} K\Phi(d_2).
+\end{align}
+$$
+Combining the terms in Equations (19) and (20) leads to the expression (1) for the European call price.
+
 So, what's equation 10? We must take a detour to explore the lognormal distribution.
-![detour](/blog/assets/2024/bsm/detour-1.png)
-![detour2](/blog/assets/2024/bsm/detour-2.png)
 
-![more3](/blog/assets/2024/bsm/more-3.png)
+### The Lognormal PDF and CDF
+
+In this Note we make extensive use of the fact that if a random variable $Y \in \mathbb{R}$ follows the normal distribution with mean $\mu$ and variance $\sigma^2$, then $X = e^Y$ follows the lognormal distribution with mean
+
+$$E[X] = e^{\mu + \frac{1}{2}\sigma^2} \tag{4}$$
+
+and variance
+
+$$Var[X] = \left(e^{\sigma^2} - 1\right) e^{2\mu + \sigma^2}. \tag{5}$$
+
+The pdf for $X$ is
+
+$$dF_X(x) = \frac{1}{\sigma x\sqrt{2\pi}} \exp\left(-\frac{1}{2}\left(\frac{\ln x - \mu}{\sigma}\right)^2\right) \tag{6}$$
+
+and the cdf is
+
+$$F_X(x) = \Phi\left(\frac{\ln x - \mu}{\sigma}\right) \tag{7}$$
+
+where $\Phi(y) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^y e^{-\frac{1}{2}t^2} dt$ is the standard normal cdf.
+
+### The Lognormal Conditional Expected Value
+
+The expected value of $X$ conditional on $X > x$ is $L_X(K) = E[X | X > x]$. For the lognormal distribution this is, using Equation (6)
+
+$$L_X(K) = \int_K^{\infty} \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{\ln x - \mu}{\sigma}\right)^2} dx.$$
+
+Make the change of variable $y = \ln x$ so that $x = e^y$, $dx = e^y dy$ and the Jacobian is $e^y$. Hence we have
+
+$$L_X(K) = \int_{\ln K}^{\infty} \frac{e^y}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{y-\mu}{\sigma}\right)^2} dy. \tag{8}$$
+
+Combining terms and completing the square, the exponent is
+
+$$-\frac{1}{2\sigma^2}\left(y^2 - 2y\mu + \mu^2 - 2\sigma^2 y\right) = -\frac{1}{2\sigma^2}\left(y - \left(\mu + \sigma^2\right)\right)^2 + \mu + \frac{1}{2}\sigma^2.$$
+
+Equation (8) becomes
+
+$$L_X(K) = \exp\left(\mu + \frac{1}{2}\sigma^2\right) \frac{1}{\sigma} \int_{\ln K}^{\infty} \frac{1}{\sqrt{2\pi}} \exp\left(-\frac{1}{2}\left(\frac{y - \left(\mu + \sigma^2\right)}{\sigma}\right)^2\right) dy. \tag{9}$$
+
+Consider the random variable $X$ with pdf $f_X(x)$ and cdf $F_X(x)$, and the scale-location transformation $Y = \sigma X + \mu$. It is easy to show that the Jacobian is $\frac{1}{\sigma}$, that the pdf for $Y$ is $f_Y(y) = \frac{1}{\sigma} f_X\left(\frac{y-\mu}{\sigma}\right)$ and that the cdf is $F_Y(y) = F_X\left(\frac{y-\mu}{\sigma}\right)$. Hence, the integral in Equation (9) involves the scale-location transformation of the standard normal cdf. Using the fact that $\Phi(-x) = 1 - \Phi(x)$ this implies that
+
+$$L_X(K) = \exp\left(\mu + \frac{\sigma^2}{2}\right) \Phi\left(\frac{-\ln K + \mu + \sigma^2}{\sigma}\right). \tag{10}$$
+
+# More stochastic calculus and fanciful maths
+## Change of Numeraire
+
+The principle behind pricing by arbitrage is that if the market is complete we can find a portfolio that replicates the derivative at all times, and we can find an equivalent martingale measure (EMM) $\mathbb{N}$ such that the discounted stock price is a martingale. Moreover, the EMM $\mathbb{N}$ determines the unique numeraire $N_t$ that discounts the stock price. The time-$t$ value $V(S_t, t)$ of the derivative with payoff $V(S_T, T)$ at time $T$ discounted by the numeraire $N_t$ is
+
+$$V(S_t, t) = N_t E^{\mathbb{N}}\left[\frac{V(S_T, T)}{N_T} \mid \mathcal{F}_t\right]. \tag{21}$$
+
+In the derivation of the previous section, the bond $B_t = e^{rt}$ serves as the numeraire, and since $r$ is deterministic we can take $N_T = e^{rT}$ out of the expectation and with $V(S_T, T) = (S_T - K)^+$ we can write
+
+$$V(S_t, t) = e^{-r(T-t)} E^{\mathbb{N}}\left[(S_T - K)^+ \mid \mathcal{F}_t\right]$$
+
+which is Equation (17) for the call price.
+
 ### Change of Numeraire
 The change of numeraire is a technique in financial mathematics that helps simplify the pricing of derivatives, such as options. The numeraire is essentially the "unit of value" that we use to measure other assets. By changing this unit of measurement, we can sometimes make complicated pricing problems easier to solve.
 
@@ -154,13 +304,145 @@ When we use a risk-free bond (which grows at the risk-free rate) as the numerair
 In option pricing, changing the numeraire can be particularly useful. For instance, when pricing a European call option, we typically use the risk-free bond as the numeraire, leading to the familiar Black-Scholes pricing formula. This formula essentially discounts the future expected payoff of the option (based on the stock price exceeding the strike price) by the risk-free rate over time.
 
 # Summary
-In short, the change of numeraire is a method that simplifies pricing derivatives by changing the reference asset (the numeraire) used to measure value. When we do this, we switch to a new probability measure but retain certain properties, like the fact that discounted asset prices behave in a predictable way (the martingale property). For standard derivatives like European call options, using the risk-free bond as the numeraire makes the pricing straightforward and leads to well-known formulas like Black-Scholes.
-![more4](/blog/assets/2024/bsm/more-4.png)
-![add14](/blog/assets/2024/bsm/add-14.png)
-![more5](/blog/assets/2024/bsm/more-5.png)
-![more6](/blog/assets/2024/bsm/more-6.png)
-![more7](/blog/assets/2024/bsm/more-7.png)
-![more8](/blog/assets/2024/bsm/more-8.png)
+In short, the change of numeraire is a method that simplifies pricing derivatives by changing the reference asset (the numeraire) used to measure value. When we do this, we switch to a new probability measure but retain certain properties, like the fact that discounted asset prices behave in a predictable way (the martingale property). For standard derivatives like European call options, using the risk-free bond as the numeraire makes the pricing straightforward and leads to well-known formulas like Black-Scholes-Merton.
+
+\subsection{Black Scholes Under a Different Numeraire}
+
+In this section we show that we can use the stock price $S_t$ as the numeraire and recover the Black-Scholes call price. We start with the stock price process in Equation (14) under the measure $\mathbb{Q}$ and with a constant interest rate
+
+$$dS_t = rS_t dt + \sigma S_t dW_t^{\mathbb{Q}}. \tag{22}$$
+
+The relative bond price price is defined as $\tilde{B} = \frac{B}{S}$ and by Itô's Lemma follows the process
+
+$$d\tilde{B}_t = \sigma^2 \tilde{B}_t dt - \sigma \tilde{B}_t dW_t^{\mathbb{Q}}.$$
+
+The measure $\mathbb{Q}$ turns $\tilde{S} = \frac{S}{B}$ into a martingale, but not $\tilde{B}$. The measure $\mathbb{P}$ that turns $\tilde{B}$ into a martingale is
+
+$$W_t^{\mathbb{P}} = W_t^{\mathbb{Q}} - \sigma t \tag{23}$$
+
+We want to find a measure $\mathbb{Q}$ such that under $\mathbb{Q}$ the discounted stock price that uses $B_t$ is a martingale. Write
+
+$$
+dS_t = r_t S_t dt + \sigma S_t dW_t^{\mathbb{Q}} \tag{14}
+$$
+
+where $W_t^{\mathbb{Q}} = W_t + \frac{\mu - r_t}{\sigma} t$. We have that under $\mathbb{Q}$, at time $t=0$, the stock price $S_t$ follows the lognormal distribution with mean $S_0 e^{r_t t}$ and variance $S_0^2 e^{2 r_t t} \left( e^{\sigma^2 t} - 1 \right)$, but that $S_t$ is not a martingale. Using $B_t$ as the numeraire, the discounted stock price is $\tilde{S}_t = \frac{S_t}{B_t}$ and $\tilde{S}_t$ will be a martingale. Apply Itô’s Lemma to $\tilde{S}_t$, which follows the SDE
+
+$$
+d\tilde{S}_t = \frac{\partial \tilde{S}}{\partial B} dB_t + \frac{\partial \tilde{S}}{\partial S} dS_t \tag{15}
+$$
+
+since all terms involving the second-order derivatives are zero. Expand Equation (15) to obtain
+
+$$
+\begin{aligned}
+d\tilde{S}_t &= -\frac{S_t}{B_t^2} dB_t + \frac{1}{B_t} dS_t \tag{16} \\
+&= -\frac{S_t}{B_t^2} (r_t B_t dt) + \frac{1}{B_t} \left( r_t S_t dt + \sigma S_t dW_t^{\mathbb{Q}} \right) \\
+&= \sigma \tilde{S}_t dW_t^{\mathbb{Q}}.
+\end{aligned}
+$$
+
+The solution to the SDE (16) is
+
+$$
+\tilde{S}_t = \tilde{S}_0 \exp\left( -\tfrac{1}{2} \sigma^2 t + \sigma W_t^{\mathbb{Q}} \right).
+$$
+
+We want to find a measure $\mathbb{Q}$ such that under $\mathbb{Q}$ the discounted stock price that uses $B_t$ is a martingale. Write
+
+$$dS_t = r_t S_t dt + \sigma S_t dW_t^{\mathbb{Q}} \tag{14}$$
+
+where $W_t^{\mathbb{Q}} = W_t + \frac{\mu - r_t}{\sigma}t$. We have that under $\mathbb{Q}$, at time $t = 0$, the stock price $S_t$ follows the lognormal distribution with mean $S_0 e^{r_t t}$ and variance $S_0^2 e^{2r_t t} \left(e^{\sigma^2 t} - 1\right)$, but that $S_t$ is not a martingale. Using $B_t$ as the numeraire, the discounted stock price is $\tilde{S}_t = \frac{S_t}{B_t}$ and $\tilde{S}_t$ will be a martingale. Apply Itô's Lemma to $\tilde{S}_t$, which follows the SDE
+
+$$d\tilde{S}_t = \frac{\partial \tilde{S}}{\partial B} dB_t + \frac{\partial \tilde{S}}{\partial S} dS_t \tag{15}$$
+
+since all terms involving the second-order derivatives are zero. Expand Equation (15) to obtain
+
+\begin{align}
+d\tilde{S}_t &= -\frac{S_t}{B_t^2} dB_t + \frac{1}{B_t} dS_t \tag{16}\\
+&= -\frac{S_t}{B_t^2} (r_t B_t dt) + \frac{1}{B_t} \left(r_t S_t dt + \sigma S_t dW_t^{\mathbb{Q}}\right)\\
+&= \sigma \tilde{S}_t dW_t^{\mathbb{Q}}.
+\end{align}
+
+The solution to the SDE (16) is
+
+$$\tilde{S}_t = \tilde{S}_0 \exp\left(-\frac{1}{2}\sigma^2 t + \sigma W_t^{\mathbb{Q}}\right).$$
+
+so that
+
+$$d\tilde{B}_t = -\sigma \tilde{B}_t dW_t^{\mathbb{P}}$$
+
+is a martingale under $\mathbb{P}$. The value of the European call is determined by using $N_t = S_t$ as the numeraire along with the payoff function $V(S_T, T) = (S_T - K)^+$ in the valuation Equation (21)
+$$
+\begin{align}
+V(S_t, t) &= S_t E^{\mathbb{P}}\left[\frac{(S_T - K)^+}{S_T} \mid \mathcal{F}_t\right] \tag{24}\\
+&= S_t E^{\mathbb{P}}\left[(1 - KZ_T) \mid \mathcal{F}_t\right]
+\end{align}
+$$
+where $Z_t = \frac{1}{S_t}$. To evaluate $V(S_t, t)$ we need the distribution for $Z_T$. The process for $Z = \frac{1}{S}$ is obtained using Itô's Lemma on $S_t$ in Equation (22) and the change of measure in Equation (23)
+
+$$
+\begin{align}
+dZ_t &= \left(-r + \sigma^2\right) Z_t dt - \sigma Z_t dW_t^{\mathbb{Q}}\\
+&= -rZ_t dt - \sigma Z_t dW_t^{\mathbb{P}}.
+\end{align}
+$$
+
+To find the solution for $Z_t$ we define $Y_t = \ln Z_t$ and apply Itô's Lemma again, to produce
+
+$$dY_t = -\left(r + \frac{\sigma^2}{2}\right) dt - \sigma dW_t^{\mathbb{P}}. \tag{25}$$
+
+We integrate Equation (25) to produce the solution
+
+$$ Y_T - Y_t = -\left(r + \frac{\sigma^2}{2}\right)(T - t) - \sigma(W_T^P - W_t^P), $$
+
+so that $Z_T$ has the solution
+
+$$ Z_T = e^{\ln Z_t - (r + \frac{\sigma^2}{2})(T-t) - \sigma(W_T^P - W_t^P)}. $$
+
+Now, since $W_T^P - W_t^P$ is identical in distribution to $W_\tau^P$, where $\tau = T - t$ is the time to maturity, and since $W_\tau^P$ follows the normal distribution with zero mean and variance $\sigma^2 \tau$, the exponent in Equation (26)
+
+$$ \ln Z_t - \left(r + \frac{\sigma^2}{2}\right)(T - t) - \sigma(W_T^P - W_t^P), $$
+
+follows the normal distribution with mean
+
+$$ u = \ln Z_t - \left(r + \frac{\sigma^2}{2}\right) \tau = -\ln S_t - \left(r + \frac{\sigma^2}{2}\right) \tau $$
+
+and variance $v = \sigma^2 \tau$. This implies that $Z_T$ follows the lognormal distribution with mean $e^{u + v/2}$ and variance $(e^v - 1)e^{2u + v}$. Note that $(1 - K Z_T)^+$ in the expectation of Equation (24) is non-zero when $Z_T < \frac{1}{K}$. Hence we can write this expectation as the two integrals
+
+$$ E^P[(1 - K Z_T) | F_t] = \int_{-\infty}^k dF_{Z_T} - K \int_{-\infty}^k Z_T dF_{Z_T} $$
+
+$$ = I_1 - I_2. $$
+
+where $F_{Z_T}$ is the cdf of $Z_T$ defined in Equation (7). The first integral in Equation (27) is
+
+$$ I_1 = F_{Z_T} \left( \frac{1}{K} \right) = \Phi \left( \frac{ \ln \frac{1}{K} - u }{ \sqrt{v} } \right) $$
+
+$$ = \Phi \left( \frac{ -\ln K + \ln S_t + \left( r + \frac{\sigma^2}{2} \right) \tau }{ \sigma \sqrt{\tau} } \right) $$
+
+$$ = \Phi(d_1). $$
+
+Using the definition of $L_{Z_T}(x)$ in Equation (10), the second integral in Equation (27) is
+
+$$ I_2 = K \left[ \int_{-\infty}^{\infty} Z_T \, dF_{Z_T} - \int_{\frac{1}{K}}^{\infty} Z_T \, dF_{Z_T} \right] $$
+
+$$ = K \left[ E^{\mathbb{P}} [Z_T] - L_{Z_T} \left( \frac{1}{K} \right) \right] $$
+
+$$ = K \left[ e^{u + v/2} - e^{u + v/2} \Phi \left( \frac{ -\ln \frac{1}{K} + u + v }{ \sqrt{v} } \right) \right] $$
+
+$$ = K e^{u + v/2} \left[ 1 - \Phi \left( \frac{ -\ln \frac{S_t}{K} - \left( r - \frac{\sigma^2}{2} \right) \tau }{ \sigma \sqrt{\tau} } \right) \right] $$
+
+$$ = \frac{K}{S_t} e^{-r \tau} \Phi (d_2) $$
+
+since $1 - \Phi (-d_2) = \Phi (d_2)$. Substitute the expressions for $I_1$ and $I_2$ from Equations (28) and (29) into the valuation Equation (24)
+
+$$ V(S_t, t) = S_t E^{\mathbb{P}} [(1 - K Z_T)^+ | \mathcal{F}_t] $$
+
+$$ = S_t [I_1 - I_2] $$
+
+$$ = S_t \Phi (d_1) - K e^{-r \tau} \Phi (d_2) $$
+
+which is the Black-Scholes call price in Equation (1).
 
 ### Further reading
 
