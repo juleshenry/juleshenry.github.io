@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ""
+title: "Gobsmacked by Perplexity API's Puzzling Problem"
 date: 2025-09-29
 ---
 
