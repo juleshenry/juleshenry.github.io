@@ -110,5 +110,3 @@ Stay vigilant -> Become confident
 # Review
 
 These platitudes are contradictory and self-subsuming, redundant, if you will; yet, what is true is not always profound.
-
-

@@ -15,3 +15,5 @@ We have a long way to go people! (for now)
 ```bsh
 perplexity.BadRequestError: Error code: 400 - {'error': {'message': 'Validation error: country must be provided as a valid 2-digit ISO country code, got MN', 'type': 'invalid_country_code', 'code': 400}}
 ```
+
+Update Tue Sep 30 07:55:50 CDT 2025: on the forums, they say only some countries are supported. I guess Mongolia and Cameroon are not on the list.
