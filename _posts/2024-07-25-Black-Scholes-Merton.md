@@ -63,9 +63,9 @@ The canonical formula for the European option was developed by three economists 
 C = S⋅N(d_1) - K⋅e^{-r⋅τ}N(d_2)
 ```
 
-$$
+```math
 d_1 = \frac{\ln(S/K) + (r + \sigma^2/2)τ}{\sigma\sqrt{τ}} \quad \text{and} \quad d_2 = d_1 - \sigma\sqrt{τ}
-$$
+```
 
 ## Required Inputs:
 
