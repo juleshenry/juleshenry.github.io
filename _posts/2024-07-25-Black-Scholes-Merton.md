@@ -58,9 +58,10 @@ In summary, while both types of options grant a right to buy or sell an underlyi
 The canonical formula for the European option was developed by three economists Fischer Black and Myron Scholes, and Robert C. Merton, known as the Black–Scholes–Merton (BSM) model.
 
 # Black-Scholes Model
-$$
+
+```math
 C = S⋅N(d_1) - K⋅e^{-r⋅τ}N(d_2)
-$$
+```
 
 $$
 d_1 = \frac{\ln(S/K) + (r + \sigma^2/2)τ}{\sigma\sqrt{τ}} \quad \text{and} \quad d_2 = d_1 - \sigma\sqrt{τ}
