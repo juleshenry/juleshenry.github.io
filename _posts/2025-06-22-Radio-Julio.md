@@ -27,34 +27,34 @@ date: 2025-09-03
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Daddy Yankee</td>  
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Daddy_Yankee">Daddy Yankee</a></td>  
                 <td style="background: linear-gradient(to bottom, green, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Joe Arroyo</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Joe_Arroyo">Joe Arroyo</a></td>
                 <td style="background: linear-gradient(to bottom, green, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Kendrick Lamar</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Kendrick_Lamar">Kendrick Lamar</a></td>
                 <td style="background: linear-gradient(to bottom, green, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Stromae</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Stromae">Stromae</a></td>
             </tr>
             <tr>
                 <td style="background: linear-gradient(to bottom, violet, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Fernanda Abreu</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Fernanda_Abreu">Fernanda Abreu</a></td>
                 <td style="background: linear-gradient(to bottom, violet, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2); ">LTJ Bukem</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2); "><a href="https://en.wikipedia.org/wiki/LTJ_Bukem">LTJ Bukem</a></td>
                 <td style="background: linear-gradient(to bottom, violet, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
@@ -71,34 +71,34 @@ date: 2025-09-03
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Big Moe</td>    
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Big_Moe">Big Moe</a></td>    
                 <td style="background: linear-gradient(to bottom, red, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Z-Ro</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Z-Ro">Z-Ro</a></td>
                 <td style="background: linear-gradient(to bottom, red, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Lil Flip</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Lil_Flip">Lil Flip</a></td>
                 <td style="background: linear-gradient(to bottom, red, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Slim Thug</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Slim_Thug">Slim Thug</a></td>
             </tr>
             <tr>
                 <td style="background: linear-gradient(to bottom, yellow, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Baby Monster</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Baby_Monster_(group)">Baby Monster</a></td>
                 <td style="background: linear-gradient(to bottom, yellow, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Sade Adu</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Sade_(singer)">Sade Adu</a></td>
                 <td style="background: linear-gradient(to bottom, yellow, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
@@ -108,41 +108,41 @@ date: 2025-09-03
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Shakira</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Shakira">Shakira</a></td>
             </tr>
             <tr>
                 <td style="background: linear-gradient(to bottom, blue, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Don Omar</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Don_Omar">Don Omar</a></td>
                 <td style="background: linear-gradient(to bottom, blue, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Sean Paul</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Sean_Paul">Sean Paul</a></td>
                 <td style="background: linear-gradient(to bottom, blue, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Freddie Gibbs</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Freddie_Gibbs">Freddie Gibbs</a></td>
                 <td style="background: linear-gradient(to bottom, blue, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Too $hort</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Too_$hort">Too $hort</a></td>
             </tr>
             <tr>
                 <td style="background: linear-gradient(to bottom, orange, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">UGK : Ridin' Dirty</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Ridin%27_Dirty">UGK : Ridin' Dirty</a></td>
                 <td style="background: linear-gradient(to bottom, orange, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">Ozuna : Odisea</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Ozuna">Ozuna : Odisea</a></td>
                 <td style="background: linear-gradient(to bottom, orange, #000); 
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
@@ -152,7 +152,7 @@ date: 2025-09-03
                             -webkit-background-clip: text; 
                             -webkit-text-fill-color: transparent; 
                             font-weight: bold; 
-                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);">혜은이 : 새벽비/철새</td>
+                            text-shadow: 0 1px 1px rgba(0,0,0,0.2);"><a href="https://en.wikipedia.org/wiki/Hye_Eun-yi">혜은이 : 새벽비/철새</a></td>
             </tr>
         </tbody>
     </table>    
@@ -176,7 +176,7 @@ To wit:
     <h2>The Kernel of the Essence</h2>
     <p>These were the "Season's Essence" songs that smacked the hardest.</p>
     <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-        <li <a href="https://www.youtube.com/watch?v=t3I6_cucnnY">>Kung Fu Fighting (Versão)</li>
+        <li><a href="https://www.youtube.com/watch?v=t3I6_cucnnY">>Kung Fu Fighting (Versão)</li>
         <li><a href="https://www.youtube.com/watch?v=Nt47xWeE_ok">Rio 40 Graus</a></li>
     </ol>
     <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
