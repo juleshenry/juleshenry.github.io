@@ -259,8 +259,7 @@ junglists = [
 
 # secrets random example: securely pick a random artist
 
-import secrets; # true shuffle
-s,o=set(),[]
+import secrets;s,o=set(),[]
 while s!=set(z:=junglists):(a:= secrets.choice(z)) and (""if a in s else (s.add(a) or o.append(a)))
 print(o)
 ```
