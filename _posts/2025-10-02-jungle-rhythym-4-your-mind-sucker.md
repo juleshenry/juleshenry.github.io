@@ -9,7 +9,7 @@ Itz the riddim of the rebel, the bass god treble!
 Get it go get it go get it get it girlllll
 
 
-![jungle-rhythym-4-your-mind-sucker](/blog/assets/2024/sad_Neon.png)
+![jungle-rhythym-4-your-mind-sucker](/blog/assets/2025/sad_Neon.png)
 
 ಪಂರ ಇಲ್ಲನ ಮುಟಿಲ ಅಡಿಚುಡುವೆನ್
 ಪಂರ ಇಲ್ಲನ ಮುಟಿಲ ಅಡಿಚುಡುವೆನ್
