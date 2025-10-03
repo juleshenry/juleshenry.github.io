@@ -23,7 +23,7 @@ Get it go get it go get it get it girlllll
 
 ```python
 # python: a Python list of jungle / drum and bass artists extracted from the markdown
-python = [
+junglists = [
     "4hero",
     "AK1200",
     "Adam F",
@@ -258,7 +258,9 @@ python = [
 ]
 
 # secrets random example: securely pick a random artist
-import secrets
-random_artist = secrets.choice(ypython)
-print(random_artist)
+
+import secrets; # true shuffle
+s,o=set(),[]
+while s!=set(z:=junglists):(a:= secrets.choice(z)) and (""if a in s else (s.add(a) or o.append(a)))
+print(o)
 ```
