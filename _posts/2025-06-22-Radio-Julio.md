@@ -176,8 +176,8 @@ To wit:
     <h2>The Kernel of the Essence</h2>
     <p>These were the "Season's Essence" songs that smacked the hardest.</p>
     <ol style="background: linear-gradient(90deg, #ff0066ff 0%, #f9f52cff 10%, #ffc643ff 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-        <li>Kung Fu Fighting (Versão)</li>
-        <li>Rio 40 Graus</li>
+        <li <a href="https://www.youtube.com/watch?v=t3I6_cucnnY">>Kung Fu Fighting (Versão)</li>
+        <li><a href="https://www.youtube.com/watch?v=Nt47xWeE_ok">Rio 40 Graus</a></li>
     </ol>
     <ol style="background: linear-gradient(90deg, #ff7b00 0%, #c85a26 10%, #7b3f19 20%); -webkit-background-clip: text; color: transparent; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">
         <li>Do What You Gotta Do</li>
