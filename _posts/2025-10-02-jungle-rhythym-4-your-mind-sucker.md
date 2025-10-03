@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "jungle-rhythym-4-your-mind-sucker"
+title: "June Rhythym 4 Your Mind Sucker"
 date: 2025-10-02
 ---
 
