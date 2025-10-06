@@ -25,11 +25,11 @@ A bastardização moderna do mangue se manifesta como os mutantes da imaginaçã
 
 Pintamos o cenário que pariu o Manguebeat: *"Com a redemocratização em 1985, o povo recifense se encontra em uma cidade com pouca inovação musical e muito decaída. Em 1991, um órgão das Nações Unidas elegeu Recife como a quarta pior cidade do mundo para se viver. A população de Recife estava sem orgulho e sem sentimento de pertencimento à própria cidade" (TELES, 2019).*
 
-Para compreender o Mangue, precisamos apreciar o maracatu — a etimologia da palavra deriva da reapropriação de um termo racista que descrevia a bagunça da sociedade africana. Então, foi a música do povo escravizado em Pernambuco.
-Sua influência surgiu nos ritmos de tambores no Brock (lit. rock brasileiro) e renasceu as ondas de ar não só no manguezal pernambucano, mas do mundo inteiro.
-Colocou Recife no palco mundial, fonograficamente - foi a música que revitalizou a cultura recifense de raízes subterrâneas presas aos galhos nodosos do mangal. Em nossa era moderna, a essência do mangue beat é ainda mais relevante. Vemos um mundo sucumbir ao TikTok, aos reels do Instagram, à idiotez do YouTube e à supremacia da inteligência artificial.
+Para compreender o Mangue, precisamos apreciar o maracatu — a etimologia da palavra deriva da reapropriação de um termo racista que descrevia pejorativamente a sociedade africana. Então, foi a música do povo escravizado em Pernambuco.
+Sua influência surgiu nos ritmos de tambores no Brock (lit. rock brasileiro) e renasceu do *joie de vivre* internacional desde o manguezal pernambucano.
+Colocou Recife no palco mundial, fonograficamente - foi a música revitalizando a cultura recifense das raízes subterrâneas presas aos galhos nodosos do mangal. 
 
-Para combater isso, precisamos de maracatu atômico, quântico e nanotecnológico: precisamos do retorno de instrumentos orgânicos que capturem a alma da música.
+Na nossa era moderna, a essência do mangue beat é ainda mais relevante. Vemos um mundo sucumbir ao TikTok, aos reels do Instagram, à idiotez do YouTube e à supremacia da inteligência artificial. Para combater a desanimação nuclear, precisamos do maracatu atômico, quântico, e nanotecnológico: precisamos do retorno aos instrumentos feitas da madeira, da crina e do suor misturado. 
 
 ```
 Anamauê, auêia, aê
