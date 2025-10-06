@@ -4,7 +4,7 @@ title: "No Assunto Do Mangue Beat"
 date: 2025-04-12
 ---
 
-Chico Science — te amo.
+Chico Science — um abraço mermão.
 
 Conhece você a música de Bezerra da Silva — sambista da favela, progenitor do gênio do sambandido?
 
