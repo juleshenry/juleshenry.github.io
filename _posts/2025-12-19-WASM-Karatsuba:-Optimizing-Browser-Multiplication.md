@@ -382,6 +382,10 @@ Multiplying two n-bit integers is essentially a convolution of their digits. The
 
 ## Further Reading
 Wonderful Wikipedia : https://en.wikipedia.org/wiki/Multiplication_algorithm
+
 Exploration of Varying Radix on Intel i3-4025U : https://miracl.com/blog/missing-a-trick-karatsuba-variations-michael-scott/
+
 Karatsuba paper: https://ieeexplore.ieee.org/document/4402691
+Toom-Cook paper: 
+Schönhage–Strassen paper: 
 Harvey and van der Hoeven's Paper : https://hal.archives-ouvertes.fr/hal-03182372/document
