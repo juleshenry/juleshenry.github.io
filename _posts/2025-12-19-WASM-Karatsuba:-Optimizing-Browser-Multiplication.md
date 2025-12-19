@@ -45,6 +45,78 @@ Thus, the "schoolbook" method represents a rigid, two-dimensional grid of operat
 
 # Karatsuba: Innovation in $O(n^{\log_2 3})$
 
+To understand why Karatsuba’s algorithm was such a revelation, we first have to look at what it replaced. For centuries, the "Grade School" method was the undisputed standard.
+
+### The  Ceiling
+
+In traditional multiplication, if you have two -digit numbers, you multiply every digit of the first number by every digit of the second. This results in  individual digit-multiplications. If you double the size of the numbers, the work quadruples.
+
+In 1960, **Andrey Kolmogorov**—one of the titans of 20th-century mathematics—conjectured that this  bound was the absolute physical limit of multiplication. He organized a seminar to prove it. A 23-year-old student named **Anatoly Karatsuba** attended that seminar and, within a week, returned with a counter-proof that shattered the  assumption.
+
+---
+
+### The Strategy: Divide and Conquer
+
+Karatsuba’s insight starts by splitting two large numbers, x and y, into two halves. Let B be the base (usually 10 or 2) and m be n/2:
+x=x1​Bm+x0​
+y=y1​Bm+y0​
+
+For example, if x=1234, then x1​=12 and x0​=34 (where B=10 and m=2).
+
+If we multiply these two binomials normally, we get:
+
+xy=(x1​Bm+x0​)(y1​Bm+y0​)
+xy=x1​y1​B2m+(x1​y0​+x0​y1​)Bm+x0​y0​
+
+
+To calculate this, we seemingly need **four** multiplications:
+
+x1​⋅y1​
+
+x1​⋅y0​
+
+x0​⋅y1​
+
+x0​⋅y0​
+
+In a recursive world, four multiplications on half-sized numbers still results in  complexity. We haven't actually gained anything yet.
+
+---
+
+### Karatsuba’s Algebraic "Cheat"
+
+The genius of the algorithm is realizing that we don't actually need to know  and  individually. We only need their **sum**.
+
+Karatsuba found he could get that sum using only **one** additional multiplication instead of two. He defined three variables:
+
+    z2​=x1​⋅y1​
+
+    z0​=x0​⋅y0​
+
+    z1​=(x1​+x0​)⋅(y1​+y0​)−z2​−z0​
+
+If you expand z1​, you'll see the magic:
+(x1​+x0​)(y1​+y0​)=x1​y1​+x1​y0​+x0​y1​+x0​y0​
+
+By subtracting z2​ (x1​y1​) and z0​ (x0​y0​), we are left exactly with (x1​y0​+x0​y1​).
+
+We have reduced the problem from four multiplications of size n/2 to three.
+
+We have reduced the problem from **four** multiplications of size  to **three**.
+
+---
+
+### The Efficiency Gain
+
+By reducing the recursive branching factor from 4 to 3, the complexity shifts according to the Master Theorem:
+
+| Method        | Recurrence Relation            | Complexity                          |
+|---------------|--------------------------------|-------------------------------------|
+| Grade School  | $T(n)=4T(n/2)+O(n)$           | $O(n^{\log_2 4}) = O(n^2)$          |
+| Karatsuba     | $T(n)=3T(n/2)+O(n)$           | $O(n^{\log_2 3}) \approx O(n^{1.585})$ |
+
+While  might not seem significantly smaller than , the gap widens exponentially as  grows. For a number with 1,000 digits, Karatsuba requires roughly  operations, whereas the grade school method requires .
+
 # WASM Karatsuba: Emprically in the Browser
 
 # Hand-waving Toom-Cook: $O(n \log n)$
