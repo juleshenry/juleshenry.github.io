@@ -287,6 +287,10 @@ ul.posts li a::after {
   box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
 }
 
+ul.posts li a:visited::after {
+  background: #581c87;
+}
+
 blockquote {
   padding: 12px 18px;
   margin: 10px 0 18px;
