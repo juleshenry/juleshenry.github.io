@@ -223,14 +223,14 @@ Split inputs into $\Theta(n / \log n)$ chunks.
 Use the Chinese Remainder Theorem (CRT) to map the polynomial multiplication into a $d$-dimensional array convolution over complex numbers or a suitable ring.
 Choose dimensions $s_1 \times s_2 \times \cdots \times s_d$ where each $s_i$ is a prime around $(n / \log n)^{1/d}$. This makes the total size $S \approx n / \log n$.
 
-Gaussian Resampling (The Magic Trick):
+### Gaussian Resampling (The Magic Trick):
 Direct multidimensional DFT on prime sizes would be slow or add log factors.
 Instead, "resample" the input array using a Gaussian function (like a bell curve) to approximate the DFT.
 This transforms the problem into a larger DFT of sizes $t_1 \times \cdots \times t_d$, where each $t_i$ is a power of 2 close to $s_i$.
 Why Gaussian? It helps control errors when mapping frequencies between the irregular (prime) grid and the uniform (power-of-2) grid on a "torus" (think wrapped-around space).
 Cost: This step uses linear maps with bounded norms, adding only $O(n \log n)$ work, and errors are tiny (handled by extra precision bits).
 
-Fast Evaluation with Synthetic FFTs:
+### Fast Evaluation with Synthetic FFTs:
 Now compute the larger multidimensional DFT using Nussbaumer's polynomial transforms over rings like $\mathbb{C}[y] / (y^r + 1)$ (where $r$ is power of 2).
 These "synthetic" FFTs mostly use additions/subtractions (cheap, $O(n)$) instead of multiplications.
 Pointwise multiplications in the transformed space are done recursively (Kronecker substitution: flatten back to 1D integer mult).
@@ -318,12 +318,12 @@ The symmetry lies in the fact that both reach the "Information-Theoretic Wall" f
 
 In both fields, the nlogn term arises from the entropy of the state space.
 
-    In Sorting: To sort n elements, we must distinguish between n! possible permutations. Using Stirling's approximation:
-    log2​(n!)≈nlog2​n−nlog2​e
+In Sorting: To sort n elements, we must distinguish between n! possible permutations. Using Stirling's approximation:
+log2​(n!)≈nlog2​n−nlog2​e
 
-    Each comparison provides at most 1 bit of information. Therefore, the lower bound is Ω(nlogn) bits of information.
+Each comparison provides at most 1 bit of information. Therefore, the lower bound is Ω(nlogn) bits of information.
 
-    In HvH Multiplication: To multiply two n-bit integers, we are essentially performing a convolution. The Schönhage-Strassen conjecture (finally proven by Harvey and van der Hoeven) posits that the complexity is O(nlogn). This mirrors the sorting bound because it represents the optimal distribution of "mixing" information across n bit-positions via the Fast Fourier Transform (FFT).
+In HvH Multiplication: To multiply two n-bit integers, we are essentially performing a convolution. The Schönhage-Strassen conjecture (finally proven by Harvey and van der Hoeven) posits that the complexity is O(nlogn). This mirrors the sorting bound because it represents the optimal distribution of "mixing" information across n bit-positions via the Fast Fourier Transform (FFT).
 
 ## The Symmetry of the Recurrence
 
@@ -350,35 +350,35 @@ At an undergraduate level, think of it this way: if you have a highway system, t
 A d-dimensional hypercube (or Qd​) is a graph with 2d nodes. Each node is labeled with a d-bit binary string, and two nodes are connected if their labels differ by exactly one bit.
 Why it works for both:
 
-    Recursive Structure: A d-cube is just two (d−1)-cubes joined together. This perfectly matches Divide and Conquer.
+Recursive Structure: A d-cube is just two (d−1)-cubes joined together. This perfectly matches Divide and Conquer.
 
-    Logarithmic Diameter: Even with 2d nodes, you can get from any point to another in just d steps. Since d=log2​(nodes), this is the geometric origin of the logn factor in both algorithms.
+Logarithmic Diameter: Even with 2d nodes, you can get from any point to another in just d steps. Since d=log2​(nodes), this is the geometric origin of the logn factor in both algorithms.
 
-    Symmetry: Every node looks exactly like every other node. This ensures that no single part of the "multiplication" or "sorting" becomes a bottleneck.
+Symmetry: Every node looks exactly like every other node. This ensures that no single part of the "multiplication" or "sorting" becomes a bottleneck.
 
 1. Sorting to Hypercube: The "Compare-Exchange" Path
 
 When you sort n items, you are trying to find one specific permutation out of n! possibilities.
 
-    The Hypercube Mapping: Imagine each node in a hypercube represents a state of your list.
+The Hypercube Mapping: Imagine each node in a hypercube represents a state of your list.
 
-    The Exploration: In algorithms like Bitonic Sort, we treat the indices of our array as coordinates in a hypercube. To sort, we perform "Compare-Exchange" operations along each dimension of the cube sequentially.
+The Exploration: In algorithms like Bitonic Sort, we treat the indices of our array as coordinates in a hypercube. To sort, we perform "Compare-Exchange" operations along each dimension of the cube sequentially.
 
-    Saturating the Bandwidth: In a single step, a hypercube can support n/2 parallel comparisons (one across every edge in a specific dimension). A "perfect" sorting algorithm uses every one of these available "lanes" in every step to resolve the uncertainty (entropy) of the list's order.
+Saturating the Bandwidth: In a single step, a hypercube can support n/2 parallel comparisons (one across every edge in a specific dimension). A "perfect" sorting algorithm uses every one of these available "lanes" in every step to resolve the uncertainty (entropy) of the list's order.
 
-    The Wall: Because you need log(n!)≈nlogn bits of information to sort, and the hypercube provides O(n) "lanes" per step, you physically must take logn steps.
+The Wall: Because you need log(n!)≈nlogn bits of information to sort, and the hypercube provides O(n) "lanes" per step, you physically must take logn steps.
 
 ## Multiplying to Hypercube: The "Convolution" Path
 
 Multiplying two n-bit integers is essentially a convolution of their digits. The Harvey–van der Hoeven (HvH) breakthrough treats this convolution as a multi-dimensional problem.
 
-    The Hypercube Mapping: HvH breaks the large n-bit integers into many smaller chunks and arranges them as a d-dimensional grid (which is a subset of a hypercube).
+The Hypercube Mapping: HvH breaks the large n-bit integers into many smaller chunks and arranges them as a d-dimensional grid (which is a subset of a hypercube).
 
-    The Exploration: The Fast Fourier Transform (FFT) is the engine here. The FFT's "butterfly" diagram is mathematically isomorphic to the edges of a hypercube. When the FFT runs, it is literally passing data back and forth along the dimensions of this hypercube to calculate how every digit affects every other digit (the carry-propagation).
+The Exploration: The Fast Fourier Transform (FFT) is the engine here. The FFT's "butterfly" diagram is mathematically isomorphic to the edges of a hypercube. When the FFT runs, it is literally passing data back and forth along the dimensions of this hypercube to calculate how every digit affects every other digit (the carry-propagation).
 
-    Saturating the Bandwidth: Previous algorithms (like Schönhage–Strassen) had "congestion." They couldn't perfectly fill the hypercube lanes because of the overhead in managing the recursion (the O(loglogn) term).
+Saturating the Bandwidth: Previous algorithms (like Schönhage–Strassen) had "congestion." They couldn't perfectly fill the hypercube lanes because of the overhead in managing the recursion (the O(loglogn) term).
 
-    The HvH Fix: Harvey and van der Hoeven used a "Gaussian" distribution of dimensions. They ensured that as the recursion goes deeper, the "recombination" work perfectly fills the available bandwidth of the hypercube at that level, without any wasted "empty lanes" or "traffic jams."
+The HvH Fix: Harvey and van der Hoeven used a "Gaussian" distribution of dimensions. They ensured that as the recursion goes deeper, the "recombination" work perfectly fills the available bandwidth of the hypercube at that level, without any wasted "empty lanes" or "traffic jams."
 
 ## Further Reading
 Wonderful Wikipedia : https://en.wikipedia.org/wiki/Multiplication_algorithm

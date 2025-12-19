@@ -141,7 +141,7 @@ header {
 }
 
 header h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 700;
   letter-spacing: -0.03em;
   margin: 0;
@@ -228,6 +228,11 @@ h6 {
   margin: 0 0 10px;
 }
 
+h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+
 h2 {
   font-size: 2rem;
   font-weight: 700;
@@ -288,7 +293,8 @@ ul.posts li a::after {
 }
 
 ul.posts li a:visited::after {
-  background: #581c87;
+  background: #2e1065;
+  box-shadow: none;
 }
 
 blockquote {
