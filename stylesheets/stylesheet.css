@@ -292,8 +292,12 @@ ul.posts li a::after {
   box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
 }
 
+ul.posts li a:visited {
+  color: red;
+}
+
 ul.posts li a:visited::after {
-  background: #2e1065;
+  background: red;
   box-shadow: none;
 }
 
