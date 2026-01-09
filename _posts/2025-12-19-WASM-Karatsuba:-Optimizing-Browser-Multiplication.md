@@ -386,6 +386,138 @@ Wonderful Wikipedia : https://en.wikipedia.org/wiki/Multiplication_algorithm
 Exploration of Varying Radix on Intel i3-4025U : https://miracl.com/blog/missing-a-trick-karatsuba-variations-michael-scott/
 
 Karatsuba paper: https://ieeexplore.ieee.org/document/4402691
+
 Toom-Cook paper: 
+
 Schönhage–Strassen paper: 
+
 Harvey and van der Hoeven's Paper : https://hal.archives-ouvertes.fr/hal-03182372/document
+
+
+## Toom-Cook Algorithm (n)
+
+### 1. Complexity Growth
+
+* Toom-2 (Karatsuba): T(n) = n^(log2 3)
+* Toom-k: T(n) = n^(logk (2k-1))
+* Toom-3: T(n) = n^(log3 5)
+
+---
+
+### 2. Polynomial Representation
+
+Splitting a large integer (e.g., 9 digits) into three parts (k=3) using a base x = 10^3:
+
+* N1 = 123,456,789 = 123 * 10^6 + 456 * 10^3 + 789 => ax^2 + bx + c
+* N2 = 987,654,321 = 987 * 10^6 + 654 * 10^3 + 321 => dx^2 + ex + f
+
+**Product of N1 * N2:**
+The product is a 4th-degree polynomial:
+N1 * N2 = adx^4 + (ae + bd)x^3 + (af + be + cd)x^2 + (bf + ec)x + cf
+*The coefficients are labeled C4, C3, C2, C1, C0 in the interpolation section.*
+
+---
+
+### 3. Evaluation (Intuition)
+
+To achieve the speedup, evaluate the product at 5 points to solve for the 5 unknown coefficients. This reduces recursive multiplications from 9 to 5.
+
+* X0 = P(0) = **cf**
+* X1 = P(1) = (a + b + c)(d + e + f) = C4 + C3 + C2 + C1 + C0
+* X2 = P(-1) = (a - b + c)(d - e + f) = C4 - C3 + C2 - C1 + C0
+* X3 = P(2) = (4a + 2b + c)(4d + 2e + f) = 16C4 + 8C3 + 4C2 + 2C1 + C0
+* X4 = P(inf) = **ad**
+
+**Summary:** 9 mult -> 5 mult
+
+---
+
+### 4. Interpolation (Solving for Coefficients)
+
+Linear algebra used to isolate coefficients Cn from evaluated points Xn:
+
+**Solving for C2:**
+(X1 + X2) = 2(C4 + C2 + C0)
+=> **C2 = (X1 + X2) / 2 - C0 - C4**
+
+**Solving for C3:**
+X3 - 2X1 = 14C4 + 6C3 + 2C2 - C0
+=> **C3 = (X3 - 2X1 - 14C4 - 2C2 + C0) / 6**
+
+*(Note: Scribbled alternative at bottom: 10(C4 + C3) + 4(C4 - C3) + 2C2 - C0)*
+
+---
+
+Would you like me to clean up the derivation for the remaining coefficient **C1** as well?
+
+## Schönhage - Strassen
+
+So having completed our foray to fast Fourier, we can unpack an algorithm for O(n log(n) log log(n)) mult.
+
+
+## FFT (Fast Fourier Transform)
+Polynomial Representations
+
+    Coefficient Representation: c0 + c1x1 + c2x2^2 + ... + cd*xd
+
+    Value Representation: From the Fundamental Theorem of Algebra, (d+1) points uniquely capture a polynomial of degree d: {(x0, P(x0)), ... (xd, P(xd))}
+
+The Efficiency Goal
+
+    Pointwise multiplication of polynomials is O(d), which is less than O(d^2).
+
+    The Problem: We want: coeff => value, multiply, value => coeff.
+
+    However, evaluating d+1 points in a polynomial of degree d will be O(d^2).
+
+Cooley-Tukey of Radix-2
+
+    Caveat: Assume power of 2 for simplicity (further reading).
+
+    Divide and conquer on odds and evens.
+
+    Expand domain to complex domain. Let N >= d+1; n = 2^k, k is an element of Z.
+
+    w^(j + n/2) = -w^j -> (w^j, w^(j + n/2)) are +/- pairs.
+
+The FFT Equations
+
+    Xk = sum from m=0 to N/2-1 of (x_2m * e^(-2pii/N * 2m * k)) + sum from m=0 to N/2-1 of (x_2m+1 * e^(-2pii/N * (2m+1) * k))
+
+    Xk = Ek + e^(-2pi*i/N * k) * Ok
+
+    X_{k+n/2} = Ek - e^(-2pi*i/N * k) * Ok
+
+Nth Roots of Unity
+
+    z^n = 1
+
+    e^(itheta) = cos(theta) + isin(theta)
+
+    w = e^(2pi*i / n)
+
+    (w^n)^2 = w^(n/2) ; e^(i4pi/n) = e^(i2pi/n)
+
+Calculating the Value Representation of N1 * N2
+
+    FFT: ([X0, X1, ... Xn-1]) -> [P(w^0), ... P(w^n-1)]
+
+    Matrix form: P_vector = W * X_vector
+
+    IFFT: ([P(w^0), ... P(w^n-1)]) -> [p0, p1, ... pn-1]
+
+    W^-1 * P_vector = x_vector
+
+    w = (1/n) * e^(-2pi*i / n)
+
+## Harvey - Hoeven (abridged)
+
+In conclusion, we will outline an abridged version of the Harvey-Hoeven algorithm for linearithmic multiplication.
+
+    Caveat Emptor: The complexity gains are in galactic scale—meaning numbers at scale greater than atoms in the unknown universe.
+
+    Of course, a joke could be made here about an efficient algorithm too grandiose for computation in the physical plane, similar to a topologist's ambivalence between a coffee mug and donut.
+
+Le théorème des restes chinois, le génie de Sunzi
+
+N:=∏i=1k​ni​
