@@ -293,11 +293,11 @@ ul.posts li a::after {
 }
 
 ul.posts li a:visited {
-  color: red;
+  color: purple;
 }
 
 ul.posts li a:visited::after {
-  background: red;
+  background: purple;
   box-shadow: none;
 }
 
