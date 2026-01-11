@@ -1,16 +1,21 @@
 ---
 layout: post
-title: "WASM Karatsuba: Optimizing Browser Multiplication"
+title: "On Multiplication"
 date: 2025-12-19
 ---
 
 # Intro
-Who would have thought that the calculations of arithmetic are still works in progress? Indeed, as recently as 2019, researchers avid Harvey and Joris van der Hoeven fundamentally improved the theoretical computational bounds of integer multiplication to $O(n \log n)$. The typical caveat emptor applies: namely, such gains are limited to the lofty world of astronomically large numbers—think, $> 2^{1729^{12}}$. In practice, even the simpler Karatsuba algorithm fails to achieve superiority until numbers greater than $\sim 10^{96}$. Nevertheless, these exotic approaches to arithmetic elucidate the power of algorithms to overcome assumptions about the limits on the fundamental primitives of computation. 
+The multiplication of two numbers can be made more efficient by several techniques. In this post we will examine the history of multiplication algorithms, diving deep into algorithms due to Karatsuba, Toom-Cook, and Schohage-Strassen. Finally, we will sketch an abridged version of the linearthmic Harvey-Hoeven algorithm. 
+
+The grand caveat of such fascinating theory is that in practice, the Karatsuba algorithm fails to achieve superiority over until numbers greater than $\sim 10^{96}$. 
+
+As recently as 2019, researchers Harvey and Joris van der Hoeven discovered an algorithm that realized a long conjectured algorithm in $O(n \log n)$. Nevertheless, the result is a "galactic algorithm", leveling out in the scale of numbers, $> 2^{1729^{12}}$, far greater than estimated atoms in the universe.
+
+In practice, even the simpler Karatsuba algorithm fails to achieve superiority until numbers greater than $\sim 10^{96}$. Nevertheless, these exotic approaches to arithmetic elucidate the power of algorithms to overcome assumptions about the limits on the fundamental primitives of computation. 
 
 ## Overview
 We will take the reader from gradeschool multiplication to Karatsuba to give credence to the idea of divide-and-conquer algorithms to speed up integer multiplication. 
 
-Next, we will examine an implementation of Karatsuba algorithm in WASM to see how it performs in the browser.
 
 Finally, we will work through the over-arching innovations of the ascendingly more efficient algorithms: Toom–Cook, Schönhage–Strassen, & Harvey-Hoeven. In conclusion, we will examine the parallels between integer multiplication and sorting algorithms to unpack why both are $O(n \log n)$.
 
@@ -117,8 +122,6 @@ By reducing the recursive branching factor from 4 to 3, the complexity shifts ac
 | Karatsuba     | $T(n)=3T(n/2)+O(n)$           | $O(n^{\log_2 3}) \approx O(n^{1.585})$ |
 
 While $n^{1.585}$ might not seem significantly smaller than $n^2$, the gap widens exponentially as $n$ grows. For a number with 1,000 digits, Karatsuba requires roughly $n^{\log_2 3}$ operations, whereas the grade school method requires $n^2$.
-
-# WASM Karatsuba: Empirically in the Browser
 
 # Hand-waving Toom-Cook: $O(n \log n)$
 ## The Polynomial Perspective
