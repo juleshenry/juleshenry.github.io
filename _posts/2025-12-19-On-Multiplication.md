@@ -5,9 +5,12 @@ date: 2025-12-19
 ---
 
 # Intro
-The multiplication of two numbers can be made more efficient by several techniques. In this post we will examine the history of multiplication algorithms, diving deep into algorithms due to Karatsuba, Toom-Cook, and Schohage-Strassen. Finally, we will sketch an abridged version of the linearthmic Harvey-Hoeven algorithm. 
+The multiplication of two numbers can be made more efficient by several techniques. In this post we will examine the history of multiplication algorithms, diving deep into algorithms due to Karatsuba, Toom-Cook, and Schohage-Strassen. Finally, we will sketch an abridged version of the Harvey-Hoeven algorithm and comment on the linearithmic nature of both sorting and multiplying.
 
-The grand caveat of such fascinating theory is that in practice, the Karatsuba algorithm fails to achieve superiority over until numbers greater than $\sim 10^{96}$. 
+First, let's take the time how gradeschool multiplication
+
+
+In practice, such algorithms only begin to achieve superiority over "schoolbook" multiplication. the Karatsuba algorithm do until numbers greater than $\sim 10^{96}$. 
 
 As recently as 2019, researchers Harvey and Joris van der Hoeven discovered an algorithm that realized a long conjectured algorithm in $O(n \log n)$. Nevertheless, the result is a "galactic algorithm", leveling out in the scale of numbers, $> 2^{1729^{12}}$, far greater than estimated atoms in the universe.
 
