@@ -4,6 +4,21 @@ title: "Back-of-the-Envelope: Grover's Search"
 date: 2024-09-13
 ---
 
+<!-- Three.js and MathJax Setup -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js" type="module"></script>
+<script>
+  // Fallback to local copy if CDN fails
+  window.addEventListener('error', function(e) {
+    if (e.target.tagName === 'SCRIPT' && !window.THREE) {
+      var script = document.createElement('script');
+      script.src = '/javascripts/three.min.js';
+      script.type = 'module';
+      document.head.appendChild(script);
+    }
+  }, true);
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 # Primer
 Herein we explain one of the most fascinating results in computer science, Grover's Search. You will need to be familiar with linear algebra and Big O notation to understand the signficance of this work. If a concept is mentioned but not explained, keep reading, and it will become more clear!
 
@@ -281,22 +296,683 @@ function) and this phase inversion property of the oracle, we can obtain an enha
 3. Perform a conditional phase shift on the computer, with every computational basis state except |0> receiving a phase shift of -1
 4. Apply the Hadamard transform
 
-![summary](/blog/assets/2024/grovers/algo.png)
+<div id="grover-viz-algo" role="img" aria-label="Animation of Grover's algorithm showing iterative rotation of quantum state vector toward solution state through reflections" style="width: 100%; height: 600px; position: relative; background: #000;">
+  <div id="controls-algo" style="position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
+    <button id="play-pause-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">▶ Play</button>
+    <button id="reset-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">↺ Reset</button>
+    <button id="step-back-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">⏮ Step Back</button>
+    <button id="step-forward-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">⏭ Step Forward</button>
+    <div id="iteration-counter-algo" style="color: white; margin-top: 10px; font-size: 16px;" role="status" aria-live="polite">Iteration: 0</div>
+  </div>
+  <div id="formulas-algo" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 300px;">
+    <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Analysis of Grover's algorithm</div>
+    <div>Algorithm: \((-HU_0HU_f)^k H|0...0\rangle\)</div>
+    <div style="margin-top: 10px; font-size: 12px;">Rotation by \(2\theta\) per iteration</div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js';
+
+(function() {
+  const container = document.getElementById('grover-viz-algo');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+  
+  // Scene setup
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+  
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+  camera.position.set(5, 5, 5);
+  camera.lookAt(0, 0, 0);
+  
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(width, height);
+  container.appendChild(renderer.domElement);
+  
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(5, 5, 5);
+  scene.add(directionalLight);
+  
+  // Create circle
+  const circleGeometry = new THREE.RingGeometry(2.8, 3, 64);
+  const circleMaterial = new THREE.MeshBasicMaterial({ color: 0x6666ff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+  const circle = new THREE.Mesh(circleGeometry, circleMaterial);
+  circle.rotation.x = Math.PI / 2;
+  scene.add(circle);
+  
+  // Helper function to create arrow
+  function createArrow(color, length = 3) {
+    const dir = new THREE.Vector3(0, 1, 0);
+    const origin = new THREE.Vector3(0, 0, 0);
+    const arrow = new THREE.ArrowHelper(dir, origin, length, color, 0.3, 0.2);
+    return arrow;
+  }
+  
+  // Create vectors
+  const A0_arrow = createArrow(0x888888, 3);
+  A0_arrow.setDirection(new THREE.Vector3(1, 0, 0));
+  scene.add(A0_arrow);
+  
+  const arrows = [];
+  const numIterations = 6;
+  const thetaStep = Math.PI / 12; // Small angle for demonstration
+  
+  for (let i = 0; i <= numIterations; i++) {
+    const angle = thetaStep + i * 2 * thetaStep;
+    const arrow = createArrow(0xaa66ff, 3);
+    const dir = new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0);
+    arrow.setDirection(dir);
+    arrow.visible = (i === 0);
+    scene.add(arrow);
+    arrows.push(arrow);
+  }
+  
+  // Animation state
+  let currentIteration = 0;
+  let isPlaying = false;
+  let lastTime = 0;
+  const iterationDuration = 2000; // 2 seconds per iteration
+  
+  // Controls
+  const playPauseBtn = document.getElementById('play-pause-algo');
+  const resetBtn = document.getElementById('reset-algo');
+  const stepBackBtn = document.getElementById('step-back-algo');
+  const stepForwardBtn = document.getElementById('step-forward-algo');
+  const iterationCounter = document.getElementById('iteration-counter-algo');
+  
+  function updateDisplay() {
+    arrows.forEach((arrow, i) => {
+      arrow.visible = (i === currentIteration);
+    });
+    iterationCounter.textContent = `Iteration: ${currentIteration}`;
+  }
+  
+  playPauseBtn.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    playPauseBtn.textContent = isPlaying ? '⏸ Pause' : '▶ Play';
+    if (isPlaying) lastTime = Date.now();
+  });
+  
+  resetBtn.addEventListener('click', () => {
+    currentIteration = 0;
+    isPlaying = false;
+    playPauseBtn.textContent = '▶ Play';
+    updateDisplay();
+  });
+  
+  stepBackBtn.addEventListener('click', () => {
+    if (currentIteration > 0) {
+      currentIteration--;
+      updateDisplay();
+    }
+  });
+  
+  stepForwardBtn.addEventListener('click', () => {
+    if (currentIteration < numIterations) {
+      currentIteration++;
+      updateDisplay();
+    }
+  });
+  
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    if (isPlaying) {
+      const currentTime = Date.now();
+      if (currentTime - lastTime >= iterationDuration) {
+        if (currentIteration < numIterations) {
+          currentIteration++;
+          updateDisplay();
+        } else {
+          isPlaying = false;
+          playPauseBtn.textContent = '▶ Play';
+        }
+        lastTime = currentTime;
+      }
+    }
+    
+    // Gentle camera rotation
+    const time = Date.now() * 0.0001;
+    camera.position.x = Math.sin(time) * 6;
+    camera.position.z = Math.cos(time) * 6;
+    camera.lookAt(0, 0, 0);
+    
+    renderer.render(scene, camera);
+  }
+  
+  animate();
+  updateDisplay();
+  
+  // Handle resize
+  window.addEventListener('resize', () => {
+    const newWidth = container.clientWidth;
+    const newHeight = container.clientHeight;
+    camera.aspect = newWidth / newHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newWidth, newHeight);
+  });
+})();
+</script>
+
+<noscript>
+  <img src="/blog/assets/2024/grovers/algo.png" alt="Animation of Grover's algorithm showing iterative rotation of quantum state vector toward solution state through reflections">
+</noscript>
 
 The operating idea here is that the inital random state will be reflected about the orthogonal position to the correct state, |s> until it is most probabilistically aligned with the correct state. A final reading will reveal the correct solution to the oracle.
-![intuition](/blog/assets/2024/grovers/ortho.png)
+
+<div id="grover-viz-ortho" role="img" aria-label="3D visualization of quantum state vectors showing solution state, superposition state, and orthogonal state on a unit circle" style="width: 100%; height: 500px; position: relative; background: #000;">
+  <div id="formulas-ortho" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 400px; font-size: 14px;">
+    <div>\(\langle s|\phi\rangle = \langle s| \frac{1}{\sqrt{N}} \sum_{x \in \{0,1\}^n} |x\rangle\)</div>
+    <div style="margin-top: 10px;">\(|s^\perp\rangle = \frac{1}{\sqrt{N-1}} \left(\sum_{x \in \{0,1\}^n} |x\rangle - |s\rangle\right)\)</div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js';
+
+(function() {
+  const container = document.getElementById('grover-viz-ortho');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+  
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+  
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+  camera.position.set(4, 4, 4);
+  camera.lookAt(0, 0, 0);
+  
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(width, height);
+  container.appendChild(renderer.domElement);
+  
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(5, 5, 5);
+  scene.add(directionalLight);
+  
+  // Create circle
+  const circleGeometry = new THREE.RingGeometry(2.8, 3, 64);
+  const circleMaterial = new THREE.MeshBasicMaterial({ color: 0x4466ff, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
+  const circle = new THREE.Mesh(circleGeometry, circleMaterial);
+  circle.rotation.x = Math.PI / 2;
+  scene.add(circle);
+  
+  // Helper to create arrow
+  function createArrow(color, length, label) {
+    const dir = new THREE.Vector3(0, 1, 0);
+    const origin = new THREE.Vector3(0, 0, 0);
+    const arrow = new THREE.ArrowHelper(dir, origin, length, color, 0.3, 0.2);
+    return arrow;
+  }
+  
+  // |s⟩ - solution state (salmon/pink, pointing up)
+  const s_arrow = createArrow(0xff8888, 3);
+  s_arrow.setDirection(new THREE.Vector3(0, 1, 0));
+  scene.add(s_arrow);
+  
+  // |s⊥⟩ - orthogonal state (blue, horizontal)
+  const s_perp_arrow = createArrow(0x4488ff, 3);
+  s_perp_arrow.setDirection(new THREE.Vector3(1, 0, 0));
+  scene.add(s_perp_arrow);
+  
+  // |φ⟩ - superposition state (yellow, small angle from s⊥)
+  const phi_arrow = createArrow(0xffdd44, 3);
+  const smallAngle = Math.PI / 12;
+  phi_arrow.setDirection(new THREE.Vector3(Math.cos(smallAngle), Math.sin(smallAngle), 0));
+  scene.add(phi_arrow);
+  
+  // Animation loop with auto-rotation
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    const time = Date.now() * 0.0002;
+    camera.position.x = Math.sin(time) * 5;
+    camera.position.z = Math.cos(time) * 5;
+    camera.lookAt(0, 0, 0);
+    
+    renderer.render(scene, camera);
+  }
+  
+  animate();
+  
+  window.addEventListener('resize', () => {
+    const newWidth = container.clientWidth;
+    const newHeight = container.clientHeight;
+    camera.aspect = newWidth / newHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newWidth, newHeight);
+  });
+})();
+</script>
+
+<noscript>
+  <img src="/blog/assets/2024/grovers/ortho.png" alt="3D visualization of quantum state vectors showing solution state, superposition state, and orthogonal state on a unit circle">
+</noscript>
 
 ## Composition of Reflections
 For any two reflections with an angle θ, their composition is a rotation of angle 2θ.
-![compose](/blog/assets/2024/grovers/grove4.png)
+
+<div id="grover-viz-reflect" role="img" aria-label="Geometric diagram showing how two reflections compose to create a rotation by angle 2θ in a two-dimensional plane" style="width: 100%; height: 500px; position: relative; background: #ffffff;">
+  <div style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); text-align: center;">
+    <h2 style="margin: 0; font-size: 28px;">Composing two reflections</h2>
+    <p style="margin: 5px 0; font-size: 16px;">Reflections in two-dimensional plane</p>
+  </div>
+  <div style="position: absolute; bottom: 20px; left: 20px; background: rgba(200,200,200,0.9); padding: 15px; border-radius: 5px; max-width: 500px;">
+    <div style="font-weight: bold; margin-bottom: 5px;">Lemma:</div>
+    <div>For any two reflections with angle θ between them, the composition of the two reflections is a rotation by 2θ</div>
+  </div>
+  <div style="position: absolute; bottom: 80px; right: 20px; background: rgba(255,200,200,0.9); padding: 10px; border-radius: 5px;">
+    <div style="font-weight: bold;">Note: \(\theta_1 + \theta_2 = \theta\)</div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js';
+
+(function() {
+  const container = document.getElementById('grover-viz-reflect');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+  
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xffffff);
+  
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+  camera.position.set(0, 0, 8);
+  camera.lookAt(0, 0, 0);
+  
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(width, height);
+  container.appendChild(renderer.domElement);
+  
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+  scene.add(ambientLight);
+  
+  // Create dashed lines for reflection axes
+  const lineMaterial = new THREE.LineDashedMaterial({ color: 0xaaaaaa, dashSize: 0.2, gapSize: 0.1, linewidth: 2 });
+  
+  // Reflection line 1
+  const line1Points = [new THREE.Vector3(-4, -2, 0), new THREE.Vector3(4, 2, 0)];
+  const line1Geometry = new THREE.BufferGeometry().setFromPoints(line1Points);
+  const line1 = new THREE.Line(line1Geometry, lineMaterial);
+  line1.computeLineDistances();
+  scene.add(line1);
+  
+  // Reflection line 2
+  const line2Points = [new THREE.Vector3(-4, 2, 0), new THREE.Vector3(4, -2, 0)];
+  const line2Geometry = new THREE.BufferGeometry().setFromPoints(line2Points);
+  const line2 = new THREE.Line(line2Geometry, lineMaterial);
+  line2.computeLineDistances();
+  scene.add(line2);
+  
+  // Helper to create arrow
+  function createArrow(color, startPoint, direction, length) {
+    const arrow = new THREE.ArrowHelper(direction.normalize(), startPoint, length, color, 0.3, 0.2);
+    return arrow;
+  }
+  
+  // Initial vector (red)
+  const initialDir = new THREE.Vector3(1, -0.3, 0).normalize();
+  const initialArrow = createArrow(0xcc0000, new THREE.Vector3(0, 0, 0), initialDir, 2.5);
+  scene.add(initialArrow);
+  
+  // Intermediate vectors showing reflections
+  const midDir = new THREE.Vector3(0.5, 1, 0).normalize();
+  const midArrow = createArrow(0xaa44aa, new THREE.Vector3(0, 0, 0), midDir, 2.5);
+  scene.add(midArrow);
+  
+  // Final rotated vector (purple)
+  const finalDir = new THREE.Vector3(-0.3, 1, 0).normalize();
+  const finalArrow = createArrow(0x8844cc, new THREE.Vector3(0, 0, 0), finalDir, 2.5);
+  scene.add(finalArrow);
+  
+  // Create angle arcs
+  function createArc(radius, startAngle, endAngle, color) {
+    const curve = new THREE.EllipseCurve(0, 0, radius, radius, startAngle, endAngle, false, 0);
+    const points = curve.getPoints(50);
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({ color: color });
+    const arc = new THREE.Line(geometry, material);
+    return arc;
+  }
+  
+  const arc1 = createArc(0.8, -0.3, 1.2, 0xff6666);
+  scene.add(arc1);
+  
+  const arc2 = createArc(1.0, 1.2, 1.5, 0xff6666);
+  scene.add(arc2);
+  
+  // Animation loop
+  let rotationAngle = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    // Gentle rotation
+    rotationAngle += 0.001;
+    scene.rotation.y = Math.sin(rotationAngle) * 0.1;
+    scene.rotation.x = Math.cos(rotationAngle * 0.7) * 0.05;
+    
+    renderer.render(scene, camera);
+  }
+  
+  animate();
+  
+  window.addEventListener('resize', () => {
+    const newWidth = container.clientWidth;
+    const newHeight = container.clientHeight;
+    camera.aspect = newWidth / newHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newWidth, newHeight);
+  });
+})();
+</script>
+
+<noscript>
+  <img src="/blog/assets/2024/grovers/grove4.png" alt="Geometric diagram showing how two reflections compose to create a rotation by angle 2θ in a two-dimensional plane">
+</noscript>
 
 Now, if we let |A_0> be the vector orthogonal to our solution state, |A_1> the reason for understanding reflection compositions is elucidated:
 
 Finally, we observe:
-![compose](/blog/assets/2024/grovers/grove7.png)
+
+<div id="grover-viz-analysis" role="img" aria-label="Animated analysis showing how Grover's algorithm rotates the state vector by 2θ each iteration, converging to solution state in O(√N) steps" style="width: 100%; height: 600px; position: relative; background: #000;">
+  <div id="controls-analysis" style="position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
+    <button id="play-pause-analysis" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">▶ Play</button>
+    <button id="reset-analysis" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">↺ Reset</button>
+    <div id="iteration-counter-analysis" style="color: white; margin-top: 10px; font-size: 16px;" role="status" aria-live="polite">Iteration: 0</div>
+  </div>
+  <div id="formulas-analysis" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 350px;">
+    <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Analysis of Grover's algorithm</div>
+    <div style="margin-bottom: 10px;">Algorithm: \((-HU_0HU_f)^k H|0...0\rangle\)</div>
+    <div style="font-size: 12px; margin-bottom: 10px;">Since \(-HU_0HU_f\) is a composition of two reflections, it's a rotation by \(2\theta\)</div>
+    <div style="background: rgba(255,255,255,0.1); padding: 8px; border-radius: 3px; margin-top: 10px;">
+      <div style="font-weight: bold;">How many iterations \(k\)?</div>
+      <div style="font-size: 11px; margin-top: 5px;">If \(s_1 = 1\) then \(\sin(\theta) = \sqrt{\frac{1}{N}}\)</div>
+      <div style="font-size: 11px;">Set \(k \approx \frac{\pi}{4}\sqrt{N}\)</div>
+      <div style="font-size: 11px; color: #88ff88; margin-top: 5px;">Result: \(O(\sqrt{N})\) queries</div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js';
+
+(function() {
+  const container = document.getElementById('grover-viz-analysis');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+  
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+  
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+  camera.position.set(5, 5, 5);
+  camera.lookAt(0, 0, 0);
+  
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(width, height);
+  container.appendChild(renderer.domElement);
+  
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(5, 5, 5);
+  scene.add(directionalLight);
+  
+  // Helper to create arrow
+  function createArrow(color, length) {
+    const dir = new THREE.Vector3(0, 1, 0);
+    const origin = new THREE.Vector3(0, 0, 0);
+    const arrow = new THREE.ArrowHelper(dir, origin, length, color, 0.3, 0.2);
+    return arrow;
+  }
+  
+  // |A₀⟩ - orthogonal to solution (gray, horizontal)
+  const A0_arrow = createArrow(0x888888, 3);
+  A0_arrow.setDirection(new THREE.Vector3(1, 0, 0));
+  scene.add(A0_arrow);
+  
+  // |A₁⟩ - solution state (light purple/gray, vertical)
+  const A1_arrow = createArrow(0xaa88cc, 3);
+  A1_arrow.setDirection(new THREE.Vector3(0, 1, 0));
+  scene.add(A1_arrow);
+  
+  // Create multiple purple arrows showing rotation progression
+  const arrows = [];
+  const numSteps = 7;
+  const startAngle = Math.PI / 16; // Small starting angle
+  const angleIncrement = Math.PI / 12; // 2θ per step
+  
+  for (let i = 0; i <= numSteps; i++) {
+    const angle = startAngle + i * angleIncrement;
+    const arrow = createArrow(0xaa66ff, 3);
+    const dir = new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0);
+    arrow.setDirection(dir);
+    arrow.visible = (i === 0);
+    scene.add(arrow);
+    arrows.push(arrow);
+    
+    // Add arc trail for each step
+    if (i > 0) {
+      const prevAngle = startAngle + (i - 1) * angleIncrement;
+      const arcCurve = new THREE.EllipseCurve(
+        0, 0,
+        3, 3,
+        prevAngle, angle,
+        false, 0
+      );
+      const arcPoints = arcCurve.getPoints(20);
+      const arcPoints3D = arcPoints.map(p => new THREE.Vector3(p.x, p.y, 0));
+      const arcGeometry = new THREE.BufferGeometry().setFromPoints(arcPoints3D);
+      const arcMaterial = new THREE.LineBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.5 });
+      const arc = new THREE.Line(arcGeometry, arcMaterial);
+      arc.visible = false;
+      scene.add(arc);
+      arrows[i].userData.arc = arc;
+    }
+  }
+  
+  // Animation state
+  let currentIteration = 0;
+  let isPlaying = false;
+  let lastTime = 0;
+  const iterationDuration = 2000;
+  
+  const playPauseBtn = document.getElementById('play-pause-analysis');
+  const resetBtn = document.getElementById('reset-analysis');
+  const iterationCounter = document.getElementById('iteration-counter-analysis');
+  
+  function updateDisplay() {
+    arrows.forEach((arrow, i) => {
+      arrow.visible = (i === currentIteration);
+      if (arrow.userData.arc) {
+        arrow.userData.arc.visible = (i <= currentIteration);
+      }
+    });
+    iterationCounter.textContent = `Iteration: ${currentIteration}`;
+  }
+  
+  playPauseBtn.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    playPauseBtn.textContent = isPlaying ? '⏸ Pause' : '▶ Play';
+    if (isPlaying) lastTime = Date.now();
+  });
+  
+  resetBtn.addEventListener('click', () => {
+    currentIteration = 0;
+    isPlaying = false;
+    playPauseBtn.textContent = '▶ Play';
+    updateDisplay();
+  });
+  
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    if (isPlaying) {
+      const currentTime = Date.now();
+      if (currentTime - lastTime >= iterationDuration) {
+        if (currentIteration < numSteps) {
+          currentIteration++;
+          updateDisplay();
+        } else {
+          isPlaying = false;
+          playPauseBtn.textContent = '▶ Play';
+        }
+        lastTime = currentTime;
+      }
+    }
+    
+    const time = Date.now() * 0.0001;
+    camera.position.x = Math.sin(time) * 6;
+    camera.position.z = Math.cos(time) * 6;
+    camera.lookAt(0, 0, 0);
+    
+    renderer.render(scene, camera);
+  }
+  
+  animate();
+  updateDisplay();
+  
+  window.addEventListener('resize', () => {
+    const newWidth = container.clientWidth;
+    const newHeight = container.clientHeight;
+    camera.aspect = newWidth / newHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newWidth, newHeight);
+  });
+})();
+</script>
+
+<noscript>
+  <img src="/blog/assets/2024/grovers/grove7.png" alt="Animated analysis showing how Grover's algorithm rotates the state vector by 2θ each iteration, converging to solution state in O(√N) steps">
+</noscript>
 
 Seen in another light, we leverage the arcsin estimation formula for small theta, and of course for N >> 2, we do have a small theta indeed.
-![intuition](/blog/assets/2024/grovers/finit.png)
+
+<div id="grover-viz-finit" role="img" aria-label="Mathematical visualization showing the arcsin approximation used to derive that Grover's algorithm requires O(√N) iterations" style="width: 100%; height: 500px; position: relative; background: #000;">
+  <div id="formulas-finit" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 350px; font-size: 13px;">
+    <div>\(\arcsin\left(\frac{1}{\sqrt{N}}\right) \approx \frac{1}{\sqrt{N}} \approx \theta\)</div>
+    <div style="margin-top: 10px;">\((2t+1) \frac{1}{\sqrt{N}} \rightarrow \frac{\pi}{2}\)</div>
+    <div style="margin-top: 10px;">\(\frac{2t}{\sqrt{N}} = \frac{\pi}{2} - \frac{1}{\sqrt{N}}\)</div>
+    <div style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 3px;">
+      \(t = \frac{\pi}{4}\sqrt{N} - \frac{1}{2}\)
+    </div>
+    <div style="margin-top: 15px; font-size: 16px; color: #88ff88; font-weight: bold;">
+      Run \(t\) times \(\rightarrow O(\sqrt{N})\)
+    </div>
+  </div>
+  <div id="formulas-finit-right" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 300px; font-size: 13px;">
+    <div>\(\langle s|\phi\rangle = \langle s| \frac{1}{\sqrt{N}} \sum_{x \in \{0,1\}^n} |x\rangle\)</div>
+    <div style="margin-top: 10px;">\(|s^\perp\rangle = \frac{1}{\sqrt{N-1}} \left(\sum_{x \in \{0,1\}^n} |x\rangle - |s\rangle\right)\)</div>
+    <div style="margin-top: 10px;">\(|\phi\rangle \frac{1}{\sqrt{N}}\)</div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js';
+
+(function() {
+  const container = document.getElementById('grover-viz-finit');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+  
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+  
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+  camera.position.set(4, 4, 4);
+  camera.lookAt(0, 0, 0);
+  
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(width, height);
+  container.appendChild(renderer.domElement);
+  
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(5, 5, 5);
+  scene.add(directionalLight);
+  
+  // Create circle
+  const circleGeometry = new THREE.RingGeometry(2.8, 3, 64);
+  const circleMaterial = new THREE.MeshBasicMaterial({ color: 0x4466ff, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
+  const circle = new THREE.Mesh(circleGeometry, circleMaterial);
+  circle.rotation.x = Math.PI / 2;
+  scene.add(circle);
+  
+  // Helper to create arrow
+  function createArrow(color, length) {
+    const dir = new THREE.Vector3(0, 1, 0);
+    const origin = new THREE.Vector3(0, 0, 0);
+    const arrow = new THREE.ArrowHelper(dir, origin, length, color, 0.3, 0.2);
+    return arrow;
+  }
+  
+  // |s⟩ - solution state (salmon, pointing up)
+  const s_arrow = createArrow(0xff8888, 3);
+  s_arrow.setDirection(new THREE.Vector3(0, 1, 0));
+  scene.add(s_arrow);
+  
+  // |s⊥⟩ - orthogonal state (blue, horizontal)
+  const s_perp_arrow = createArrow(0x4488ff, 3);
+  s_perp_arrow.setDirection(new THREE.Vector3(1, 0, 0));
+  scene.add(s_perp_arrow);
+  
+  // |φ⟩ - superposition state (yellow, small angle from s⊥)
+  const phi_arrow = createArrow(0xffdd44, 3);
+  const smallAngle = Math.PI / 12;
+  phi_arrow.setDirection(new THREE.Vector3(Math.cos(smallAngle), Math.sin(smallAngle), 0));
+  scene.add(phi_arrow);
+  
+  // Add small angle arc indicator
+  const arcCurve = new THREE.EllipseCurve(
+    0, 0,
+    1.2, 1.2,
+    0, smallAngle,
+    false, 0
+  );
+  const arcPoints = arcCurve.getPoints(20);
+  const arcPoints3D = arcPoints.map(p => new THREE.Vector3(p.x, p.y, 0));
+  const arcGeometry = new THREE.BufferGeometry().setFromPoints(arcPoints3D);
+  const arcMaterial = new THREE.LineBasicMaterial({ color: 0xffaa44, linewidth: 2 });
+  const arc = new THREE.Line(arcGeometry, arcMaterial);
+  scene.add(arc);
+  
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    const time = Date.now() * 0.0002;
+    camera.position.x = Math.sin(time) * 5;
+    camera.position.z = Math.cos(time) * 5;
+    camera.lookAt(0, 0, 0);
+    
+    renderer.render(scene, camera);
+  }
+  
+  animate();
+  
+  window.addEventListener('resize', () => {
+    const newWidth = container.clientWidth;
+    const newHeight = container.clientHeight;
+    camera.aspect = newWidth / newHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newWidth, newHeight);
+  });
+})();
+</script>
+
+<noscript>
+  <img src="/blog/assets/2024/grovers/finit.png" alt="Mathematical visualization showing the arcsin approximation used to derive that Grover's algorithm requires O(√N) iterations">
+</noscript>
 
 The topic of quantum circuit gates is another topic requiring its own deep dive. We couch that dicussion while providing a diagram for Grover's Search. The curious reader can delve deeper into this topic for deeper understanding.
 ![diagram](/blog/assets/2024/grovers/grove5.png)
