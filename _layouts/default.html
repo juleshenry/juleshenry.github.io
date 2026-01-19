@@ -26,8 +26,6 @@
     };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
-    <!-- Three.js -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.min.js"></script>
   </head>
 
 
@@ -55,9 +53,15 @@
    <ul>
    <li><a href="https://github.com/juleshenry">https://www.github.com/juleshenry</a></li>
    </ul>
-  </footer>
+   </footer>
 </div>
 </div>
+  
+  <!-- Three.js - load at end of body for better performance -->
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.module.js';
+    window.THREE = THREE;
+  </script>
   </body>
 
 </html>
