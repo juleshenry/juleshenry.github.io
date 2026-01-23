@@ -1,13 +1,13 @@
 ---
 layout: feed
 ---
- <title>Jules Henry's Blog</title>
+ <title>Julian Henry's Blog</title>
  <link href="http://juleshenry.github.io/blog/atom.xml" rel="self"/>
  <link href="http://juleshenry.github.io/blog"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
  <id>http://juleshenry.github.io/blog</id>
  <author>
-   <name>Jules Henry</name>
+   <name>Julian Henry</name>
  </author>
 
  {% for post in site.posts limit:20 %}

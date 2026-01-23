@@ -1,4 +1,4 @@
-name: Jules Henry's Blog
+name: Julian Henry's Blog
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
 kramdown:

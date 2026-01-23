@@ -328,21 +328,26 @@ code {
 pre {
   padding: 18px;
   overflow-x: auto;
-  overflow-y: auto;
   border-radius: 14px;
   background: #0f172a;
   color: #e2e8f0;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.22);
   max-width: 100%;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  white-space: pre;
+  word-wrap: normal;
+  overflow-wrap: normal;
 }
 
 pre code {
   padding: 0;
   background: transparent;
   color: inherit;
+  white-space: pre;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  display: block;
+  width: max-content;
+  min-width: 100%;
 }
 
 table {
