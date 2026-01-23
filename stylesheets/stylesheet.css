@@ -431,104 +431,119 @@ footer a:hover {
 @media only screen and (max-width: 767px) {
   body {
     line-height: 1.6;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .inner {
-    padding: 20px 16px;
+    padding: 16px 12px;
     border-radius: 12px;
   }
   
   #container {
-    padding: 16px 8px 32px;
+    padding: 12px 6px 24px;
+  }
+
+  header h1 {
+    font-size: 2rem;
   }
 
   nav ul li a {
     width: 100%;
     justify-content: center;
+    padding: 8px 10px;
+    font-size: 0.9rem;
   }
   
   p, ul {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
   }
   
   pre {
-    padding: 12px;
-    font-size: 0.8rem;
+    padding: 10px;
+    font-size: 0.75rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  pre code {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: inline;
+    width: auto;
   }
   
   code {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.6rem; }
+  h3 { font-size: 1.2rem; }
+  
   table {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   
   th, td {
-    padding: 8px;
+    padding: 6px;
   }
 
   footer {
     flex-direction: column;
     gap: 8px;
     align-items: flex-start;
+    font-size: 0.85rem;
   }
 }
 
 @media only screen and (max-width: 479px) {
   body {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
   
   .inner {
-    padding: 16px 12px;
+    padding: 12px 10px;
     border-radius: 8px;
   }
   
   #container {
-    padding: 12px 4px 24px;
+    padding: 8px 4px 20px;
   }
   
   header h1 {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
   }
 
   header h2 {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   
-  h2 {
-    font-size: 1.5rem;
-  }
-  
-  h3 {
-    font-size: 1.2rem;
-  }
-  
-  h4 {
-    font-size: 1rem;
-  }
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.4rem; }
+  h3 { font-size: 1.1rem; }
   
   p, ul {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
   }
   
   pre {
-    padding: 10px;
-    font-size: 0.75rem;
+    padding: 8px;
+    font-size: 0.7rem;
   }
   
   code {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   ul.posts li {
-    padding: 10px;
+    padding: 8px;
   }
   
   nav ul li a {
-    padding: 8px 12px;
-    font-size: 0.85rem;
+    padding: 6px 10px;
+    font-size: 0.8rem;
   }
 }
