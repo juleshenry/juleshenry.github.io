@@ -91,3 +91,9 @@ ul.posts {
 ul.posts li {
 	list-style: none;
 }
+
+.center {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+}
