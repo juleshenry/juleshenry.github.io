@@ -4,42 +4,72 @@ title: "Mr. Worldwide, the Friendly Github Landing Gif Maker"
 date: 2024-03-23
 categories: python gif polyglot
 ---
-Mr.Worldwide
-Description:
-Mr.Worldwide is a Python script that takes a single word as input and generates a GIF showing that word translated into multiple languages.
 
-Usage:
+**Mr. Worldwide** is a Python tool that generates animated GIFs of a single word translated into many languages, each displayed against a culturally relevant background image.
 
-css
-Copy code
-python3 mr-worldwide.py [options]
-Options:
+![Mr. Worldwide Demo](https://raw.githubusercontent.com/enrique/mr.worldwide/main/worldwide_demo.gif)
 
---size: Size of the output GIF in pixels (e.g., "256,256").
---text: The word to be translated.
---font_path: Path to the font file to be used.
---font_color: Color of the text in RGB format (e.g., "256,32,32").
---background_color: Background color of the GIF in RGB format (e.g., "256,256,256").
---languages: Specify the languages to translate the word into (e.g., "all" for all supported languages).
---delay: Delay between frames in milliseconds.
---text_array: Specify multiple words separated by commas for translation into multiple languages.
---font_size: Size of the font.
---round_robin: Toggle round-robin translation mode (true or false).
---background_images: List of image paths for background images (must match the number of languages).
---smart_color_picker: Automatically pick font color based on background for optimal contrast.
-Examples:
+### Key Features
 
-# Basic:
+*   **Multi-language Support**: Automatically translates words like "Hello" and "Love" into over 100 languages.
+*   **Dynamic Backgrounds**: Uses country-specific images when available (from `hello_assets/` and `love_assets/`).
+*   **Smart Color Selection**: Automatically chooses the best text color and outline for maximum contrast against dynamic backgrounds.
+*   **Automatic Font Scaling**: Ensures long translations fit perfectly within the image dimensions.
+*   **Regional Ordering**: Frames are ordered by region (Europe, Asia, Africa, etc.) for a logical flow.
+*   **Unicode Excellence**: Automatically selects the correct Noto font for different scripts (Arabic, Devanagari, CJK, etc.).
+*   **Visual Effects**: Supports rainbow text and flag-colored text.
 
-python3 mr-worldwide.py --size "256,256" --text hello! --font_path fonts/arial.ttf --font_color "256,32,32" --background_color "256,256,256" --languages all --delay 300
+### Installation & Setup
 
-# Intermediate:
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/enrique/mr.worldwide.git
+    cd mr.worldwide
+    ```
 
-# Text Array Example
-python3 mr-worldwide.py --size "1024,256" --text_array "你好, Hola, Hello, नमस्ते, السلام عليكم, হ্যালো, Olá, Привет, こんにちは, ਸਤ ਸ੍ਰੀ ਅਕਾਲ, Hallo, Halo, 呵呵, హలో, Xin chào, नमस्कार, 안녕하세요, Bonjour, வணக்கம், Merhaba, اسلام و علیکم, 哈囉, สวัสดี, નમસ્તે, Pronto" --font_path fonts/arial.ttf --font_color "0,0,0" --font_size=32 --background_color "256,256,256" --languages all --delay 300
+2.  **Run the setup script**:
+    ```bash
+    bash setup.sh
+    source venv/bin/activate
+    ```
 
-# Sinusoidal Example
-python3 mr-worldwide.py --size "256,256" --text hello! --font_path fonts/arial.ttf --font_color "256,32,32" --background_color "256,256,256" --languages all --delay sine:"500,100"
+3.  **(Optional) Download assets**:
+    ```bash
+    python3 download_assets.py
+    ```
+
+### Usage Examples
+
+#### Mr. Worldwide Mode (The Full Experience)
+Generate a GIF with background images, smart colors, and regional ordering:
+```bash
+python3 mr-worldwide.py --text "Love" --use_icons --smart_color --delay 500 --gif_path "love_worldwide.gif"
+```
+
+#### Custom Text Array
+Provide your own list of words:
+```bash
+python3 mr-worldwide.py --text_array "Hola, Bonjour, Ciao, привет" --size "400,200" --rainbow --delay 300
+```
+
+#### Basic Example
+```bash
+python3 mr-worldwide.py --text "Hello" --size "512,512" --delay 500
+```
+
+### Advanced Options
+
+| Option | Description |
+| :--- | :--- |
+| `--text` | The word to translate (e.g., "Hello", "Love"). |
+| `--use_icons` | Enable country-specific background images. |
+| `--smart_color` | Pick high-contrast text colors automatically. |
+| `--rainbow` | Apply a shifting rainbow effect to the text. |
+| `--use_flag_colors` | Color the text based on the country's flag. |
+| `--size` | Image dimensions in `width,height`. |
+| `--delay` | Time between frames in milliseconds. |
+| `--languages` | List of ISO codes or `all`. |
+
 
 
 
