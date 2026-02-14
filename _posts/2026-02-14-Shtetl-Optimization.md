@@ -24,13 +24,13 @@ The curiosity? Technical posts are considered more sophisticated when code is us
 
 ## Interquartile Reduction of Outliers
 
-Summary Statistics:
-                              flesch_kincaid_grade  ari_grade  gunning_fog_grade  lexical_diversity   word_count
-source                                                                                                          
-alexharri_posts.csv                       9.862444   9.637937          12.485540           0.234318  3443.411765
-juleshenry_posts.csv                     11.504391  11.325909          13.581991           0.499603  1110.800000
-scottaaronson_blog_posts.csv             12.770149  13.005843          15.347379           0.559417   702.752212
-simonwillison_all_blogs.csv              11.799966  12.115912          14.210542           0.567622   482.814465
+| Source | Flesch-Kincaid Grade | ARI Grade | Gunning Fog Grade | Lexical Diversity | Word Count |
+|--------|----------------------|-----------|-------------------|-------------------|------------|
+| alexharri_posts.csv | 9.86 | 9.64 | 12.49 | 0.234 | 3,443.41 |
+| juleshenry_posts.csv | 11.50 | 11.33 | 13.58 | 0.500 | 1,110.80 |
+| scottaaronson_blog_posts.csv | 12.77 | 13.01 | 15.35 | 0.559 | 702.75 |
+| simonwillison_all_blogs.csv | 11.80 | 12.12 | 14.21 | 0.568 | 482.81 |
+
 
 A ha! So I do not write at a higher level than Scott *or* Simon, although I tend to be more verbose.
 
