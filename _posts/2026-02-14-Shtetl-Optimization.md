@@ -37,7 +37,7 @@ A ha! So I do not write at a higher level than Scott *or* Simon, although I tend
 
 ## Writing Stats Over Time Without Outliers
 
-[Writing Stats](/blog/assets/2026/writing_stats_time_no.png)
+![Writing Stats](/blog/assets/2026/writing_stats_time_no.png)
 
 
 That I am doing this on Valentine's Day should be a testament to how much of a great-big nerd I am. Love you, Scott! Solve NP vs. P when you have the chance, will ya?
