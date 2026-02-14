@@ -17,7 +17,7 @@ No secret that I am big fan of Scott Aaronson's blog, [Shtetl Optimized](https:/
 
 ## Writing Stats Over Time
 
-![Writing Stats](blog/assets/2026/writing_stats_time.png)
+![Writing Stats](/blog/assets/2026/writing_stats_time.png)
 
 
 The curiosity? Technical posts are considered more sophisticated when code is used because it has no "periods", qualifying as long Faulknerian sentences. Note the outliers in my own blog achieve Flesch-Kincaid of 80+. Therefore, I also include an "outliers removed summary to truly compare. Alex Harri, and Icelander, unsurprisingly writes at a lower grade level, even though his posts are incredibly engaging and informative. Simon Willison's posts are more accessible, while Scott Aaronson's posts are more complex, likely due to the technical nature of his content. Jules Henry's posts are the most complex, which may be due to the size of his ego.
@@ -37,7 +37,7 @@ A ha! So I do not write at a higher level than Scott *or* Simon, although I tend
 
 ## Writing Stats Over Time Without Outliers
 
-![Writing Stats](blog/assets/2026/writing_stats_time_no.png)
+[Writing Stats](/blog/assets/2026/writing_stats_time_no.png)
 
 
 That I am doing this on Valentine's Day should be a testament to how much of a great-big nerd I am. Love you, Scott! Solve NP vs. P when you have the chance, will ya?
