@@ -92,7 +92,5 @@ For Kingambit with 8 PP of Sucker Punch against an optimal Garchomp:
 * **Garchomp's Strategy ($p_8$):** Should Attack with probability **$1/9$** and Swords Dance with probability **$8/9$**.
 * **Win Probability:** Kingambit's rigorous win probability is **$88.9\%$**.
 
-> **Note:** The "7/8" logic in your prompt is a common approximation, but the mathematically perfect Nash Equilibrium for $n$ turns of a Sucker Punch subgame is defined by the denominator $n+1$.
-
 # Conclusion
 A Sucker Punch endgame is a fascinating example of a Nash equilibrium in competitive Pokémon battling. It illustrates how players must strategically balance their choices based on the potential actions of their opponent, leading to a dynamic and engaging gameplay experience. Having a uniform number generator in hand is the only way to achieve optimal play in this scenario, which is commonly incorrectly thought to be a mind game of (wait X turns... then attack outright). To the contrary, the optimal play is to randomize your choices vis-a-vis power points.
