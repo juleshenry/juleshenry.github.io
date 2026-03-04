@@ -13,10 +13,10 @@ Each Pokemon has four moves from which to select, and the outcome of the battle 
 # Defining the Sucker Punch 
 What is "Sucker Punch"? It's a move that permits the user to strike first (+1 priority) if the opponent is about to use an attack. If the opponent is not attacking, the move fails. It has 8 PP. Now, with the mighty Kingambit dominating Generation 9 with its mighty Sucker Punch, the move has become a staple in competitive play.
 
-<div style="text-align: center;">
-  <img src="https://img.pokemondb.net/artwork/large/kingambit.jpg" alt="Kingambit" width="200"/>
-  <div style="font-size: 2em; font-weight: bold; margin: 10px 0;">VS.</div>
-  <img src="https://img.pokemondb.net/artwork/large/garchomp.jpg" alt="Garchomp" width="200"/>
+<div style="display: flex; justify-content: center; align-items: center; gap: 16px;">
+  <img src="https://img.pokemondb.net/artwork/large/kingambit.jpg" alt="Kingambit" width="200" />
+  <span style="font-size: 2em; font-weight: bold;">VS.</span>
+  <img src="https://img.pokemondb.net/artwork/large/garchomp.jpg" alt="Garchomp" width="200" />
 </div>
 
 # Nash Equilibrium 
