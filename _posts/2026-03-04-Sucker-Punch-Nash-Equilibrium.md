@@ -13,13 +13,15 @@ Each Pokemon has four moves from which to select, and the outcome of the battle 
 # Defining the Sucker Punch 
 What is "Sucker Punch"? It's a move that permits the user to strike first (+1 priority) if the opponent is about to use an attack. If the opponent is not attacking, the move fails. It has 8 PP. Now, with the mighty Kingambit dominating Generation 9 with its mighty Sucker Punch, the move has become a staple in competitive play.
 
-![Kingambit](https://img.pokemondb.net/artwork/large/kingambit.jpg)
+<div style="text-align: center;">
+  <img src="https://img.pokemondb.net/artwork/large/kingambit.jpg" alt="Kingambit" width="200"/>
+  <div style="font-size: 2em; font-weight: bold; margin: 10px 0;">VS.</div>
+  <img src="https://img.pokemondb.net/artwork/large/garchomp.jpg" alt="Garchomp" width="200"/>
+</div>
 
 # Nash Equilibrium 
 
 A scenario that often arises is a Sucker Punch end-game. Keeping things simple, we can imagine a +2 Atk boosted Kingambit with 8 PP of Sucker Punch against a weakened Garchomp. Both players are down to one Pokémon, so the winner of this duel determines the fate of the game. Let's assume if Sucker Punch hits, the Garchomp will faint instantly. Likewise, the Garchomp has an attacking move that can faint the Kingambit in one hit. Now, the Kingambit could also attack directly into the Garchomp's boosting move, and win, but since it is slower, if the Garchomp player attacks outright, the Garchomp player will strike first and win.
-
-![Garchomp](https://img.pokemondb.net/artwork/large/garchomp.jpg)
 
 The situation is a Nash equilibrium: if the Kingambit player chooses to use Sucker Punch, they will win if the Garchomp player chooses to attack. However, if the Garchomp player chooses to use a non-attacking move (like Swords Dance), the Kingambit player's Sucker Punch will fail, resulting in a loss of one PP for the Kingambit. 
 
