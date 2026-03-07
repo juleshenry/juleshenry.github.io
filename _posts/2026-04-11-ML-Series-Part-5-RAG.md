@@ -1,86 +1,114 @@
 ---
 layout: post
-title:  "The ML Smorgasbord Part 5: Giving AI an Open-Book Test (RAG)"
+title:  "The ML Smorgasbord Part 5: The Information Geometry of RAG"
 date:   2026-04-11 10:00:00 -0000
 categories: blog
 mathjax: true
 ---
 
-# Stopping the AI from Hallucinating 🛑🤖
+# Beyond Parametric Bottlenecks 🗄️
 
-Welcome to Part 5! By now, we all know that large language models (like ChatGPT) are incredibly smart. They've read the whole internet (thanks to architectures like BERT from Part 4). 
+Welcome to Part 5! In Part 4, we showed how BERT-style Transformers learn to embed semantic information within their billions of weights $W \in \theta$. This is known as **parametric memory**. However, this memory is bounded by $O(|W|)$ and remains entirely static post-training, leading to catastrophic failure on factual temporal queries (hallucinations).
 
-But they have a huge flaw: **they confidently make things up**. In the AI world, we call this "hallucinating." It happens because the AI's memory is fixed. If you ask it about a news event that happened yesterday, it doesn't know about it, so it just guesses.
+In 2021, Lewis et al. introduced **Retrieval-Augmented Generation (RAG)**, a hybrid model linking the continuous differentiable space of a sequence-to-sequence model with a massive **non-parametric** vector database. Let's dig into the math.
 
-How do we fix this? We use **RAG: Retrieval-Augmented Generation**. 
+## 1. The Probabilistic Formulation of RAG
 
-## What is RAG?
+Standard language generation models the probability of generating token $y_i$ based solely on the input sequence $x$ and the preceding generated tokens $y_{<i}$:
+$$ p_{\theta}(y_i | x, y_{<i}) $$
 
-Imagine taking a final exam. 
-* A standard LLM is taking a **closed-book test**. It has to rely purely on what it memorized while studying.
-* RAG gives the LLM an **open-book test**. 
+RAG modifies this by conditioning the generation on a latent variable $z$, which represents a retrieved document from an external corpus $\mathcal{Z}$. The system becomes a pipeline of two probabilistic components:
+1. **The Retriever $p_\eta(z|x)$:** The probability of retrieving document $z$ given input $x$.
+2. **The Generator $p_\theta(y_i|x, z, y_{<i})$:** The probability of generating token $y_i$ conditioned on both $x$ and $z$.
 
-Before the AI answers your question, it is allowed to "Google" the answer in a trusted database (like Wikipedia or your company's private documents), read the results, and *then* answer you.
+Lewis et al. proposed two mathematical formulations for marginalizing out the latent document $z$:
 
-## How it works (The 2 Steps)
+### RAG-Sequence
+The model assumes the *entire sequence* $y$ is generated based on a single retrieved document $z$. We marginalize over the top-$k$ retrieved documents:
+$$ p_{\text{sequence}}(y | x) = \sum_{z \in \text{top-}k} p_\eta(z | x) \prod_i^N p_\theta(y_i | x, z, y_{<i}) $$
 
-1. **The Retriever (The Librarian):** You ask a question. The Retriever takes your question and searches a massive library of documents to find the top 3 most relevant paragraphs.
-2. **The Generator (The Writer):** The AI takes your question, *glues the 3 paragraphs to it*, and writes a perfect, factual answer based *only* on those paragraphs.
+### RAG-Token
+The model assumes that the generation can pivot between different documents $z$ on a *per-token* basis, allowing it to synthesize facts from multiple distinct sources. We push the summation inside the product:
+$$ p_{\text{token}}(y | x) = \prod_i^N \sum_{z \in \text{top-}k} p_\eta(z | x) p_\theta(y_i | x, z, y_{<i}) $$
+
+## 2. Dense Passage Retrieval (DPR)
+
+How do we actually define $p_\eta(z|x)$ over a corpus of 21 million Wikipedia passages? Sparse statistical methods like TF-IDF or BM25 struggle with lexical mismatch (e.g., "author" vs "writer").
+
+We use **DPR**, a bi-encoder architecture. We instantiate two independent BERT networks: a Question Encoder $E_Q$ and a Document Encoder $E_D$. We map both strings into a shared $d$-dimensional continuous vector space:
+$$ v_q = E_Q(x) \in \mathbb{R}^d, \quad v_z = E_D(z) \in \mathbb{R}^d $$
+
+The relevance score between query $x$ and document $z$ is given by the inner product:
+$$ \text{score}(x, z) = v_q^T v_z $$
+
+We can then define the probability distribution $p_\eta(z|x)$ via a softmax over the entire corpus $\mathcal{Z}$:
+$$ p_\eta(z|x) = \frac{\exp(v_q^T v_z)}{\sum_{z' \in \mathcal{Z}} \exp(v_q^T v_{z'})} $$
+
+Since computing the denominator over 21 million documents at runtime is intractable, we pre-compute $v_z$ offline and use **Maximum Inner Product Search (MIPS)** algorithms (like FAISS HNSW) to approximate the top-$k$ documents in $O(\log |\mathcal{Z}|)$ time.
+
+## 3. The RAG Pipeline Diagram
 
 ```mermaid
-graph LR
-    User[You: "Who won the game last night?"] --> Retriever[The Librarian]
+graph TD
+    %% Query Encoding
+    Q[Input Sequence: x] --> EQ[Encoder E_Q: R^d]
+    EQ --> VQ[Query Vector: v_q]
+
+    %% MIPS
+    DB[(Offline Index E_D(Z))] --> MIPS{MIPS via FAISS}
+    VQ --> MIPS
+
+    %% Retrieval
+    MIPS -->|argmax(v_q^T v_z)| Docs[Top-k Documents: z_1 ... z_k]
+
+    %% Generation
+    Q --> Concat((Concatenate String Contexts))
+    Docs --> Concat
     
-    DB[(ESPN Articles)] --> Retriever
-    
-    Retriever -->|Finds article about the game| Context[Relevant Paragraph]
-    
-    Context --> Generator[The Writer: LLM]
-    User --> Generator
-    
-    Generator --> Answer["Based on the article, the Lakers won."]
+    Concat -->|x + z_k| Gen[Seq2Seq Generator: p_θ]
+    Gen --> Y[Output Sequence: y]
 ```
 
-## A Simple Python Example
+## 4. Coding the MIPS Math in PyTorch
 
-We use a special kind of math called "Embeddings" to turn text into lists of numbers, which makes searching incredibly fast.
+To truly grasp semantic search, let's write a bare-bones implementation of Maximum Inner Product Search natively in PyTorch using matrix multiplication.
 
 ```python
-# Think of sentence_transformers as our Librarian
-from sentence_transformers import SentenceTransformer
-import numpy as np
+import torch
+import torch.nn.functional as F
 
-# Download a tiny model to turn text into numbers
-librarian = SentenceTransformer('all-MiniLM-L6-v2')
+def get_top_k_documents(query_embedding, doc_embeddings, k=2):
+    """
+    query_embedding: Tensor of shape (1, d)
+    doc_embeddings: Tensor of shape (N, d) representing N documents
+    """
+    # 1. Compute Inner Product (Dot Product)
+    # R^(1 x d) @ R^(d x N) -> R^(1 x N)
+    scores = torch.matmul(query_embedding, doc_embeddings.T) # Shape: (1, N)
+    
+    # 2. Get the top-k highest scoring indices
+    # We use torch.topk to return the values and indices
+    top_scores, top_indices = torch.topk(scores, k=k, dim=1)
+    
+    # 3. Compute Softmax probabilities over just the top-k (p_eta)
+    probs = F.softmax(top_scores, dim=1)
+    
+    return top_indices.squeeze(), probs.squeeze()
 
-# Here is our "database" (a list of facts)
-database = [
-    "The dining hall serves pizza on Tuesdays.",
-    "The library closes at midnight.",
-    "Professor Smith's office hours are on Wednesdays."
-]
+# Define dimensions: N=1000 docs, d=768 embedding dim
+N, d = 1000, 768
 
-# 1. The librarian reads the database and turns every sentence into a list of numbers
-doc_numbers = librarian.encode(database)
+# Simulate our pre-computed offline document index
+Z_index = F.normalize(torch.randn(N, d), p=2, dim=1) 
 
-# 2. You ask a question
-question = "When can I get help from my professor?"
-question_numbers = librarian.encode([question])
+# Simulate a query embedding from E_Q
+v_q = F.normalize(torch.randn(1, d), p=2, dim=1)
 
-# 3. We compare the question numbers to the database numbers to find the closest match!
-# (We are just finding the smallest mathematical distance between them)
-distances = np.linalg.norm(doc_numbers - question_numbers, axis=1)
+# Retrieve top 3 documents via MIPS
+indices, probabilities = get_top_k_documents(v_q, Z_index, k=3)
 
-# The index of the smallest distance is our winning fact!
-best_match_index = np.argmin(distances)
-winning_fact = database[best_match_index]
-
-print(f"Question: {question}")
-print(f"Librarian found: {winning_fact}")
-
-# Next, we would send the Question + the Winning Fact to ChatGPT to write a polite response!
+print(f"Top 3 Document Indices in Database: {indices.tolist()}")
+print(f"p_eta(z|x) probabilities: {probabilities.tolist()}")
 ```
 
-RAG is how every major company uses AI today. They don't train custom models from scratch; they just use RAG to let a smart model read their private documents securely!
-
-In **Part 6**, our grand finale, we'll look at the ultimate way to store facts: Knowledge Graphs! See you then!
+In **Part 6**, our final post, we will look at how we can replace flat unstructured document retrieval with highly structured topological searches over **Knowledge Graphs**. See you then!
