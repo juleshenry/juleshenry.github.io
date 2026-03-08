@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The ML Smorgasbord Part 4: The Calculus of Transformers and BERT"
+title:  "The ML Smörgåsbord Part 4: The Calculus of Transformers and BERT"
 date:   2025-04-04 10:00:00 -0000
 categories: blog
 mathjax: true

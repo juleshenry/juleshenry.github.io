@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The ML Smorgasbord Part 1: The Math and Architecture of AlexNet"
+title:  "The ML Smörgåsbord Part 1: The Math and Architecture of AlexNet"
 date:   2025-03-14 10:00:00 -0000
 categories: blog
 mathjax: true
@@ -8,7 +8,7 @@ mathjax: true
 
 # Welcome to Deep Learning 101 📐
 
-Hey everyone! Welcome to Part 1 of the ML Smorgasbord. If you're a college freshman stepping into the world of Computer Science, you're probably tired of high-level fluff. You know some calculus, you know some linear algebra, and you want to see how the engine *actually* works under the hood. 
+Hey everyone! Welcome to Part 1 of the ML Smörgåsbord. If you're a college freshman stepping into the world of Computer Science, you're probably tired of high-level fluff. You know some calculus, you know some linear algebra, and you want to see how the engine *actually* works under the hood. 
 
 Today, we're tearing down the engine of **AlexNet** (Krizhevsky et al., 2012). This was the model that proved Deep Convolutional Neural Networks (CNNs) could dominate computer vision. We are going to look at the exact math that made this possible.
 

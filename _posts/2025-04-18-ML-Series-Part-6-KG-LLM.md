@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The ML Smorgasbord Part 6: Neuro-Symbolic Integration and Knowledge Graphs"
+title:  "The ML Smörgåsbord Part 6: Neuro-Symbolic Integration and Knowledge Graphs"
 date:   2025-04-18 10:00:00 -0000
 categories: blog
 mathjax: true
@@ -8,7 +8,7 @@ mathjax: true
 
 # Grounding Tensors in Logic 🕸️
 
-Welcome to the grand finale of the ML Smorgasbord! 
+Welcome to the grand finale of the ML Smörgåsbord! 
 
 In Part 5, we addressed LLM hallucinations by conditioning generation on dense vector embeddings of raw text (RAG). However, text is unstructured. To perform multi-hop logical reasoning (e.g., "Who directed the movie starring the actor born in the capital of France?"), flat vector search $v_q^T v_z$ breaks down. 
 
