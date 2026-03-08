@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The ML Smorgasbord Part 5: The Information Geometry of RAG"
-date:   2026-04-11 10:00:00 -0000
+date:   2025-04-11 10:00:00 -0000
 categories: blog
 mathjax: true
 ---

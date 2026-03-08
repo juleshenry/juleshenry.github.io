@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The ML Smorgasbord Part 2: The Math of Recurrent Memory and LSTMs"
-date:   2026-03-21 10:00:00 -0000
+date:   2025-03-21 10:00:00 -0000
 categories: blog
 mathjax: true
 ---

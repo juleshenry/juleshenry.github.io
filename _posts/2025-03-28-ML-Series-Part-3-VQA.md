@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The ML Smorgasbord Part 3: The Linear Algebra of Spatial Attention"
-date:   2026-03-28 10:00:00 -0000
+date:   2025-03-28 10:00:00 -0000
 categories: blog
 mathjax: true
 ---

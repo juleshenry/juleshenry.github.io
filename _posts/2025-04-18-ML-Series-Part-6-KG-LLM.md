@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The ML Smorgasbord Part 6: Neuro-Symbolic Integration and Knowledge Graphs"
-date:   2026-04-18 10:00:00 -0000
+date:   2025-04-18 10:00:00 -0000
 categories: blog
 mathjax: true
 ---

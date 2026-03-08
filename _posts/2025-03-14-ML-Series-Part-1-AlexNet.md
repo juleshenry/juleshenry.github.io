@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The ML Smorgasbord Part 1: The Math and Architecture of AlexNet"
-date:   2026-03-14 10:00:00 -0000
+date:   2025-03-14 10:00:00 -0000
 categories: blog
 mathjax: true
 ---
