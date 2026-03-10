@@ -248,9 +248,9 @@ For large $N$, $\theta$ is tiny. The initial state is nearly orthogonal to the s
 </div>
 
 <script type="module">
-(function() {
+(function waitForTHREE() {
+  if (!window.THREE) { setTimeout(waitForTHREE, 50); return; }
   const THREE = window.THREE;
-  if (!THREE) return;
 
   const container = document.getElementById('grover-viz-ortho');
   const width = container.clientWidth;
@@ -272,12 +272,11 @@ For large $N$, $\theta$ is tiny. The initial state is nearly orthogonal to the s
   dirLight.position.set(5, 5, 5);
   scene.add(dirLight);
 
-  // Unit circle
+  // Unit circle in XY plane (same plane as the arrows)
   const ring = new THREE.Mesh(
     new THREE.RingGeometry(2.8, 3, 64),
     new THREE.MeshBasicMaterial({ color: 0x4466ff, side: THREE.DoubleSide, transparent: true, opacity: 0.4 })
   );
-  ring.rotation.x = Math.PI / 2;
   scene.add(ring);
 
   function arrow(color, len) {
@@ -358,9 +357,9 @@ If $R_1$ reflects about axis $\ell_1$ and $R_2$ reflects about axis $\ell_2$, an
 </div>
 
 <script type="module">
-(function() {
+(function waitForTHREE() {
+  if (!window.THREE) { setTimeout(waitForTHREE, 50); return; }
   const THREE = window.THREE;
-  if (!THREE) return;
 
   const container = document.getElementById('grover-viz-reflect');
   const width = container.clientWidth;
@@ -382,15 +381,25 @@ If $R_1$ reflects about axis $\ell_1$ and $R_2$ reflects about axis $\ell_2$, an
   // Reflection axes (dashed)
   const dashMat = new THREE.LineDashedMaterial({ color: 0xaaaaaa, dashSize: 0.2, gapSize: 0.1 });
 
+  // Axis 1 at angle ~0.46 rad
+  const ax1Angle = Math.atan2(2, 4);
   const l1 = new THREE.Line(
-    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-4,-2,0), new THREE.Vector3(4,2,0)]),
+    new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-4*Math.cos(ax1Angle), -4*Math.sin(ax1Angle), 0),
+      new THREE.Vector3(4*Math.cos(ax1Angle), 4*Math.sin(ax1Angle), 0)
+    ]),
     dashMat
   );
   l1.computeLineDistances();
   scene.add(l1);
 
+  // Axis 2 at angle ~-0.46 rad (mirrored)
+  const ax2Angle = Math.atan2(-2, 4);
   const l2 = new THREE.Line(
-    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-4,2,0), new THREE.Vector3(4,-2,0)]),
+    new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-4*Math.cos(ax2Angle), -4*Math.sin(ax2Angle), 0),
+      new THREE.Vector3(4*Math.cos(ax2Angle), 4*Math.sin(ax2Angle), 0)
+    ]),
     dashMat
   );
   l2.computeLineDistances();
@@ -400,18 +409,25 @@ If $R_1$ reflects about axis $\ell_1$ and $R_2$ reflects about axis $\ell_2$, an
     return new THREE.ArrowHelper(dir.normalize(), new THREE.Vector3(0,0,0), len, color, 0.3, 0.2);
   }
 
-  // Initial (red), after 1st reflection (magenta), after 2nd (purple)
-  scene.add(mkArrow(0xcc0000, new THREE.Vector3(1, -0.3, 0), 2.5));
-  scene.add(mkArrow(0xaa44aa, new THREE.Vector3(0.5, 1, 0), 2.5));
-  scene.add(mkArrow(0x8844cc, new THREE.Vector3(-0.3, 1, 0), 2.5));
+  // Angles for the three vectors
+  const angleInitial = -0.29;
+  const angleReflected1 = 1.11;
+  const angleFinal = 1.86;
 
-  // Angle arcs
+  // Initial (red), after 1st reflection (magenta), after 2nd (purple)
+  scene.add(mkArrow(0xcc0000, new THREE.Vector3(Math.cos(angleInitial), Math.sin(angleInitial), 0), 2.5));
+  scene.add(mkArrow(0xaa44aa, new THREE.Vector3(Math.cos(angleReflected1), Math.sin(angleReflected1), 0), 2.5));
+  scene.add(mkArrow(0x8844cc, new THREE.Vector3(Math.cos(angleFinal), Math.sin(angleFinal), 0), 2.5));
+
+  // Angle arcs matching actual arrow positions
   function mkArc(r, s, e, c) {
     const pts = new THREE.EllipseCurve(0,0,r,r,s,e,false,0).getPoints(50);
     return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({color:c}));
   }
-  scene.add(mkArc(0.8, -0.3, 1.2, 0xff6666));
-  scene.add(mkArc(1.0, 1.2, 1.5, 0xff6666));
+  // Arc from initial to reflected1 (first reflection sweep)
+  scene.add(mkArc(0.8, angleInitial, angleReflected1, 0xff6666));
+  // Arc from reflected1 to final (second reflection sweep)
+  scene.add(mkArc(1.0, angleReflected1, angleFinal, 0xaa66ff));
 
   let rot = 0;
   function animate() {
@@ -475,9 +491,9 @@ That is the entire algorithm. Three steps. The rest is understanding *why* it wo
 </div>
 
 <script type="module">
-(function() {
+(function waitForTHREE() {
+  if (!window.THREE) { setTimeout(waitForTHREE, 50); return; }
   const THREE = window.THREE;
-  if (!THREE) return;
 
   const container = document.getElementById('grover-viz-algo');
   const width = container.clientWidth;
@@ -499,12 +515,11 @@ That is the entire algorithm. Three steps. The rest is understanding *why* it wo
   dl.position.set(5, 5, 5);
   scene.add(dl);
 
-  // Circle
+  // Circle in XY plane (same plane as arrows)
   const ring = new THREE.Mesh(
     new THREE.RingGeometry(2.8, 3, 64),
     new THREE.MeshBasicMaterial({ color: 0x6666ff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 })
   );
-  ring.rotation.x = Math.PI / 2;
   scene.add(ring);
 
   function mkA(c, l) {
@@ -607,9 +622,9 @@ Now let us see the full analysis with arc trails showing accumulated rotation:
 </div>
 
 <script type="module">
-(function() {
+(function waitForTHREE() {
+  if (!window.THREE) { setTimeout(waitForTHREE, 50); return; }
   const THREE = window.THREE;
-  if (!THREE) return;
 
   const container = document.getElementById('grover-viz-analysis');
   const width = container.clientWidth;
@@ -757,9 +772,9 @@ And there it is: $O(\sqrt{N})$ iterations.
 </div>
 
 <script type="module">
-(function() {
+(function waitForTHREE() {
+  if (!window.THREE) { setTimeout(waitForTHREE, 50); return; }
   const THREE = window.THREE;
-  if (!THREE) return;
 
   const container = document.getElementById('grover-viz-finit');
   const width = container.clientWidth;
@@ -781,12 +796,11 @@ And there it is: $O(\sqrt{N})$ iterations.
   dl.position.set(5,5,5);
   scene.add(dl);
 
-  // Circle
+  // Circle in XY plane (same plane as arrows)
   const ring = new THREE.Mesh(
     new THREE.RingGeometry(2.8, 3, 64),
     new THREE.MeshBasicMaterial({ color: 0x4466ff, side: THREE.DoubleSide, transparent: true, opacity: 0.4 })
   );
-  ring.rotation.x = Math.PI / 2;
   scene.add(ring);
 
   function mkA(c,l) {
@@ -893,9 +907,9 @@ Use the sliders below to see this for yourself. Adjust $N$ (database size) and $
 </div>
 
 <script type="module">
-(function() {
+(function waitForTHREE() {
+  if (!window.THREE) { setTimeout(waitForTHREE, 50); return; }
   const THREE = window.THREE;
-  if (!THREE) return;
 
   let N = 64, k = 0, theta = Math.asin(1 / Math.sqrt(N));
 
