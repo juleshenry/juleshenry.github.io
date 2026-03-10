@@ -407,7 +407,7 @@ footer a:hover {
   box-shadow: 0 12px 32px rgba(12, 74, 110, 0.12);
 }
 
-/* MathJax Mobile Fixes */
+/* MathJax Responsive Fixes */
 mjx-container {
   overflow-x: auto;
   overflow-y: hidden;
@@ -424,11 +424,20 @@ mjx-container[jax="CHTML"][display="true"] {
 }
 
 mjx-container[jax="CHTML"]:not([display="true"]) {
-  display: inline-block;
+  display: inline;
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-  vertical-align: middle;
+  vertical-align: baseline;
+}
+
+/* Wrap tables in scrollable container for mobile */
+.post table,
+section#main_content table {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
 }
 
 /* Media Queries */
@@ -513,6 +522,7 @@ mjx-container[jax="CHTML"]:not([display="true"]) {
   
   th, td {
     padding: 6px;
+    min-width: 0;
   }
 
   footer {
@@ -525,6 +535,42 @@ mjx-container[jax="CHTML"]:not([display="true"]) {
   mjx-container[jax="CHTML"][display="true"] {
     margin: 0.5em 0;
     font-size: 90%;
+    padding: 4px 0;
+  }
+
+  /* Ensure display math scrolls instead of overflowing page */
+  mjx-container[jax="CHTML"][display="true"] > mjx-math {
+    max-width: none;
+  }
+
+  /* Three.js visualizations: reduce height on tablets/phones */
+  #karatsuba-viz {
+    height: 380px !important;
+  }
+
+  #fft-viz {
+    height: 420px !important;
+  }
+
+  #karatsuba-phase-label,
+  #fft-phase-label {
+    font-size: 12px !important;
+    white-space: normal !important;
+    max-width: 90%;
+    line-height: 1.3;
+  }
+
+  #karatsuba-count-label,
+  #fft-info-label {
+    font-size: 11px !important;
+    white-space: normal !important;
+    max-width: 90%;
+    line-height: 1.3;
+  }
+
+  /* Blockquote with display math inside */
+  blockquote mjx-container[jax="CHTML"][display="true"] {
+    font-size: 85%;
   }
 }
 
@@ -577,6 +623,52 @@ mjx-container[jax="CHTML"]:not([display="true"]) {
   }
 
   mjx-container[jax="CHTML"][display="true"] {
-    font-size: 85%;
+    font-size: 80%;
+    margin: 0.4em 0;
+  }
+
+  /* Inline math should shrink slightly on small screens */
+  mjx-container[jax="CHTML"]:not([display="true"]) {
+    font-size: 90%;
+  }
+
+  /* Three.js visualizations: further reduce on small phones */
+  #karatsuba-viz {
+    height: 300px !important;
+  }
+
+  #fft-viz {
+    height: 340px !important;
+  }
+
+  #karatsuba-phase-label,
+  #fft-phase-label {
+    font-size: 10px !important;
+    top: 8px !important;
+  }
+
+  #karatsuba-count-label,
+  #fft-info-label {
+    font-size: 9px !important;
+    bottom: 8px !important;
+  }
+
+  /* Tables with math content need tighter cells */
+  table {
+    font-size: 0.75rem;
+  }
+
+  th, td {
+    padding: 4px;
+  }
+
+  /* Blockquote display math even smaller */
+  blockquote mjx-container[jax="CHTML"][display="true"] {
+    font-size: 78%;
+  }
+
+  blockquote {
+    padding: 8px 12px;
+    margin: 8px 0 14px;
   }
 }

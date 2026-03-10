@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🏆 Announcing Three.js Support"
+title: "🎨 Announcing Three.js Support"
 date: 2026-01-19
 ---
 

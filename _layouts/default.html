@@ -21,8 +21,14 @@
         processEscapes: true,
         processEnvironments: true
       },
+      chtml: {
+        matchFontHeight: false
+      },
       options: {
-        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        renderActions: {
+          addMenu: []
+        }
       }
     };
     </script>

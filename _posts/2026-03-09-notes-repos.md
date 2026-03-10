@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🏆 Language Notes Repos"
+title: "🌍 Language Notes Repos"
 date: 2026-03-09
 ---
 
