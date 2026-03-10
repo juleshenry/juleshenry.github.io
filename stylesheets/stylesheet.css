@@ -63,16 +63,16 @@ table {
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;600&display=swap');
 
 :root {
-  --bg: #f7fbff;
-  --bg-alt: #e9f4ff;
-  --card: rgba(255, 255, 255, 0.88);
-  --border: rgba(56, 189, 248, 0.18);
-  --text: #0b1b3a;
-  --muted: #4b6075;
-  --accent: #38bdf8;
-  --accent-2: #a855f7;
-  --accent-3: #22d3ee;
-  --glow: 0 14px 50px rgba(56, 189, 248, 0.22);
+  --bg: #0a0a0f;
+  --bg-alt: #12121a;
+  --card: rgba(18, 18, 30, 0.85);
+  --border: rgba(190, 50, 255, 0.22);
+  --text: #e8eaf0;
+  --muted: #8a8fa8;
+  --accent: #be32ff;
+  --accent-2: #ff2d8a;
+  --accent-3: #39ff75;
+  --glow: 0 14px 50px rgba(190, 50, 255, 0.25);
 }
 
 /* Layout Styles */
@@ -82,10 +82,11 @@ body {
   line-height: 1.7;
   color: var(--text);
   background:
-    radial-gradient(circle at 12% 20%, rgba(168, 85, 247, 0.18), transparent 28%),
-    radial-gradient(circle at 82% 10%, rgba(34, 211, 238, 0.16), transparent 26%),
-    radial-gradient(circle at 70% 70%, rgba(56, 189, 248, 0.12), transparent 30%),
+    radial-gradient(circle at 12% 20%, rgba(190, 50, 255, 0.18), transparent 28%),
+    radial-gradient(circle at 82% 10%, rgba(255, 45, 138, 0.14), transparent 26%),
+    radial-gradient(circle at 60% 75%, rgba(57, 255, 117, 0.07), transparent 30%),
     linear-gradient(160deg, var(--bg), var(--bg-alt));
+  background-attachment: fixed;
   min-height: 100vh;
   text-rendering: optimizeLegibility;
   word-wrap: break-word;
@@ -101,7 +102,7 @@ a {
 
 a:hover {
   color: var(--accent-2);
-  text-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+  text-shadow: 0 0 18px rgba(255, 45, 138, 0.5);
 }
 
 #container {
@@ -115,8 +116,8 @@ a:hover {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.18), transparent 35%),
-              radial-gradient(circle at 80% 30%, rgba(56, 189, 248, 0.12), transparent 32%);
+  background: radial-gradient(circle at 30% 40%, rgba(190, 50, 255, 0.08), transparent 35%),
+              radial-gradient(circle at 80% 30%, rgba(255, 45, 138, 0.06), transparent 32%);
   pointer-events: none;
 }
 
@@ -129,7 +130,7 @@ a:hover {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 22px;
-  box-shadow: var(--glow), 0 12px 60px rgba(12, 74, 110, 0.08);
+  box-shadow: var(--glow), 0 12px 60px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(8px);
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -139,7 +140,7 @@ a:hover {
 #container .inner img {
   max-width: 100%;
   border-radius: 14px;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
 }
 
 header {
@@ -155,11 +156,11 @@ header h1 {
   font-weight: 700;
   letter-spacing: -0.03em;
   margin: 0;
-  background: linear-gradient(120deg, var(--text), var(--accent-3), var(--accent-2));
+  background: linear-gradient(120deg, var(--accent), var(--accent-2), var(--accent-3));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+  text-shadow: none;
 }
 
 header h2 {
@@ -187,13 +188,14 @@ nav ul li a {
   padding: 10px 14px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.65);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  background: rgba(18, 18, 30, 0.6);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 nav ul li a:hover {
-  border-color: rgba(168, 85, 247, 0.3);
-  box-shadow: 0 12px 28px rgba(56, 189, 248, 0.18);
+  border-color: rgba(255, 45, 138, 0.4);
+  box-shadow: 0 12px 28px rgba(190, 50, 255, 0.2);
+  background: rgba(190, 50, 255, 0.08);
 }
 
 section#main_content {
@@ -201,6 +203,14 @@ section#main_content {
   overflow-wrap: break-word;
   word-wrap: break-word;
   max-width: 100%;
+}
+
+.meta {
+  font-size: 0.9rem;
+  font-family: 'JetBrains Mono', 'SFMono-Regular', monospace;
+  color: var(--accent-3);
+  opacity: 0.75;
+  letter-spacing: 0.02em;
 }
 
 p {
@@ -249,7 +259,7 @@ h2 {
 h3 {
   font-size: 1.35rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text);
 }
 
 h4 {
@@ -341,8 +351,8 @@ h4 {
   padding: 20px;
   border: 1px solid var(--border);
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(241,248,255,0.85));
-  box-shadow: 0 4px 20px rgba(12, 74, 110, 0.06);
+  background: rgba(18, 18, 30, 0.7);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   text-align: left;
   display: flex;
@@ -365,8 +375,8 @@ h4 {
 
 .work-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 36px rgba(56, 189, 248, 0.18), 0 4px 16px rgba(168, 85, 247, 0.1);
-  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 12px 36px rgba(190, 50, 255, 0.2), 0 4px 16px rgba(255, 45, 138, 0.12);
+  border-color: rgba(190, 50, 255, 0.4);
 }
 
 .work-card:hover::before {
@@ -431,9 +441,9 @@ h4 {
   font-weight: 600;
   padding: 3px 10px;
   border-radius: 20px;
-  background: rgba(56, 189, 248, 0.1);
+  background: rgba(190, 50, 255, 0.1);
   color: var(--text);
-  border: 1px solid rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(190, 50, 255, 0.2);
 }
 
 .lang-dot {
@@ -477,11 +487,37 @@ ul.posts {
 
 ul.posts li {
   list-style: none;
-  padding: 14px 16px;
+  padding: 16px 18px;
   border: 1px solid var(--border);
   border-radius: 14px;
-  background: linear-gradient(120deg, rgba(56, 189, 248, 0.12), rgba(255, 255, 255, 0.92));
-  box-shadow: 0 10px 30px rgba(12, 74, 110, 0.08);
+  background: rgba(18, 18, 30, 0.7);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+ul.posts li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2), var(--accent-3));
+  opacity: 0.7;
+  transition: opacity 0.3s ease, width 0.3s ease;
+}
+
+ul.posts li:hover {
+  transform: translateY(-2px);
+  border-color: rgba(190, 50, 255, 0.4);
+  box-shadow: 0 14px 40px rgba(190, 50, 255, 0.15), 0 0 20px rgba(255, 45, 138, 0.08);
+}
+
+ul.posts li:hover::before {
+  opacity: 1;
+  width: 4px;
 }
 
 ul.posts li a {
@@ -492,21 +528,28 @@ ul.posts li a {
   gap: 10px;
 }
 
+ul.posts li > span {
+  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', 'SFMono-Regular', monospace;
+  color: var(--accent-3);
+  opacity: 0.8;
+}
+
 ul.posts li a::after {
   content: '';
   width: 9px;
   height: 9px;
   border-radius: 999px;
   background: radial-gradient(circle, var(--accent), var(--accent-2));
-  box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+  box-shadow: 0 0 12px rgba(190, 50, 255, 0.6);
 }
 
 ul.posts li a:visited {
-  color: purple;
+  color: #9a6abf;
 }
 
 ul.posts li a:visited::after {
-  background: purple;
+  background: #9a6abf;
   box-shadow: none;
 }
 
@@ -514,9 +557,9 @@ blockquote {
   padding: 12px 18px;
   margin: 10px 0 18px;
   border-left: 4px solid var(--accent-3);
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(18, 18, 30, 0.6);
   border-radius: 12px;
-  color: #0f172a;
+  color: var(--text);
 }
 
 code,
@@ -528,8 +571,8 @@ pre {
 code {
   padding: 2px 6px;
   border-radius: 8px;
-  background: rgba(12, 74, 110, 0.08);
-  color: #0f172a;
+  background: rgba(190, 50, 255, 0.12);
+  color: #d4d8e8;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
@@ -538,9 +581,9 @@ pre {
   padding: 18px;
   overflow-x: auto;
   border-radius: 14px;
-  background: #0f172a;
+  background: #0c0c18;
   color: #e2e8f0;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.22);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(190, 50, 255, 0.15);
   max-width: 100%;
   white-space: pre;
   word-wrap: normal;
@@ -563,7 +606,7 @@ table {
   width: 100%;
   max-width: 100%;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(18, 18, 30, 0.6);
   table-layout: auto;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -612,8 +655,8 @@ footer a:hover {
   padding: 16px;
   border-radius: 14px;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 12px 32px rgba(12, 74, 110, 0.12);
+  background: rgba(18, 18, 30, 0.7);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
 }
 
 /* Mermaid Diagram Styling */
@@ -635,6 +678,7 @@ mjx-container {
   overflow-x: auto;
   overflow-y: hidden;
   max-width: 100%;
+  color: var(--text);
 }
 
 mjx-container[jax="CHTML"][display="true"] {

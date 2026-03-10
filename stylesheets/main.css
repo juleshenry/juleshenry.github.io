@@ -1,14 +1,14 @@
 :root {
-	--bg: #f7fbff;
-	--bg-alt: #e9f4ff;
-	--card: rgba(255, 255, 255, 0.88);
-	--border: rgba(56, 189, 248, 0.18);
-	--text: #0b1b3a;
-	--muted: #4b6075;
-	--accent: #38bdf8;
-	--accent-2: #a855f7;
-	--accent-3: #22d3ee;
-	--glow: 0 14px 50px rgba(56, 189, 248, 0.22);
+	--bg: #0a0a0f;
+	--bg-alt: #12121a;
+	--card: rgba(18, 18, 30, 0.85);
+	--border: rgba(190, 50, 255, 0.22);
+	--text: #e8eaf0;
+	--muted: #8a8fa8;
+	--accent: #be32ff;
+	--accent-2: #ff2d8a;
+	--accent-3: #39ff75;
+	--glow: 0 14px 50px rgba(190, 50, 255, 0.25);
 }
 
 * {
@@ -18,9 +18,11 @@
 body {
 	margin: 0;
 	font-family: 'Space Grotesk', 'Manrope', 'Helvetica Neue', Arial, sans-serif;
-	background: radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.12), transparent 35%),
-							radial-gradient(circle at 80% 0%, rgba(168, 85, 247, 0.15), transparent 28%),
-							linear-gradient(160deg, var(--bg), var(--bg-alt));
+	background:
+		radial-gradient(circle at 20% 20%, rgba(190, 50, 255, 0.15), transparent 35%),
+		radial-gradient(circle at 80% 0%, rgba(255, 45, 138, 0.12), transparent 28%),
+		radial-gradient(circle at 60% 80%, rgba(57, 255, 117, 0.06), transparent 30%),
+		linear-gradient(160deg, var(--bg), var(--bg-alt));
 	color: var(--text);
 	min-height: 100vh;
 }
@@ -33,7 +35,7 @@ a {
 
 a:hover {
 	color: var(--accent-2);
-	text-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+	text-shadow: 0 0 18px rgba(255, 45, 138, 0.5);
 }
 
 p,
@@ -96,4 +98,12 @@ ul.posts li {
 	display: block;
 	margin: 0 auto;
 	text-align: center;
+}
+
+/* ── Pixel Rain Canvas Overlay ── */
+.pixel-rain-canvas {
+	position: absolute;
+	pointer-events: none;
+	z-index: 9999;
+	image-rendering: pixelated;
 }
