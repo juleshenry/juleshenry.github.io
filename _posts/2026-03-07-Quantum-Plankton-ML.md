@@ -112,6 +112,80 @@ The final phases add interpretability and circuit‑level analysis:
 
 ---
 
+## A Calculus Student’s Guide to PQC (via Grover’s Search)
+
+To understand how a "Quantum Neural Network" works, you first need to understand **Grover’s Search**.
+
+### The Primer: Grover’s as Geometric Rotation
+In calculus, you’re used to functions $f(x)$ that map numbers to numbers. In quantum, we map **vectors to vectors**. 
+
+Imagine a 16-dimensional space (for our 4x4 grid). Every possible image is a unit vector in this space. Grover’s Algorithm is a **fixed sequence of rotations**. You start with a "uniform" vector (pointing equally toward all possibilities) and you apply a "Reflection" and a "Rotation." 
+*   **The Oracle:** Flips the sign of the "correct" vector (Reflection).
+*   **The Diffusion:** Rotates the entire state toward that flipped vector.
+
+After $\approx \sqrt{N}$ steps, the vector points almost perfectly at the "marked" item. **Grover’s is a hard-coded geometric search.** It’s like a compass that is pre-programmed to find North.
+
+### From Grover to PQC: The Learnable Compass
+A **Parametric Quantum Circuit (PQC)** is just Grover’s Search where the rotation angles aren't fixed. Instead of a pre-programmed compass, we have a compass with $n$ adjustable knobs, $\theta_1, \theta_2, \ldots, \theta_n$.
+
+We define a function $f(\theta)$ where the output is the **Expectation Value** (the average position of our "needle" after many measurements). 
+$$f(\theta) = \langle \psi | U(\theta)^\dagger M U(\theta) | \psi \rangle$$
+
+For a calculus student, this looks terrifying, but it’s actually just a **composite multivariable function**:
+1.  **Input:** Your 16 pixel intensities (Initial Rotations).
+2.  **Layers:** A series of rotation matrices $R(\theta_i)$.
+3.  **Output:** A scalar value between $-1$ and $1$.
+
+Our goal is to find the set of angles $\theta$ that minimizes a loss function $L(f(\theta))$. To do that, we need the gradient $\nabla f$.
+
+### The "Parameter-Shift Rule": Quantum Calculus
+How do you take the derivative of a quantum circuit? You can't "step inside" the qubits to see the middle of the calculation (that would collapse the state). 
+
+Instead, we use a beautiful mathematical trick called the **Parameter-Shift Rule**. For most quantum gates, the derivative of the expectation value is exactly:
+$$\frac{\partial f}{\partial \theta_i} = \frac{1}{2} \left( f\left(\theta_i + \frac{\pi}{2}\right) - f\left(\theta_i - \frac{\pi}{2}\right) \right)$$
+
+**Wait—that looks like the Difference Quotient!** 
+In your first calculus class, you learned:
+$$f'(x) \approx \frac{f(x+h) - f(x)}{h}$$
+But that’s only an approximation. The **Parameter-Shift Rule** is an **exact identity** for quantum rotations. By running the circuit twice—once shifted forward by $90^\circ$ and once backward—we get the *exact* slope of the surface. 
+
+We then move our angles $\theta$ "downhill" (Gradient Descent), just like a classical neural network. The "Quantum Plankton" model is essentially learning a custom, optimized version of Grover's Search specifically tuned to tell the difference between a Diatom and a Copepod.
+
+### Mapping the Math to the Source Code
+
+If you look at the `binary_quantum_classifier.py` source, you can see exactly where the calculus meets the qubits.
+
+1.  **The "Knobs" (`sympy.Symbol`):**
+    In the `CircuitLayerBuilder`, we don't pass numbers; we pass symbols:
+    ```python
+    symbol = sympy.Symbol(prefix + "-" + str(i))
+    circuit.append(gate(qubit, self.readout) ** symbol)
+    ```
+    These symbols are the $\theta$ variables. They represent the "degrees of freedom" that the Adam optimizer will eventually twist and turn to minimize the error.
+
+2.  **The Geometric Transformation (`XX`, `ZZ`, `RX`, `RY`):**
+    The `create_quantum_model` function defines the "shape" of the rotation. It uses blocks of **Entangling Gates** (`XX`, `ZZ`) and **Rotation Gates** (`RX`, `RY`). 
+    *   `RX` and `RY` rotate individual qubits (local control).
+    *   `XX` and `ZZ` rotate pairs of qubits (entanglement/interaction).
+    Together, these 160 trainable parameters define a high-dimensional landscape that the model "walks" through during training.
+
+3.  **The Readout Preparation (`X -> H`):**
+    Before the data even enters, we prepare the readout qubit:
+    ```python
+    circuit.append(cirq.X(readout))
+    circuit.append(cirq.H(readout))
+    ```
+    This puts the readout qubit into a specific starting state ($|-\rangle$). By applying another `H` at the very end, we are effectively performing an "Interferometry" trick—turning the phase information gathered during the circuit back into a measurable probability (the "ballot" we talked about).
+
+4.  **The Bridge (`tfq.layers.PQC`):**
+    The `PQC` (Parametric Quantum Circuit) layer is the most important line of code:
+    ```python
+    tfq.layers.PQC(model_circuit, model_readout)
+    ```
+    This is the "Black Box" that implements the **Parameter-Shift Rule**. When the `Adam` optimizer asks for the gradient $\nabla L$, this layer executes the circuit multiple times with shifted angles, calculates the exact derivative, and passes it back to TensorFlow's classical backpropagation loop.
+
+---
+
 ## How the Quantum Model Is Built
 
 At the architectural level, the classifier is intentionally simple but scientifically motivated.

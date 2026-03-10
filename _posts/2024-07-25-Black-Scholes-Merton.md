@@ -114,11 +114,25 @@ values) change over time under volatility and random market conditions.
 
 4. **Formula**: The formula for Itô's Lemma is given by:
 $$
-df(t, X_t) = \frac{\partial f}{\partial t}\,dt + \frac{\partial f}{\partial x}\,dX_t + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}\,(dX_t)^2,
+df(t, X_t) = \left( \frac{\partial f}{\partial t} + \mu \frac{\partial f}{\partial x} + \frac{1}{2}\sigma^2 \frac{\partial^2 f}{\partial x^2} \right) dt + \sigma \frac{\partial f}{\partial x} dW_t
 $$
-where:
-- $df$ represents the differential of the function $f(t, X_t)$,
-- $dX_t$ is the infinitesimal increment of the stochastic process $X_t$.
+where $dX_t = \mu dt + \sigma dW_t$.
+
+### A Sketch of the Proof
+To see why this looks different from the standard chain rule, consider the Taylor expansion of $f(t+dt, X+dX)$:
+$$
+df = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}dX + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}(dX)^2 + \frac{1}{2}\frac{\partial^2 f}{\partial t^2}(dt)^2 + \frac{\partial^2 f}{\partial x \partial t}dX dt + \dots
+$$
+In deterministic calculus, we drop everything of order higher than $dt$. But here, $dX = \mu dt + \sigma dW_t$. When we calculate $(dX)^2$:
+$$
+(dX)^2 = (\mu dt + \sigma dW_t)^2 = \mu^2 (dt)^2 + 2\mu\sigma dt dW_t + \sigma^2 (dW_t)^2
+$$
+Using the heuristic rules of stochastic calculus:
+1. $dt \cdot dt \to 0$
+2. $dt \cdot dW_t \to 0$
+3. $dW_t \cdot dW_t \to dt$
+
+The third rule is the "Magic of Itô." It arises because the variance of Brownian motion over $dt$ is exactly $dt$. Thus, the $(dX)^2$ term contributes a $\sigma^2 dt$ component, which is of the same order as $dt$ and cannot be ignored. Substituting $dX$ and $(dX)^2 = \sigma^2 dt$ back into the Taylor expansion yields the lemma.
 
 The first term, $\frac{\partial f}{\partial t}\,dt$, captures the explicit time dependence of $f$.  
 The second term, $\frac{\partial f}{\partial x}\,dX_t$, reflects the sensitivity of $f$ to changes in $X_t$.  
@@ -169,13 +183,26 @@ A **martingale** is a stochastic process whose expected future value, given all 
 
 The principle behind risk-neutral pricing is that if the market is complete and free of arbitrage, we can find a probability measure $\mathbb{Q}$ — the EMM — under which the *discounted* stock price $\tilde{S}_t = S_t / B_t$ becomes a martingale. Under this measure, every asset earns the risk-free rate on average, so we don't need to know the stock's actual drift $\mu$ to price derivatives. We simply take expectations under $\mathbb{Q}$ and discount at $r$.
 
-Under $\mathbb{Q}$, the stock price SDE becomes
+### Formalizing the Measure Change: Girsanov’s Theorem
+Girsanov's Theorem provides the mathematical bridge to "neutralize" the drift of the stock price. Suppose we have a Brownian motion $W_t$ under the physical measure $\mathbb{P}$. We want to move to a measure $\mathbb{Q}$ where the stock price has a drift equal to the risk-free rate $r$.
 
+Girsanov tells us that if we define the **Radon-Nikodym derivative** process:
 $$
-dS_t = r_t S_t dt + \sigma S_t dW_t^{\mathbb{Q}} \tag{14}
+\frac{d\mathbb{Q}}{d\mathbb{P}} = \exp\left( -\int_0^T \theta_t dW_t - \frac{1}{2} \int_0^T \theta_t^2 dt \right)
 $$
-
-where $W_t^{\mathbb{Q}} = W_t + \frac{\mu - r_t}{\sigma} t$ is a Brownian motion under $\mathbb{Q}$. We have that under $\mathbb{Q}$, at time $t=0$, the stock price $S_t$ follows the lognormal distribution with mean $S_0 e^{r_t t}$ and variance $S_0^2 e^{2 r_t t} \left( e^{\sigma^2 t} - 1 \right)$, but that $S_t$ is not a martingale. Using $B_t$ as the numeraire, the discounted stock price is $\tilde{S}_t = \frac{S_t}{B_t}$ and $\tilde{S}_t$ will be a martingale. Apply Itô's Lemma to $\tilde{S}_t$, which follows the SDE
+where $\theta_t = \frac{\mu - r}{\sigma}$ is the **Market Price of Risk**, then the process:
+$$
+W_t^{\mathbb{Q}} = W_t + \int_0^t \theta_s ds
+$$
+is a Brownian motion under the new measure $\mathbb{Q}$. Substituting $dW_t = dW_t^{\mathbb{Q}} - \theta_t dt$ into the stock's SDE:
+$$
+\begin{aligned}
+dS_t &= \mu S_t dt + \sigma S_t (dW_t^{\mathbb{Q}} - \theta_t dt) \\
+&= \mu S_t dt + \sigma S_t dW_t^{\mathbb{Q}} - (\mu - r) S_t dt \\
+&= r S_t dt + \sigma S_t dW_t^{\mathbb{Q}}.
+\end{aligned}
+$$
+This formally proves that the drift $\mu$ disappears, replaced by $r$, allowing us to price derivatives without knowing the actual expected return on the stock.
 
 $$
 d\tilde{S}_t = \frac{\partial \tilde{S}}{\partial B} dB_t + \frac{\partial \tilde{S}}{\partial S} dS_t \tag{15}
@@ -435,6 +462,54 @@ $$ = S_t [I_1 - I_2] $$
 $$ = S_t \Phi (d_1) - K e^{-r \tau} \Phi (d_2) $$
 
 which is the Black-Scholes call price in Equation (1).
+
+## The Calculus Student’s Bridge: From Stocks to Heat
+
+If you’ve taken a course in differential equations or physics, you’ve met the **Heat Equation**:
+$$\frac{\partial u}{\partial t} = \alpha \frac{\partial^2 u}{\partial x^2}$$
+It describes how heat dissipates through a metal rod. If you start with a hot spot, it spreads out and flattens over time.
+
+**Black-Scholes is the Heat Equation in disguise.**
+
+### 1. The Black-Scholes PDE: The Replication Argument
+How did Black and Scholes actually derive the formula? They didn't start with expectations; they started with **perfect hedging**.
+
+Consider a portfolio $\Pi$ consisting of one short option (value $V$) and $\Delta$ shares of the long stock (value $S$):
+$$ \Pi = -V + \Delta S $$
+The change in this portfolio over an infinitesimal time $dt$ is:
+$$ d\Pi = -dV + \Delta dS $$
+Using Itô's Lemma to expand $dV$:
+$$ d\Pi = -\left( \frac{\partial V}{\partial t} + \mu S \frac{\partial V}{\partial S} + \frac{1}{2}\sigma^2 S^2 \frac{\partial^2 V}{\partial S^2} \right) dt - \sigma S \frac{\partial V}{\partial S} dW_t + \Delta (\mu S dt + \sigma S dW_t) $$
+To eliminate the randomness (the $dW_t$ term), we choose $\Delta = \frac{\partial V}{\partial S}$. This is called **Delta Hedging**. The portfolio becomes risk-free:
+$$ d\Pi = -\left( \frac{\partial V}{\partial t} + \frac{1}{2}\sigma^2 S^2 \frac{\partial^2 V}{\partial S^2} \right) dt $$
+Since the portfolio is now riskless, it *must* grow at the risk-free rate $r$ to avoid arbitrage ($d\Pi = r\Pi dt$). Substituting $\Pi = -V + \frac{\partial V}{\partial S} S$:
+$$ -\left( \frac{\partial V}{\partial t} + \frac{1}{2}\sigma^2 S^2 \frac{\partial^2 V}{\partial S^2} \right) dt = r(-V + \frac{\partial V}{\partial S} S) dt $$
+Rearranging gives the celebrated **Black-Scholes PDE**:
+$$\frac{\partial V}{\partial t} + rS\frac{\partial V}{\partial S} + \frac{1}{2}\sigma^2 S^2 \frac{\partial^2 V}{\partial S^2} - rV = 0$$
+
+### 2. The Feynman-Kac Connection: Bridge from PDE to Expectation
+Why does solving this PDE give the same answer as calculating an expectation? This is formalized by the **Feynman-Kac Theorem**.
+
+The theorem states that the solution to a parabolic PDE of the form:
+$$ \frac{\partial V}{\partial t} + \mu(S,t) \frac{\partial V}{\partial S} + \frac{1}{2}\sigma^2(S,t) \frac{\partial^2 V}{\partial S^2} - r V = 0 $$
+subject to the terminal condition $V(S, T) = h(S)$, can be expressed as the conditional expectation:
+$$ V(S_t, t) = e^{-r(T-t)} E^{\mathbb{Q}} [ h(S_T) \mid S_t ] $$
+under a measure where the process $S$ has drift $\mu(S,t)$. 
+
+In the Black-Scholes case, the drift is $\mu(S,t) = rS$. This provides the rigorous mathematical justification for switching between the **Hedging Approach** (the PDE) and the **Risk-Neutral Approach** (the expectation). They are two sides of the same coin.
+
+### 3. Volatility as Diffusion
+In physics, $\alpha$ represents how easily heat flows. In finance, **$\sigma^2$ (Volatility)** represents how "jittery" the stock is. 
+*   High volatility means the probability "heat" spreads out quickly (a wider range of possible future prices).
+*   Low volatility means the probability stays concentrated.
+
+### 3. Turning Finance into Physics
+By performing a change of variables—specifically $x = \ln(S)$ (moving to log-space) and shifting time—you can transform the Black-Scholes PDE into the exact Heat Equation. 
+
+**Why does this matter?** 
+It tells us that an option price isn't just a random guess. It is the result of a **diffusion process**. The "price" of an option is essentially the "temperature" of the asset's potential payoff, averaged out over all possible paths the stock could take, weighted by their probability. 
+
+When you see the $\Phi(d_1)$ and $\Phi(d_2)$ terms in the final formula, you are looking at the **Cumulative Normal Distribution**—which is the fundamental solution (the "Green's function") to the Heat Equation. The bell curve isn't just a statistical assumption; it is the natural shape that heat (and probability) takes as it spreads through time.
 
 ### Further reading
 

@@ -5,24 +5,12 @@ date: 2025-12-19
 ---
 
 # Intro
-The multiplication of two numbers can be made more efficient by several techniques. In this post we will examine the history of multiplication algorithms, diving deep into algorithms due to Karatsuba, Toom-Cook, and Schohage-Strassen. Finally, we will sketch an abridged version of the Harvey-Hoeven algorithm and comment on the linearithmic nature of both sorting and multiplying.
 
-First, let's take the time how gradeschool multiplication
+For centuries, multiplying two $n$-digit numbers meant performing $n^2$ single-digit multiplications. In 1960, the great Andrey Kolmogorov conjectured that this quadratic cost was an inescapable law of arithmetic. Within a week, a 23-year-old student named Anatoly Karatsuba proved him wrong.
 
+This post traces the arc from schoolbook multiplication through the algorithms that successively shattered the $O(n^2)$ barrier: Karatsuba's $O(n^{1.585})$ divide-and-conquer trick, the polynomial interpolation of Toom-Cook, the Fourier-analytic machinery of Schönhage-Strassen, and finally the 2019 result of Harvey and van der Hoeven achieving the conjectured floor of $O(n \log n)$. We close by examining the deep structural parallel between multiplication and sorting -- both saturate the same information-theoretic bound.
 
-In practice, such algorithms only begin to achieve superiority over "schoolbook" multiplication. the Karatsuba algorithm do until numbers greater than $\sim 10^{96}$. 
-
-As recently as 2019, researchers Harvey and Joris van der Hoeven discovered an algorithm that realized a long conjectured algorithm in $O(n \log n)$. Nevertheless, the result is a "galactic algorithm", leveling out in the scale of numbers, $> 2^{1729^{12}}$, far greater than estimated atoms in the universe.
-
-In practice, even the simpler Karatsuba algorithm fails to achieve superiority until numbers greater than $\sim 10^{96}$. Nevertheless, these exotic approaches to arithmetic elucidate the power of algorithms to overcome assumptions about the limits on the fundamental primitives of computation. 
-
-## Overview
-We will take the reader from gradeschool multiplication to Karatsuba to give credence to the idea of divide-and-conquer algorithms to speed up integer multiplication. 
-
-
-Finally, we will work through the over-arching innovations of the ascendingly more efficient algorithms: Toom–Cook, Schönhage–Strassen, & Harvey-Hoeven. In conclusion, we will examine the parallels between integer multiplication and sorting algorithms to unpack why both are $O(n \log n)$.
-
-
+A caveat: in practice, these faster algorithms only overtake schoolbook multiplication at enormous scales. The Harvey-Hoeven algorithm's crossover point lies somewhere beyond $2^{1729^{12}}$ digits -- a number so large it cannot be written down even if every atom in the observable universe were an ink molecule. These are "galactic algorithms," beautiful and useless in equal measure. But their existence reveals something profound about the structure of computation itself.
 
 # Schoolbook Multiplication: Fundamentally $O(n^2)$
 
@@ -49,21 +37,16 @@ $$
 
 Thus, the "schoolbook" method represents a rigid, two-dimensional grid of operations. To break the $O(n^2)$ barrier, as Harvey and van der Hoeven have done, one must move beyond this grid entirely—treating integers not as mere strings of digits, but as polynomials or points in a complex plane.
 
-# Karatsuba: Innovation in $O(n^{\log_2 3})$
+# Karatsuba: Breaking $O(n^2)$ with $O(n^{\log_2 3})$
 
-To understand why Karatsuba’s algorithm was such a revelation, we first have to look at what it replaced. For centuries, the "Grade School" method was the undisputed standard.
+Kolmogorov organized a seminar in 1960 specifically to prove that $O(n^2)$ was the floor for multiplication. He was wrong. A 23-year-old student named **Anatoly Karatsuba** attended that seminar and, within a week, returned with a counterexample that reduced the exponent from 2 to $\log_2 3 \approx 1.585$.
 
-### The $O(n^2)$ Ceiling
+The idea is pure divide-and-conquer, but with an algebraic twist that turns four sub-multiplications into three.
 
-In traditional multiplication, if you have two $n$-digit numbers, you multiply every digit of the first number by every digit of the second. This results in $n^2$ individual digit multiplications. If you double the size of the numbers, the work quadruples.
+### Splitting the Numbers
 
-In 1960, **Andrey Kolmogorov**—one of the titans of 20th-century mathematics—conjectured that this $O(n^2)$ bound was the absolute physical limit of multiplication. He organized a seminar to prove it. A 23-year-old student named **Anatoly Karatsuba** attended that seminar and, within a week, returned with a counter-proof that shattered the $O(n^2)$ assumption.
+Take two $n$-digit numbers $x$ and $y$. Cut each in half at position $m = \lfloor n/2 \rfloor$, writing them as a "high part" times a power of the base plus a "low part":
 
----
-
-### The Strategy: Divide and Conquer
-
-Karatsuba's insight starts by splitting two large numbers, $x$ and $y$, into two halves. Let $B$ be the base (usually 10 or 2) and $m = n/2$:
 $$
 \begin{aligned}
 x &= x_1 B^m + x_0 \\
@@ -71,31 +54,22 @@ y &= y_1 B^m + y_0
 \end{aligned}
 $$
 
-For example, if $x = 1234$, then $x_1 = 12$ and $x_0 = 34$ (where $B = 10$ and $m = 2$).
+Concretely: if $x = 1234$ in base 10, then $x_1 = 12$, $x_0 = 34$, and $m = 2$.
 
-If we multiply these two binomials normally, we get:
+Expanding the product naively gives:
+
 $$
-\begin{aligned}
-xy &= (x_1 B^m + x_0)(y_1 B^m + y_0) \\
-   &= x_1 y_1 B^{2m} + (x_1 y_0 + x_0 y_1) B^m + x_0 y_0
-\end{aligned}
+xy = x_1 y_1 \cdot B^{2m} + (x_1 y_0 + x_0 y_1) \cdot B^m + x_0 y_0
 $$
 
-To calculate this, we seemingly need **four** multiplications:
-- $x_1 \cdot y_1$
-- $x_1 \cdot y_0$
-- $x_0 \cdot y_1$
-- $x_0 \cdot y_0$
+This expression requires **four** half-size multiplications: $x_1 y_1$, $x_1 y_0$, $x_0 y_1$, and $x_0 y_0$. Four recursive calls on inputs of size $n/2$ gives recurrence $T(n) = 4T(n/2) + O(n)$, which solves to $O(n^2)$ by the Master Theorem -- no improvement at all.
 
-In a recursive world, four multiplications on half-sized numbers still results in $O(n^2)$ complexity. We haven't actually gained anything yet.
+### The Trick: Three Multiplications Suffice
 
----
+Karatsuba's insight is that we never need the cross-terms $x_1 y_0$ and $x_0 y_1$ individually. We only need their **sum**. And that sum falls out for free from a single cleverly chosen multiplication.
 
-### Karatsuba’s Algebraic "Cheat"
+Define three products:
 
-The genius of the algorithm is realizing that we don't actually need to know $x_1 y_0$ and $x_0 y_1$ individually. We only need their **sum**.
-
-Karatsuba found he could get that sum using only **one** additional multiplication instead of two. He defined three variables:
 $$
 \begin{aligned}
 z_2 &= x_1 \cdot y_1 \\
@@ -104,62 +78,637 @@ z_1 &= (x_1 + x_0)(y_1 + y_0) - z_2 - z_0
 \end{aligned}
 $$
 
-If you expand $z_1$, you'll see the magic:
+Expand $z_1$ to see why this works:
+
 $$
-(x_1 + x_0)(y_1 + y_0) = x_1 y_1 + x_1 y_0 + x_0 y_1 + x_0 y_0
+(x_1 + x_0)(y_1 + y_0) = \underbrace{x_1 y_1}_{z_2} + x_1 y_0 + x_0 y_1 + \underbrace{x_0 y_0}_{z_0}
 $$
 
-By subtracting $z_2$ ($x_1 y_1$) and $z_0$ ($x_0 y_0$), we are left exactly with $(x_1 y_0 + x_0 y_1)$.
+Subtracting $z_2$ and $z_0$ cancels the terms we already know, leaving exactly the cross-term sum $x_1 y_0 + x_0 y_1$. We have extracted the middle coefficient using **one** multiplication and **two** subtractions -- operations that cost only $O(n)$, negligible compared to multiplication.
 
-We have reduced the problem from **four** multiplications of size $n/2$ to **three**.
+The final product assembles as:
 
----
+$$
+xy = z_2 \cdot B^{2m} + z_1 \cdot B^m + z_0
+$$
 
-### The Efficiency Gain
+Three multiplications. Not four. At every level of the recursion, we save 25% of the multiplicative work, and that savings compounds exponentially as we recurse deeper.
 
-By reducing the recursive branching factor from 4 to 3, the complexity shifts according to the Master Theorem:
+### The Payoff
 
-| Method        | Recurrence Relation            | Complexity                          |
-|---------------|--------------------------------|-------------------------------------|
-| Grade School  | $T(n)=4T(n/2)+O(n)$           | $O(n^{\log_2 4}) = O(n^2)$          |
+The recurrence is now $T(n) = 3T(n/2) + O(n)$, and the Master Theorem gives:
+
+| Method        | Recurrence                     | Complexity                              |
+|---------------|--------------------------------|-----------------------------------------|
+| Schoolbook    | $T(n)=4T(n/2)+O(n)$           | $O(n^{\log_2 4}) = O(n^2)$             |
 | Karatsuba     | $T(n)=3T(n/2)+O(n)$           | $O(n^{\log_2 3}) \approx O(n^{1.585})$ |
 
-While $n^{1.585}$ might not seem significantly smaller than $n^2$, the gap widens exponentially as $n$ grows. For a number with 1,000 digits, Karatsuba requires roughly $n^{\log_2 3}$ operations, whereas the grade school method requires $n^2$.
+The gap between $n^2$ and $n^{1.585}$ may look modest for small $n$, but it widens relentlessly. At 1,000 digits the schoolbook method performs $\sim 10^6$ primitive multiplications; Karatsuba performs $\sim 10^{4.75} \approx 56{,}000$ -- a 17$\times$ speedup. At 10,000 digits the ratio exceeds 100$\times$. The deeper the recursion, the more the saved quarter compounds.
 
-# Hand-waving Toom-Cook: $O(n \log n)$
-## The Polynomial Perspective
+The interactive visualization below shows the heart of the trick: how four multiplication blocks collapse into three.
 
-To understand Toom-Cook, we have to stop thinking of numbers as strings of digits and start thinking of them as polynomials.
+<div id="karatsuba-viz" style="width: 100%; height: 520px; margin: 2em 0; border-radius: 8px; overflow: hidden; background: #0f172a; position: relative;">
+  <div id="karatsuba-phase-label" style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); color: #e2e8f0; font-family: monospace; font-size: 15px; z-index: 10; pointer-events: none; text-align: center; white-space: nowrap;"></div>
+  <div id="karatsuba-count-label" style="position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); color: #94a3b8; font-family: monospace; font-size: 13px; z-index: 10; pointer-events: none; text-align: center;"></div>
+</div>
 
-If we split a number $x$ into $k$ parts, we can represent it as a polynomial $P(x)$ of degree $k-1$. For Toom-3, a number is split into:
+<script>
+(function() {
+  function initKaratsuba() {
+    if (typeof THREE === 'undefined') { setTimeout(initKaratsuba, 100); return; }
+
+    var container = document.getElementById('karatsuba-viz');
+    if (!container) return;
+
+    var phaseLabel = document.getElementById('karatsuba-phase-label');
+    var countLabel = document.getElementById('karatsuba-count-label');
+
+    // --- Scene setup ---
+    var scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0f172a);
+
+    var W = container.clientWidth, H = 520;
+    var camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
+    camera.position.set(0, 2.5, 7.5);
+    camera.lookAt(0, 0, 0);
+
+    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(W, H);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // --- Lights ---
+    scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+    var dLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    dLight.position.set(4, 6, 5);
+    scene.add(dLight);
+    var dLight2 = new THREE.DirectionalLight(0x6366f1, 0.35);
+    dLight2.position.set(-4, -3, -4);
+    scene.add(dLight2);
+
+    // --- Colors ---
+    var COL_Z2    = 0x6366f1; // indigo — z2 = x1*y1
+    var COL_CROSS = 0xf59e0b; // amber  — cross terms
+    var COL_Z0    = 0x22c55e; // green  — z0 = x0*y0
+    var COL_Z1    = 0xa855f7; // purple — z1 (merged)
+    var COL_SUB   = 0xef4444; // red    — subtraction blocks
+    var COL_GHOST = 0x334155; // slate  — ghost/fading
+
+    // --- Helper: create labeled block ---
+    function makeBlock(w, h, d, color) {
+      var geo = new THREE.BoxGeometry(w, h, d);
+      var mat = new THREE.MeshStandardMaterial({
+        color: color, metalness: 0.35, roughness: 0.55, transparent: true, opacity: 1.0
+      });
+      var mesh = new THREE.Mesh(geo, mat);
+      return mesh;
+    }
+
+    // --- Helper: create text sprite ---
+    function makeLabel(text, fontSize) {
+      var canvas = document.createElement('canvas');
+      var sz = fontSize || 48;
+      canvas.width = 512; canvas.height = 128;
+      var ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, 512, 128);
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = 'bold ' + sz + 'px monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 256, 64);
+      var tex = new THREE.CanvasTexture(canvas);
+      tex.minFilter = THREE.LinearFilter;
+      var spriteMat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 1.0 });
+      var sprite = new THREE.Sprite(spriteMat);
+      sprite.scale.set(2.2, 0.55, 1);
+      return sprite;
+    }
+
+    // --- Block dimensions ---
+    var BW = 1.3, BH = 0.9, BD = 0.8;
+    var GAP = 0.3;
+
+    // --- Phase 1: Four schoolbook blocks (2x2 grid) ---
+    var b_x1y1 = makeBlock(BW, BH, BD, COL_Z2);
+    var b_x1y0 = makeBlock(BW, BH, BD, COL_CROSS);
+    var b_x0y1 = makeBlock(BW, BH, BD, COL_CROSS);
+    var b_x0y0 = makeBlock(BW, BH, BD, COL_Z0);
+
+    // grid positions (centered)
+    var gx = (BW + GAP) * 0.55;
+    var gy = (BH + GAP) * 0.55;
+    b_x1y1.position.set(-gx,  gy, 0);
+    b_x1y0.position.set( gx,  gy, 0);
+    b_x0y1.position.set(-gx, -gy, 0);
+    b_x0y0.position.set( gx, -gy, 0);
+
+    // labels for each block
+    var l_x1y1 = makeLabel('x\u2081y\u2081');
+    var l_x1y0 = makeLabel('x\u2081y\u2080');
+    var l_x0y1 = makeLabel('x\u2080y\u2081');
+    var l_x0y0 = makeLabel('x\u2080y\u2080');
+
+    l_x1y1.position.set(0, 0, BD / 2 + 0.15);
+    l_x1y0.position.set(0, 0, BD / 2 + 0.15);
+    l_x0y1.position.set(0, 0, BD / 2 + 0.15);
+    l_x0y0.position.set(0, 0, BD / 2 + 0.15);
+
+    b_x1y1.add(l_x1y1);
+    b_x1y0.add(l_x1y0);
+    b_x0y1.add(l_x0y1);
+    b_x0y0.add(l_x0y0);
+
+    scene.add(b_x1y1); scene.add(b_x1y0);
+    scene.add(b_x0y1); scene.add(b_x0y0);
+
+    // --- Phase 2: Karatsuba merged block (z1) ---
+    var b_z1 = makeBlock(BW, BH, BD, COL_Z1);
+    var l_z1 = makeLabel('z\u2081', 40);
+    l_z1.position.set(0, 0, BD / 2 + 0.15);
+    b_z1.add(l_z1);
+    b_z1.material.opacity = 0;
+    b_z1.position.set(0, gy, 0); // will appear between the cross-term positions
+    scene.add(b_z1);
+
+    // Small subtraction indicators
+    var subSize = 0.45;
+    var b_subZ2 = makeBlock(subSize, subSize, subSize, COL_SUB);
+    var l_subZ2 = makeLabel('-z\u2082', 36);
+    l_subZ2.position.set(0, 0, subSize / 2 + 0.1);
+    b_subZ2.add(l_subZ2);
+    b_subZ2.material.opacity = 0;
+    l_subZ2.material.opacity = 0;
+
+    var b_subZ0 = makeBlock(subSize, subSize, subSize, COL_SUB);
+    var l_subZ0 = makeLabel('-z\u2080', 36);
+    l_subZ0.position.set(0, 0, subSize / 2 + 0.1);
+    b_subZ0.add(l_subZ0);
+    b_subZ0.material.opacity = 0;
+    l_subZ0.material.opacity = 0;
+
+    b_subZ2.position.set(-0.5, gy - BH * 0.7, 0.5);
+    b_subZ0.position.set(0.5, gy - BH * 0.7, 0.5);
+    scene.add(b_subZ2); scene.add(b_subZ0);
+
+    // --- Phase 3: Final result labels ---
+    var l_z2_final = makeLabel('z\u2082', 44);
+    l_z2_final.material.opacity = 0;
+    var l_z0_final = makeLabel('z\u2080', 44);
+    l_z0_final.material.opacity = 0;
+
+    // --- Easing ---
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    // --- Animation state ---
+    var PHASE_DURATION = 3.0;   // seconds per phase
+    var PAUSE_DURATION = 1.5;   // pause between phases
+    var TOTAL_CYCLE = PHASE_DURATION * 3 + PAUSE_DURATION * 4; // 3 phases + 4 pauses (before, between, after)
+    var clock = new THREE.Clock();
+    var elapsed = 0;
+
+    // --- Target positions for phase 3 (horizontal row) ---
+    var ROW_SPACING = BW + GAP + 0.2;
+    var finalZ2pos = { x: -ROW_SPACING, y: 0, z: 0 };
+    var finalZ1pos = { x: 0,            y: 0, z: 0 };
+    var finalZ0pos = { x:  ROW_SPACING, y: 0, z: 0 };
+
+    // Store initial positions for reset
+    var init_x1y1 = b_x1y1.position.clone();
+    var init_x1y0 = b_x1y0.position.clone();
+    var init_x0y1 = b_x0y1.position.clone();
+    var init_x0y0 = b_x0y0.position.clone();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      var dt = clock.getDelta();
+      elapsed += dt;
+
+      var cycleT = elapsed % TOTAL_CYCLE;
+      var t, e;
+
+      // Phase timeline:
+      // [0, PAUSE] -> pause (show 4 blocks)
+      // [PAUSE, PAUSE+DUR] -> phase 1: merge cross-terms
+      // [PAUSE+DUR, 2*PAUSE+DUR] -> pause
+      // [2*PAUSE+DUR, 2*PAUSE+2*DUR] -> phase 2: rearrange to row
+      // [2*PAUSE+2*DUR, 3*PAUSE+2*DUR] -> pause
+      // [3*PAUSE+2*DUR, 3*PAUSE+3*DUR] -> phase 3: reset
+      // [3*PAUSE+3*DUR, 4*PAUSE+3*DUR] -> pause
+
+      var P = PAUSE_DURATION, D = PHASE_DURATION;
+      var t0 = P;
+      var t1 = P + D;
+      var t2 = 2 * P + D;
+      var t3 = 2 * P + 2 * D;
+      var t4 = 3 * P + 2 * D;
+      var t5 = 3 * P + 3 * D;
+
+      if (cycleT < t0) {
+        // --- Initial pause: show 4 blocks in grid ---
+        resetToPhase0();
+        phaseLabel.textContent = 'Schoolbook: 4 multiplications';
+        countLabel.textContent = 'x\u2081y\u2081 \u00B7 x\u2081y\u2080 \u00B7 x\u2080y\u2081 \u00B7 x\u2080y\u2080';
+
+      } else if (cycleT < t1) {
+        // --- Phase 1: merge cross-terms into z1 ---
+        t = (cycleT - t0) / D;
+        e = easeInOutCubic(t);
+
+        phaseLabel.textContent = 'Karatsuba\'s trick: merge the cross-terms';
+        countLabel.textContent = '(x\u2081+x\u2080)(y\u2081+y\u2080) - z\u2082 - z\u2080 = x\u2081y\u2080 + x\u2080y\u2081';
+
+        // Cross-term blocks slide together and fade out
+        b_x1y0.position.x = lerp(init_x1y0.x, 0, e);
+        b_x1y0.position.y = lerp(init_x1y0.y, gy, e);
+        b_x0y1.position.x = lerp(init_x0y1.x, 0, e);
+        b_x0y1.position.y = lerp(init_x0y1.y, gy, e);
+
+        // Fade out cross-term blocks in second half
+        var fadeT = Math.max(0, (t - 0.4) / 0.6);
+        var fadeE = easeInOutCubic(Math.min(1, fadeT));
+        b_x1y0.material.opacity = 1 - fadeE;
+        l_x1y0.material.opacity = 1 - fadeE;
+        b_x0y1.material.opacity = 1 - fadeE;
+        l_x0y1.material.opacity = 1 - fadeE;
+
+        // Fade in z1 block
+        var appearT = Math.max(0, (t - 0.3) / 0.7);
+        var appearE = easeInOutCubic(Math.min(1, appearT));
+        b_z1.material.opacity = appearE;
+        l_z1.material.opacity = appearE;
+        b_z1.position.set(0, gy, 0);
+
+        // Fade in subtraction blocks
+        var subT = Math.max(0, (t - 0.55) / 0.45);
+        var subE = easeInOutCubic(Math.min(1, subT));
+        b_subZ2.material.opacity = subE * 0.85;
+        l_subZ2.material.opacity = subE;
+        b_subZ0.material.opacity = subE * 0.85;
+        l_subZ0.material.opacity = subE;
+
+      } else if (cycleT < t2) {
+        // --- Pause: show merged state ---
+        setMergedState();
+        phaseLabel.textContent = 'Result: 3 multiplications';
+        countLabel.textContent = 'z\u2082 = x\u2081y\u2081  \u00B7  z\u2081 = (x\u2081+x\u2080)(y\u2081+y\u2080) - z\u2082 - z\u2080  \u00B7  z\u2080 = x\u2080y\u2080';
+
+      } else if (cycleT < t3) {
+        // --- Phase 2: rearrange into a horizontal row ---
+        t = (cycleT - t2) / D;
+        e = easeInOutCubic(t);
+
+        phaseLabel.textContent = 'Assembling the product: z\u2082\u00B7B\u00B2\u1D50 + z\u2081\u00B7B\u1D50 + z\u2080';
+        countLabel.textContent = '4 \u2192 3 multiplications \u00B7 25% saved per recursion level';
+
+        // Move z2 (x1y1) to left position
+        b_x1y1.position.x = lerp(init_x1y1.x, finalZ2pos.x, e);
+        b_x1y1.position.y = lerp(init_x1y1.y, finalZ2pos.y, e);
+
+        // Move z1 to center
+        b_z1.position.x = lerp(0, finalZ1pos.x, e);
+        b_z1.position.y = lerp(gy, finalZ1pos.y, e);
+
+        // Move z0 (x0y0) to right position
+        b_x0y0.position.x = lerp(init_x0y0.x, finalZ0pos.x, e);
+        b_x0y0.position.y = lerp(init_x0y0.y, finalZ0pos.y, e);
+
+        // Fade subtraction blocks out (absorbed into z1)
+        var subFadeT = Math.max(0, (t - 0.1) / 0.5);
+        var subFadeE = easeInOutCubic(Math.min(1, subFadeT));
+        b_subZ2.material.opacity = 0.85 * (1 - subFadeE);
+        l_subZ2.material.opacity = 1 - subFadeE;
+        b_subZ0.material.opacity = 0.85 * (1 - subFadeE);
+        l_subZ0.material.opacity = 1 - subFadeE;
+
+        // Replace block labels with z-notation
+        // Swap x1y1 label -> z2
+        if (t > 0.5) {
+          l_x1y1.material.opacity = 0;
+          l_z2_final.material.opacity = easeInOutCubic((t - 0.5) / 0.5);
+          l_z2_final.position.copy(b_x1y1.position);
+          l_z2_final.position.z += BD / 2 + 0.25;
+        }
+        if (t > 0.5) {
+          l_x0y0.material.opacity = 0;
+          l_z0_final.material.opacity = easeInOutCubic((t - 0.5) / 0.5);
+          l_z0_final.position.copy(b_x0y0.position);
+          l_z0_final.position.z += BD / 2 + 0.25;
+        }
+
+      } else if (cycleT < t4) {
+        // --- Pause: show final row ---
+        setFinalRow();
+        phaseLabel.textContent = 'xy = z\u2082\u00B7B\u00B2\u1D50 + z\u2081\u00B7B\u1D50 + z\u2080';
+        countLabel.textContent = 'Three multiplications suffice.';
+
+      } else if (cycleT < t5) {
+        // --- Phase 3: reset back to 4 blocks ---
+        t = (cycleT - t4) / D;
+        e = easeInOutCubic(t);
+
+        phaseLabel.textContent = '';
+        countLabel.textContent = '';
+
+        // Fade everything out, then snap back
+        var fadeAll = 1 - easeInOutCubic(Math.min(1, t * 2));
+        b_x1y1.material.opacity = fadeAll;
+        l_x1y1.material.opacity = fadeAll;
+        b_x0y0.material.opacity = fadeAll;
+        l_x0y0.material.opacity = fadeAll;
+        b_z1.material.opacity = fadeAll;
+        l_z1.material.opacity = fadeAll;
+        l_z2_final.material.opacity = 0;
+        l_z0_final.material.opacity = 0;
+        b_subZ2.material.opacity = 0;
+        b_subZ0.material.opacity = 0;
+        l_subZ2.material.opacity = 0;
+        l_subZ0.material.opacity = 0;
+
+        // In second half, fade 4 blocks back in at starting positions
+        if (t > 0.5) {
+          var fadeIn = easeInOutCubic((t - 0.5) / 0.5);
+          resetPositions();
+          b_x1y1.material.opacity = fadeIn;
+          l_x1y1.material.opacity = fadeIn;
+          b_x1y0.material.opacity = fadeIn;
+          l_x1y0.material.opacity = fadeIn;
+          b_x0y1.material.opacity = fadeIn;
+          l_x0y1.material.opacity = fadeIn;
+          b_x0y0.material.opacity = fadeIn;
+          l_x0y0.material.opacity = fadeIn;
+          b_z1.material.opacity = 0;
+          l_z1.material.opacity = 0;
+        }
+
+      } else {
+        // --- Final pause before loop ---
+        resetToPhase0();
+        phaseLabel.textContent = 'Schoolbook: 4 multiplications';
+        countLabel.textContent = 'x\u2081y\u2081 \u00B7 x\u2081y\u2080 \u00B7 x\u2080y\u2081 \u00B7 x\u2080y\u2080';
+      }
+
+      // Gentle scene rotation
+      scene.rotation.y = Math.sin(elapsed * 0.15) * 0.08;
+
+      renderer.render(scene, camera);
+    }
+
+    function resetPositions() {
+      b_x1y1.position.copy(init_x1y1);
+      b_x1y0.position.copy(init_x1y0);
+      b_x0y1.position.copy(init_x0y1);
+      b_x0y0.position.copy(init_x0y0);
+      b_z1.position.set(0, gy, 0);
+      b_subZ2.position.set(-0.5, gy - BH * 0.7, 0.5);
+      b_subZ0.position.set(0.5, gy - BH * 0.7, 0.5);
+    }
+
+    function resetToPhase0() {
+      resetPositions();
+      b_x1y1.material.opacity = 1; l_x1y1.material.opacity = 1;
+      b_x1y0.material.opacity = 1; l_x1y0.material.opacity = 1;
+      b_x0y1.material.opacity = 1; l_x0y1.material.opacity = 1;
+      b_x0y0.material.opacity = 1; l_x0y0.material.opacity = 1;
+      b_z1.material.opacity = 0;   l_z1.material.opacity = 0;
+      b_subZ2.material.opacity = 0; l_subZ2.material.opacity = 0;
+      b_subZ0.material.opacity = 0; l_subZ0.material.opacity = 0;
+      l_z2_final.material.opacity = 0;
+      l_z0_final.material.opacity = 0;
+      b_x1y1.material.color.setHex(COL_Z2);
+      b_x0y0.material.color.setHex(COL_Z0);
+    }
+
+    function setMergedState() {
+      b_x1y1.position.copy(init_x1y1);
+      b_x1y1.material.opacity = 1; l_x1y1.material.opacity = 1;
+      b_x1y0.material.opacity = 0; l_x1y0.material.opacity = 0;
+      b_x0y1.material.opacity = 0; l_x0y1.material.opacity = 0;
+      b_x0y0.position.copy(init_x0y0);
+      b_x0y0.material.opacity = 1; l_x0y0.material.opacity = 1;
+      b_z1.position.set(0, gy, 0);
+      b_z1.material.opacity = 1; l_z1.material.opacity = 1;
+      b_subZ2.material.opacity = 0.85; l_subZ2.material.opacity = 1;
+      b_subZ0.material.opacity = 0.85; l_subZ0.material.opacity = 1;
+      l_z2_final.material.opacity = 0;
+      l_z0_final.material.opacity = 0;
+    }
+
+    function setFinalRow() {
+      b_x1y1.position.set(finalZ2pos.x, finalZ2pos.y, finalZ2pos.z);
+      b_x1y1.material.opacity = 1; l_x1y1.material.opacity = 0;
+      b_z1.position.set(finalZ1pos.x, finalZ1pos.y, finalZ1pos.z);
+      b_z1.material.opacity = 1; l_z1.material.opacity = 1;
+      b_x0y0.position.set(finalZ0pos.x, finalZ0pos.y, finalZ0pos.z);
+      b_x0y0.material.opacity = 1; l_x0y0.material.opacity = 0;
+      b_x1y0.material.opacity = 0; l_x1y0.material.opacity = 0;
+      b_x0y1.material.opacity = 0; l_x0y1.material.opacity = 0;
+      b_subZ2.material.opacity = 0; l_subZ2.material.opacity = 0;
+      b_subZ0.material.opacity = 0; l_subZ0.material.opacity = 0;
+      l_z2_final.position.set(finalZ2pos.x, finalZ2pos.y, finalZ2pos.z + BD / 2 + 0.25);
+      l_z2_final.material.opacity = 1;
+      l_z0_final.position.set(finalZ0pos.x, finalZ0pos.y, finalZ0pos.z + BD / 2 + 0.25);
+      l_z0_final.material.opacity = 1;
+    }
+
+    scene.add(l_z2_final);
+    scene.add(l_z0_final);
+
+    // --- Resize handler ---
+    window.addEventListener('resize', function() {
+      var nw = container.clientWidth;
+      camera.aspect = nw / H;
+      camera.updateProjectionMatrix();
+      renderer.setSize(nw, H);
+    });
+
+    animate();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initKaratsuba);
+  } else {
+    initKaratsuba();
+  }
+})();
+</script>
+
+# Toom-Cook: Generalizing Karatsuba via Polynomial Interpolation
+
+## From Digits to Polynomials
+
+Karatsuba showed that splitting a number in two and exploiting an algebraic identity could reduce four half-size multiplications to three. A natural question follows: what happens if we split into *three* pieces? Or $k$? This is exactly the generalization that Andrei Toom (1963) and Stephen Cook (1966) independently formalized. The resulting family of algorithms -- collectively known as **Toom-Cook** or **Toom-$k$** -- systematically trades more additions and scalar operations for fewer recursive multiplications, pushing the exponent ever closer to 1.
+
+The key conceptual shift is to stop viewing integers as flat strings of digits and instead view them as **polynomials**. If we partition an $n$-digit number into $k$ blocks of roughly $m = \lceil n/k \rceil$ digits each, writing $B = 10^m$ (or $2^m$ in binary), then:
+
+$$
+x = a_{k-1} B^{k-1} + a_{k-2} B^{k-2} + \cdots + a_1 B + a_0
+$$
+
+This is simply the number $x$ evaluated at the point $z = B$ of the polynomial:
+
+$$
+P_x(z) = a_{k-1} z^{k-1} + a_{k-2} z^{k-2} + \cdots + a_1 z + a_0
+$$
+
+Multiplying two such integers $x$ and $y$ is therefore equivalent to computing the **product polynomial** $P_x(z) \cdot P_y(z)$ and then evaluating the result at $z = B$ (with appropriate carries). If each input polynomial has degree $k-1$, their product has degree $2(k-1) = 2k - 2$, and is therefore determined by exactly $2k - 1$ point-value pairs -- a fact guaranteed by the **Fundamental Theorem of Algebra**.
+
+This is the heart of the speedup: instead of multiplying the coefficients pairwise (which would require $k^2$ recursive multiplications), we can recover the product polynomial from only $2k - 1$ pointwise products.
+
+## The Five Phases of Toom-Cook
+
+The algorithm proceeds through five clearly delineated stages:
+
+### Phase 1: Splitting
+
+Break each $n$-digit operand into $k$ blocks of $\sim n/k$ digits. For Toom-3, this yields three coefficients per number:
+
 $$
 \begin{aligned}
-x &= a_2 B^{2m} + a_1 B^m + a_0 \\
-P_x(z) &= a_2 z^2 + a_1 z + a_0
+x &= a_2 B^{2m} + a_1 B^m + a_0  &\longleftrightarrow\quad P_x(z) &= a_2 z^2 + a_1 z + a_0 \\
+y &= b_2 B^{2m} + b_1 B^m + b_0  &\longleftrightarrow\quad P_y(z) &= b_2 z^2 + b_1 z + b_0
 \end{aligned}
 $$
 
-Multiplying two such numbers is equivalent to multiplying two polynomials. The resulting product polynomial will have a degree of $2k-2$. To uniquely determine a polynomial of degree $d$, you only need $d+1$ points.
+### Phase 2: Evaluation
 
-## The Five-Step Process
+Select $2k - 1$ distinct evaluation points. The standard choice for Toom-3 is the set $\{0,\; 1,\; -1,\; 2,\; \infty\}$, chosen because they minimize the size of intermediate values and keep the arithmetic simple. Evaluate both polynomials at each point:
 
-Toom-Cook replaces the "brute force" multiplication of coefficients with a more elegant algebraic detour:
+$$
+\begin{aligned}
+P_x(0) &= a_0 & P_y(0) &= b_0 \\
+P_x(1) &= a_2 + a_1 + a_0 & P_y(1) &= b_2 + b_1 + b_0 \\
+P_x(-1) &= a_2 - a_1 + a_0 & P_y(-1) &= b_2 - b_1 + b_0 \\
+P_x(2) &= 4a_2 + 2a_1 + a_0 & P_y(2) &= 4b_2 + 2b_1 + b_0 \\
+P_x(\infty) &= a_2 & P_y(\infty) &= b_2
+\end{aligned}
+$$
 
-1. **Splitting**: Break the large integers into $k$ smaller blocks.
-2. **Evaluation**: Choose $2k-1$ simple points (like $0, 1, -1, 2, \infty$) and evaluate the polynomials at these points.
-3. **Pointwise Multiplication**: Multiply the evaluated values (this is where the actual "multiplication" happens, but on much smaller numbers).
-4. **Interpolation**: Use the results to "solve" for the coefficients of the product polynomial (essentially solving a system of linear equations).
-5. **Recomposition**: Shift and add the coefficients to get the final integer result.
+The "evaluation at $\infty$" is a notational convenience: it extracts the leading coefficient of the polynomial, since $\lim_{z \to \infty} P(z)/z^{k-1}$ equals the leading coefficient.
 
-## Why it's faster (and when it's not)
+### Phase 3: Pointwise Multiplication
 
-In Toom-3, instead of the 9 multiplications required by the grade-school method (for a $3 \times 3$ split), we only need 5 multiplications.
-| Algorithm             | Split ($k$) | Multiplications | Complexity                       |
-|-----------------------|-------------|-----------------|----------------------------------|
-| Grade School          | $n$         | $n^2$           | $O(n^2)$                         |
-| Karatsuba (Toom-2)    | $2$         | $3$             | $O(n^{1.585})$                   |
-| Toom-3                | $3$         | $5$             | $O(n^{1.465})$                   |
-| Toom-$k$              | $k$         | $2k-1$          | $O\!\big(n^{\log_k(2k-1)}\big)$  |
+Multiply the evaluated values at each point. These are the **only** recursive multiplications the algorithm performs:
+
+$$
+\begin{aligned}
+W_0 &= P_x(0) \cdot P_y(0) = a_0 b_0 \\
+W_1 &= P_x(1) \cdot P_y(1) \\
+W_{-1} &= P_x(-1) \cdot P_y(-1) \\
+W_2 &= P_x(2) \cdot P_y(2) \\
+W_\infty &= P_x(\infty) \cdot P_y(\infty) = a_2 b_2
+\end{aligned}
+$$
+
+Five multiplications on operands of size $\sim n/3$, rather than the nine that naive coefficient-by-coefficient expansion would require.
+
+### Phase 4: Interpolation
+
+The product polynomial $R(z) = P_x(z) \cdot P_y(z)$ has degree 4, so it has five coefficients $C_0, C_1, C_2, C_3, C_4$:
+
+$$
+R(z) = C_4 z^4 + C_3 z^3 + C_2 z^2 + C_1 z + C_0
+$$
+
+From the five evaluated products, we can read off:
+
+$$
+\begin{aligned}
+W_0 &= C_0 \\
+W_1 &= C_4 + C_3 + C_2 + C_1 + C_0 \\
+W_{-1} &= C_4 - C_3 + C_2 - C_1 + C_0 \\
+W_2 &= 16C_4 + 8C_3 + 4C_2 + 2C_1 + C_0 \\
+W_\infty &= C_4
+\end{aligned}
+$$
+
+This is a $5 \times 5$ linear system in the unknowns $C_0, \ldots, C_4$. Because $C_0 = W_0$ and $C_4 = W_\infty$ are immediate, the system reduces quickly. The remaining coefficients are solved by elimination:
+
+$$
+\begin{aligned}
+C_0 &= W_0 \\[4pt]
+C_4 &= W_\infty \\[4pt]
+C_2 &= \frac{W_1 + W_{-1}}{2} - C_0 - C_4 \\[4pt]
+C_3 &= \frac{W_2 - 2W_1 - 14C_4 - 2C_2 + C_0}{6} \\[4pt]
+C_1 &= W_1 - C_4 - C_3 - C_2 - C_0
+\end{aligned}
+$$
+
+Note that these expressions involve only additions, subtractions, and divisions by small constants (2 and 6) -- all $O(n)$ operations, negligible compared to the recursive multiplications.
+
+### Phase 5: Recomposition
+
+Reassemble the final integer from the product polynomial's coefficients:
+
+$$
+x \cdot y = C_4 B^{4m} + C_3 B^{3m} + C_2 B^{2m} + C_1 B^m + C_0
+$$
+
+The multiplications by powers of $B$ are simply left-shifts, and the final addition with carry propagation is $O(n)$.
+
+## A Worked Example
+
+To make this concrete, consider $x = 123{,}456{,}789$ and $y = 987{,}654{,}321$ in base 10 with $k = 3$ and $m = 3$ (so $B = 10^3 = 1000$):
+
+$$
+\begin{aligned}
+x &= 123 \cdot 10^6 + 456 \cdot 10^3 + 789 \quad\Longleftrightarrow\quad P_x(z) = 123z^2 + 456z + 789 \\
+y &= 987 \cdot 10^6 + 654 \cdot 10^3 + 321 \quad\Longleftrightarrow\quad P_y(z) = 987z^2 + 654z + 321
+\end{aligned}
+$$
+
+Evaluating at the five standard points:
+
+| Point | $P_x$ | $P_y$ | $W = P_x \cdot P_y$ |
+|-------|--------|--------|----------------------|
+| $0$   | $789$  | $321$  | $253{,}269$          |
+| $1$   | $1{,}368$ | $1{,}962$ | $2{,}684{,}016$   |
+| $-1$  | $456$  | $654$  | $298{,}224$          |
+| $2$   | $2{,}193$ | $5{,}595$ | $12{,}269{,}835$   |
+| $\infty$ | $123$ | $987$ | $121{,}401$          |
+
+Interpolation then yields the five coefficients $C_0, \ldots, C_4$, and recomposition with $B = 1000$ recovers the product $121{,}932{,}631{,}112{,}635{,}269$.
+
+## Complexity Analysis
+
+The recurrence for Toom-$k$ is:
+
+$$
+T(n) = (2k - 1)\, T\!\left(\frac{n}{k}\right) + O(n)
+$$
+
+By the Master Theorem, this solves to:
+
+$$
+T(n) = O\!\left(n^{\log_k(2k-1)}\right)
+$$
+
+The exponent $\log_k(2k - 1)$ decreases monotonically as $k$ increases, approaching 1 from above:
+
+| Algorithm             | Split ($k$) | Recursive Mults ($2k-1$) | Complexity                       |
+|-----------------------|-------------|--------------------------|----------------------------------|
+| Grade School          | $n$         | $n^2$                    | $O(n^2)$                         |
+| Karatsuba (Toom-2)    | $2$         | $3$                      | $O(n^{\log_2 3}) \approx O(n^{1.585})$ |
+| Toom-3                | $3$         | $5$                      | $O(n^{\log_3 5}) \approx O(n^{1.465})$ |
+| Toom-4                | $4$         | $7$                      | $O(n^{\log_4 7}) \approx O(n^{1.404})$ |
+| Toom-$k$              | $k$         | $2k-1$                   | $O\!\big(n^{\log_k(2k-1)}\big)$  |
+
+### The Hidden Cost: Why We Cannot Simply Let $k \to \infty$
+
+A tempting conclusion is that by choosing $k$ large enough, we can push the exponent arbitrarily close to 1 and achieve near-linear multiplication. In practice, this reasoning breaks down for two reasons:
+
+1. **Evaluation and interpolation overhead.** The matrices involved in evaluation and interpolation grow as $O(k^2)$, and the entries grow in magnitude. For large $k$, the scalar additions and divisions in the interpolation phase cease to be negligible. The constant hidden in the $O(n)$ additive term balloons.
+
+2. **Coefficient blowup.** Evaluating at points like $2, -2, 3, \ldots$ produces intermediate values that are significantly larger than the original coefficients. This "coefficient swell" increases the size of the sub-problems fed to the recursive multiplications, partially negating the savings.
+
+The practical sweet spot is typically Toom-3 or Toom-4. Beyond that, the FFT-based methods (Schönhage-Strassen and its successors) offer a fundamentally better asymptotic trade-off. The transition from Toom-Cook to FFT-based multiplication is, in a sense, the transition from finite polynomial interpolation to interpolation at infinitely many structured points -- the roots of unity.
+
+### Karatsuba as Toom-2: A Unifying Perspective
+
+It is worth pausing to note that Karatsuba's algorithm is precisely Toom-Cook with $k = 2$. The "trick" of computing $(x_1 + x_0)(y_1 + y_0) - z_2 - z_0$ is the interpolation step for a degree-2 product polynomial evaluated at the points $\{0, 1, \infty\}$. Karatsuba's genius was to discover this special case in 1960; Toom and Cook's contribution was to recognize the general structure of which Karatsuba is the simplest instance.
 
 # Hand-waving Schönhage–Strassen $O(n \log n \log \log n)$
 ## Schönhage–Strassen: The FFT Singularity
@@ -393,68 +942,12 @@ Exploration of Varying Radix on Intel i3-4025U : https://miracl.com/blog/missing
 
 Karatsuba paper: https://ieeexplore.ieee.org/document/4402691
 
-Toom-Cook paper: 
+Toom-Cook: A. L. Toom, "The Complexity of a Scheme of Functional Elements Realizing the Multiplication of Integers" (1963); S. A. Cook, "On the Minimum Computation Time of Functions" (1966, PhD Thesis, Harvard)
 
 Schönhage–Strassen paper: 
 
 Harvey and van der Hoeven's Paper : https://hal.archives-ouvertes.fr/hal-03182372/document
 
-
-## Toom-Cook Algorithm (n)
-
-### 1. Complexity Growth
-
-* Toom-2 (Karatsuba): T(n) = n^(log2 3)
-* Toom-k: T(n) = n^(logk (2k-1))
-* Toom-3: T(n) = n^(log3 5)
-
----
-
-### 2. Polynomial Representation
-
-Splitting a large integer (e.g., 9 digits) into three parts (k=3) using a base x = 10^3:
-
-* N1 = 123,456,789 = 123 * 10^6 + 456 * 10^3 + 789 => ax^2 + bx + c
-* N2 = 987,654,321 = 987 * 10^6 + 654 * 10^3 + 321 => dx^2 + ex + f
-
-**Product of N1 * N2:**
-The product is a 4th-degree polynomial:
-N1 * N2 = adx^4 + (ae + bd)x^3 + (af + be + cd)x^2 + (bf + ec)x + cf
-*The coefficients are labeled C4, C3, C2, C1, C0 in the interpolation section.*
-
----
-
-### 3. Evaluation (Intuition)
-
-To achieve the speedup, evaluate the product at 5 points to solve for the 5 unknown coefficients. This reduces recursive multiplications from 9 to 5.
-
-* X0 = P(0) = **cf**
-* X1 = P(1) = (a + b + c)(d + e + f) = C4 + C3 + C2 + C1 + C0
-* X2 = P(-1) = (a - b + c)(d - e + f) = C4 - C3 + C2 - C1 + C0
-* X3 = P(2) = (4a + 2b + c)(4d + 2e + f) = 16C4 + 8C3 + 4C2 + 2C1 + C0
-* X4 = P(inf) = **ad**
-
-**Summary:** 9 mult -> 5 mult
-
----
-
-### 4. Interpolation (Solving for Coefficients)
-
-Linear algebra used to isolate coefficients Cn from evaluated points Xn:
-
-**Solving for C2:**
-(X1 + X2) = 2(C4 + C2 + C0)
-=> **C2 = (X1 + X2) / 2 - C0 - C4**
-
-**Solving for C3:**
-X3 - 2X1 = 14C4 + 6C3 + 2C2 - C0
-=> **C3 = (X3 - 2X1 - 14C4 - 2C2 + C0) / 6**
-
-*(Note: Scribbled alternative at bottom: 10(C4 + C3) + 4(C4 - C3) + 2C2 - C0)*
-
----
-
-Would you like me to clean up the derivation for the remaining coefficient **C1** as well?
 
 ## Schönhage - Strassen
 
