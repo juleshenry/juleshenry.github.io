@@ -16,7 +16,9 @@ This result, known as **sphere eversion**, is an *existence proof*. Smale showed
 
 The animated eversion below, passing through the famous **Morin surface** halfway model, shows what the deformation looks like:
 
-![Sphere eversion animation](/blog/assets/2024/eversion/eversion.gif)
+<p style="text-align: center;">
+  <img src="/blog/assets/2024/eversion/eversion.gif" alt="Sphere eversion animation" style="max-width: 100%;">
+</p>
 
 This post will build your understanding from multivariable calculus to the heart of the proof. We assume you know partial derivatives, the chain rule, and basic linear algebra. Everything else, we construct from the ground up.
 
@@ -54,9 +56,25 @@ This is a $3 \times 2$ matrix. For $f$ to be an immersion, we need $\operatornam
 
 **Calculus checkpoint.** If you've computed the tangent plane to a parametric surface $\mathbf{r}(u,v)$ by taking $\mathbf{r}_u \times \mathbf{r}_v$ and checking it's nonzero, you already understand the immersion condition: $\mathbf{r}_u \times \mathbf{r}_v \neq \mathbf{0}$ everywhere is equivalent to $\operatorname{rank}(J_f) = 2$.
 
+**Worked examples.** To build intuition, let's look at curves (one dimension down). A curve $\gamma: \mathbb{R} \to \mathbb{R}^2$ is an immersion if $\gamma'(t) \neq \mathbf{0}$ for all $t$ --- the curve never "stops moving."
+
+- **Figure-eight** $\gamma(t) = (\sin 2t, \sin t)$: This is an immersion. We have $\gamma'(t) = (2\cos 2t, \cos t)$, and you can verify this is never the zero vector. But the curve *crosses itself* at the origin. Self-intersection is fine --- immersion does not mean injective. What it does mean is that at the crossing point, the curve passes through cleanly, with a well-defined tangent direction on each branch.
+
+- **Cusp** $\gamma(t) = (t^2, t^3)$: This is **not** an immersion. At $t=0$, we get $\gamma'(0) = (0, 0) = \mathbf{0}$ --- the velocity vanishes. The curve comes to a sharp point (a cusp). This is exactly the kind of degenerate behavior the immersion condition forbids.
+
+The distinction for surfaces is analogous. An immersed sphere may pass through itself (creating curves of self-intersection), but at every point, the surface has a well-defined tangent *plane*. A non-immersion would have a point where the surface pinches down to a line or a point --- a crease or a cusp.
+
+**Embedding vs. immersion.** An **embedding** is an immersion that is also injective (one-to-one) --- the surface doesn't touch itself at all. The standard sphere $\iota: S^2 \hookrightarrow \mathbb{R}^3$ is an embedding. During an eversion, the intermediate surfaces are immersions but *not* embeddings --- they must pass through themselves. The key constraint is that they remain immersions (no creases), even though they are not embeddings (they self-intersect).
+
 ## 1.3 What is Eversion?
 
 The standard embedding $\iota$ maps $S^2$ into $\mathbb{R}^3$ with the "outside" facing outward. The **antipodal map** $\alpha: S^2 \to \mathbb{R}^3$ defined by $\alpha(p) = -p$ gives us the same geometric sphere, but with the orientation reversed --- inside facing out.
+
+**Why does $\alpha$ reverse orientation?** At any point $p$ on the sphere, the outward unit normal is $\mathbf{n}(p) = p$ (pointing away from the origin). Under the antipodal map, the point $p$ goes to $-p$. The differential of $\alpha$ maps each tangent vector $v$ to $-v$, so the cross product of two tangent vectors flips sign:
+
+$$d\alpha(\mathbf{e}_1) \times d\alpha(\mathbf{e}_2) = (-\mathbf{e}_1) \times (-\mathbf{e}_2) = \mathbf{e}_1 \times \mathbf{e}_2$$
+
+Wait --- the cross product of two negated vectors is the *same*? Yes, but the normal relative to the *new* position $-p$ now points inward: the outward normal at $-p$ on the standard sphere is $-p$, but our surface's normal (inherited from $\alpha$) is $+p$, which points *inward* at the new location. The surface has been turned inside out. More precisely, $\alpha$ is an orientation-reversing map because its Jacobian has determinant $(-1)^3 = -1$ (it negates all three coordinates).
 
 An **eversion** is a smooth, continuous path of immersions connecting $\iota$ to $\alpha$. Formally:
 
@@ -69,6 +87,10 @@ such that:
 2. For every $t \in [0,1]$, the map $f_t = F(\cdot, t): S^2 \to \mathbb{R}^3$ is an immersion.
 
 A sphere eversion is a regular homotopy from $\iota$ to $\alpha$. At every instant $t$, the intermediate surface $f_t(S^2)$ must be a smooth immersion --- self-intersections are allowed, but creases are not.
+
+**"Why can't we just push it through?"** A natural first attempt: push the north pole down through the south pole, like inverting a sock. The problem is that at the moment the north pole passes through the equator, the surface develops a **crease** --- a circle of points where the tangent plane degenerates. The equator becomes a fold line where the surface doubles back on itself, violating the immersion condition. Any "obvious" physical inversion creates creases. The genius of eversion is finding a path that avoids all creases, at the cost of allowing the surface to pass through itself in more subtle ways.
+
+To see why this is hard, note that the immersion condition $\operatorname{rank}(J_f) = 2$ must hold at *every* point and at *every* instant $t \in [0,1]$. That's an infinite family of pointwise conditions. The eversion must thread through this infinite-dimensional needle.
 
 **An analogy from calculus.** Think of the space of all immersions as an infinite-dimensional landscape. Each point in this landscape is a particular immersion $f: S^2 \to \mathbb{R}^3$. A regular homotopy is a *path* in this landscape. Smale's theorem says: the standard sphere $\iota$ and the everted sphere $\alpha$ lie in the same *path-connected component* of this landscape.
 
@@ -244,6 +266,8 @@ where each *function* $y(x)$ is a point in an infinite-dimensional function spac
 
 A **regular homotopy** $f_t$ with $t \in [0,1]$ is simply a continuous path in $\operatorname{Imm}(S^2, \mathbb{R}^3)$. Two immersions $f$ and $g$ are **regularly homotopic** if they lie in the same path-connected component of $\operatorname{Imm}(S^2, \mathbb{R}^3)$.
 
+**What is a path-connected component?** Take all the points (immersions) in $\operatorname{Imm}(S^2, \mathbb{R}^3)$ and declare two of them equivalent if you can draw a continuous path between them. Each equivalence class is a "path-connected component." If the entire space has only one component, *every* immersion can be deformed into every other --- that's what Smale proves.
+
 Smale's eversion theorem can now be stated with striking simplicity:
 
 > **Theorem (Smale, 1958).** The space $\operatorname{Imm}(S^2, \mathbb{R}^3)$ is path-connected.
@@ -259,6 +283,10 @@ $$\left(\frac{\partial f}{\partial u}(p),\; \frac{\partial f}{\partial v}(p)\rig
 which are linearly independent (by the immersion condition). This pair lives in the **Stiefel manifold**:
 
 $$V_{3,2} = \{(v_1, v_2) \in \mathbb{R}^3 \times \mathbb{R}^3 : v_1, v_2 \text{ linearly independent}\}.$$
+
+**Unpacking the Stiefel manifold.** $V_{3,2}$ is the space of all ordered pairs of linearly independent vectors in $\mathbb{R}^3$. Think of it as the space of all possible "coordinate frames" for a tangent plane sitting inside $\mathbb{R}^3$. Here "ordered" matters: the pair $(\mathbf{e}_1, \mathbf{e}_2)$ is a different point in $V_{3,2}$ from $(\mathbf{e}_2, \mathbf{e}_1)$, because swapping the vectors reverses the orientation of the frame.
+
+**Concrete example.** At the north pole $(0,0,1)$ of the standard sphere, the tangent plane is the $xy$-plane, and the immersion $\iota$ gives us the frame $\left(\frac{\partial \iota}{\partial u}, \frac{\partial \iota}{\partial v}\right) = (\mathbf{e}_1, \mathbf{e}_2)$. At the equator point $(1,0,0)$, the tangent plane is the $yz$-plane, and the frame might be $(\mathbf{e}_2, -\mathbf{e}_3)$. As you move across the sphere, the frame varies continuously --- you get a continuous map $T_\iota: S^2 \to V_{3,2}$.
 
 More precisely, we can normalize to get ordered pairs of *orthonormal* vectors, giving the compact Stiefel manifold $V_{3,2} \cong SO(3)$.
 
@@ -286,6 +314,163 @@ Before diving into Smale's argument, let's understand *why* eversion seems impos
 
 **The 1-dimensional analogy.** Consider a circle $S^1$ immersed in $\mathbb{R}^2$. Can we evert it? An immersed circle in the plane has a well-defined **turning number** --- the total number of times the tangent vector winds around as you traverse the curve. The standard circle has turning number $+1$; its reflection has turning number $-1$. The Whitney--Graustein theorem tells us that two immersed curves in $\mathbb{R}^2$ are regularly homotopic if and only if they have the same turning number. Since $+1 \neq -1$, **a circle cannot be everted in the plane**.
 
+**Concrete calculation.** Parametrize the unit circle as $\gamma(t) = (\cos t, \sin t)$ for $t \in [0, 2\pi]$. The unit tangent vector is:
+
+$$\mathbf{T}(t) = \frac{\gamma'(t)}{\|\gamma'(t)\|} = (-\sin t, \cos t).$$
+
+The angle this tangent makes with the $x$-axis is $\theta(t) = t + \pi/2$. As $t$ goes from $0$ to $2\pi$, $\theta$ increases by $2\pi$, so the turning number is $\frac{1}{2\pi}\Delta\theta = +1$.
+
+For the reflected circle $\bar{\gamma}(t) = (\cos t, -\sin t)$ (traversed with opposite orientation), the tangent is $\bar{\mathbf{T}}(t) = (-\sin t, -\cos t)$, with angle $\theta(t) = -(t + \pi/2)$. Now $\theta$ *decreases* by $2\pi$, giving turning number $-1$.
+
+Since turning number is invariant under regular homotopy (it's an integer and varies continuously, so it can't jump), $\gamma$ and $\bar{\gamma}$ can never be connected by a path of immersions.
+
+**Why does this obstruction vanish in one dimension higher?** The turning number for $S^1 \subset \mathbb{R}^2$ lives in $\pi_1(S^1) = \mathbb{Z}$ --- the tangent direction traces a loop in the circle of unit vectors in $\mathbb{R}^2$, and $\mathbb{Z}$ has many distinct elements. For $S^2 \subset \mathbb{R}^3$, the analogous invariant lives in $\pi_2(V_{3,2})$, which turns out to be $0$. The extra dimension provides enough room for the obstruction to disappear.
+
+<div id="turning-number-demo" style="width: 100%; height: 380px; margin: 2em 0; border-radius: 8px; overflow: hidden; background: #0f172a; position: relative;">
+  <div style="position: absolute; top: 10px; left: 10px; z-index: 10; color: #94a3b8; font-family: monospace; font-size: 13px;">
+    Turning Number Visualization
+  </div>
+  <div style="position: absolute; bottom: 10px; left: 10px; right: 10px; z-index: 10; text-align: center;">
+    <label style="color: #94a3b8; font-size: 13px; font-family: monospace;">
+      Curve type:
+      <select id="turning-curve-select" style="background: #1e293b; color: #e2e8f0; border: 1px solid #475569; border-radius: 4px; padding: 2px 6px; font-family: monospace; font-size: 13px; margin-left: 6px;">
+        <option value="circle">Circle (turning # = +1)</option>
+        <option value="reflected">Reflected circle (turning # = -1)</option>
+        <option value="figure8">Figure-eight (turning # = 0)</option>
+      </select>
+    </label>
+  </div>
+</div>
+
+<script>
+(function() {
+  function initTurningDemo() {
+    if (typeof THREE === 'undefined') {
+      setTimeout(initTurningDemo, 100);
+      return;
+    }
+    const container = document.getElementById('turning-number-demo');
+    if (!container) return;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0f172a);
+
+    const width = container.clientWidth;
+    const height = 380;
+    const camera = new THREE.OrthographicCamera(-3, 3, 3 * height / width, -3 * height / width, 0.1, 100);
+    camera.position.set(0, 0, 5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // Curve functions
+    const curves = {
+      circle: function(t) { return [Math.cos(t), Math.sin(t)]; },
+      reflected: function(t) { return [Math.cos(t), -Math.sin(t)]; },
+      figure8: function(t) { return [Math.sin(2 * t) * 0.8, Math.sin(t) * 1.2]; }
+    };
+    const tangents = {
+      circle: function(t) { var d = [-Math.sin(t), Math.cos(t)]; var l = Math.sqrt(d[0]*d[0]+d[1]*d[1]); return [d[0]/l, d[1]/l]; },
+      reflected: function(t) { var d = [-Math.sin(t), -Math.cos(t)]; var l = Math.sqrt(d[0]*d[0]+d[1]*d[1]); return [d[0]/l, d[1]/l]; },
+      figure8: function(t) { var d = [2*Math.cos(2*t)*0.8, Math.cos(t)*1.2]; var l = Math.sqrt(d[0]*d[0]+d[1]*d[1]); return [d[0]/l, d[1]/l]; }
+    };
+
+    let curveGroup = new THREE.Group();
+    scene.add(curveGroup);
+
+    function buildCurve(type) {
+      while (curveGroup.children.length > 0) {
+        const child = curveGroup.children[0];
+        if (child.geometry) child.geometry.dispose();
+        if (child.material) child.material.dispose();
+        curveGroup.remove(child);
+      }
+
+      const N = 200;
+      const curveFn = curves[type];
+      const tanFn = tangents[type];
+
+      // Draw the curve
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t = (i / N) * 2 * Math.PI;
+        const p = curveFn(t);
+        pts.push(new THREE.Vector3(p[0] - 1.2, p[1], 0));
+      }
+      const curveGeom = new THREE.BufferGeometry().setFromPoints(pts);
+      const curveMat = new THREE.LineBasicMaterial({ color: 0x6366f1, linewidth: 2 });
+      curveGroup.add(new THREE.Line(curveGeom, curveMat));
+
+      // Draw tangent arrows along the curve
+      const arrowColor = 0x22d3ee;
+      for (let i = 0; i < 16; i++) {
+        const t = (i / 16) * 2 * Math.PI;
+        const p = curveFn(t);
+        const d = tanFn(t);
+        const origin = new THREE.Vector3(p[0] - 1.2, p[1], 0);
+        const dir = new THREE.Vector3(d[0], d[1], 0);
+        const arrow = new THREE.ArrowHelper(dir, origin, 0.35, arrowColor, 0.1, 0.06);
+        curveGroup.add(arrow);
+      }
+
+      // Draw the tangent indicatrix (path of tangent vector tip on unit circle)
+      const tanPts = [];
+      for (let i = 0; i <= N; i++) {
+        const t = (i / N) * 2 * Math.PI;
+        const d = tanFn(t);
+        tanPts.push(new THREE.Vector3(d[0] + 1.5, d[1], 0));
+      }
+      const tanGeom = new THREE.BufferGeometry().setFromPoints(tanPts);
+      const tanMat = new THREE.LineBasicMaterial({ color: 0xfbbf24 });
+      curveGroup.add(new THREE.Line(tanGeom, tanMat));
+
+      // Unit circle for reference
+      const refPts = [];
+      for (let i = 0; i <= 64; i++) {
+        const t = (i / 64) * 2 * Math.PI;
+        refPts.push(new THREE.Vector3(Math.cos(t) + 1.5, Math.sin(t), 0));
+      }
+      const refGeom = new THREE.BufferGeometry().setFromPoints(refPts);
+      const refMat = new THREE.LineBasicMaterial({ color: 0x334155 });
+      curveGroup.add(new THREE.Line(refGeom, refMat));
+    }
+
+    buildCurve('circle');
+
+    document.getElementById('turning-curve-select').addEventListener('change', function() {
+      buildCurve(this.value);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+      const w = container.clientWidth;
+      camera.right = 3;
+      camera.left = -3;
+      camera.top = 3 * height / w;
+      camera.bottom = -3 * height / w;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, height);
+    });
+
+    animate();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTurningDemo);
+  } else {
+    initTurningDemo();
+  }
+})();
+</script>
+
+*Left: the immersed curve with tangent vectors (cyan arrows). Right: the **tangent indicatrix** --- the path traced by the tip of the unit tangent vector on the unit circle (yellow). The turning number is how many times the yellow curve winds around the unit circle. Select different curves to see how turning number changes.*
+
 This is the source of the intuition that eversion should be impossible: in one dimension lower, it *is* impossible. The surprise is that going from $S^1 \subset \mathbb{R}^2$ to $S^2 \subset \mathbb{R}^3$, the obstruction vanishes.
 
 ## 3.2 Smale's Classification Theorem
@@ -306,6 +491,8 @@ Remove a small disk around $z_0$. On the remaining region (topologically a disk 
 
 $$\Phi: S^2 \to V_{n,2}.$$
 
+**Intuition for the gluing.** Think of it this way: $f$ paints the disk $D$ one color pattern in $V_{n,2}$, and $g$ paints the same disk a different color pattern, but they agree on the boundary circle. If you take the disk painted by $f$ as the "northern hemisphere" and the disk painted by $g$ as the "southern hemisphere," and glue them along their shared boundary, you get a sphere mapped into $V_{n,2}$. The homotopy class of this map --- whether it can be shrunk to a point or wraps nontrivially around $V_{n,2}$ --- is the invariant $\Omega(f,g)$. If it can be shrunk to a point ($\Omega = 0$), then $f$ and $g$ are "the same" up to regular homotopy.
+
 The homotopy class $[\Phi] \in \pi_2(V_{n,2})$ is the invariant $\Omega(f,g)$.
 
 ## 3.4 The Key Computation: $\pi_2(V_{3,2}) = 0$
@@ -316,7 +503,13 @@ For sphere eversion, we need $n = 3$. The classification reduces to computing $\
 
 **Step 2.** $SO(3)$ is homeomorphic to $\mathbb{RP}^3$ (real projective 3-space). This follows from the quaternion double cover: $SU(2) \cong S^3$ maps onto $SO(3)$ with kernel $\{\pm 1\}$, so $SO(3) \cong S^3 / \{\pm 1\} = \mathbb{RP}^3$.
 
+**What does this mean concretely?** A unit quaternion $q = a + bi + cj + dk$ with $a^2 + b^2 + c^2 + d^2 = 1$ represents a rotation of $\mathbb{R}^3$: the rotation by angle $2\cos^{-1}(a)$ about the axis $(b, c, d)/\|(b,c,d)\|$. But $q$ and $-q$ represent the *same* rotation (negating a quaternion flips both the axis direction and the rotation sense, which cancel out). So each rotation corresponds to a pair $\{q, -q\}$ of antipodal points on $S^3$. The space of such antipodal pairs is exactly $\mathbb{RP}^3 = S^3/\{\pm 1\}$. Hence $SO(3) \cong \mathbb{RP}^3$.
+
 **Step 3.** We compute $\pi_2(\mathbb{RP}^3)$ using the long exact sequence of the double covering $p: S^3 \to \mathbb{RP}^3$ with fiber $S^0 = \{+1, -1\}$:
+
+**What is a long exact sequence?** When one space covers another (like $S^3$ double-covering $\mathbb{RP}^3$), the homotopy groups of the three spaces involved --- the covering space, the base, and the fiber --- are linked by a chain of group homomorphisms. "Exact" means that at each position in the chain, the image of one map equals the kernel of the next. This constraint is so rigid that knowing some of the groups forces the others. In our case, it forces $\pi_2(\mathbb{RP}^3) \cong \pi_2(S^3)$.
+
+The relevant portion of the sequence is:
 
 $$\cdots \to \pi_2(S^0) \to \pi_2(S^3) \to \pi_2(\mathbb{RP}^3) \to \pi_1(S^0) \to \pi_1(S^3) \to \cdots$$
 
@@ -328,6 +521,8 @@ so $\pi_2(\mathbb{RP}^3) \cong \pi_2(S^3)$.
 
 **Step 4.** $\pi_2(S^3) = 0$ because every continuous map $S^2 \to S^3$ is homotopic to a constant --- intuitively, a 2-sphere in a 3-sphere has "room" to be contracted to a point (this is a special case of $\pi_k(S^n) = 0$ for $k < n$).
 
+**Intuition for $\pi_k(S^n) = 0$ when $k < n$.** Think of a lower-dimensional analogy: a loop ($S^1$) drawn on the surface of a 2-sphere ($S^2$). No matter how complicated the loop is, you can always shrink it to a point --- that's $\pi_1(S^2) = 0$. The loop never gets "stuck" because the sphere has no holes for it to catch on. Similarly, a 2-sphere ($S^2$) mapped into a 3-sphere ($S^3$) can always be contracted to a point: the 3-sphere is simply connected in every dimension up to 2. The map $S^2 \to S^3$ is like drawing a surface inside a higher-dimensional space that has no "obstacles" at that dimension.
+
 **Conclusion:**
 
 $$\pi_2(V_{3,2}) \cong \pi_2(SO(3)) \cong \pi_2(\mathbb{RP}^3) \cong \pi_2(S^3) = 0.$$
@@ -336,9 +531,19 @@ Since $\pi_2(V_{3,2}) = 0$, the invariant $\Omega(f,g)$ is *always* zero. By The
 
 **The sphere can be everted.**
 
+**A note on what this proof does and does not give us.** The argument above tells us that an eversion *exists*. It does not show us what it looks like. The proof works by showing that the space $\operatorname{Imm}(S^2, \mathbb{R}^3)$ has only one path component (via the vanishing of $\pi_2(V_{3,2})$), so the two immersions must be connected by *some* path --- but the path is never constructed. This is why Smale's result was so astonishing and initially met with disbelief: mathematicians knew the eversion existed but couldn't picture it. It took Morin (1967) and later Thurston (1990s) to find explicit constructions.
+
 ## 3.5 The Fiber Bundle Machinery
 
 How did Smale prove Theorem A? The proof is a masterpiece of algebraic topology, using fiber bundles and their homotopy sequences. Here is a roadmap.
+
+**What is a fiber bundle?** Before diving in, let's build some intuition. A **fiber bundle** is a space $E$ (the "total space") that locally looks like a product $B \times F$, where $B$ is the "base space" and $F$ is the "fiber." There's a projection map $\pi: E \to B$ such that for each point $b \in B$, the preimage $\pi^{-1}(b)$ is a copy of the fiber $F$.
+
+**Everyday example.** Consider a cylinder: it's a product $S^1 \times [0,1]$. The base is the circle $S^1$, each fiber is an interval $[0,1]$, and the projection sends each point on the cylinder to the corresponding point on the circle. A Mobius strip is *also* a fiber bundle over $S^1$ with fiber $[0,1]$ --- but it's twisted, so it's not a global product.
+
+**In Smale's context:** The total space $E$ is the space of immersions of a disk. The base space $B$ records what happens on the boundary (boundary data). The fiber $\pi^{-1}(b)$ over a particular boundary condition $b$ consists of all immersions that match that boundary data. The question "are two immersions regularly homotopic?" reduces to asking whether they lie in the same path-component of a fiber.
+
+**What is the Covering Homotopy Property (CHP)?** If $(E, \pi, B)$ has the CHP (also called being a "fibration"), it means: if you have a path in the base space $B$ and a starting point in $E$ above the path's start, you can "lift" the entire path to $E$. In Smale's setting, this means: if you continuously deform the boundary data, you can continuously deform the immersion to match. This is the key technical property that lets Smale relate questions about immersions to questions about homotopy groups.
 
 Smale constructs a tower of function spaces:
 
@@ -384,11 +589,15 @@ Smale's proof is pure existence --- it gives no recipe for constructing an evers
 
 The idea: introduce waves (corrugations) into the surface that create enough "slack" to push the sphere through itself. The corrugations are like the pleats in a skirt --- they add local complexity but allow global rearrangement.
 
+**Intuition: why corrugations help.** Imagine trying to turn a rubber glove inside out, but the glove is rigid. You can't do it. Now imagine the glove is made of an accordion-pleated material --- the pleats let different parts of the surface slide past each other without creating creases. Corrugation works the same way: by adding high-frequency waves to the sphere, you create local "slack" that gives the surface freedom to rearrange globally. The waves are always smooth (satisfying the immersion condition), and their amplitude can be tuned continuously.
+
 The procedure, at a high level:
-1. Start with the standard sphere.
-2. Introduce corrugation waves --- the surface develops flower-like "petals."
-3. The petals interleave and pass through each other.
-4. Reduce the corrugations, arriving at the everted sphere.
+1. **Start** with the standard sphere.
+2. **Corrugation phase:** Introduce sinusoidal waves along the surface. The surface develops flower-like "petals" --- regions that bulge outward and inward in an alternating pattern. The frequency $k$ is chosen high enough that the petals have room to interleave.
+3. **Interleaving phase:** The petals from the "outward" side and the "inward" side are pushed past each other. Because they are narrow corrugations (high frequency), they can slide through without ever creating a crease. This is the key step --- it's where the surface passes through itself.
+4. **De-corrugation phase:** Smoothly reduce the corrugation amplitude back to zero, arriving at the everted sphere.
+
+Each of these phases is a smooth deformation, and the composition is a regular homotopy.
 
 The corrugation function modifies the immersion by adding oscillatory terms:
 
