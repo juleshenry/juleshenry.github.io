@@ -710,161 +710,495 @@ The practical sweet spot is typically Toom-3 or Toom-4. Beyond that, the FFT-bas
 
 It is worth pausing to note that Karatsuba's algorithm is precisely Toom-Cook with $k = 2$. The "trick" of computing $(x_1 + x_0)(y_1 + y_0) - z_2 - z_0$ is the interpolation step for a degree-2 product polynomial evaluated at the points $\{0, 1, \infty\}$. Karatsuba's genius was to discover this special case in 1960; Toom and Cook's contribution was to recognize the general structure of which Karatsuba is the simplest instance.
 
-# Hand-waving Schönhage–Strassen $O(n \log n \log \log n)$
-## Schönhage–Strassen: The FFT Singularity
+# The Fourier Transform: From Signals to Arithmetic
 
-If Karatsuba was a clever algebraic trick and Toom-Cook was a dive into polynomial interpolation, the Schönhage–Strassen algorithm represents a fundamental departure from arithmetic altogether. It is the moment where number theory meets signal processing.
+## Why We Need a New Idea
 
-In 1971, Arnold Schönhage and Volker Strassen arrived at a complexity of $O(n \log n \log \log n)$, a bound so tight it remained the world champion for nearly half a century until the 2019 breakthrough mentioned in the introduction.
+At the end of the Toom-Cook story we noted a frustrating ceiling: as we increase the splitting parameter $k$, the exponent $\log_k(2k-1)$ drifts toward 1, but it never reaches it. Worse, the constant factor in the $O(n)$ additive work (evaluation and interpolation matrices of size $k \times k$, coefficient blowup at large evaluation points) grows so fast that no finite $k$ delivers practical gains beyond Toom-4 or so.
 
-## The Signal Processing Pivot
+To break through this wall we need to abandon the strategy of evaluating at a handful of ad-hoc points and instead evaluate at a *structured infinite family* of points whose algebraic symmetry enables a radically faster algorithm. That family is the **complex roots of unity**, and the algorithm that exploits their symmetry is the **Fast Fourier Transform**.
 
-To grasp Schönhage–Strassen, one must stop viewing an integer as a value and start viewing it as a signal.
+Before we can state Schönhage and Strassen's multiplication algorithm, we must build the FFT from the ground up. This requires four conceptual layers: (1) the observation that integer multiplication is polynomial convolution, (2) the Discrete Fourier Transform as an evaluation map, (3) the Cooley-Tukey decomposition that makes the DFT fast, and (4) the inverse transform that recovers coefficients from point values.
 
-When we multiply two numbers in grade school, we are essentially performing a convolution of their digits. If you multiply $(10a+b) \times (10c+d)$, you are blending the sequences of digits together. In the world of computer science, convolution in the "time domain" (or digit domain) is computationally expensive ($O(n^2)$).
+---
 
-However, a core tenet of the Convolution Theorem is that convolution in the time domain is equivalent to simple pointwise multiplication in the frequency domain.
+## Multiplication Is Convolution
 
-## The Roots of Unity: A Mathematical Shortcut
+### Polynomials and digit vectors
 
-The "hand-waving" magic happens via the Fast Fourier Transform (FFT).
+We have already seen that an $n$-digit integer in base $B$ can be written as a polynomial evaluated at $B$. Let us now make the multiplication side precise. Given two integers with digit vectors $\mathbf{a} = (a_0, a_1, \ldots, a_{n-1})$ and $\mathbf{b} = (b_0, b_1, \ldots, b_{n-1})$, their product is a new integer whose digit vector $\mathbf{c} = (c_0, c_1, \ldots, c_{2n-2})$ satisfies:
 
-Recall that Toom-Cook evaluated polynomials at arbitrary points like $0, 1$, and $-1$. Schönhage and Strassen realized that if you evaluate polynomials at complex roots of unity (points on the unit circle in the complex plane), the symmetry of these points allows for a massive recursive shortcut.
+$$
+c_k = \sum_{j=0}^{k} a_j \, b_{k-j}
+\qquad \text{for } k = 0, 1, \ldots, 2n-2
+$$
 
-1. **Transform**: Treat the digits of your numbers as a signal and run an FFT to move them into the frequency domain.
-2. **Multiply**: Multiply the transformed results pointwise (this is now incredibly fast).
-3. **Inverse Transform**: Perform an Inverse FFT to bring the product back into the digit domain.
-4. **Carry**: Perform a final pass to handle the carries, as the FFT results will be "blurred" across the digits.
+(with the convention that $a_j = 0$ for $j \geq n$ and similarly for $b_j$). This is exactly the definition of the **linear convolution** of the sequences $\mathbf{a}$ and $\mathbf{b}$, or equivalently, the coefficient vector of the product polynomial $A(x) \cdot B(x)$ where:
 
-## The Logarithmic Horizon
+$$
+A(x) = \sum_{j=0}^{n-1} a_j x^j, \qquad B(x) = \sum_{j=0}^{n-1} b_j x^j
+$$
 
-The brilliance of this approach is that the FFT takes only $O(n \log n)$ time. However, Schönhage–Strassen has a slight "tax" of $\log \log n$ because it has to handle the precision of the complex numbers or work within specific finite rings to avoid rounding errors.
-| Algorithm                  | Complexity                   | Historical Context               |
-|----------------------------|-----------------------------|----------------------------------|
-| Karatsuba                  | $O(n^{1.58})$               | The 1960 breakthrough.           |
-| Schönhage–Strassen         | $O(n \log n \log \log n)$   | The 1971 "unbeatable" standard.  |
-| Harvey & van der Hoeven    | $O(n \log n)$               | The 2019 "theoretical perfection." |
+Computing this convolution directly requires computing each of the $2n - 1$ output coefficients, and for each we sum up to $n$ products. The total cost is $O(n^2)$ -- schoolbook multiplication in disguise.
 
-# Hand-waving Harvey–van der Hoeven:  $O(n \log n)$
-## Harvey–van der Hoeven: Reaching the Mathematical Horizon
+### The Convolution Theorem
 
-If Schönhage–Strassen was the "unbeatable" champion for 48 years, the 2019 paper by David Harvey and Joris van der Hoeven is the closing of the book. For decades, the mathematical community conjectured that $O(n \log n)$ was the absolute theoretical floor—the "speed of light" for multiplication. Harvey and van der Hoeven finally proved it possible, effectively finishing a quest that began with Kolmogorov and Karatsuba in the 1960s.
+The single most important theorem in this entire story is:
 
-But how do you shave off that last, pesky $\log \log n$ factor that haunted Schönhage–Strassen?
+> **Convolution Theorem.** Let $\mathcal{F}$ denote the Discrete Fourier Transform (defined below). If $\mathbf{c} = \mathbf{a} \ast \mathbf{b}$ is the convolution of two sequences, then:
+>
+> $$\mathcal{F}(\mathbf{a} \ast \mathbf{b}) = \mathcal{F}(\mathbf{a}) \cdot \mathcal{F}(\mathbf{b})$$
+>
+> where $\cdot$ denotes *pointwise* (component-by-component) multiplication.
 
-## The Problem: The Recursive "Tax"
+In words: convolution in the "coefficient domain" becomes pointwise multiplication in the "frequency domain." Since pointwise multiplication of two length-$N$ vectors costs only $O(N)$, the entire cost of multiplication reduces to the cost of *two forward transforms and one inverse transform*. If each transform costs $O(N \log N)$, the total cost is $O(N \log N)$ -- an exponential improvement over $O(N^2)$.
 
-In Schönhage–Strassen, the algorithm uses FFTs to multiply numbers, but those FFTs themselves require multiplications. To handle those, the algorithm calls itself recursively. Each level of this recursion adds a "tax" of $\log \log n$ to the complexity.
+This is not a hand-wave. Let us now build the DFT rigorously and prove why it can be computed in $O(N \log N)$.
 
-To reach the $O(n \log n)$ holy grail, the researchers had to find a way to perform the multiplication while keeping the "administrative overhead" from growing with the size of the number.
-### The Solution: Multi-dimensional FFTs
+---
 
-The "hand-wavy" explanation is that Harvey and van der Hoeven moved from the 1-dimensional world of standard FFTs into multi-dimensional space.
+## The Discrete Fourier Transform
 
-Imagine your number not as a long string of digits (a line), but as a high-dimensional hypercube (a grid). By rearranging the data into many dimensions—specifically, they suggested using a very large number of dimensions—they could use a technique called "vectorized FFTs."
+### Complex exponentials and Euler's formula
 
-By spreading the computation across these dimensions, they could reduce the number of recursive steps required. Instead of the overhead stacking up as the numbers got larger, they managed to consolidate it.
-### The "1729" Caveat: A Galactic Algorithm
+Before defining the DFT, we need the language of complex numbers. Recall **Euler's formula**:
 
-While the proof is a masterpiece of modern mathematics, it belongs to the class of "Galactic Algorithms." These are algorithms that are theoretically superior but would only outperform existing methods on datasets so large they cannot exist in the observable universe.
+$$
+e^{i\theta} = \cos\theta + i\sin\theta
+$$
 
-As noted in the introduction, the "crossover point" where this algorithm becomes faster than Schönhage–Strassen is estimated at $2^{1729^{12}}$.
+This elegant identity tells us that the complex exponential $e^{i\theta}$ traces out the unit circle in the complex plane as $\theta$ varies from $0$ to $2\pi$. Every point on the unit circle can be written as $e^{i\theta}$ for some angle $\theta$.
+
+### The $N$-th roots of unity
+
+Fix a positive integer $N$. The **$N$-th roots of unity** are the $N$ complex numbers that satisfy $z^N = 1$. They are:
+
+$$
+\omega_N^k = e^{2\pi i k / N}, \qquad k = 0, 1, \ldots, N-1
+$$
+
+These are $N$ points spaced equally around the unit circle, like the vertices of a regular $N$-gon inscribed in the circle $|z| = 1$. The **primitive** $N$-th root of unity is:
+
+$$
+\omega_N = e^{2\pi i / N}
+$$
+
+so that $\omega_N^k = (\omega_N)^k$. We will usually drop the subscript $N$ when the context is clear.
+
+The roots of unity possess remarkable algebraic properties that are the engine of the FFT:
+
+1. **Periodicity:** $\omega^{k+N} = \omega^k$ for all $k$. The roots cycle with period $N$.
+
+2. **Cancellation (Half-turn symmetry):** $\omega^{k + N/2} = -\omega^k$ when $N$ is even. Geometrically, the point diametrically opposite $\omega^k$ on the unit circle is $-\omega^k$. This is the single most important property for the FFT.
+
+3. **Summation:** $\displaystyle\sum_{k=0}^{N-1} \omega^{jk} = \begin{cases} N & \text{if } N \mid j \\ 0 & \text{otherwise} \end{cases}$
+
+   This orthogonality relation is what makes the inverse DFT work.
+
+4. **Squaring (Halving):** If $N$ is even, then $\{(\omega_N^k)^2 : k = 0, \ldots, N-1\}$ gives exactly the $N/2$-th roots of unity, each appearing twice. That is, $(\omega_N)^2 = \omega_{N/2}$.
+
+### Definition of the DFT
+
+Given a vector $\mathbf{x} = (x_0, x_1, \ldots, x_{N-1})$, its **Discrete Fourier Transform** is the vector $\mathbf{X} = (X_0, X_1, \ldots, X_{N-1})$ defined by:
+
+$$
+X_k = \sum_{j=0}^{N-1} x_j \, \omega_N^{jk}, \qquad k = 0, 1, \ldots, N-1
+$$
+
+Equivalently, $X_k = P(\omega^k)$ where $P(z) = \sum_{j} x_j z^j$ is the polynomial whose coefficients are the entries of $\mathbf{x}$. The DFT is nothing more than **evaluating the polynomial at all $N$-th roots of unity simultaneously**.
+
+### The DFT matrix
+
+We can express the DFT as a matrix-vector product $\mathbf{X} = F_N \, \mathbf{x}$ where the **DFT matrix** $F_N$ has entries:
+
+$$
+(F_N)_{k,j} = \omega_N^{jk}
+$$
+
+Explicitly, for $N = 4$ with $\omega = \omega_4 = e^{2\pi i/4} = i$:
+
+$$
+F_4 = \begin{pmatrix}
+1 & 1 & 1 & 1 \\
+1 & i & i^2 & i^3 \\
+1 & i^2 & i^4 & i^6 \\
+1 & i^3 & i^6 & i^9
+\end{pmatrix}
+= \begin{pmatrix}
+1 & 1 & 1 & 1 \\
+1 & i & -1 & -i \\
+1 & -1 & 1 & -1 \\
+1 & -i & -1 & i
+\end{pmatrix}
+$$
+
+Computing $\mathbf{X} = F_N \mathbf{x}$ by brute-force matrix-vector multiplication costs $O(N^2)$. The entire point of the FFT is to exploit the structure of $F_N$ to compute this product in $O(N \log N)$.
+
+### The Inverse DFT
+
+The orthogonality of the roots of unity (property 3 above) guarantees that the DFT is invertible. The inverse is:
+
+$$
+x_j = \frac{1}{N} \sum_{k=0}^{N-1} X_k \, \omega_N^{-jk}
+$$
+
+or in matrix form, $\mathbf{x} = \frac{1}{N} F_N^{-1} \mathbf{X}$ where $F_N^{-1}$ is the matrix with entries $\omega_N^{-jk}$ -- the same as $F_N$ but with $\omega$ replaced by $\omega^{-1} = \overline{\omega}$ (the complex conjugate). In other words, **the inverse DFT is computed by the same algorithm as the forward DFT**, just with the twiddle factors conjugated and the output scaled by $1/N$. Any algorithm that computes the forward DFT efficiently also computes the inverse efficiently, for free.
+
+**Proof of inversion.** We need to verify that $\frac{1}{N}F_N^{-1} F_N = I_N$, i.e., that:
+
+$$
+\frac{1}{N} \sum_{k=0}^{N-1} \omega^{-jk} \omega^{k\ell} = \frac{1}{N} \sum_{k=0}^{N-1} \omega^{k(\ell - j)} = \begin{cases} 1 & \text{if } j = \ell \\ 0 & \text{if } j \neq \ell \end{cases}
+$$
+
+When $j = \ell$, every term in the sum is $\omega^0 = 1$, so the sum is $N$ and we get $N/N = 1$. When $j \neq \ell$, let $m = \ell - j \not\equiv 0 \pmod{N}$. Then $\sum_{k=0}^{N-1} \omega^{mk}$ is a geometric series with ratio $r = \omega^m \neq 1$:
+
+$$
+\sum_{k=0}^{N-1} r^k = \frac{r^N - 1}{r - 1} = \frac{(\omega^N)^m - 1}{\omega^m - 1} = \frac{1 - 1}{\omega^m - 1} = 0
+$$
+
+since $\omega^N = 1$ by definition. $\blacksquare$
+
+---
+
+## The Fast Fourier Transform (Cooley-Tukey, Radix-2)
+
+### The core idea: divide and conquer on even and odd indices
+
+The breakthrough of Cooley and Tukey (1965) -- though the idea traces back to Gauss (1805) -- is to observe that when $N$ is even, the DFT of size $N$ can be decomposed into **two DFTs of size $N/2$** plus $O(N)$ additional work.
+
+Write $N = 2M$. Split the input sequence $\mathbf{x}$ into its even-indexed and odd-indexed elements:
+
+$$
+\begin{aligned}
+\mathbf{e} &= (x_0, x_2, x_4, \ldots, x_{N-2}) \quad \text{(even indices)} \\
+\mathbf{d} &= (x_1, x_3, x_5, \ldots, x_{N-1}) \quad \text{(odd indices)}
+\end{aligned}
+$$
+
+Now consider the DFT sum for an arbitrary output index $k$:
+
+$$
+X_k = \sum_{j=0}^{N-1} x_j \, \omega_N^{jk}
+$$
+
+Separate the even-indexed and odd-indexed terms:
+
+$$
+X_k = \underbrace{\sum_{m=0}^{M-1} x_{2m} \, \omega_N^{2mk}}_{E_k} + \underbrace{\omega_N^k \sum_{m=0}^{M-1} x_{2m+1} \, \omega_N^{2mk}}_{= \omega_N^k \cdot D_k}
+$$
+
+Using the **squaring property** $\omega_N^2 = \omega_M$ (where $M = N/2$), each of these inner sums is itself a DFT of size $M$:
+
+$$
+\begin{aligned}
+E_k &= \sum_{m=0}^{M-1} x_{2m} \, \omega_M^{mk} = \text{DFT}_M(\mathbf{e})_k \\[4pt]
+D_k &= \sum_{m=0}^{M-1} x_{2m+1} \, \omega_M^{mk} = \text{DFT}_M(\mathbf{d})_k
+\end{aligned}
+$$
+
+So the full DFT decomposes as:
+
+$$
+\boxed{X_k = E_k + \omega_N^k \cdot D_k}
+$$
+
+But we need $X_k$ for $k = 0, 1, \ldots, N-1$, while $E_k$ and $D_k$ are periodic with period $M = N/2$ (they are DFTs of size $M$). For the "upper half" $k + M$, the **cancellation property** $\omega_N^{k+M} = -\omega_N^k$ gives:
+
+$$
+\boxed{X_{k+M} = E_k - \omega_N^k \cdot D_k}
+$$
+
+These two equations together constitute the **butterfly operation**: from the pair $(E_k, D_k)$ and the **twiddle factor** $\omega_N^k$, we compute both $X_k$ and $X_{k+M}$ using **one** complex multiplication and **two** complex additions.
+
+### The butterfly diagram
+
+Each butterfly takes two inputs, multiplies one by a twiddle factor, and produces two outputs via addition and subtraction:
+
+```
+  E_k ──────────┬──── (+) ──── X_k
+                 │
+          ω^k    ×
+                 │
+  D_k ──────────┴──── (−) ──── X_{k+M}
+```
+
+For $M = N/2$ values of $k$ (namely $k = 0, 1, \ldots, M-1$), we perform $M$ butterflies, each costing $O(1)$. The total additional work at this level of recursion is $O(N)$.
+
+### The recurrence and complexity
+
+Let $T(N)$ denote the cost of computing a DFT of size $N$ (assumed a power of 2). The Cooley-Tukey decomposition gives:
+
+$$
+T(N) = 2\,T(N/2) + O(N)
+$$
+
+By the Master Theorem (case 2, with $a = 2$, $b = 2$, $f(N) = \Theta(N)$):
+
+$$
+T(N) = O(N \log N)
+$$
+
+compared to $O(N^2)$ for the naive DFT. For $N = 2^{20} \approx 10^6$, this is the difference between $\sim 10^{12}$ operations and $\sim 2 \times 10^7$ -- a speedup of 50,000$\times$.
+
+### The full recursion tree
+
+When $N = 2^s$, the recursion unfolds $s = \log_2 N$ levels deep. At each level, we partition the data, recurse on two halves, and combine with $N$ butterfly operations. The total work is:
+
+$$
+\underbrace{N}_{\text{level 0}} + \underbrace{N}_{\text{level 1}} + \cdots + \underbrace{N}_{\text{level } s-1} = s \cdot N = N \log_2 N
+$$
+
+Each level performs exactly $N/2$ butterflies (each costing one complex multiplication and two additions), for a total of $\frac{N}{2}\log_2 N$ complex multiplications.
+
+### A worked example: 8-point FFT
+
+Let $N = 8$ and $\omega = \omega_8 = e^{2\pi i/8} = e^{i\pi/4} = \frac{1+i}{\sqrt{2}}$. Consider the input $\mathbf{x} = (1, 1, 1, 1, 0, 0, 0, 0)$ (a rectangular pulse).
+
+**Level 0 (split):** Separate into even and odd:
+
+$$
+\mathbf{e} = (x_0, x_2, x_4, x_6) = (1, 1, 0, 0), \qquad \mathbf{d} = (x_1, x_3, x_5, x_7) = (1, 1, 0, 0)
+$$
+
+**Level 1:** Each half recursively splits again. For $\mathbf{e}$:
+
+$$
+\mathbf{e}_{\text{even}} = (1, 0), \quad \mathbf{e}_{\text{odd}} = (1, 0)
+$$
+
+These are 2-point DFTs: $\text{DFT}_2(a, b) = (a + b, \; a - b)$. So:
+
+$$
+\text{DFT}_2(1, 0) = (1, 1) \quad \text{for both}
+$$
+
+**Level 1 butterfly (for $\mathbf{e}$):** Combine with twiddle factors $\omega_4^0 = 1$ and $\omega_4^1 = i$:
+
+$$
+E_0 = 1 + 1 \cdot 1 = 2, \quad E_2 = 1 - 1 \cdot 1 = 0
+$$
+
+$$
+E_1 = 1 + i \cdot 1 = 1 + i, \quad E_3 = 1 - i \cdot 1 = 1 - i
+$$
+
+So $\text{DFT}_4(\mathbf{e}) = (2, \; 1+i, \; 0, \; 1-i)$.
+
+An identical calculation gives $\text{DFT}_4(\mathbf{d}) = (2, \; 1+i, \; 0, \; 1-i)$.
+
+**Level 0 butterfly:** Combine with twiddle factors $\omega_8^k$ for $k = 0, 1, 2, 3$:
+
+$$
+\begin{aligned}
+X_0 &= E_0 + \omega^0 D_0 = 2 + 1 \cdot 2 = 4 \\
+X_1 &= E_1 + \omega^1 D_1 = (1+i) + \tfrac{1+i}{\sqrt{2}}(1+i) = (1+i) + \tfrac{2i}{\sqrt{2}} = 1 + i + i\sqrt{2} \\
+X_2 &= E_2 + \omega^2 D_2 = 0 + i \cdot 0 = 0 \\
+X_3 &= E_3 + \omega^3 D_3 = (1-i) + \tfrac{-1+i}{\sqrt{2}}(1-i) = (1-i) + \tfrac{-1+i-i(-1)+i^2}{\sqrt{2}} \\
+&\phantom{=}\; \text{(and the corresponding } X_{k+4} = E_k - \omega^k D_k \text{ for the upper half)}
+\end{aligned}
+$$
+
+The key observation is not the specific numerical values but the *structure*: $3$ levels of $4$ butterflies each $= 12$ complex multiplications, versus $8^2 = 64$ for the naive DFT. The ratio $12/64 \approx 19\%$ -- and this ratio improves as $N$ grows.
+
+---
+
+## Putting It Together: FFT-Based Polynomial Multiplication
+
+We now have all the pieces. To multiply two polynomials $A(x)$ and $B(x)$ of degree $n-1$ (and thereby two $n$-digit integers):
+
+**Step 1. Pad.** The product polynomial has degree $2n - 2$, so we need at least $2n - 1$ evaluation points. Choose $N = 2^{\lceil \log_2(2n) \rceil}$ (the next power of 2 at or above $2n$). Pad both coefficient vectors with zeros to length $N$.
+
+**Step 2. Forward FFT.** Compute $\hat{\mathbf{a}} = \text{FFT}_N(\mathbf{a})$ and $\hat{\mathbf{b}} = \text{FFT}_N(\mathbf{b})$. Cost: $O(N \log N)$ each.
+
+**Step 3. Pointwise multiply.** Compute $\hat{c}_k = \hat{a}_k \cdot \hat{b}_k$ for $k = 0, \ldots, N-1$. Cost: $O(N)$.
+
+**Step 4. Inverse FFT.** Compute $\mathbf{c} = \text{IFFT}_N(\hat{\mathbf{c}})$. Cost: $O(N \log N)$.
+
+**Step 5. Carry propagation.** The entries of $\mathbf{c}$ are the exact convolution coefficients (no rounding -- yet). Each $c_k$ may exceed the base $B$, so we perform a single left-to-right carry pass: set $c_k \leftarrow c_k \bmod B$ and add $\lfloor c_k / B \rfloor$ to $c_{k+1}$. Cost: $O(N)$.
+
+**Total cost: $O(N \log N) = O(n \log n)$.**
+
+At this point you might ask: if the FFT already gives us $O(n \log n)$ multiplication, why do we need Schönhage-Strassen? The answer lies in a subtle but critical issue: **numerical precision**.
+
+---
+
+# Schönhage-Strassen: Multiplication in $O(n \log n \log \log n)$
+
+## The Precision Problem
+
+The FFT-based multiplication pipeline described above works over the **complex numbers**. The twiddle factors $\omega_N^k = e^{2\pi i k/N}$ are irrational (for most $k$), and so are the intermediate values in the FFT. On a real computer, we approximate these with floating-point arithmetic.
+
+For multiplying two numbers with $n$ digits, the convolution coefficients can be as large as $O(n B^2)$ (where $B$ is the base). To distinguish these integers exactly after rounding, we need floating-point precision of roughly $O(\log n + 2\log B)$ bits. For large $n$, this means we need **multi-precision floating-point arithmetic** inside the FFT itself -- and each multi-precision operation costs more than $O(1)$.
+
+This creates a vicious circle: to multiply $n$-digit numbers, we use the FFT, but the FFT internally needs high-precision multiplications, which are themselves expensive. The complex-number FFT approach does not, by itself, yield a clean $O(n \log n)$ integer multiplication algorithm.
+
+Schönhage and Strassen's 1971 breakthrough was to eliminate this precision problem entirely by moving from the complex numbers to an **exact algebraic setting** where roots of unity exist but rounding errors do not.
+
+## From $\mathbb{C}$ to $\mathbb{Z}/(2^m + 1)\mathbb{Z}$: The Number Theoretic Transform
+
+### Roots of unity in finite rings
+
+The FFT algorithm does not actually require the complex numbers. It requires only a ring $R$ that contains:
+
+1. An element $\omega$ of multiplicative order $N$ (an "$N$-th root of unity"), meaning $\omega^N = 1$ and $\omega^k \neq 1$ for $0 < k < N$.
+2. An inverse of $N$ in $R$ (for the inverse transform).
+
+If $R$ is a finite ring (like $\mathbb{Z}/p\mathbb{Z}$ for a prime $p$), then all arithmetic is exact -- no rounding, no precision issues. An FFT performed in such a ring is called a **Number Theoretic Transform (NTT)**.
+
+**Example.** In $\mathbb{Z}/5\mathbb{Z}$, the element $2$ has order $4$: $2^1 = 2$, $2^2 = 4$, $2^3 = 3$, $2^4 = 1 \pmod{5}$. So $\omega = 2$ is a primitive $4$th root of unity in $\mathbb{Z}/5\mathbb{Z}$, and we can perform a 4-point NTT modulo 5 with exact arithmetic.
+
+### Schönhage and Strassen's choice: Fermat-like rings
+
+To multiply two $n$-bit integers, Schönhage and Strassen work in the ring:
+
+$$
+R = \mathbb{Z} / (2^m + 1)\mathbb{Z}
+$$
+
+for a carefully chosen $m$. This ring has a remarkable property: the element $\omega = 2$ (or more precisely, a small power of $2$) serves as a root of unity, and **multiplication by powers of 2 in this ring is just a bit-shift followed by a reduction modulo $2^m + 1$** -- an operation that costs $O(m)$, which is essentially free.
+
+Why does $2$ behave as a root of unity here? Note that $2^m \equiv -1 \pmod{2^m + 1}$, so $2^{2m} \equiv 1 \pmod{2^m + 1}$. Thus $2$ has multiplicative order dividing $2m$ in this ring. With an appropriate choice of $m$, we can ensure that $2$ (or a power of it) is a primitive $N$-th root of unity for the $N$ we need.
+
+The critical advantage: all the "twiddle factor multiplications" in the FFT butterfly -- which in the complex-number FFT require expensive multi-precision multiplications -- reduce to **bit-shifts and additions** in $\mathbb{Z}/(2^m + 1)\mathbb{Z}$. This makes the per-butterfly cost $O(m)$ instead of $O(m \log m \cdots)$, dramatically simplifying the recursion.
+
+## The Algorithm in Detail
+
+### Step 0: Setup
+
+Given two $n$-bit integers $x$ and $y$, choose parameters:
+- Let $K = 2^k$ for some $k$ (the number of chunks).
+- Let $m = \lceil n / K \rceil + O(k)$ (the chunk size in bits, with some padding for carries).
+- Work in the ring $R = \mathbb{Z}/(2^m + 1)\mathbb{Z}$.
+
+The parameters are chosen so that $K \approx \sqrt{n}$ (roughly), meaning we split each input into about $\sqrt{n}$ chunks of about $\sqrt{n}$ bits each.
+
+### Step 1: Decomposition
+
+Break each $n$-bit integer into $K$ chunks of $\sim m$ bits:
+
+$$
+x = \sum_{j=0}^{K-1} a_j \cdot 2^{jm}, \qquad y = \sum_{j=0}^{K-1} b_j \cdot 2^{jm}
+$$
+
+Form the polynomials $A(z) = \sum a_j z^j$ and $B(z) = \sum b_j z^j$ over $R$, so that $x = A(2^m)$ and $y = B(2^m)$.
+
+### Step 2: Forward NTT
+
+Compute $\hat{\mathbf{a}} = \text{NTT}_N(\mathbf{a})$ and $\hat{\mathbf{b}} = \text{NTT}_N(\mathbf{b})$ in the ring $R$, where $N \geq 2K$ is a suitable power of 2.
+
+The NTT is the same Cooley-Tukey FFT algorithm, but:
+- All arithmetic is modular (mod $2^m + 1$).
+- Twiddle factor multiplications $\omega^k \cdot v$ are implemented as **cyclic bit-shifts** of $v$, costing $O(m)$.
+- Each butterfly costs $O(m)$: one bit-shift plus two modular additions.
+- Total: $N/2 \cdot \log_2 N$ butterflies, each $O(m)$, giving $O(Nm \log N)$ bit operations.
+
+### Step 3: Pointwise multiplication
+
+Compute $\hat{c}_k = \hat{a}_k \cdot \hat{b}_k$ in $R$ for each $k = 0, \ldots, N - 1$.
+
+Each of these is a multiplication of two $m$-bit numbers modulo $2^m + 1$. But wait -- this is itself a multiplication of smaller numbers! This is where the algorithm becomes **recursive**: we use the Schönhage-Strassen algorithm itself (on inputs of size $m$ instead of $n$) to perform these multiplications.
+
+There are $N$ such multiplications, each on operands of size $m$. This is the "recursive nesting" that generates the $\log \log n$ factor.
+
+### Step 4: Inverse NTT
+
+Compute $\mathbf{c} = \text{INTT}_N(\hat{\mathbf{c}})$. Same cost as the forward NTT: $O(Nm \log N)$.
+
+### Step 5: Carry propagation and reassembly
+
+The vector $\mathbf{c}$ now contains the convolution of $\mathbf{a}$ and $\mathbf{b}$ modulo $2^m + 1$. (The parameters are chosen so that no coefficient is large enough to "wrap around" the modulus -- the modulus is larger than any possible convolution coefficient.) Reassemble the final product by performing carries across the chunks.
+
+## Why $\log \log n$?
+
+The complexity breaks down as follows. At the top level we have:
+- NTT and INTT: $O(Nm \log N)$ bit operations for the transforms.
+- Pointwise multiplications: $N$ recursive multiplications on $m$-bit inputs.
+
+With $K \approx \sqrt{n}$ and $m \approx \sqrt{n}$, the recurrence is roughly:
+
+$$
+T(n) = O\!\left(\sqrt{n} \cdot T(\sqrt{n})\right) + O(n \log n)
+$$
+
+Let us trace the recursion. At depth $d$, the problem size is $n^{1/2^d}$. The recursion bottoms out when $n^{1/2^d} = O(1)$, which requires $2^d \approx \log n$, giving a recursion depth of $d = O(\log \log n)$.
+
+At each recursion level, the non-recursive work is $O(n \log n)$ (the NTTs). Summing over $O(\log \log n)$ levels:
+
+$$
+T(n) = O(n \log n \cdot \log \log n)
+$$
+
+This is the Schönhage-Strassen bound. The $\log \log n$ factor is not a deficiency of the FFT itself -- the FFT is $O(n \log n)$. It is the cost of the **recursive multiplications** needed at each level of the NTT.
+
+## A Comparison
+
+| Algorithm             | Complexity                     | Key Innovation                        |
+|-----------------------|--------------------------------|---------------------------------------|
+| Schoolbook            | $O(n^2)$                       | Direct digit-by-digit                 |
+| Karatsuba             | $O(n^{1.585})$                 | 4 multiplications $\to$ 3            |
+| Toom-3                | $O(n^{1.465})$                 | 9 multiplications $\to$ 5            |
+| Schönhage-Strassen    | $O(n \log n \log \log n)$      | NTT in $\mathbb{Z}/(2^m+1)$         |
+| Harvey-van der Hoeven | $O(n \log n)$                  | Multi-dimensional NTT (see below)    |
+
+The jump from Toom-Cook to Schönhage-Strassen is qualitatively different from all previous improvements. Karatsuba and Toom-Cook are algebraic tricks that reduce the exponent toward 1 but never reach it. Schönhage-Strassen breaks through to a *nearly-linear* bound by replacing polynomial interpolation at finitely many points with Fourier analysis at the roots of unity -- and crucially, by doing so in an exact algebraic ring where the symmetry of the roots makes the transform cheap.
+
+The remaining $\log \log n$ factor is the residue of recursive nesting. Eliminating it required the multi-dimensional approach of Harvey and van der Hoeven (2019), which we now discuss.
+
+# Harvey-van der Hoeven: $O(n \log n)$
+
+## Reaching the Theoretical Floor
+
+If Schönhage-Strassen was the "unbeatable" champion for 48 years, the 2019 paper by David Harvey and Joris van der Hoeven closes the book on the complexity of integer multiplication. For decades, the mathematical community conjectured that $O(n \log n)$ was the absolute floor -- the information-theoretic "speed of light" for multiplication. Harvey and van der Hoeven proved it achievable, completing a quest that began with Kolmogorov and Karatsuba in the 1960s.
+
+## The Problem: The Recursive Tax
+
+We just saw that Schönhage-Strassen's $\log \log n$ factor arises because the NTT requires recursive multiplications at each level. At depth $d$, we perform NTTs of size $\sim n^{1/2^d}$, and the recursion bottoms out after $\log \log n$ levels. Each level contributes $O(n \log n)$ non-recursive work, giving $O(n \log n \log \log n)$ in total.
+
+To eliminate this factor, Harvey and van der Hoeven needed a way to avoid the accumulation of work across recursion levels.
+
+## The Solution: Multi-Dimensional FFTs and Gaussian Resampling
+
+The key ideas, at a high level:
+
+### 1. Multi-dimensional decomposition
+
+Instead of treating the input as a 1-dimensional sequence of $K$ chunks (as Schönhage-Strassen does), Harvey and van der Hoeven arrange the chunks into a $d$-dimensional array of dimensions $s_1 \times s_2 \times \cdots \times s_d$, where each $s_i$ is a prime of size approximately $(n / \log n)^{1/d}$. The total array size is $S = \prod s_i \approx n / \log n$.
+
+By choosing $d$ to be large (growing with $n$), the individual dimensions $s_i$ become small, and FFTs along each dimension are cheap.
+
+### 2. Gaussian resampling
+
+Direct multidimensional DFTs on prime-sized dimensions would be awkward (the Cooley-Tukey radix-2 trick does not apply to primes). Instead, they use a **Gaussian resampling** technique: convolve the input with a Gaussian kernel to transform the problem into a DFT on a larger array whose dimensions are powers of 2.
+
+The Gaussian function has the remarkable property of being (approximately) its own Fourier transform, and it provides excellent control over the approximation error when mapping between the irregular (prime) grid and the regular (power-of-2) grid. The error can be made exponentially small with only a constant-factor increase in the array size.
+
+### 3. Synthetic FFTs (Nussbaumer's transform)
+
+The DFTs within each dimension are performed using **Nussbaumer's polynomial transform**, which works over the ring $\mathbb{C}[y]/(y^r + 1)$ (for $r$ a power of 2). These transforms replace most multiplications with additions and subtractions, reducing the multiplicative cost per dimension.
+
+The remaining pointwise multiplications in the transformed space are handled by **Kronecker substitution** (reducing polynomial multiplication to integer multiplication) and recursion.
+
+### 4. Controlling the recursion
+
+With $d$ dimensions, the recursive subproblems at each level have size roughly $n^{1/d + o(1)}$. As $d$ grows, the subproblems shrink rapidly, and the recursion depth remains bounded. The total cost satisfies:
+
+$$
+M(n) \leq K \cdot n \cdot n' \cdot M(n') + O(n \log n)
+$$
+
+where $n' \ll n$. With careful bookkeeping, this resolves to $M(n) = O(n \log n)$.
+
+## The "1729" Caveat: A Galactic Algorithm
+
+This algorithm belongs to the class of **galactic algorithms** -- algorithms that are theoretically superior but whose crossover point (where they outperform existing methods) lies beyond any practically realizable input size.
+
+The crossover point for Harvey-van der Hoeven is estimated at numbers with more than $2^{1729^{12}}$ digits.
 
 - For scale, there are roughly $10^{80}$ atoms in the observable universe.
-- This number is so large it cannot even be written down in standard decimal notation without filling the entire universe with digits.
+- $2^{1729^{12}}$ is so incomprehensibly large that it cannot be written down even if every atom in the universe were used to store a single digit.
 
-## Setup and Decomposition:
-Split inputs into $\Theta(n / \log n)$ chunks.
-Use the Chinese Remainder Theorem (CRT) to map the polynomial multiplication into a $d$-dimensional array convolution over complex numbers or a suitable ring.
-Choose dimensions $s_1 \times s_2 \times \cdots \times s_d$ where each $s_i$ is a prime around $(n / \log n)^{1/d}$. This makes the total size $S \approx n / \log n$.
+The result is a triumph of pure mathematics: a proof that the conjectured $O(n \log n)$ bound is achievable, even if no computer that will ever exist can benefit from it.
 
-### Gaussian Resampling (The Magic Trick):
-Direct multidimensional DFT on prime sizes would be slow or add log factors.
-Instead, "resample" the input array using a Gaussian function (like a bell curve) to approximate the DFT.
-This transforms the problem into a larger DFT of sizes $t_1 \times \cdots \times t_d$, where each $t_i$ is a power of 2 close to $s_i$.
-Why Gaussian? It helps control errors when mapping frequencies between the irregular (prime) grid and the uniform (power-of-2) grid on a "torus" (think wrapped-around space).
-Cost: This step uses linear maps with bounded norms, adding only $O(n \log n)$ work, and errors are tiny (handled by extra precision bits).
-
-### Fast Evaluation with Synthetic FFTs:
-Now compute the larger multidimensional DFT using Nussbaumer's polynomial transforms over rings like $\mathbb{C}[y] / (y^r + 1)$ (where $r$ is power of 2).
-These "synthetic" FFTs mostly use additions/subtractions (cheap, $O(n)$) instead of multiplications.
-Pointwise multiplications in the transformed space are done recursively (Kronecker substitution: flatten back to 1D integer mult).
-Inverse DFT similarly to get back the convolution.
-
-Recursion and Base Case:
-Recurse on smaller subproblems (size roughly $n^{1/d + o(1)}$).
-With large $d$, recursion depth is small, and total cost satisfies $M(n) \leq K \cdot n \cdot n' \cdot M(n') + O(n \log n)$, where $n' \ll n$, leading to $M(n) = O(n \log n)$.
-For small $n$, fall back to $O(n^2)$.
-
-## Discrete Fourier Transform (DFT) Primer
-
-The Discrete Fourier Transform is a mathematical "prism." Just as a prism splits white light into its constituent colors (frequencies), the DFT takes a sequence of data and reveals the underlying periodic patterns.
-
-In the context of multiplication, we treat our number $x$ as a vector of its digits: $\mathbf{a} = [a_0, a_1, \dots, a_{n-1}]$. We can think of these digits as the coefficients of a polynomial:
-$$
-A(x) = a_0 + a_1 x + a_2 x^2 + \dots + a_{n-1} x^{n-1}
-$$
-
-The DFT evaluates this polynomial at $n$ specific points: the complex roots of unity. These are points spaced evenly around the unit circle in the complex plane, defined as:
-$$
-\omega_n^k = e^{\frac{2\pi i k}{n}}
-$$
-
-By evaluating the polynomial at these symmetric points, the Fast Fourier Transform (FFT) can use a divide-and-conquer approach to compute all evaluations in $O(n \log n)$ time instead of the naive $O(n^2)$.
-## Convolution Theorem
-
-This is the "Secret Sauce" of modern high-speed multiplication.
-
-When you multiply two polynomials, $A(x)$ and $B(x)$, the coefficients of the resulting polynomial $C(x)$ are the convolution of the coefficients of $A$ and $B$.
-
-If $A = [1, 2, 3]$ and $B = [4, 5, 6]$, the standard way to find the product involves a "sliding" multiplication of every element against every other element. This is essentially what happens in grade-school multiplication when you shift rows and add them up.
-
-The Convolution Theorem states:
-
-**The Fourier Transform of a convolution is the pointwise product of the Fourier Transforms.**
-
-Mathematically, if $F$ denotes the Fourier Transform and $\ast$ denotes convolution:
-$$
-F(A \ast B) = F(A) \cdot F(B)
-$$
-
-## The 3-Step Shortcut
-
-Because of this theorem, we can bypass the $O(n^2)$ "sliding" convolution entirely:
-
-1. **Forward Transform**: Compute $A' = \operatorname{FFT}(A)$ and $B' = \operatorname{FFT}(B)$ (time: $O(n \log n)$).
-2. **Pointwise Product**: Multiply the corresponding elements: $C_i' = A_i' \cdot B_i'$ (time: $O(n)$).
-3. **Inverse Transform**: Compute $C = \operatorname{IFFT}(C')$ (time: $O(n \log n)$).
-
-The result $C$ is the vector of coefficients for our product. After a quick final pass to handle the carries (since coefficients in $C$ might be larger than our base), we have our answer. We have successfully traded the "quadratic wall" of grade-school multiplication for the "logarithmic slope" of the FFT.
-
-## Butterflies and Hypercubes: Eliminating $O(\log \log n)$
-
-In the standard Schönhage–Strassen approach, the $\log \log n$ factor is the "shadow" cast by recursion. To multiply two $n$-bit integers, the algorithm breaks them into $2^k$ chunks. But these chunks are themselves large, requiring their own FFTs, which require their own multiplications, and so on. This recursive nesting creates a depth of complexity that prevents a clean $O(n \log n)$ result.
-
-To eliminate this, Harvey and van der Hoeven turned to the geometry of the Hypercube and the efficiency of the FFT Butterfly.
-
-## The Butterfly: Exploiting Symmetry
-
-At the heart of any FFT is the "Butterfly" operation. When we evaluate a polynomial at roots of unity, we notice that many of the calculations are redundant. For example, $\omega^k$ and $\omega^{k+n/2}$ are just negatives of each other on the unit circle.
-
-The Butterfly unit takes two inputs, performs a single multiplication and an addition/subtraction, and produces two outputs. By nesting these butterflies, we create a network that processes data in stages. In a standard 1D FFT, we have $\log n$ stages, each doing $O(n)$ work.
-## The Hypercube: Multi-dimensional Locality
-
-The breakthrough in the $O(n \log n)$ proof involves treating the data not as a linear array, but as a multi-dimensional hypercube.
-
-By mapping the digits of a massive integer onto a high-dimensional grid (say, a $d$-dimensional cube), the researchers could perform FFTs along each dimension independently. This is essentially a "divide-and-conquer" approach on the structure of the data itself.
-
-- **Reduction of Recursive Depth**: In a 1D FFT, the recursion depth is tied directly to $n$. In a multi-dimensional FFT, you can process smaller blocks more efficiently, preventing the precision requirements (and thus the extra $\log \log n$ multiplications) from stacking up.
-- **The "Unit Cost" Assumption**: By using a specific type of Number Theoretic Transform (NTT) across these dimensions, they ensured that the "work" done at each node of the hypercube remained constant relative to the total input.
-
-## Closing the Loop
-
-The transition from Schönhage–Strassen to Harvey–van der Hoeven is effectively the transition from a linear pipeline to a massively parallel hypercube network.
-
-While the "Butterflies" do the heavy lifting of the transform, the "Hypercube" architecture ensures that the data is organized so that the recursive overhead—that pesky $\log \log n$—finally collapses into the main $O(n \log n)$ term.
-
-We have reached the theoretical limit. There is no $O(n)$ multiplication; the act of "reading" the $n$ digits and "sorting" them through the $\log n$ stages of a butterfly network is the fundamental physical constraint of our universe.
 # Connections to Sorting Algorithms
 To establish a formal mathematical symmetry between the Harvey–van der Hoeven (HvH) multiplication algorithm and comparison-based sorting, we must look at them through the lens of Information Theory and the Divide-and-Conquer recurrence.
 
@@ -944,79 +1278,6 @@ Karatsuba paper: https://ieeexplore.ieee.org/document/4402691
 
 Toom-Cook: A. L. Toom, "The Complexity of a Scheme of Functional Elements Realizing the Multiplication of Integers" (1963); S. A. Cook, "On the Minimum Computation Time of Functions" (1966, PhD Thesis, Harvard)
 
-Schönhage–Strassen paper: 
+Schönhage–Strassen paper: A. Schönhage and V. Strassen, "Schnelle Multiplikation großer Zahlen," *Computing* 7 (1971), pp. 281--292. https://doi.org/10.1007/BF02242355
 
 Harvey and van der Hoeven's Paper : https://hal.archives-ouvertes.fr/hal-03182372/document
-
-
-## Schönhage - Strassen
-
-So having completed our foray to fast Fourier, we can unpack an algorithm for O(n log(n) log log(n)) mult.
-
-
-## FFT (Fast Fourier Transform)
-Polynomial Representations
-
-    Coefficient Representation: c0 + c1x1 + c2x2^2 + ... + cd*xd
-
-    Value Representation: From the Fundamental Theorem of Algebra, (d+1) points uniquely capture a polynomial of degree d: {(x0, P(x0)), ... (xd, P(xd))}
-
-The Efficiency Goal
-
-    Pointwise multiplication of polynomials is O(d), which is less than O(d^2).
-
-    The Problem: We want: coeff => value, multiply, value => coeff.
-
-    However, evaluating d+1 points in a polynomial of degree d will be O(d^2).
-
-Cooley-Tukey of Radix-2
-
-    Caveat: Assume power of 2 for simplicity (further reading).
-
-    Divide and conquer on odds and evens.
-
-    Expand domain to complex domain. Let N >= d+1; n = 2^k, k is an element of Z.
-
-    w^(j + n/2) = -w^j -> (w^j, w^(j + n/2)) are +/- pairs.
-
-The FFT Equations
-
-    Xk = sum from m=0 to N/2-1 of (x_2m * e^(-2pii/N * 2m * k)) + sum from m=0 to N/2-1 of (x_2m+1 * e^(-2pii/N * (2m+1) * k))
-
-    Xk = Ek + e^(-2pi*i/N * k) * Ok
-
-    X_{k+n/2} = Ek - e^(-2pi*i/N * k) * Ok
-
-Nth Roots of Unity
-
-    z^n = 1
-
-    e^(itheta) = cos(theta) + isin(theta)
-
-    w = e^(2pi*i / n)
-
-    (w^n)^2 = w^(n/2) ; e^(i4pi/n) = e^(i2pi/n)
-
-Calculating the Value Representation of N1 * N2
-
-    FFT: ([X0, X1, ... Xn-1]) -> [P(w^0), ... P(w^n-1)]
-
-    Matrix form: P_vector = W * X_vector
-
-    IFFT: ([P(w^0), ... P(w^n-1)]) -> [p0, p1, ... pn-1]
-
-    W^-1 * P_vector = x_vector
-
-    w = (1/n) * e^(-2pi*i / n)
-
-## Harvey - Hoeven (abridged)
-
-In conclusion, we will outline an abridged version of the Harvey-Hoeven algorithm for linearithmic multiplication.
-
-    Caveat Emptor: The complexity gains are in galactic scale—meaning numbers at scale greater than atoms in the unknown universe.
-
-    Of course, a joke could be made here about an efficient algorithm too grandiose for computation in the physical plane, similar to a topologist's ambivalence between a coffee mug and donut.
-
-Le théorème des restes chinois, le génie de Sunzi
-
-N:=∏i=1k​ni​
