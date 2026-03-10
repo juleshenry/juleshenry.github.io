@@ -1,10 +1,8 @@
 ---
 layout: post
-title: "Three.js Support"
+title: "Announcing Three.js Support"
 date: 2026-01-19
 ---
-
-# Interactive 3D Graphics Come to the Blog
 
 I'm excited to announce that this blog now supports interactive 3D graphics using [Three.js](https://threejs.org/)! 
 

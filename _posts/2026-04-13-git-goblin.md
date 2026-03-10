@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "git-goblin"
+title: "git-goblin: 195+ Shell Shortcuts and a Fuzzy-Find TUI in Pure Bash"
 date: 2026-04-13
 ---
 
-# [git-goblin: 195+ Shell Shortcuts and a Fuzzy-Find TUI in Pure Bash](https://github.com/juleshenry/git-goblin)
+[View on GitHub](https://github.com/juleshenry/git-goblin)
 
 ![ggob](https://github.com/juleshenry/git-goblin/blob/main/ggob.jpeg?raw=1)
 

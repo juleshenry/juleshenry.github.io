@@ -2,6 +2,7 @@
 layout: post
 title: "Shtetl Length"
 date: 2025-06-21
+mathjax: true
 ---
 
 # 수고하세요!

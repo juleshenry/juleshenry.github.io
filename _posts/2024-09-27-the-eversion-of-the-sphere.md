@@ -2,6 +2,7 @@
 layout: post
 title: "The Eversion of the Sphere"
 date: 2024-09-27
+mathjax: true
 ---
 
 *A guided ascent from calculus to one of topology's most counter-intuitive theorems.*

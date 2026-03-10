@@ -2,6 +2,7 @@
 layout: post
 title: "On Multiplication"
 date: 2025-12-19
+mathjax: true
 ---
 
 # Intro

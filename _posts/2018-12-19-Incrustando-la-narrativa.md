@@ -5,8 +5,6 @@ date: 2018-12-19
 ---
 ### Un ensayo escrito para [Profesora Almeyda-Cohen](https://www.colby.edu/people/people-directory/ana-almeyda-cohen/), en la clase de español 223 - mi mejor escritura de la universidad.
 
-# Incrustando la narrativa: análisis de "El Rubí" de Rafael Ángel Troyo
-
 El cuento fantástico instaura un espejo deformado que refleja verdades del mundo real para que se vayan de una nueva perspectiva. Por convención, la crítica de la literatura fantástica se formalizó en 1970 con el ensayo *Introducción a la literatura fantástica* de Tzvetan Todorov. Indudablemente, el análisis de la literatura fantástica ha existido desde la época de Aristóteles y Platón en la forma de mímesis y diégesis. Mientras que la primera se trata de relatos que intentan recrear la realidad, la segunda se aplica a los relatos que modifican la realidad por formular reglas propias (Kirby 1). 
 
 El desarrollo de la literatura fantástica modernista despuntó en el Romanticismo, aunque la modalidad moderna rechazó las estéticas interpretativistas previas. Al llegar al siglo XX, la difusión de lo racional y lo industrial fundó un nuevo modo escrito que se trató del sujeto de la sociedad capitalista. Cuando la ciencia arrancó de raíz la religiosidad de los románticos, los autores de la ficción fantástica modernista produjeron literatura para llenar este vacío espiritual. Por lo tanto, lo moderno y lo fantástico se unieron en la literatura para navegar el conflicto de clase, la nueva subjetividad, y la ambigüedad conflictiva ahí dentro (Phillipps-López 45).

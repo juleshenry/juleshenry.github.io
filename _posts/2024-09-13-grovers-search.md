@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Grover's Search"
 date: 2024-09-13
+mathjax: true
 ---
 
 # The Key-Ring Problem

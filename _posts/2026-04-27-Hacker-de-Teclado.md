@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Hacker de Teclado"
+title: "Hacker de Teclado: Acoustic Keyboard Side-Channel Attack with Deep Learning"
 date: 2026-04-27
 ---
 
-# [Hacker de Teclado: Acoustic Keyboard Side-Channel Attack with Deep Learning](https://github.com/juleshenry/hacker-de-audio-de-teclado)
+[View on GitHub](https://github.com/juleshenry/hacker-de-audio-de-teclado)
 
 Every key on your keyboard makes a slightly different sound when pressed. The spacebar sounds different from the Enter key. The 'A' key sounds different from the 'S' key -- subtly, but measurably. If you record the audio of someone typing and feed it through a trained neural network, you can reconstruct what they typed.
 

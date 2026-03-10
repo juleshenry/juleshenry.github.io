@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Mr. Worldwide"
+title: "Mr. Worldwide: Say Hello in 80 Languages, as a GIF"
 date: 2026-03-30
 ---
 
-# [Mr. Worldwide: Say Hello in 80 Languages, as a GIF](https://github.com/juleshenry/mr.worldwide)
+[View on GitHub](https://github.com/juleshenry/mr.worldwide)
 
 Mr. Worldwide generates animated GIFs of a single word -- "Hello," "Love," whatever you want -- translated into 80+ languages, with each translation rendered as a frame. Each frame can optionally display the translated word over a culturally relevant photograph from that country. The result is a looping, globe-trotting GIF that says your word in English, then Spanish, then Japanese, then Amharic, then Tibetan, then Yoruba, and on and on through 80+ languages.
 

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "SuperWand"
+title: "SuperWand: A Magic Wand for Image and CSS Retheming"
 date: 2026-03-23
 ---
 
-# [SuperWand: A Magic Wand for Image and CSS Retheming](https://github.com/juleshenry/superwand)
+[View on GitHub](https://github.com/juleshenry/superwand)
 
 SuperWand takes an image, identifies its dominant color regions using KMeans clustering, and replaces those colors with any of 18 curated aesthetic themes -- Vaporwave, Cyberpunk, Tropical, Arctic, and so on. It is a magic wand for recoloring. Point it at a posterized Charizard, pick "Midnight," and out comes a moonlit dragon.
 

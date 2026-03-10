@@ -1,11 +1,9 @@
 ---
 layout: post
-title: "Quantum Plankton ML"
+title: "Quantum Plankton Under Compression"
 date: 2026-03-07
 mathjax: true
 ---
-
-# Quantum Plankton Under Compression: What Worked, What Surprised Me, and Why It Matters
 
 I spent the better part of a month teaching a quantum computer to classify microscopic lake creatures after crushing each image into a `4x4` grayscale grid. The full seven‑phase investigation shows how a compressed quantum model behaves, how it compares to a parameter‑matched classical baseline, and how circuit structure maps to learning dynamics. This post combines the core results with the lessons I learned along the way—what held up, what didn’t, and where this research might go next.
 

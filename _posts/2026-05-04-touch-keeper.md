@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "touch_keeper"
+title: "touch_keeper: Mass-Personalized New Year's Texts via Twilio"
 date: 2026-05-04
 ---
 
-# [touch_keeper: Mass-Personalized New Year's Texts via Twilio](https://github.com/juleshenry/touch_keeper)
+[View on GitHub](https://github.com/juleshenry/touch_keeper)
 
 New Year's Eve. 11:58 PM. You want to text "Happy New Year" to everyone in your contacts. All 200+ of them. Personalized by name. Before midnight.
 

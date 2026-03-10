@@ -407,6 +407,30 @@ footer a:hover {
   box-shadow: 0 12px 32px rgba(12, 74, 110, 0.12);
 }
 
+/* MathJax Mobile Fixes */
+mjx-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 4px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+mjx-container[jax="CHTML"]:not([display="true"]) {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  vertical-align: middle;
+}
+
 /* Media Queries */
 @media only screen and (max-width: 959px) {
   .inner {
@@ -497,6 +521,11 @@ footer a:hover {
     align-items: flex-start;
     font-size: 0.85rem;
   }
+
+  mjx-container[jax="CHTML"][display="true"] {
+    margin: 0.5em 0;
+    font-size: 90%;
+  }
 }
 
 @media only screen and (max-width: 479px) {
@@ -545,5 +574,9 @@ footer a:hover {
   nav ul li a {
     padding: 6px 10px;
     font-size: 0.8rem;
+  }
+
+  mjx-container[jax="CHTML"][display="true"] {
+    font-size: 85%;
   }
 }

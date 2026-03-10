@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Wasmatsuba, a WASM Karatsuba Saga"
+title: "Wasmatsuba: WASM Karatsuba vs BigInt"
 date: 2026-01-10
 mathjax: true
 ---
 
-# [WASM Karatsuba vs BigInt](https://github.com/juleshenry/wasmatsuba)
+[View on GitHub](https://github.com/juleshenry/wasmatsuba)
 
 ![Benchmark Results](/blog/assets/2026/final-benchmark.jpg)
 

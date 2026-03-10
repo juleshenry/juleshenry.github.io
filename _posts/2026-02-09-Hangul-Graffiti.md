@@ -1,10 +1,8 @@
 ---
 layout: post
-title: "Hangul Graffiti: Notes from Learning Korean"
+title: "한글 낙서: Hangul Graffiti"
 date: 2026-03-09
 ---
-
-# 한글 낙서: Notes from Learning Korean
 
 There is something disarming about a language that bows before it speaks.
 

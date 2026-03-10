@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Primitive Sets"
 date: 2025-06-08
+mathjax: true
 ---
 
 # The Joyous Structure of the Nature of Primes (Primitive Sets Theorem Proved!)

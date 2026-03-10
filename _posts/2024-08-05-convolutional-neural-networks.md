@@ -4,7 +4,7 @@ title: "Back-of-the-Envelope: Convolutional Neural Networks"
 date: 2024-08-04
 categories: machine-learning
 ---
-# Terse notes on CNN's.
+Terse notes on CNN's.
 
 <ol>
     <li>Convolution</li>

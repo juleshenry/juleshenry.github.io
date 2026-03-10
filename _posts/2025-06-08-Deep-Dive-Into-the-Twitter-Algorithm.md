@@ -1,13 +1,11 @@
 ---
 layout: post
-title: "Deep Dive Into the Twitter Algorithm"
+title: "Deconstructing the Twitter Recommendation Algorithm"
 date: 2025-05-14
 ---
 Wherein we deep dive into the open-sourced X algorithm...
 
-# **Deconstructing the Twitter Recommendation Algorithm: A Deep Dive for Data Science Software Engineers**
-
-**I. Executive Summary**
+## I. Executive Summary
 
 The Twitter (now X) recommendation algorithm represents a highly sophisticated, multi-stage pipeline engineered to deliver personalized content at an immense scale. Its fundamental objective is to maximize user engagement and retention by curating relevant tweets and other content across diverse platform surfaces, including the "For You" timeline, Search, Explore, and Notifications.1 This system exemplifies the intricate integration of advanced machine learning models within a robust, real-time distributed architecture. The foundational architectural principles include a microservices paradigm, extensive reliance on custom Scala frameworks, and specialized data systems designed for real-time processing and efficient feature serving.
 

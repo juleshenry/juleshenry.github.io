@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "README Rosetta"
+title: "README Rosetta: Making Open Source Truly Global with Local LLMs"
 date: 2026-04-06
 ---
 
-# [README Rosetta: Making Open Source Truly Global with Local LLMs](https://github.com/juleshenry/readme_rosetta)
+[View on GitHub](https://github.com/juleshenry/readme_rosetta)
 
 Most open source projects have English-only documentation. This is a barrier. A significant percentage of the global developer population reads English as a second language, and for many, the friction of parsing a technical README in a non-native language is enough to keep them from adopting a tool they would otherwise love.
 

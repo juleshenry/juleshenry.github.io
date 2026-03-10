@@ -4,8 +4,6 @@ title: "Language Notes Repos"
 date: 2026-03-09
 ---
 
-# Language Notes Repos
-
 It's my personal passion to learn new languages, and it matters to me because it keeps me curious, humble, and connected to people I would otherwise never really meet. I like to keep my new words with me on the go. You can find them here for your perusing, and I'm curious how others do it too. Are Anki cards the most popular? Should I switch?
 
 - [castellano_notes](https://github.com/juleshenry/castellano_notes)

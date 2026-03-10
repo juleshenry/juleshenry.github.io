@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Swiss-Mexican Auction"
+title: "The Swiss-Mexican Auction: Solving Budget-Constrained Combinatorial Auctions at Scale"
 date: 2026-04-20
 mathjax: true
 ---
 
-# [The Swiss-Mexican Auction: Solving Budget-Constrained Combinatorial Auctions at Scale](https://github.com/juleshenry/swiss-mexican-auction)
+[View on GitHub](https://github.com/juleshenry/swiss-mexican-auction)
 
 What if eBay let you bid on bundles?
 
