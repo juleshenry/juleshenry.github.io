@@ -2,18 +2,20 @@
   'use strict';
 
   // ── Config ──
-  var NEON = [
-    '#ff2d8a', '#39ff75', '#38bdf8', '#f1e05a',
-    '#a855f7', '#ff6a13', '#22d3ee', '#ff4444',
-    '#00ffcc', '#ffff00', '#ff00ff', '#00ff00',
+  var GREENS = [
+    '#00ff00', // terminal green
+    '#39ff75', // bright mint
+    '#0f0',    // pure green shorthand
+    '#22c55e', // medium green
+    '#16a34a', // darker green
   ];
 
-  var DURATION_MS   = 900;   // total glitch duration
-  var FLICKER_COUNT = 6;     // number of glitch "frames"
+  var DURATION_MS   = 800;   // total glitch duration
+  var FLICKER_COUNT = 5;     // number of glitch "frames"
   var SLICE_MIN     = 2;     // min slice height in px
-  var SLICE_MAX     = 8;     // max slice height in px
-  var SHIFT_MAX     = 18;    // max horizontal pixel shift
-  var NOISE_DENSITY = 0.35;  // fraction of pixels that are noise dots
+  var SLICE_MAX     = 6;     // max slice height in px
+  var SHIFT_MAX     = 12;    // max horizontal pixel shift
+  var NOISE_DENSITY = 0.08;  // sparse noise dots
   var PIXEL_SIZE    = 2;     // size of each noise dot
 
   // ── Glitch one header ──
@@ -63,10 +65,10 @@
         if (y + sliceH > ch) sliceH = ch - y;
 
         // random chance to draw a glitch slice
-        if (Math.random() < 0.5 * intensity) {
+        if (Math.random() < 0.35 * intensity) {
           var shift = (Math.random() - 0.5) * 2 * SHIFT_MAX * intensity;
-          var color = NEON[Math.floor(Math.random() * NEON.length)];
-          var alpha = (0.15 + Math.random() * 0.35) * intensity;
+          var color = GREENS[Math.floor(Math.random() * GREENS.length)];
+          var alpha = (0.1 + Math.random() * 0.25) * intensity;
 
           ctx.globalAlpha = alpha;
           ctx.fillStyle = color;
@@ -77,8 +79,8 @@
       }
 
       // ── Horizontal scan lines ──
-      ctx.globalAlpha = 0.12 * intensity;
-      ctx.fillStyle = '#fff';
+      ctx.globalAlpha = 0.06 * intensity;
+      ctx.fillStyle = '#39ff75';
       for (var sy = 0; sy < ch; sy += 2) {
         ctx.fillRect(0, sy, cw, 1);
       }
@@ -88,18 +90,18 @@
       for (var i = 0; i < noiseCount; i++) {
         var nx = Math.random() * cw;
         var ny = Math.random() * ch;
-        var nc = NEON[Math.floor(Math.random() * NEON.length)];
-        ctx.globalAlpha = (0.3 + Math.random() * 0.7) * intensity;
+        var nc = GREENS[Math.floor(Math.random() * GREENS.length)];
+        ctx.globalAlpha = (0.2 + Math.random() * 0.5) * intensity;
         ctx.fillStyle = nc;
         ctx.fillRect(Math.floor(nx), Math.floor(ny), PIXEL_SIZE, PIXEL_SIZE);
       }
 
       // ── Occasional full-width glitch bar ──
-      if (Math.random() < 0.4 * intensity) {
+      if (Math.random() < 0.3 * intensity) {
         var barY = Math.random() * ch;
-        var barH = 1 + Math.random() * 3;
-        ctx.globalAlpha = (0.4 + Math.random() * 0.4) * intensity;
-        ctx.fillStyle = NEON[Math.floor(Math.random() * NEON.length)];
+        var barH = 1 + Math.random() * 2;
+        ctx.globalAlpha = (0.2 + Math.random() * 0.3) * intensity;
+        ctx.fillStyle = GREENS[Math.floor(Math.random() * GREENS.length)];
         ctx.fillRect(-SHIFT_MAX, barY, cw + SHIFT_MAX * 2, barH);
       }
 
