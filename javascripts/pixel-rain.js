@@ -2,169 +2,119 @@
   'use strict';
 
   // ── Config ──
-  const NEON_COLORS = [
-    '#ff2d8a', // hot pink
-    '#39ff75', // hacker green
-    '#38bdf8', // cyan
-    '#f1e05a', // yellow
-    '#a855f7', // purple
-    '#ff6a13', // orange
-    '#22d3ee', // teal
-    '#ff4444', // red
-    '#00ffcc', // mint
-    '#ffff00', // bright yellow
-    '#ff00ff', // magenta
-    '#00ff00', // matrix green
+  var NEON = [
+    '#ff2d8a', '#39ff75', '#38bdf8', '#f1e05a',
+    '#a855f7', '#ff6a13', '#22d3ee', '#ff4444',
+    '#00ffcc', '#ffff00', '#ff00ff', '#00ff00',
   ];
 
-  const BASE_PARTICLE_COUNT = 120;
-  const DURATION_MS = 2400;
-  const PIXEL_MIN = 2;
-  const PIXEL_MAX = 5;
-  const COLUMN_COUNT = 24; // number of "rain columns"
-  const TAIL_LENGTH = 4;   // trailing glow segments per column
+  var DURATION_MS   = 900;   // total glitch duration
+  var FLICKER_COUNT = 6;     // number of glitch "frames"
+  var SLICE_MIN     = 2;     // min slice height in px
+  var SLICE_MAX     = 8;     // max slice height in px
+  var SHIFT_MAX     = 18;    // max horizontal pixel shift
+  var NOISE_DENSITY = 0.35;  // fraction of pixels that are noise dots
+  var PIXEL_SIZE    = 2;     // size of each noise dot
 
-  // Reduce on mobile
-  function getParticleCount() {
-    if (window.innerWidth < 480) return 50;
-    if (window.innerWidth < 768) return 75;
-    return BASE_PARTICLE_COUNT;
-  }
-
-  // ── Particle Factory ──
-  function createParticle(canvasW, canvasH) {
-    var color = NEON_COLORS[Math.floor(Math.random() * NEON_COLORS.length)];
-    var size = PIXEL_MIN + Math.random() * (PIXEL_MAX - PIXEL_MIN);
-    // distribute across width in column-like bands
-    var col = Math.floor(Math.random() * COLUMN_COUNT);
-    var colWidth = canvasW / COLUMN_COUNT;
-    var x = col * colWidth + Math.random() * colWidth;
-
-    return {
-      x: x,
-      y: -size - Math.random() * canvasH * 0.3, // start above canvas, staggered
-      size: size,
-      color: color,
-      speed: 2.5 + Math.random() * 4.5,         // fall speed px/frame
-      drift: (Math.random() - 0.5) * 0.6,        // slight horizontal drift
-      opacity: 0.7 + Math.random() * 0.3,
-      glimmerPhase: Math.random() * Math.PI * 2,  // sparkle phase offset
-      glimmerSpeed: 0.08 + Math.random() * 0.12,
-      trail: [],
-    };
-  }
-
-  // ── Render one header's pixel rain ──
-  function triggerPixelRain(headerEl) {
-    var rect = headerEl.getBoundingClientRect();
+  // ── Glitch one header ──
+  function triggerGlitch(el) {
+    var rect = el.getBoundingClientRect();
     var scrollX = window.pageXOffset || document.documentElement.scrollLeft;
     var scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-    // Canvas spans the header width and extends below it
-    var canvasW = Math.max(rect.width + 60, 300);
-    var canvasH = Math.min(window.innerHeight * 0.6, 450);
-    var canvasLeft = rect.left + scrollX - 30;
-    var canvasTop = rect.top + scrollY;
+    var w = rect.width;
+    var h = rect.height;
+    if (w < 10 || h < 10) return;
+
+    // pad a few px around the text
+    var pad = 4;
+    var cw = w + pad * 2;
+    var ch = h + pad * 2;
+    var dpr = window.devicePixelRatio || 1;
 
     var canvas = document.createElement('canvas');
-    canvas.className = 'pixel-rain-canvas';
-    canvas.width = canvasW * (window.devicePixelRatio || 1);
-    canvas.height = canvasH * (window.devicePixelRatio || 1);
-    canvas.style.width = canvasW + 'px';
-    canvas.style.height = canvasH + 'px';
-    canvas.style.left = canvasLeft + 'px';
-    canvas.style.top = canvasTop + 'px';
+    canvas.className = 'glitch-canvas';
+    canvas.width  = Math.ceil(cw * dpr);
+    canvas.height = Math.ceil(ch * dpr);
+    canvas.style.width  = cw + 'px';
+    canvas.style.height = ch + 'px';
+    canvas.style.left   = (rect.left + scrollX - pad) + 'px';
+    canvas.style.top    = (rect.top  + scrollY - pad) + 'px';
     document.body.appendChild(canvas);
 
     var ctx = canvas.getContext('2d');
-    ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+    ctx.scale(dpr, dpr);
 
-    var count = getParticleCount();
-    var particles = [];
-    for (var i = 0; i < count; i++) {
-      particles.push(createParticle(canvasW, canvasH));
-    }
+    var flickerIndex = 0;
+    var interval = DURATION_MS / FLICKER_COUNT;
 
-    var startTime = performance.now();
-    var animId;
+    function drawGlitchFrame() {
+      ctx.clearRect(0, 0, cw, ch);
 
-    function frame(now) {
-      var elapsed = now - startTime;
-      var progress = Math.min(elapsed / DURATION_MS, 1);
-      // Global fade out in the last 30%
-      var globalAlpha = progress > 0.7 ? 1 - (progress - 0.7) / 0.3 : 1;
+      // progress 0..1
+      var progress = flickerIndex / FLICKER_COUNT;
+      // fade intensity toward end
+      var intensity = 1 - progress * progress;
 
-      ctx.clearRect(0, 0, canvasW, canvasH);
+      // ── Horizontal slices: shifted bands of color ──
+      var y = 0;
+      while (y < ch) {
+        var sliceH = SLICE_MIN + Math.random() * (SLICE_MAX - SLICE_MIN);
+        if (y + sliceH > ch) sliceH = ch - y;
 
-      for (var i = 0; i < particles.length; i++) {
-        var p = particles[i];
+        // random chance to draw a glitch slice
+        if (Math.random() < 0.5 * intensity) {
+          var shift = (Math.random() - 0.5) * 2 * SHIFT_MAX * intensity;
+          var color = NEON[Math.floor(Math.random() * NEON.length)];
+          var alpha = (0.15 + Math.random() * 0.35) * intensity;
 
-        // Update position
-        p.y += p.speed;
-        p.x += p.drift;
-
-        // Glimmer: oscillate opacity
-        p.glimmerPhase += p.glimmerSpeed;
-        var glimmer = 0.5 + 0.5 * Math.sin(p.glimmerPhase);
-        var alpha = p.opacity * glimmer * globalAlpha;
-
-        if (alpha < 0.01) continue;
-
-        // Store trail positions
-        p.trail.unshift({ x: p.x, y: p.y });
-        if (p.trail.length > TAIL_LENGTH) p.trail.pop();
-
-        // Draw trail (fading tail segments)
-        for (var t = p.trail.length - 1; t >= 0; t--) {
-          var trailAlpha = alpha * (1 - t / TAIL_LENGTH) * 0.4;
-          if (trailAlpha < 0.01) continue;
-          ctx.globalAlpha = trailAlpha;
-          ctx.fillStyle = p.color;
-          var trailSize = p.size * (1 - t * 0.15);
-          ctx.fillRect(
-            Math.floor(p.trail[t].x),
-            Math.floor(p.trail[t].y),
-            Math.ceil(trailSize),
-            Math.ceil(trailSize)
-          );
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = color;
+          ctx.fillRect(shift, y, cw, sliceH);
         }
 
-        // Draw main pixel
-        ctx.globalAlpha = alpha;
-        ctx.fillStyle = p.color;
-        ctx.fillRect(
-          Math.floor(p.x),
-          Math.floor(p.y),
-          Math.ceil(p.size),
-          Math.ceil(p.size)
-        );
+        y += sliceH;
+      }
 
-        // Glow effect on brighter particles
-        if (glimmer > 0.75 && p.size > 3) {
-          ctx.globalAlpha = alpha * 0.35;
-          ctx.shadowColor = p.color;
-          ctx.shadowBlur = 8;
-          ctx.fillRect(
-            Math.floor(p.x) - 1,
-            Math.floor(p.y) - 1,
-            Math.ceil(p.size) + 2,
-            Math.ceil(p.size) + 2
-          );
-          ctx.shadowBlur = 0;
-        }
+      // ── Horizontal scan lines ──
+      ctx.globalAlpha = 0.12 * intensity;
+      ctx.fillStyle = '#fff';
+      for (var sy = 0; sy < ch; sy += 2) {
+        ctx.fillRect(0, sy, cw, 1);
+      }
+
+      // ── Scattered noise pixels ──
+      var noiseCount = Math.floor(cw * ch * NOISE_DENSITY * intensity / (PIXEL_SIZE * PIXEL_SIZE));
+      for (var i = 0; i < noiseCount; i++) {
+        var nx = Math.random() * cw;
+        var ny = Math.random() * ch;
+        var nc = NEON[Math.floor(Math.random() * NEON.length)];
+        ctx.globalAlpha = (0.3 + Math.random() * 0.7) * intensity;
+        ctx.fillStyle = nc;
+        ctx.fillRect(Math.floor(nx), Math.floor(ny), PIXEL_SIZE, PIXEL_SIZE);
+      }
+
+      // ── Occasional full-width glitch bar ──
+      if (Math.random() < 0.4 * intensity) {
+        var barY = Math.random() * ch;
+        var barH = 1 + Math.random() * 3;
+        ctx.globalAlpha = (0.4 + Math.random() * 0.4) * intensity;
+        ctx.fillStyle = NEON[Math.floor(Math.random() * NEON.length)];
+        ctx.fillRect(-SHIFT_MAX, barY, cw + SHIFT_MAX * 2, barH);
       }
 
       ctx.globalAlpha = 1;
 
-      if (progress < 1) {
-        animId = requestAnimationFrame(frame);
+      flickerIndex++;
+      if (flickerIndex < FLICKER_COUNT) {
+        setTimeout(drawGlitchFrame, interval + (Math.random() - 0.5) * interval * 0.6);
       } else {
-        // Cleanup
+        // final cleanup
         canvas.remove();
       }
     }
 
-    animId = requestAnimationFrame(frame);
+    drawGlitchFrame();
   }
 
   // ── Intersection Observer: trigger once per header ──
@@ -179,10 +129,9 @@
         entries.forEach(function (entry) {
           if (entry.isIntersecting && !triggered.has(entry.target)) {
             triggered.add(entry.target);
-            // Small delay so the header is visible before rain starts
             setTimeout(function () {
-              triggerPixelRain(entry.target);
-            }, 80);
+              triggerGlitch(entry.target);
+            }, 60);
           }
         });
       },
@@ -197,7 +146,6 @@
     });
   }
 
-  // Run after DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

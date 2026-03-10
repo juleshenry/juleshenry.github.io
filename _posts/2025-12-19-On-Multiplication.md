@@ -1914,3 +1914,9 @@ Toom-Cook: A. L. Toom, "The Complexity of a Scheme of Functional Elements Realiz
 Schönhage–Strassen paper: A. Schönhage and V. Strassen, "Schnelle Multiplikation großer Zahlen," *Computing* 7 (1971), pp. 281--292. https://doi.org/10.1007/BF02242355
 
 Harvey and van der Hoeven's Paper : https://hal.archives-ouvertes.fr/hal-03182372/document
+
+https://www.tcs.tifr.res.in/~ramprasad/assets/pubs/expositions/Schonhage-Strassen.pdf
+
+https://www.youtube.com/watch?v=m5VZnlVU2n4
+
+https://www.youtube.com/watch?v=OGUMsBkZqkc
