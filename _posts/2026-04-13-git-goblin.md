@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "git-goblin: 195+ Shell Shortcuts and a Fuzzy-Find TUI in Pure Bash"
+title: "📦 git-goblin: 195+ Shell Shortcuts and a Fuzzy-Find TUI in Pure Bash"
 date: 2026-04-13
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Back-of-the-Envelope: Convolutional Neural Networks"
+title: "✏️ Back-of-the-Envelope: Convolutional Neural Networks"
 date: 2024-08-04
 categories: machine-learning
 ---

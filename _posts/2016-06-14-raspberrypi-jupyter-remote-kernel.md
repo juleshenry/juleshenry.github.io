@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Remote control a Raspberry Pi with Jupyter notebooks"
+title: "🏆 Remote control a Raspberry Pi with Jupyter notebooks"
 date: 2016-06-14
 categories: jupyter raspberrypi
 ---

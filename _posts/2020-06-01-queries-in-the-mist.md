@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Undergraduate Thesis: Queries In the Mist"
+title: "🏆 Undergraduate Thesis: Queries In the Mist"
 date: 2020-06-01
 ---
 

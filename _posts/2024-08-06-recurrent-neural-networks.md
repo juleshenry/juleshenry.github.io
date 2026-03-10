@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Back-of-the-Envelope: Recurrent Neural Networks"
+title: "✏️ Back-of-the-Envelope: Recurrent Neural Networks"
 date: 2024-08-06
 categories: machine-learning
 ---

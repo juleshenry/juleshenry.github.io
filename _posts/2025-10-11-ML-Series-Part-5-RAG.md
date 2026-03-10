@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The ML Smörgåsbord Part 5: The Information Geometry of RAG"
+title:  "⚡ The ML Smörgåsbord Part 5: The Information Geometry of RAG"
 date:   2025-04-11 10:00:00 -0000
 categories: blog
 mathjax: true

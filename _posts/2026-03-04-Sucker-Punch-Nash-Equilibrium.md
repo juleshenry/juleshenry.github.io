@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Sucker Punch Nash Equilibrium"
+title: "✨ Sucker Punch Nash Equilibrium"
 date: 2026-03-04
 mathjax: true
 ---

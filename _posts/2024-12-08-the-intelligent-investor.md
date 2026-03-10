@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Book Review: The Intelligent Investor"
+title: "📚 Book Review: The Intelligent Investor"
 date: 2024-12-08
 ---
 Herein I machinistically query Claude 3.7 for chapter by chapter bullet points, run out of juice by Chapter 3,

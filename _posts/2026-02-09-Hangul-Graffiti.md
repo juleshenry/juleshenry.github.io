@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "한글 낙서: Hangul Graffiti"
+title: "📦 한글 낙서: Hangul Graffiti"
 date: 2026-03-09
 ---
 

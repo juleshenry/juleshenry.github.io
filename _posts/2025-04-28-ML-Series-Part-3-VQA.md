@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The ML Smörgåsbord Part 3: The Linear Algebra of Spatial Attention"
+title:  "⚡ The ML Smörgåsbord Part 3: The Linear Algebra of Spatial Attention"
 date:   2025-03-28 10:00:00 -0000
 categories: blog
 mathjax: true

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Back-of-the-Envelope: Black Scholes Merton"
+title: "✏️ Back-of-the-Envelope: Black Scholes Merton"
 date: 2024-07-24
 categories: wealth
 mathjax: true

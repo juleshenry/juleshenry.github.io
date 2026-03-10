@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The ML Smörgåsbord Part 1: The Math and Architecture of AlexNet"
+title:  "⚡ The ML Smörgåsbord Part 1: The Math and Architecture of AlexNet"
 date:   2025-03-14 10:00:00 -0000
 categories: blog
 mathjax: true

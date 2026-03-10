@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Book Review: Your Money Life Your 30's"
+title: "📚 Book Review: Your Money Life Your 30's"
 date: 2024-08-01
 categories: wealth 
 ---

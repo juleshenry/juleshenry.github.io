@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Shtetl Length"
+title: "✨ Shtetl Length"
 date: 2025-06-21
 mathjax: true
 ---
