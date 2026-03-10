@@ -12,6 +12,8 @@ This project is a from-scratch reimplementation of Harrison, Toreini, and Mehrne
 
 The project is on [GitHub](https://github.com/juleshenry/hacker-de-audio-de-teclado). MIT licensed.
 
+![Keystroke RMS Energy Detection](https://github.com/juleshenry/hacker-de-audio-de-teclado/blob/main/rms.png?raw=1)
+
 ## The Pipeline
 
 ```mermaid
@@ -54,6 +56,99 @@ The training pipeline faithfully reproduces the paper's methodology.
 4. **Classification Head.** Adaptive 2D Average Pooling -> Fully Connected Linear layer -> 36-class output.
 
 The MBConv blocks say "what does this keystroke look like locally?" The Transformer blocks say "what does the overall shape tell us?" Together, they classify each 64x64 spectrogram as one of 36 alphanumeric characters.
+
+<svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:1.5em auto;">
+  <rect width="700" height="320" rx="8" fill="#0f172a"/>
+  <text x="350" y="25" text-anchor="middle" fill="#64748b" font-size="12" font-family="monospace">CoAtNet Architecture</text>
+  <!-- Input -->
+  <rect x="20" y="40" width="90" height="50" rx="8" fill="#1e293b" stroke="#475569"/>
+  <text x="65" y="60" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="monospace">64x64</text>
+  <text x="65" y="75" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="monospace">Mel Spec</text>
+  <!-- Arrow -->
+  <line x1="110" y1="65" x2="135" y2="65" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <!-- Stem -->
+  <rect x="135" y="40" width="90" height="50" rx="8" fill="#1e3a5f" stroke="#3b82f6"/>
+  <text x="180" y="60" text-anchor="middle" fill="#60a5fa" font-size="10" font-family="monospace">Stem</text>
+  <text x="180" y="75" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">Conv2D 32ch</text>
+  <!-- Arrow -->
+  <line x1="225" y1="65" x2="250" y2="65" stroke="#475569" stroke-width="2"/>
+  <!-- MBConv 1 -->
+  <rect x="250" y="40" width="90" height="50" rx="8" fill="#1a2e1a" stroke="#22c55e"/>
+  <text x="295" y="60" text-anchor="middle" fill="#4ade80" font-size="10" font-family="monospace">MBConv</text>
+  <text x="295" y="75" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">64ch SE</text>
+  <!-- Arrow -->
+  <line x1="340" y1="65" x2="365" y2="65" stroke="#475569" stroke-width="2"/>
+  <!-- MBConv 2 -->
+  <rect x="365" y="40" width="90" height="50" rx="8" fill="#1a2e1a" stroke="#22c55e"/>
+  <text x="410" y="60" text-anchor="middle" fill="#4ade80" font-size="10" font-family="monospace">MBConv</text>
+  <text x="410" y="75" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">128ch SE</text>
+  <!-- Arrow -->
+  <line x1="455" y1="65" x2="480" y2="65" stroke="#475569" stroke-width="2"/>
+  <!-- Transformer 1 -->
+  <rect x="480" y="40" width="90" height="50" rx="8" fill="#2d1a3a" stroke="#a855f7"/>
+  <text x="525" y="60" text-anchor="middle" fill="#c084fc" font-size="10" font-family="monospace">Transformer</text>
+  <text x="525" y="75" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">4-Head Attn</text>
+  <!-- Arrow -->
+  <line x1="570" y1="65" x2="595" y2="65" stroke="#475569" stroke-width="2"/>
+  <!-- Transformer 2 -->
+  <rect x="595" y="40" width="85" height="50" rx="8" fill="#2d1a3a" stroke="#a855f7"/>
+  <text x="637" y="60" text-anchor="middle" fill="#c084fc" font-size="10" font-family="monospace">Transformer</text>
+  <text x="637" y="75" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">4-Head Attn</text>
+  <!-- Arrow down to output -->
+  <line x1="637" y1="90" x2="637" y2="110" stroke="#475569" stroke-width="2"/>
+  <!-- Output -->
+  <rect x="570" y="110" width="120" height="40" rx="8" fill="#3a1a1a" stroke="#ef4444"/>
+  <text x="630" y="135" text-anchor="middle" fill="#f87171" font-size="10" font-family="monospace">36-class output</text>
+  <!-- Legend -->
+  <rect x="30" y="120" width="12" height="12" rx="3" fill="#1e3a5f" stroke="#3b82f6"/>
+  <text x="48" y="131" fill="#60a5fa" font-size="10" font-family="monospace">Convolution</text>
+  <rect x="30" y="140" width="12" height="12" rx="3" fill="#1a2e1a" stroke="#22c55e"/>
+  <text x="48" y="151" fill="#4ade80" font-size="10" font-family="monospace">MBConv (local features)</text>
+  <rect x="30" y="160" width="12" height="12" rx="3" fill="#2d1a3a" stroke="#a855f7"/>
+  <text x="48" y="171" fill="#c084fc" font-size="10" font-family="monospace">Transformer (global context)</text>
+  <!-- Spectrogram visualization -->
+  <text x="350" y="210" text-anchor="middle" fill="#64748b" font-size="11" font-family="monospace">Sample Keystroke Spectrogram Heatmap</text>
+  <g transform="translate(100,220)">
+    <!-- Simulated mel spectrogram grid -->
+    <rect x="0" y="0" width="500" height="80" rx="4" fill="#0a0e1a" stroke="#1e293b"/>
+    <!-- Frequency bands (rows of varying intensity) -->
+    <rect x="2" y="2" width="496" height="5" fill="#0f172a" opacity="0.6"/><rect x="60" y="2" width="40" height="5" fill="#1e40af" opacity="0.7"/>
+    <rect x="2" y="8" width="496" height="5" fill="#0f172a" opacity="0.5"/><rect x="55" y="8" width="50" height="5" fill="#2563eb" opacity="0.8"/>
+    <rect x="2" y="14" width="496" height="5" fill="#0f172a" opacity="0.4"/><rect x="50" y="14" width="60" height="5" fill="#3b82f6" opacity="0.9"/>
+    <rect x="2" y="20" width="496" height="5" fill="#0f172a" opacity="0.3"/><rect x="45" y="20" width="70" height="5" fill="#60a5fa"/>
+    <rect x="2" y="26" width="496" height="5" fill="#0f172a" opacity="0.3"/><rect x="40" y="26" width="80" height="5" fill="#93c5fd"/>
+    <rect x="2" y="32" width="496" height="5" fill="#0f172a" opacity="0.4"/><rect x="42" y="32" width="75" height="5" fill="#bfdbfe"/>
+    <rect x="2" y="38" width="496" height="5" fill="#0f172a" opacity="0.5"/><rect x="45" y="38" width="65" height="5" fill="#93c5fd" opacity="0.8"/>
+    <rect x="2" y="44" width="496" height="5" fill="#0f172a" opacity="0.5"/><rect x="48" y="44" width="55" height="5" fill="#60a5fa" opacity="0.7"/>
+    <rect x="2" y="50" width="496" height="5" fill="#0f172a" opacity="0.6"/><rect x="50" y="50" width="45" height="5" fill="#3b82f6" opacity="0.6"/>
+    <rect x="2" y="56" width="496" height="5" fill="#0f172a" opacity="0.7"/><rect x="52" y="56" width="35" height="5" fill="#2563eb" opacity="0.5"/>
+    <rect x="2" y="62" width="496" height="5" fill="#0f172a" opacity="0.8"/><rect x="55" y="62" width="25" height="5" fill="#1e40af" opacity="0.4"/>
+    <rect x="2" y="68" width="496" height="5" fill="#0f172a" opacity="0.9"/><rect x="58" y="68" width="15" height="5" fill="#1e3a8a" opacity="0.3"/>
+    <!-- Second keystroke -->
+    <rect x="200" y="2" width="35" height="5" fill="#1e40af" opacity="0.6"/>
+    <rect x="195" y="8" width="45" height="5" fill="#7c3aed" opacity="0.7"/>
+    <rect x="190" y="14" width="55" height="5" fill="#8b5cf6" opacity="0.8"/>
+    <rect x="188" y="20" width="60" height="5" fill="#a78bfa"/>
+    <rect x="185" y="26" width="65" height="5" fill="#c4b5fd"/>
+    <rect x="187" y="32" width="60" height="5" fill="#a78bfa" opacity="0.8"/>
+    <rect x="190" y="38" width="50" height="5" fill="#8b5cf6" opacity="0.7"/>
+    <rect x="193" y="44" width="40" height="5" fill="#7c3aed" opacity="0.6"/>
+    <rect x="196" y="50" width="30" height="5" fill="#6d28d9" opacity="0.5"/>
+    <rect x="199" y="56" width="20" height="5" fill="#5b21b6" opacity="0.4"/>
+    <!-- Third keystroke -->
+    <rect x="340" y="2" width="30" height="5" fill="#065f46" opacity="0.5"/>
+    <rect x="335" y="8" width="40" height="5" fill="#059669" opacity="0.6"/>
+    <rect x="330" y="14" width="50" height="5" fill="#10b981" opacity="0.7"/>
+    <rect x="328" y="20" width="55" height="5" fill="#34d399" opacity="0.9"/>
+    <rect x="325" y="26" width="60" height="5" fill="#6ee7b7"/>
+    <rect x="328" y="32" width="55" height="5" fill="#34d399" opacity="0.8"/>
+    <rect x="330" y="38" width="45" height="5" fill="#10b981" opacity="0.6"/>
+    <rect x="333" y="44" width="35" height="5" fill="#059669" opacity="0.5"/>
+    <text x="70" y="92" fill="#475569" font-size="9" font-family="monospace">key 'o'</text>
+    <text x="210" y="92" fill="#475569" font-size="9" font-family="monospace">key 'z'</text>
+    <text x="345" y="92" fill="#475569" font-size="9" font-family="monospace">key 'r'</text>
+  </g>
+</svg>
 
 **Training Hyperparameters.** Adam optimizer with max LR 5e-4 and linear annealing over 1100 epochs. Batch size 16. 80/20 train/val split. Early stopping with patience of 50 epochs. Best model checkpointed to `keystroke_model_best.pth`.
 

@@ -12,7 +12,104 @@ You could type fast. Or you could automate it.
 
 touch_keeper is a Python CLI tool that parses your phone contacts (VCF file), sends a personalized SMS to each contact via the Twilio API, runs a webhook server that auto-replies when people text back, and then analyzes the response data with matplotlib visualizations.
 
-The project is on [GitHub](https://github.com/juleshenry/touch_keeper). Apache 2.0 licensed.
+The project is on [GitHub](https://github.com/juleshenry/touchkeeper). Apache 2.0 licensed.
+
+<div id="nye-viz" style="width: 100%; height: 350px; margin: 2em 0; border-radius: 8px; overflow: hidden; background: #020617;"></div>
+
+<script>
+(function() {
+  function initNYE() {
+    if (typeof THREE === 'undefined') { setTimeout(initNYE, 100); return; }
+    const container = document.getElementById('nye-viz');
+    if (!container) return;
+    const w = container.clientWidth, h = 350;
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x020617);
+    const camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 100);
+    camera.position.set(0, 0, 20);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // Central phone
+    const phoneGeo = new THREE.BoxGeometry(1.2, 2.2, 0.15);
+    const phoneMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.8, roughness: 0.2 });
+    const phone = new THREE.Mesh(phoneGeo, phoneMat);
+    scene.add(phone);
+    // Screen
+    const screenGeo = new THREE.PlaneGeometry(1.0, 1.8);
+    const screenMat = new THREE.MeshStandardMaterial({ color: 0x22d3ee, emissive: 0x22d3ee, emissiveIntensity: 0.3 });
+    const screen = new THREE.Mesh(screenGeo, screenMat);
+    screen.position.z = 0.08;
+    phone.add(screen);
+
+    // Message particles radiating outward
+    const msgs = [];
+    const msgColors = [0x22d3ee, 0x6366f1, 0xec4899, 0xf59e0b, 0x10b981, 0xa78bfa, 0xfbbf24, 0x34d399];
+    for (let i = 0; i < 60; i++) {
+      const geo = new THREE.SphereGeometry(0.08 + Math.random() * 0.08, 8, 8);
+      const mat = new THREE.MeshStandardMaterial({ color: msgColors[i % msgColors.length], emissive: msgColors[i % msgColors.length], emissiveIntensity: 0.5 });
+      const m = new THREE.Mesh(geo, mat);
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 1.5 + Math.random() * 3;
+      const ySpeed = (Math.random() - 0.5) * 2;
+      m._vx = Math.cos(angle) * speed;
+      m._vy = ySpeed;
+      m._vz = Math.sin(angle) * speed * 0.3;
+      m._life = Math.random() * 3;
+      m._maxLife = 2.5 + Math.random() * 1.5;
+      m.position.set(0, 0, 0);
+      scene.add(m);
+      msgs.push(m);
+    }
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+    const pl = new THREE.PointLight(0x22d3ee, 1.5, 20);
+    pl.position.set(0, 0, 5);
+    scene.add(pl);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = 0.016;
+      const t = Date.now() * 0.001;
+      phone.rotation.y = Math.sin(t * 0.3) * 0.15;
+      phone.rotation.x = Math.sin(t * 0.2) * 0.05;
+      screenMat.emissiveIntensity = 0.2 + Math.sin(t * 2) * 0.15;
+      for (const m of msgs) {
+        m._life += dt;
+        if (m._life > m._maxLife) {
+          m._life = 0;
+          m.position.set(0, 0, 0);
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 1.5 + Math.random() * 3;
+          m._vx = Math.cos(angle) * speed;
+          m._vy = (Math.random() - 0.5) * 2;
+          m._vz = Math.sin(angle) * speed * 0.3;
+        }
+        m.position.x += m._vx * dt;
+        m.position.y += m._vy * dt;
+        m.position.z += m._vz * dt;
+        const fade = 1 - (m._life / m._maxLife);
+        m.material.opacity = fade;
+        m.material.transparent = true;
+        m.scale.setScalar(fade);
+      }
+      renderer.render(scene, camera);
+    }
+    window.addEventListener('resize', function() {
+      const nw = container.clientWidth;
+      camera.aspect = nw / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(nw, h);
+    });
+    animate();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNYE);
+  else initNYE();
+})();
+</script>
+<p style="text-align:center; color:#64748b; font-size:0.85em; margin-top:-1em;">200+ personalized SMS messages radiating out at midnight.</p>
 
 ## The Three Stages
 
