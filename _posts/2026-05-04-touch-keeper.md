@@ -113,6 +113,29 @@ The project is on [GitHub](https://github.com/juleshenry/touchkeeper). Apache 2.
 
 ## The Three Stages
 
+<svg viewBox="0 0 700 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:1.5em auto;">
+  <rect width="700" height="110" rx="8" fill="#0f172a"/>
+  <!-- Stage 1: Send -->
+  <rect x="20" y="20" width="180" height="70" rx="10" fill="#0c2d48" stroke="#22d3ee" stroke-width="2"/>
+  <text x="110" y="48" text-anchor="middle" fill="#22d3ee" font-size="14" font-weight="bold" font-family="monospace">1. SEND</text>
+  <text x="110" y="68" text-anchor="middle" fill="#64748b" font-size="10" font-family="monospace">VCF -> Twilio SMS</text>
+  <text x="110" y="80" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">200+ personalized texts</text>
+  <!-- Arrow -->
+  <polygon points="210,55 225,48 225,52 250,52 250,58 225,58 225,62" fill="#fbbf24"/>
+  <!-- Stage 2: Serve -->
+  <rect x="255" y="20" width="180" height="70" rx="10" fill="#2d1a0a" stroke="#f59e0b" stroke-width="2"/>
+  <text x="345" y="48" text-anchor="middle" fill="#fbbf24" font-size="14" font-weight="bold" font-family="monospace">2. SERVE</text>
+  <text x="345" y="68" text-anchor="middle" fill="#64748b" font-size="10" font-family="monospace">Flask webhook /sms</text>
+  <text x="345" y="80" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">Auto-reply + logging</text>
+  <!-- Arrow -->
+  <polygon points="445,55 460,48 460,52 485,52 485,58 460,58 460,62" fill="#fbbf24"/>
+  <!-- Stage 3: Analyze -->
+  <rect x="490" y="20" width="190" height="70" rx="10" fill="#1a0c2d" stroke="#a855f7" stroke-width="2"/>
+  <text x="585" y="48" text-anchor="middle" fill="#c084fc" font-size="14" font-weight="bold" font-family="monospace">3. ANALYZE</text>
+  <text x="585" y="68" text-anchor="middle" fill="#64748b" font-size="10" font-family="monospace">response.log -> charts</text>
+  <text x="585" y="80" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace">173 replies visualized</text>
+</svg>
+
 ### 1. Send
 
 ```bash
@@ -154,6 +177,23 @@ Reads the response log, maps phone numbers back to contact names using the VCF f
 - A time-series scatter plot of when replies came in, with quartile lines showing the distribution of reply times
 
 ## The Response Log: A Time Capsule
+
+<svg viewBox="0 0 500 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;display:block;margin:1.5em auto;">
+  <rect width="500" height="140" rx="8" fill="#0f172a"/>
+  <text x="250" y="22" text-anchor="middle" fill="#64748b" font-size="11" font-family="monospace">NYE 2019/2020 Response Stats</text>
+  <!-- Bar: sent -->
+  <rect x="40" y="35" width="400" height="28" rx="5" fill="#1e293b"/>
+  <rect x="40" y="35" width="400" height="28" rx="5" fill="#22d3ee" opacity="0.7"/>
+  <text x="250" y="54" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="bold" font-family="monospace">200+ sent</text>
+  <!-- Bar: replied -->
+  <rect x="40" y="70" width="346" height="28" rx="5" fill="#1e293b"/>
+  <rect x="40" y="70" width="346" height="28" rx="5" fill="#10b981" opacity="0.7"/>
+  <text x="213" y="89" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="bold" font-family="monospace">173 replied (86.5%)</text>
+  <!-- Bar: reconnections -->
+  <rect x="40" y="105" width="60" height="28" rx="5" fill="#1e293b"/>
+  <rect x="40" y="105" width="60" height="28" rx="5" fill="#f59e0b" opacity="0.7"/>
+  <text x="130" y="124" fill="#fbbf24" font-size="11" font-family="monospace">real meetups after</text>
+</svg>
 
 The included `response.log` contains **173 real replies** from what appears to be a New Year's Eve 2019/2020 deployment. I am going to quote some of these because they are a genuine cross-section of human reaction to receiving an automated-but-personalized text at midnight:
 
