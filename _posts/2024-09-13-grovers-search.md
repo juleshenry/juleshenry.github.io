@@ -933,6 +933,10 @@ Use the sliders below to see this for yourself. Adjust $N$ (database size) and $
   camera.lookAt(0, 0, 0);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const initW = c3d.clientWidth || 300, initH = c3d.clientHeight || 450;
+  renderer.setSize(initW, initH);
+  camera.aspect = initW / initH;
+  camera.updateProjectionMatrix();
   c3d.appendChild(renderer.domElement);
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.6));
