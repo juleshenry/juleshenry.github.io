@@ -211,11 +211,11 @@ $$
 since all terms involving the second-order derivatives are zero. Expand Equation (15) to obtain
 
 $$
-\begin{aligned}
+\begin{align}
 d\tilde{S}_t &= -\frac{S_t}{B_t^2} dB_t + \frac{1}{B_t} dS_t \tag{16} \\
 &= -\frac{S_t}{B_t^2} (r_t B_t dt) + \frac{1}{B_t} \left( r_t S_t dt + \sigma S_t dW_t^{\mathbb{Q}} \right) \\
 &= \sigma \tilde{S}_t dW_t^{\mathbb{Q}}.
-\end{aligned}
+\end{align}
 $$
 
 The solution to the SDE (16) is
@@ -274,7 +274,7 @@ where $\Phi(y) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^y e^{-\frac{1}{2}t^2} dt$ 
 
 ## The Lognormal Conditional Expected Value
 
-The expected value of $X$ conditional on $X > x$ is $L_X(K) = E[X | X > x]$. For the lognormal distribution this is, using Equation (6)
+The expected value of $X$ conditional on $X > x$ is $L_X(K) = E[X \mid X > x]$. For the lognormal distribution this is, using Equation (6)
 
 $$L_X(K) = \int_K^{\infty} \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{\ln x - \mu}{\sigma}\right)^2} dx.$$
 
@@ -429,7 +429,7 @@ $$ u = \ln Z_t - \left(r + \frac{\sigma^2}{2}\right) \tau = -\ln S_t - \left(r +
 
 and variance $v = \sigma^2 \tau$. This implies that $Z_T$ follows the lognormal distribution with mean $e^{u + v/2}$ and variance $(e^v - 1)e^{2u + v}$. Note that $(1 - K Z_T)^+$ in the expectation of Equation (24) is non-zero when $Z_T < \frac{1}{K}$. Hence we can write this expectation as the two integrals
 
-$$ E^P[(1 - K Z_T) | F_t] = \int_{-\infty}^k dF_{Z_T} - K \int_{-\infty}^k Z_T dF_{Z_T} $$
+$$ E^P[(1 - K Z_T) \mid F_t] = \int_{-\infty}^k dF_{Z_T} - K \int_{-\infty}^k Z_T dF_{Z_T} $$
 
 $$ = I_1 - I_2. $$
 
@@ -455,7 +455,7 @@ $$ = \frac{K}{S_t} e^{-r \tau} \Phi (d_2) $$
 
 since $1 - \Phi (-d_2) = \Phi (d_2)$. Substitute the expressions for $I_1$ and $I_2$ from Equations (28) and (29) into the valuation Equation (24)
 
-$$ V(S_t, t) = S_t E^{\mathbb{P}} [(1 - K Z_T)^+ | \mathcal{F}_t] $$
+$$ V(S_t, t) = S_t E^{\mathbb{P}} [(1 - K Z_T)^+ \mid \mathcal{F}_t] $$
 
 $$ = S_t [I_1 - I_2] $$
 

@@ -34,6 +34,10 @@ $$S^2 = \{(x, y, z) \in \mathbb{R}^3 : x^2 + y^2 + z^2 = 1\}.$$
 
 But for our purposes, we care less about *where* the sphere sits and more about the sphere as an abstract 2-dimensional surface --- a **manifold**. Every point on $S^2$ has a neighborhood that looks like a patch of $\mathbb{R}^2$. We can cover $S^2$ with coordinate charts (for instance, stereographic projection from the north and south poles), and transitions between overlapping charts are smooth.
 
+**What is a manifold?** A manifold is a space that *locally* looks like ordinary flat space $\mathbb{R}^n$, even if *globally* it has a more complicated shape. The idea is captured perfectly by maps of the Earth. The Earth's surface is a sphere --- it curves, it closes on itself --- yet any atlas decomposes it into flat rectangular maps (a map of Europe, a map of Asia, etc.). Each individual map is a **coordinate chart**: a bijection between a patch of the sphere and a rectangle in $\mathbb{R}^2$. Where two maps overlap (say, the map of Europe and the map of Asia both cover Turkey), you need a rule for translating coordinates from one map to the other. If these translation rules are smooth (infinitely differentiable), the atlas defines a **smooth manifold**.
+
+Formally: a smooth $n$-manifold $M$ is a topological space covered by open sets $U_\alpha$, each equipped with a homeomorphism $\varphi_\alpha: U_\alpha \to \mathbb{R}^n$ (the chart), such that on overlaps $U_\alpha \cap U_\beta$, the transition map $\varphi_\beta \circ \varphi_\alpha^{-1}: \mathbb{R}^n \to \mathbb{R}^n$ is smooth. The sphere $S^2$ is a 2-manifold: you can cover it with two charts via stereographic projection from the north and south poles, and the transition between them is smooth.
+
 A **smooth map** $f: S^2 \to \mathbb{R}^3$ assigns to each point $p \in S^2$ a point $f(p) \in \mathbb{R}^3$. In local coordinates $(u, v)$ on a chart of $S^2$, we can write:
 
 $$f(u, v) = \big(f_1(u,v),\; f_2(u,v),\; f_3(u,v)\big).$$
@@ -45,6 +49,14 @@ The standard inclusion $\iota: S^2 \hookrightarrow \mathbb{R}^3$, where each poi
 Not every smooth map is geometrically well-behaved. Consider crushing the entire sphere to a single point --- that's smooth, but it destroys all geometric information. We need a condition that says "the surface never collapses."
 
 **Definition.** A smooth map $f: S^2 \to \mathbb{R}^3$ is an **immersion** if its differential $df_p: T_pS^2 \to T_{f(p)}\mathbb{R}^3$ is injective at every point $p \in S^2$.
+
+**What is $T_pS^2$?** The **tangent space** $T_pM$ at a point $p$ on a manifold $M$ is the set of all "velocity vectors" of smooth curves passing through $p$. Imagine an ant walking on the sphere. At any instant, the ant has a velocity --- a direction and speed of motion. That velocity vector lives in a flat plane tangent to the sphere at the ant's location. The set of all possible velocities at $p$ forms a 2-dimensional vector space, $T_pS^2$.
+
+More formally: if $\gamma: (-\epsilon, \epsilon) \to S^2$ is any smooth curve with $\gamma(0) = p$, then $\gamma'(0)$ is a tangent vector at $p$. The tangent space $T_pS^2$ is the collection of all such velocity vectors. For $S^2 \subset \mathbb{R}^3$, it's literally the plane tangent to the sphere at $p$. For $\mathbb{R}^3$ itself, the tangent space $T_q\mathbb{R}^3$ at any point $q$ is just $\mathbb{R}^3$ again (flat space is its own tangent space).
+
+**What is the differential $df_p$?** The differential (also called the *differential map* or *pushforward*) is the generalization of "the derivative is a linear map" from multivariable calculus to manifolds. Recall that in calculus, if $f: \mathbb{R}^2 \to \mathbb{R}^3$, the derivative at a point $p$ is a linear map that sends a small displacement $\mathbf{v}$ to $J_f(p) \cdot \mathbf{v}$, where $J_f$ is the Jacobian matrix. On a manifold, $df_p: T_pS^2 \to T_{f(p)}\mathbb{R}^3$ does the same thing: it takes a tangent vector at $p$ (a velocity of a curve on $S^2$) and maps it to a tangent vector at $f(p)$ (the velocity of the image curve in $\mathbb{R}^3$). In coordinates, $df_p$ *is* the Jacobian matrix. The notation just makes explicit that the derivative acts between tangent spaces.
+
+**What does "injective" mean?** A function is **injective** (one-to-one) if different inputs always produce different outputs. For instance, $f(x) = 2x$ is injective: if $f(a) = f(b)$ then $a = b$. But $f(x) = x^2$ is not injective: $f(3) = f(-3) = 9$, so two different inputs give the same output. When we say $df_p$ is injective, we mean: if two tangent vectors at $p$ are different, their images under $df_p$ are also different. Equivalently, the only tangent vector that $df_p$ sends to zero is the zero vector itself. This ensures the surface doesn't "collapse" at $p$.
 
 In coordinates, this means the **Jacobian matrix** of $f$ has full rank everywhere:
 
@@ -95,6 +107,10 @@ To see why this is hard, note that the immersion condition $\operatorname{rank}(
 **An analogy from calculus.** Think of the space of all immersions as an infinite-dimensional landscape. Each point in this landscape is a particular immersion $f: S^2 \to \mathbb{R}^3$. A regular homotopy is a *path* in this landscape. Smale's theorem says: the standard sphere $\iota$ and the everted sphere $\alpha$ lie in the same *path-connected component* of this landscape.
 
 <div id="immersion-demo" style="width: 100%; height: 450px; margin: 2em 0; border-radius: 8px; overflow: hidden; background: #0f172a; position: relative;">
+  <div style="position: absolute; top: 10px; right: 10px; z-index: 10; font-family: monospace; font-size: 12px;">
+    <span style="color: #818cf8;">&#9632;</span><span style="color: #94a3b8;"> outside</span>&nbsp;&nbsp;
+    <span style="color: #f97316;">&#9632;</span><span style="color: #94a3b8;"> inside</span>
+  </div>
   <div style="position: absolute; bottom: 10px; left: 10px; right: 10px; z-index: 10; text-align: center;">
     <label style="color: #94a3b8; font-size: 14px; font-family: monospace;">Deformation parameter t:
       <input type="range" id="immersion-slider" min="0" max="100" value="0" style="width: 60%; margin-left: 10px; vertical-align: middle;">
@@ -132,24 +148,37 @@ To see why this is hard, note that the immersion condition $\operatorname{rank}(
     const positionAttr = geometry.getAttribute('position');
     const originalPositions = new Float32Array(positionAttr.array);
 
-    const material = new THREE.MeshStandardMaterial({
+    // Front face (outside): indigo
+    const frontMaterial = new THREE.MeshStandardMaterial({
       color: 0x6366f1,
       metalness: 0.3,
       roughness: 0.5,
-      side: THREE.DoubleSide,
+      side: THREE.FrontSide,
       transparent: true,
-      opacity: 0.85,
-      wireframe: false
+      opacity: 0.85
     });
-    const mesh = new THREE.Mesh(geometry, material);
+    const mesh = new THREE.Mesh(geometry, frontMaterial);
     scene.add(mesh);
+
+    // Back face (inside): orange-red — becomes visible as the sphere everts
+    const backMaterial = new THREE.MeshStandardMaterial({
+      color: 0xf97316,
+      metalness: 0.3,
+      roughness: 0.5,
+      side: THREE.BackSide,
+      transparent: true,
+      opacity: 0.85
+    });
+    const backMesh = new THREE.Mesh(geometry, backMaterial);
+    scene.add(backMesh);
 
     // Wireframe overlay
     const wireMat = new THREE.MeshBasicMaterial({
       color: 0xa5b4fc,
       wireframe: true,
       transparent: true,
-      opacity: 0.15
+      opacity: 0.15,
+      side: THREE.DoubleSide
     });
     const wireMesh = new THREE.Mesh(geometry, wireMat);
     scene.add(wireMesh);
@@ -173,24 +202,67 @@ To see why this is hard, note that the immersion condition $\operatorname{rank}(
         const ox = originalPositions[i];
         const oy = originalPositions[i+1];
         const oz = originalPositions[i+2];
-        const r = Math.sqrt(ox*ox + oy*oy + oz*oz);
-        const theta = Math.atan2(Math.sqrt(ox*ox + oy*oy), oz);
-        const phi = Math.atan2(oy, ox);
 
-        // Smooth deformation: push the sphere through itself
-        // Uses a corrugation-inspired deformation
-        const corrugation = Math.sin(3 * theta) * Math.sin(2 * phi);
-        const push = t * 2.0 * Math.cos(theta);
-        const ripple = t * 0.4 * corrugation;
+        const theta = Math.atan2(Math.sqrt(ox*ox + oy*oy), oz); // polar angle [0, pi]
+        const phi = Math.atan2(oy, ox); // azimuthal angle
 
-        const scale = 1.0 + ripple;
-        const nx = ox * scale + t * 0.3 * Math.sin(3 * phi) * Math.sin(theta);
-        const ny = oy * scale + t * 0.3 * Math.cos(3 * phi) * Math.sin(theta);
-        const nz = oz * (1.0 - 2.0 * t) + push * 0.1;
+        // --- Thurston-inspired corrugation eversion ---
+        // Phase 1 (t in [0, 0.3]): grow corrugations
+        // Phase 2 (t in [0.3, 0.7]): push lobes through, invert z
+        // Phase 3 (t in [0.7, 1.0]): shrink corrugations
 
-        positions[i] = nx;
-        positions[i+1] = ny;
-        positions[i+2] = nz;
+        // Corrugation envelope: rises then falls
+        let corrAmp;
+        if (t < 0.3) {
+          corrAmp = t / 0.3;
+        } else if (t < 0.7) {
+          corrAmp = 1.0;
+        } else {
+          corrAmp = (1.0 - t) / 0.3;
+        }
+
+        // Number of corrugation lobes
+        const k = 4;
+
+        // Corrugation: radial displacement along normal direction
+        // Amplitude is strongest near equator (sin(theta)), vanishes at poles
+        const equatorWeight = Math.sin(theta);
+        const corrugation = corrAmp * 0.35 * equatorWeight * Math.sin(k * phi);
+
+        // Azimuthal twist: during push-through phase, twist lobes past each other
+        let twist = 0;
+        if (t > 0.2 && t < 0.8) {
+          const twistPhase = Math.min(1.0, Math.max(0.0, (t - 0.2) / 0.6));
+          twist = twistPhase * Math.PI / k * equatorWeight;
+        }
+        const twistedPhi = phi + twist;
+
+        // z-inversion: smoothly flip z coordinate
+        // Use a smooth interpolation of z -> -z during phase 2
+        let zFactor;
+        if (t < 0.15) {
+          zFactor = 1.0;
+        } else if (t < 0.85) {
+          const s = (t - 0.15) / 0.7;
+          // Smooth hermite interpolation from 1 to -1
+          zFactor = 1.0 - 2.0 * (3*s*s - 2*s*s*s);
+        } else {
+          zFactor = -1.0;
+        }
+
+        // Rebuild the position in spherical coords with modifications
+        const newR = 1.0 + corrugation;
+        const newTheta = theta;
+        const newPhi = twistedPhi;
+
+        const sinT = Math.sin(newTheta);
+        const cosT = Math.cos(newTheta);
+        const sinP = Math.sin(newPhi);
+        const cosP = Math.cos(newPhi);
+
+        positions[i]   = newR * sinT * cosP;
+        positions[i+1] = newR * sinT * sinP;
+        positions[i+2] = newR * cosT * zFactor;
       }
       positionAttr.needsUpdate = true;
       geometry.computeVertexNormals();
@@ -220,6 +292,7 @@ To see why this is hard, note that the immersion condition $\operatorname{rank}(
     function animate() {
       requestAnimationFrame(animate);
       mesh.rotation.set(rotX, rotY, 0);
+      backMesh.rotation.set(rotX, rotY, 0);
       wireMesh.rotation.set(rotX, rotY, 0);
       renderer.render(scene, camera);
     }
@@ -242,7 +315,7 @@ To see why this is hard, note that the immersion condition $\operatorname{rank}(
 })();
 </script>
 
-*Drag to rotate. Use the slider to deform the sphere --- notice how the surface always remains smooth (no creases), even as it passes through itself.*
+*Drag to rotate. Use the slider to deform the sphere. Indigo shows the outside surface, orange shows the inside. As $t$ increases, corrugations develop, lobes push through each other, and the sphere turns inside out --- the orange interior becomes the exterior. Notice how the surface always remains smooth (no creases), even as it passes through itself.*
 
 ---
 
@@ -254,13 +327,23 @@ Here is where the story shifts from individual maps to the *space of all possibl
 
 Let $\operatorname{Imm}(S^2, \mathbb{R}^3)$ denote the space of all $C^2$ immersions of $S^2$ into $\mathbb{R}^3$. Each point in this space is an entire immersion $f: S^2 \to \mathbb{R}^3$. The topology on this space is the $C^1$ uniform topology: two immersions are "close" if they are close in value *and* their first derivatives are close, at every point of $S^2$.
 
+**What does $C^2$ mean?** The notation $C^k$ describes how many times a function can be differentiated. A $C^0$ function is merely continuous (no jumps). A $C^1$ function has a continuous first derivative (no sharp corners). A $C^2$ function has continuous first *and* second derivatives (the surface curves smoothly, with no abrupt changes in curvature). A $C^\infty$ function --- also called **smooth** --- can be differentiated infinitely many times. The immersion condition requires checking the first derivative (the Jacobian), so $C^1$ would suffice for that, but Smale works with $C^2$ to ensure the second-derivative structure needed for the analysis is available.
+
 This is an **infinite-dimensional** space. Just as a curve in $\mathbb{R}^3$ can be specified by three functions of one variable, an immersion $f: S^2 \to \mathbb{R}^3$ is specified by three functions of two variables --- and the "dimension" of the function space reflects the infinite degrees of freedom available.
 
 **Analogy from calculus of variations.** In the calculus of variations, you study functionals like
 
 $$\mathcal{L}[y] = \int_a^b L(x, y, y') \, dx$$
 
-where each *function* $y(x)$ is a point in an infinite-dimensional function space. The Euler--Lagrange equation finds critical points of $\mathcal{L}$ in this space. Smale's approach is similar in spirit: he studies the *topology* of a function space (the space of immersions) rather than optimizing a functional on it.
+where each *function* $y(x)$ is a point in an infinite-dimensional function space. The Euler--Lagrange equation finds critical points of $\mathcal{L}$ in this space.
+
+**What is the Euler--Lagrange equation?** Just as finding the maximum or minimum of a function $f(x)$ requires solving $f'(x) = 0$, finding the function $y(x)$ that maximizes or minimizes a *functional* $\mathcal{L}[y]$ requires solving a differential equation. That equation is the **Euler--Lagrange equation**:
+
+$$\frac{\partial L}{\partial y} - \frac{d}{dx}\frac{\partial L}{\partial y'} = 0.$$
+
+The analogy is: $f'(x) = 0$ says "the function $f$ is flat at $x$" (no small change in $x$ improves the value). The Euler--Lagrange equation says "$\mathcal{L}$ is flat at $y$" (no small change in the *function* $y$ improves the value). For example, to find the shortest path between two points in the plane, you minimize $\mathcal{L}[y] = \int_a^b \sqrt{1 + (y')^2}\, dx$. The Euler--Lagrange equation gives $y'' = 0$, so the critical points are straight lines --- exactly what you'd expect.
+
+Smale's approach is similar in spirit: he studies the *topology* of a function space (the space of immersions) rather than optimizing a functional on it.
 
 ## 2.2 Paths in Configuration Space
 
@@ -300,7 +383,13 @@ $$\mathbf{n}_f(p) = \frac{\frac{\partial f}{\partial u} \times \frac{\partial f}
 
 This assigns to each point $p \in S^2$ the unit normal vector to the image surface at $f(p)$. The Gauss map $\mathbf{n}_f: S^2 \to S^2$ has a **degree** --- the number of times the normal vector wraps around the target sphere.
 
-A classical result states that the degree of the Gauss map equals $1$ for *any* immersion of $S^2$ in $\mathbb{R}^3$. This is reassuring: both the standard sphere (outward normals) and the everted sphere (inward normals, but now on the "outside") have Gauss map degree $1$. The Gauss map degree does not obstruct eversion.
+**What is the degree of a map?** For a continuous map $g: S^n \to S^n$ from a sphere to itself, the **degree** is an integer that counts "how many times the domain wraps around the target," with orientation. A concrete example: think of a map $g: S^1 \to S^1$ from the circle to itself. If $g(\theta) = 2\theta$ (the angle doubles), then as $\theta$ traverses the circle once ($0$ to $2\pi$), the image traverses the circle twice. This map has degree $2$. The identity map $g(\theta) = \theta$ has degree $1$. A constant map (everything goes to one point) has degree $0$. The reflection $g(\theta) = -\theta$ has degree $-1$ --- it wraps around once but reverses orientation. For maps $S^2 \to S^2$, the same idea applies: degree counts the signed number of times the image covers the target sphere.
+
+A classical result states that the degree of the Gauss map equals $1$ for *any* immersion of $S^2$ in $\mathbb{R}^3$.
+
+**Why is the degree always 1?** For the standard embedding, this is intuitive: the outward normal at a point $p$ is just $p$ itself, so the Gauss map is the identity $S^2 \to S^2$, which has degree $1$. The deeper fact is that degree is invariant under regular homotopy (the degree of a continuous family of maps can't jump, since it's an integer varying continuously). Since every immersion of $S^2$ in $\mathbb{R}^3$ is regularly homotopic to the standard embedding (that's Smale's theorem!), every immersion has Gauss map degree $1$. Alternatively, the degree of the Gauss map equals $\frac{1}{2}\chi(S^2) = 1$ by the Gauss--Bonnet theorem, where $\chi(S^2) = 2$ is the Euler characteristic, a topological invariant that doesn't depend on the immersion.
+
+This is reassuring: both the standard sphere (outward normals) and the everted sphere (inward normals, but now on the "outside") have Gauss map degree $1$. The Gauss map degree does not obstruct eversion.
 
 But this is not the whole story --- the Gauss map captures only the normal direction, not the full tangent frame. Smale's invariant $\Omega(f,g)$ is finer, living in the homotopy group $\pi_2(V_{3,2})$.
 
@@ -501,13 +590,29 @@ For sphere eversion, we need $n = 3$. The classification reduces to computing $\
 
 **Step 1.** The Stiefel manifold $V_{3,2}$ is homeomorphic to $SO(3)$, the rotation group of $\mathbb{R}^3$.
 
+**What is $SO(3)$?** $SO(3)$ is the group of all rotations of 3-dimensional space. Each element is a $3 \times 3$ orthogonal matrix with determinant $+1$ (the "S" stands for "special," meaning determinant 1; the "O" stands for "orthogonal"). Concretely, every rotation is determined by an axis (a line through the origin) and an angle of rotation about that axis. $SO(3)$ is a 3-dimensional manifold: you need three numbers to specify a rotation --- for instance, the two angles that determine the rotation axis (a point on $S^2$) plus the rotation angle. It's a manifold because nearby rotations correspond to nearby parameters, and it's a *group* because you can compose rotations and take inverses. As a topological space, $SO(3)$ is compact and connected but *not* simply connected: there is a loop in $SO(3)$ (a $360°$ rotation about a fixed axis) that cannot be shrunk to a point, but doing the same rotation *twice* ($720°$) gives a loop that *can* be shrunk to a point. This is the famous "plate trick" or "belt trick."
+
 **Step 2.** $SO(3)$ is homeomorphic to $\mathbb{RP}^3$ (real projective 3-space). This follows from the quaternion double cover: $SU(2) \cong S^3$ maps onto $SO(3)$ with kernel $\{\pm 1\}$, so $SO(3) \cong S^3 / \{\pm 1\} = \mathbb{RP}^3$.
+
+**What is $\mathbb{RP}^3$?** Real projective $n$-space $\mathbb{RP}^n$ is the space of all lines through the origin in $\mathbb{R}^{n+1}$. Each "point" of $\mathbb{RP}^n$ is not a single point but a *line*. Equivalently, $\mathbb{RP}^n = S^n / \{\pm 1\}$: start with the $n$-sphere and declare each point equivalent to its antipode (diametrically opposite point), since both lie on the same line through the origin.
+
+Start with the simplest case: $\mathbb{RP}^1$. Take the circle $S^1$ and glue each point to its antipode. The top half of the circle gets glued to the bottom half, and you get... another circle. So $\mathbb{RP}^1 \cong S^1$. For $\mathbb{RP}^2$: take the 2-sphere and glue antipodal points. You get a surface that cannot be embedded in $\mathbb{R}^3$ without self-intersection --- it's a non-orientable surface (the Boy's surface from section 4.2 is an immersion of $\mathbb{RP}^2$ in $\mathbb{R}^3$). For $\mathbb{RP}^3$: take $S^3$ (the 3-sphere, living in $\mathbb{R}^4$) and glue each point to its antipode. The result is a compact 3-manifold. It's harder to visualize, but you can think of it as a solid ball $B^3$ where each point on the boundary is identified with the diametrically opposite boundary point.
 
 **What does this mean concretely?** A unit quaternion $q = a + bi + cj + dk$ with $a^2 + b^2 + c^2 + d^2 = 1$ represents a rotation of $\mathbb{R}^3$: the rotation by angle $2\cos^{-1}(a)$ about the axis $(b, c, d)/\|(b,c,d)\|$. But $q$ and $-q$ represent the *same* rotation (negating a quaternion flips both the axis direction and the rotation sense, which cancel out). So each rotation corresponds to a pair $\{q, -q\}$ of antipodal points on $S^3$. The space of such antipodal pairs is exactly $\mathbb{RP}^3 = S^3/\{\pm 1\}$. Hence $SO(3) \cong \mathbb{RP}^3$.
 
 **Step 3.** We compute $\pi_2(\mathbb{RP}^3)$ using the long exact sequence of the double covering $p: S^3 \to \mathbb{RP}^3$ with fiber $S^0 = \{+1, -1\}$:
 
+**What is a covering space?** A **covering space** of $X$ is a space $\tilde{X}$ together with a map $p: \tilde{X} \to X$ such that every point in $X$ has a neighborhood $U$ where $p^{-1}(U)$ is a disjoint union of copies of $U$, each mapped homeomorphically onto $U$ by $p$. Think of it as "stacking copies": locally, $\tilde{X}$ looks like several identical floors of a building, and $p$ is the projection that forgets which floor you're on.
+
+**Concrete example:** The real line $\mathbb{R}$ covers the circle $S^1$ via the map $p(t) = e^{2\pi i t}$. Each point on the circle has infinitely many preimages (all differing by integers). Another example: $S^1$ covers itself via $z \mapsto z^2$ --- each point has exactly 2 preimages, so this is a *double cover*. In our case, $S^3$ double-covers $\mathbb{RP}^3$: the map $p$ sends each point $q \in S^3$ to the line $\{q, -q\}$ in $\mathbb{RP}^3$, so each point of $\mathbb{RP}^3$ has exactly 2 preimages (namely $q$ and $-q$). The fiber $p^{-1}(\text{point})$ is $S^0 = \{+1, -1\}$, a discrete two-point set.
+
 **What is a long exact sequence?** When one space covers another (like $S^3$ double-covering $\mathbb{RP}^3$), the homotopy groups of the three spaces involved --- the covering space, the base, and the fiber --- are linked by a chain of group homomorphisms. "Exact" means that at each position in the chain, the image of one map equals the kernel of the next. This constraint is so rigid that knowing some of the groups forces the others. In our case, it forces $\pi_2(\mathbb{RP}^3) \cong \pi_2(S^3)$.
+
+**Group homomorphism, kernel, and image.** A **group homomorphism** is a function $\varphi: G \to H$ between groups that preserves the group operation: $\varphi(a \cdot b) = \varphi(a) \cdot \varphi(b)$. For example, $\varphi: \mathbb{Z} \to \mathbb{Z}$ defined by $\varphi(n) = 2n$ is a homomorphism: $\varphi(a + b) = 2(a+b) = 2a + 2b = \varphi(a) + \varphi(b)$.
+
+The **image** of $\varphi$ is the set of all outputs: $\operatorname{im}(\varphi) = \{\varphi(g) : g \in G\}$. For $\varphi(n) = 2n$, the image is the even integers $2\mathbb{Z}$.
+
+The **kernel** of $\varphi$ is the set of inputs that map to the identity: $\ker(\varphi) = \{g \in G : \varphi(g) = e_H\}$. For $\varphi(n) = 2n$, the kernel is $\{0\}$ (only zero maps to zero). In the exact sequence $A \xrightarrow{f} B \xrightarrow{g} C$, "exact at $B$" means $\operatorname{im}(f) = \ker(g)$: what comes in from $f$ is exactly what gets killed by $g$.
 
 The relevant portion of the sequence is:
 
@@ -561,6 +666,8 @@ The key results in the proof chain are:
 
 2. **Lemma 3.2:** The auxiliary space $E'$ is **contractible** (via the homotopy $H_t(f)(p) = f(h_t(p))$ where $h_t$ contracts $D$ to a point).
 
+   **What does "contractible" mean?** A space is **contractible** if it can be continuously shrunk to a single point. Think of a ball of clay: you can smoothly squeeze it down to a point without tearing. Formally, $X$ is contractible if the identity map $\operatorname{id}: X \to X$ is homotopic to a constant map. Equivalently, all homotopy groups vanish: $\pi_k(X) = 0$ for all $k$. Examples: $\mathbb{R}^n$ is contractible (shrink everything to the origin: $H_t(x) = (1-t)x$). The interval $[0,1]$ is contractible. The circle $S^1$ is *not* contractible --- you can't shrink it to a point without tearing, and indeed $\pi_1(S^1) = \mathbb{Z} \neq 0$.
+
 3. **Lemma 3.3:** $\pi_k(E_0) = 0$ for all $k \geq 0$ --- the space of immersions of a disk with fixed boundary data has trivial homotopy groups.
 
 4. **Theorem 3.7:** The map $\phi_0: \Gamma_c \to \Omega_d$ between fibers is a **weak homotopy equivalence**.
@@ -569,15 +676,31 @@ The key results in the proof chain are:
 
 6. **Theorem 3.9:** Combining everything: $\pi_k(\Gamma_c) = \pi_{k+2}(V_{n,2})$. For $k=0$: the set of path components of the fiber $\Gamma_c$ is in bijection with $\pi_2(V_{n,2})$.
 
+**Unpacking the notation.** Here is what these symbols mean concretely:
+
+- **$\Gamma_c$** is the fiber of the immersion fibration: it consists of all immersions of the disk $D$ into $\mathbb{R}^n$ that have a *fixed* boundary condition $c$ (i.e., they all agree on how they behave near the boundary of the disk). Two immersions being in the same path-component of $\Gamma_c$ means they can be connected by a regular homotopy that holds the boundary fixed --- which is exactly the question of regular homotopy.
+
+- **$\Omega_d$** is a *loop space* of the Stiefel manifold $V_{n,2}$. Specifically, $\Omega_d = \Omega^2(V_{n,2})$ consists of maps from a 2-disk into $V_{n,2}$ with prescribed boundary behavior $d$. The loop space is a standard algebraic topology construction that "shifts" homotopy groups: $\pi_k(\Omega^2 X) = \pi_{k+2}(X)$, which is why Lemma 3.8 relates $\pi_k(\Omega_d)$ to $\pi_{k+2}(V_{n,2})$.
+
+- **$\phi_0$** is the map that sends an immersion to its tangential data. Given an immersion $f$ in $\Gamma_c$, define $\phi_0(f)$ by recording the tangent frame $\left(\frac{\partial f}{\partial u}, \frac{\partial f}{\partial v}\right)$ at each point --- this is a map from the disk into $V_{n,2}$, i.e., an element of $\Omega_d$.
+
+- A **weak homotopy equivalence** $g: A \to B$ is a map that induces isomorphisms $\pi_k(A) \cong \pi_k(B)$ for all $k \geq 0$. It means $A$ and $B$ have identical homotopy groups (and the isomorphisms are induced by $g$ itself), even if $A$ and $B$ are not homeomorphic. For the purpose of computing homotopy groups --- which is all we need --- a weak homotopy equivalence is as good as a homeomorphism.
+
 This is the bridge: the topology of the fiber (which controls whether two immersions with the same boundary data are regularly homotopic) is captured by the homotopy group $\pi_2(V_{n,2})$.
 
 ## 3.6 Contrast: $S^2$ in $\mathbb{R}^4$
 
 The magic of $\pi_2(V_{3,2}) = 0$ is specific to codimension 1. For $n = 4$:
 
+**What is codimension?** The **codimension** of a submanifold $M^k$ inside an ambient space $\mathbb{R}^n$ is $n - k$, the number of "extra dimensions" in the ambient space beyond those of $M$. A curve ($k = 1$) in $\mathbb{R}^3$ ($n = 3$) has codimension $3 - 1 = 2$. A surface ($k = 2$) in $\mathbb{R}^3$ has codimension $3 - 2 = 1$. Our sphere $S^2$ in $\mathbb{R}^3$ has codimension 1 --- there is exactly one "extra" direction at each point (the normal direction). In $\mathbb{R}^4$, the same sphere $S^2$ would have codimension 2 --- two independent normal directions at each point. Higher codimension gives more room for self-intersection to be "resolved," but it also introduces new topological invariants that can obstruct regular homotopy.
+
 $$\pi_2(V_{4,2}) \cong \mathbb{Z}.$$
 
 This means there are **infinitely many** distinct regular homotopy classes of immersions $S^2 \to \mathbb{R}^4$, indexed by the integers. Smale's Theorem C relates these classes to the characteristic class of the normal bundle, which for $S^2$ in $\mathbb{R}^4$ equals twice the algebraic self-intersection number of the immersion. Two immersions are regularly homotopic if and only if they have the same algebraic self-intersection number.
+
+**Normal bundle and characteristic class, explained.** At each point $p$ of an immersed surface in $\mathbb{R}^n$, the tangent plane occupies 2 of the $n$ available dimensions. The remaining $n - 2$ dimensions form the **normal space** at $p$. As $p$ varies across the surface, these normal spaces fit together into a geometric object called the **normal bundle** --- think of it as attaching a small normal "fiber" at every point, like the pile on a carpet.
+
+A **characteristic class** is a topological invariant that measures how "twisted" a bundle is. The simplest analogy: consider a strip of paper. If you glue the ends without twisting, you get a cylinder --- the normal bundle is trivial (untwisted). If you glue with a half-twist, you get a Mobius strip --- the bundle is nontrivial, and the characteristic class detects this twist. For surfaces in $\mathbb{R}^4$, the relevant characteristic class is an integer (the **Euler class** of the normal bundle), and it equals $2 \times (\text{algebraic self-intersection number})$. This integer is the complete obstruction to regular homotopy.
 
 ---
 
@@ -784,7 +907,9 @@ One can also study the eversion through the lens of **geometric flows** on the s
 
 $$W[f] = \int_{S^2} H^2 \, dA$$
 
-where $H$ is the mean curvature. The Willmore flow
+where $H$ is the mean curvature.
+
+**What is mean curvature?** At each point of a surface in $\mathbb{R}^3$, the surface curves by different amounts in different directions. The two extremes --- the maximum and minimum curvatures --- are called the **principal curvatures** $\kappa_1$ and $\kappa_2$. The **mean curvature** $H = \frac{1}{2}(\kappa_1 + \kappa_2)$ is their average. For a sphere of radius $R$, both principal curvatures equal $1/R$, so $H = 1/R$ everywhere. For a saddle point (like the center of a Pringles chip), the curvatures have opposite signs and can cancel: $H = 0$. Surfaces with $H = 0$ everywhere are called **minimal surfaces** (like soap films). The Willmore energy $\int H^2 \, dA$ measures the total "bending" of a surface; a round sphere minimizes it among all closed surfaces. The Willmore flow
 
 $$\frac{\partial f}{\partial t} = -\nabla W[f]$$
 
