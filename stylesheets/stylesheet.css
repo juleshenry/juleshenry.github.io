@@ -33,6 +33,16 @@ body {
 ol, ul {
 	list-style: none;
 }
+/* Restore list styles for post content (reset strips them) */
+section#main_content ul {
+	list-style: disc;
+}
+section#main_content ol {
+	list-style: decimal;
+}
+section#main_content ul.posts {
+	list-style: none;
+}
 blockquote, q {
 	quotes: none;
 }
@@ -123,7 +133,7 @@ a:hover {
   backdrop-filter: blur(8px);
   overflow-wrap: break-word;
   word-wrap: break-word;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 
 #container .inner img {
@@ -188,8 +198,6 @@ nav ul li a:hover {
 
 section#main_content {
   margin-top: 16px;
-  display: grid;
-  gap: 18px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   max-width: 100%;
@@ -407,6 +415,20 @@ footer a:hover {
   box-shadow: 0 12px 32px rgba(12, 74, 110, 0.12);
 }
 
+/* Mermaid Diagram Styling */
+.mermaid {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  margin: 12px 0;
+  text-align: center;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
 /* MathJax Responsive Fixes */
 mjx-container {
   overflow-x: auto;
@@ -495,17 +517,10 @@ section#main_content table {
   pre {
     padding: 10px;
     font-size: 0.75rem;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
   }
   
   pre code {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    display: inline;
-    width: auto;
+    font-size: inherit;
   }
   
   code {
@@ -571,6 +586,82 @@ section#main_content table {
   /* Blockquote with display math inside */
   blockquote mjx-container[jax="CHTML"][display="true"] {
     font-size: 85%;
+  }
+
+  /* Generic Three.js / interactive viz containers: cap height on mobile */
+  section#main_content div[style*="height: 600px"],
+  section#main_content div[style*="height:600px"] {
+    height: 420px !important;
+  }
+  section#main_content div[style*="height: 650px"],
+  section#main_content div[style*="height:650px"],
+  section#main_content div[style*="min-height: 650px"],
+  section#main_content div[style*="min-height:650px"] {
+    height: auto !important;
+    min-height: 500px !important;
+  }
+  section#main_content div[style*="height: 500px"],
+  section#main_content div[style*="height:500px"] {
+    height: 350px !important;
+  }
+  section#main_content div[style*="height: 450px"],
+  section#main_content div[style*="height:450px"] {
+    height: 320px !important;
+  }
+
+  /* Absolute-positioned overlay panels: reduce padding/font, constrain width */
+  section#main_content div[style*="position: absolute"] {
+    max-width: 80vw !important;
+    font-size: 11px !important;
+    padding: 8px !important;
+  }
+  section#main_content div[style*="position: absolute"] div {
+    font-size: inherit !important;
+  }
+
+  /* Buttons inside viz controls: smaller on mobile */
+  section#main_content button {
+    padding: 5px 10px !important;
+    font-size: 12px !important;
+    margin: 3px !important;
+  }
+
+  /* Sliders: remove min-width so they fit */
+  section#main_content input[type="range"] {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Flex layouts in post content: force wrapping */
+  section#main_content > div[style*="display: flex"],
+  section#main_content div[style*="display: flex"] {
+    flex-wrap: wrap !important;
+  }
+
+  /* Flex children with min-width: reduce for mobile */
+  section#main_content div[style*="min-width: 300px"],
+  section#main_content div[style*="min-width:300px"] {
+    min-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Labels and controls with min-width */
+  section#main_content label[style*="min-width: 200px"],
+  section#main_content label[style*="min-width:200px"] {
+    min-width: 100% !important;
+  }
+
+  /* Fixed-width images via HTML attributes: allow shrinking */
+  section#main_content img[width] {
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Inline SVGs: ensure they scale */
+  section#main_content svg {
+    max-width: 100%;
+    height: auto;
   }
 }
 
@@ -670,5 +761,43 @@ section#main_content table {
   blockquote {
     padding: 8px 12px;
     margin: 8px 0 14px;
+  }
+
+  /* Three.js viz containers: further reduce on small phones */
+  section#main_content div[style*="height: 600px"],
+  section#main_content div[style*="height:600px"] {
+    height: 300px !important;
+  }
+  section#main_content div[style*="height: 500px"],
+  section#main_content div[style*="height:500px"] {
+    height: 260px !important;
+  }
+  section#main_content div[style*="height: 450px"],
+  section#main_content div[style*="height:450px"] {
+    height: 240px !important;
+  }
+  section#main_content div[style*="min-height: 650px"],
+  section#main_content div[style*="min-height:650px"] {
+    min-height: 400px !important;
+  }
+
+  /* Overlay panels: even tighter */
+  section#main_content div[style*="position: absolute"] {
+    max-width: 85vw !important;
+    font-size: 10px !important;
+    padding: 6px !important;
+  }
+
+  /* Flex children: always stack vertically */
+  section#main_content div[style*="min-width: 300px"],
+  section#main_content div[style*="min-width:300px"] {
+    min-width: 100% !important;
+    height: 250px !important;
+  }
+
+  /* Select dropdowns with long text */
+  section#main_content select {
+    max-width: 100% !important;
+    font-size: 11px !important;
   }
 }

@@ -64,6 +64,28 @@
 </div>
 </div>
   
+  <!-- Mermaid.js - render ```mermaid code blocks as diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'default',
+      securityLevel: 'loose',
+      flowchart: { useMaxWidth: true, htmlLabels: true }
+    });
+    // Find all <pre><code class="language-mermaid"> blocks and render them
+    const codeBlocks = document.querySelectorAll('code.language-mermaid');
+    for (let i = 0; i < codeBlocks.length; i++) {
+      const code = codeBlocks[i];
+      const pre = code.parentElement;
+      const container = document.createElement('div');
+      container.className = 'mermaid';
+      container.textContent = code.textContent;
+      pre.parentNode.replaceChild(container, pre);
+    }
+    await mermaid.run();
+  </script>
+
   <!-- Three.js - load at end of body for better performance -->
   <script type="module">
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.module.js';
