@@ -1000,6 +1000,398 @@ $$
 
 The key observation is not the specific numerical values but the *structure*: $3$ levels of $4$ butterflies each $= 12$ complex multiplications, versus $8^2 = 64$ for the naive DFT. The ratio $12/64 \approx 19\%$ -- and this ratio improves as $N$ grows.
 
+The visualization below animates this 8-point butterfly network. Watch how data flows through three stages of butterflies -- each stage halving the sub-problem size -- with twiddle factors ($\omega^k$) applied at every crossing.
+
+<div id="fft-viz" style="width: 100%; height: 560px; margin: 2em 0; border-radius: 8px; overflow: hidden; background: #0f172a; position: relative;">
+  <div id="fft-phase-label" style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); color: #e2e8f0; font-family: monospace; font-size: 15px; z-index: 10; pointer-events: none; text-align: center; white-space: nowrap;"></div>
+  <div id="fft-info-label" style="position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); color: #94a3b8; font-family: monospace; font-size: 13px; z-index: 10; pointer-events: none; text-align: center;"></div>
+</div>
+
+<script>
+(function() {
+  function initFFTViz() {
+    if (typeof THREE === 'undefined') { setTimeout(initFFTViz, 100); return; }
+
+    var container = document.getElementById('fft-viz');
+    if (!container) return;
+
+    var phaseLabel = document.getElementById('fft-phase-label');
+    var infoLabel = document.getElementById('fft-info-label');
+
+    // --- Scene setup ---
+    var scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0f172a);
+
+    var W = container.clientWidth, H = 560;
+    var camera = new THREE.OrthographicCamera(-7, 7, 4, -4, 0.1, 100);
+    camera.position.set(0, 0, 10);
+    camera.lookAt(0, 0, 0);
+
+    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(W, H);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // --- Colors ---
+    var COL_NODE    = 0x6366f1; // indigo
+    var COL_WIRE    = 0x334155; // slate
+    var COL_PULSE   = 0x22c55e; // green
+    var COL_CROSS   = 0xf59e0b; // amber - twiddle factor lines
+    var COL_ADD     = 0x3b82f6; // blue - addition lines
+    var COL_SUB     = 0xef4444; // red - subtraction lines
+    var COL_ACTIVE  = 0xa855f7; // purple - active stage highlight
+    var COL_OUT     = 0x22c55e; // green - output
+
+    var N = 8;
+    var STAGES = 3; // log2(8) = 3
+
+    // Bit-reversal permutation for N=8
+    var bitRev = [0, 4, 2, 6, 1, 5, 3, 7];
+
+    // Layout: 4 columns (input + 3 stages), 8 rows
+    var XMIN = -5.5, XMAX = 5.5;
+    var YMIN = -3.0, YMAX = 3.0;
+    var cols = STAGES + 1; // 4 columns of nodes
+    var colX = [];
+    for (var c = 0; c <= STAGES; c++) {
+      colX.push(XMIN + c * (XMAX - XMIN) / STAGES);
+    }
+    var rowY = [];
+    for (var r = 0; r < N; r++) {
+      rowY.push(YMAX - r * (YMAX - YMIN) / (N - 1));
+    }
+
+    // --- Create node spheres ---
+    var nodeGeo = new THREE.SphereGeometry(0.12, 16, 16);
+    var nodes = []; // nodes[col][row]
+    for (c = 0; c <= STAGES; c++) {
+      nodes[c] = [];
+      for (r = 0; r < N; r++) {
+        var mat = new THREE.MeshBasicMaterial({ color: c === 0 ? COL_NODE : 0x475569 });
+        var sphere = new THREE.Mesh(nodeGeo, mat);
+        sphere.position.set(colX[c], rowY[r], 0);
+        scene.add(sphere);
+        nodes[c][r] = sphere;
+      }
+    }
+
+    // --- Input labels (bit-reversed order) ---
+    var inputLabels = ['x\u2080', 'x\u2084', 'x\u2082', 'x\u2086', 'x\u2081', 'x\u2085', 'x\u2083', 'x\u2087'];
+    var outputLabels = ['X\u2080', 'X\u2081', 'X\u2082', 'X\u2083', 'X\u2084', 'X\u2085', 'X\u2086', 'X\u2087'];
+
+    function makeTextSprite(text, color, fontSize) {
+      var canvas = document.createElement('canvas');
+      canvas.width = 256; canvas.height = 64;
+      var ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, 256, 64);
+      ctx.fillStyle = color || '#e2e8f0';
+      ctx.font = 'bold ' + (fontSize || 28) + 'px monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 128, 32);
+      var tex = new THREE.CanvasTexture(canvas);
+      tex.minFilter = THREE.LinearFilter;
+      var spriteMat = new THREE.SpriteMaterial({ map: tex, transparent: true });
+      var sprite = new THREE.Sprite(spriteMat);
+      sprite.scale.set(1.4, 0.35, 1);
+      return sprite;
+    }
+
+    for (r = 0; r < N; r++) {
+      var lbl = makeTextSprite(inputLabels[r], '#94a3b8', 24);
+      lbl.position.set(colX[0] - 0.9, rowY[r], 0);
+      scene.add(lbl);
+
+      var olbl = makeTextSprite(outputLabels[r], '#22c55e', 24);
+      olbl.position.set(colX[STAGES] + 0.9, rowY[r], 0);
+      scene.add(olbl);
+    }
+
+    // --- Stage labels ---
+    var stageSprites = [];
+    for (var s = 0; s < STAGES; s++) {
+      var midX = (colX[s] + colX[s + 1]) / 2;
+      var sl = makeTextSprite('Stage ' + (s + 1), '#64748b', 22);
+      sl.position.set(midX, YMAX + 0.5, 0);
+      scene.add(sl);
+      stageSprites.push(sl);
+    }
+
+    // --- Build butterfly wiring ---
+    // For each stage s (0-indexed), the butterfly span is 2^(STAGES - 1 - s)
+    // Groups of size 2^(STAGES - s), with pairs separated by span
+    var wires = []; // {from:[col,row], to:[col,row], type:'add'|'sub', twiddleExp: number, stage: s}
+
+    for (s = 0; s < STAGES; s++) {
+      var groupSize = 1 << (STAGES - s);
+      var halfGroup = groupSize / 2;
+      for (var g = 0; g < N; g += groupSize) {
+        for (var k = 0; k < halfGroup; k++) {
+          var top = g + k;
+          var bot = g + k + halfGroup;
+          var twiddleExp = k * (1 << s);
+          // Top wire: straight across (add)
+          wires.push({ from: [s, top], to: [s + 1, top], type: 'add', twiddleExp: twiddleExp, stage: s });
+          // Bottom wire: straight across (add, but with subtraction semantics)
+          wires.push({ from: [s, bot], to: [s + 1, bot], type: 'sub', twiddleExp: twiddleExp, stage: s });
+          // Cross wire top->bot (twiddle, goes to add at bot)
+          wires.push({ from: [s, top], to: [s + 1, bot], type: 'cross-down', twiddleExp: twiddleExp, stage: s });
+          // Cross wire bot->top (twiddle, goes to add at top)
+          wires.push({ from: [s, bot], to: [s + 1, top], type: 'cross-up', twiddleExp: twiddleExp, stage: s });
+        }
+      }
+    }
+
+    // --- Draw wires as lines ---
+    var lineMat = new THREE.LineBasicMaterial({ color: COL_WIRE, transparent: true, opacity: 0.3 });
+    var wireLines = [];
+    for (var w = 0; w < wires.length; w++) {
+      var wire = wires[w];
+      var pts = [
+        new THREE.Vector3(colX[wire.from[0]], rowY[wire.from[1]], 0),
+        new THREE.Vector3(colX[wire.to[0]], rowY[wire.to[1]], 0)
+      ];
+      var geo = new THREE.BufferGeometry().setFromPoints(pts);
+      var wMat = new THREE.LineBasicMaterial({ color: COL_WIRE, transparent: true, opacity: 0.25 });
+      var line = new THREE.Line(geo, wMat);
+      scene.add(line);
+      wireLines.push({ line: line, mat: wMat, wire: wire });
+    }
+
+    // --- Twiddle factor labels on cross wires ---
+    var twiddleSprites = [];
+    for (w = 0; w < wires.length; w++) {
+      wire = wires[w];
+      if (wire.type === 'cross-down' && wire.twiddleExp > 0) {
+        var mx = (colX[wire.from[0]] + colX[wire.to[0]]) / 2;
+        var my = (rowY[wire.from[1]] + rowY[wire.to[1]]) / 2;
+        var expStr = wire.twiddleExp === 1 ? '\u03C9' : '\u03C9' + String.fromCharCode(0x2070 + wire.twiddleExp);
+        // Use simpler label for readability
+        var tLabel = makeTextSprite('\u03C9^' + wire.twiddleExp, '#f59e0b', 18);
+        tLabel.position.set(mx + 0.35, my, 0.1);
+        tLabel.material.opacity = 0;
+        scene.add(tLabel);
+        twiddleSprites.push({ sprite: tLabel, stage: wire.stage });
+      }
+    }
+
+    // --- Animated pulses ---
+    var pulseGeo = new THREE.SphereGeometry(0.08, 12, 12);
+    var pulses = [];
+    var PULSE_COUNT = N; // one pulse per input line
+
+    for (var p = 0; p < PULSE_COUNT; p++) {
+      var pMat = new THREE.MeshBasicMaterial({ color: COL_PULSE, transparent: true, opacity: 0 });
+      var pMesh = new THREE.Mesh(pulseGeo, pMat);
+      pMesh.position.set(colX[0], rowY[p], 0.2);
+      scene.add(pMesh);
+      pulses.push({ mesh: pMesh, row: p, mat: pMat });
+    }
+
+    // --- Animation ---
+    var clock = new THREE.Clock();
+    var elapsed = 0;
+    var STAGE_DUR = 2.5;  // seconds per stage
+    var PAUSE_DUR = 1.0;
+    var INTRO_DUR = 1.5;
+    var TOTAL_CYCLE = INTRO_DUR + STAGES * STAGE_DUR + (STAGES + 1) * PAUSE_DUR;
+
+    function easeInOutCubic(t) {
+      t = Math.max(0, Math.min(1, t));
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    var phaseTexts = [
+      'Stage 1: Butterflies span 4 (groups of 8)',
+      'Stage 2: Butterflies span 2 (groups of 4)',
+      'Stage 3: Butterflies span 1 (groups of 2)'
+    ];
+
+    var infoTexts = [
+      '4 butterflies \u00B7 \u03C9\u2070 twiddle factor \u00B7 even/odd split of full sequence',
+      '4 butterflies \u00B7 \u03C9\u2070,\u03C9\u00B2 twiddle factors \u00B7 sub-sequences of length 4',
+      '4 butterflies \u00B7 \u03C9\u2070,\u03C9\u00B9,\u03C9\u00B2,\u03C9\u00B3 twiddle factors \u00B7 final recombination'
+    ];
+
+    function animate() {
+      requestAnimationFrame(animate);
+      var dt = clock.getDelta();
+      elapsed += dt;
+      var cycleT = elapsed % TOTAL_CYCLE;
+
+      // Determine current phase
+      var currentStage = -1; // -1 = intro/reset
+      var stageProgress = 0;
+
+      var t0 = INTRO_DUR;
+      for (s = 0; s < STAGES; s++) {
+        var stageStart = t0 + s * (STAGE_DUR + PAUSE_DUR);
+        var stageEnd = stageStart + STAGE_DUR;
+        if (cycleT >= stageStart && cycleT < stageEnd) {
+          currentStage = s;
+          stageProgress = (cycleT - stageStart) / STAGE_DUR;
+          break;
+        }
+        if (cycleT >= stageEnd && cycleT < stageEnd + PAUSE_DUR) {
+          currentStage = s;
+          stageProgress = 1.0;
+          break;
+        }
+      }
+
+      // --- Update labels ---
+      if (currentStage >= 0) {
+        phaseLabel.textContent = phaseTexts[currentStage];
+        infoLabel.textContent = infoTexts[currentStage];
+      } else if (cycleT < INTRO_DUR * 0.5) {
+        phaseLabel.textContent = '8-point FFT Butterfly Network';
+        infoLabel.textContent = 'Bit-reversed input \u2192 3 stages of butterflies \u2192 DFT output';
+      } else {
+        phaseLabel.textContent = '8-point FFT Butterfly Network';
+        infoLabel.textContent = N + '/2 = 4 butterflies per stage \u00B7 log\u2082(8) = 3 stages \u00B7 12 total multiplications';
+      }
+
+      // --- Update wire colors ---
+      for (w = 0; w < wireLines.length; w++) {
+        var wl = wireLines[w];
+        var ws = wl.wire.stage;
+        if (ws === currentStage && stageProgress > 0) {
+          var e = easeInOutCubic(stageProgress);
+          if (wl.wire.type === 'add') {
+            wl.mat.color.setHex(COL_ADD);
+            wl.mat.opacity = lerp(0.25, 0.9, e);
+          } else if (wl.wire.type === 'sub') {
+            wl.mat.color.setHex(COL_SUB);
+            wl.mat.opacity = lerp(0.25, 0.7, e);
+          } else if (wl.wire.type === 'cross-down') {
+            wl.mat.color.setHex(COL_CROSS);
+            wl.mat.opacity = lerp(0.25, 0.85, e);
+          } else if (wl.wire.type === 'cross-up') {
+            wl.mat.color.setHex(COL_CROSS);
+            wl.mat.opacity = lerp(0.25, 0.65, e);
+          }
+        } else if (ws < currentStage) {
+          // Already processed stage - dim but colored
+          if (wl.wire.type === 'add') {
+            wl.mat.color.setHex(COL_ADD);
+          } else if (wl.wire.type === 'sub') {
+            wl.mat.color.setHex(COL_SUB);
+          } else {
+            wl.mat.color.setHex(COL_CROSS);
+          }
+          wl.mat.opacity = 0.3;
+        } else {
+          wl.mat.color.setHex(COL_WIRE);
+          wl.mat.opacity = 0.25;
+        }
+      }
+
+      // --- Update twiddle labels ---
+      for (var ti = 0; ti < twiddleSprites.length; ti++) {
+        var ts = twiddleSprites[ti];
+        if (ts.stage === currentStage && stageProgress > 0.2) {
+          ts.sprite.material.opacity = easeInOutCubic((stageProgress - 0.2) / 0.5);
+        } else if (ts.stage < currentStage) {
+          ts.sprite.material.opacity = 0.4;
+        } else {
+          ts.sprite.material.opacity = 0;
+        }
+      }
+
+      // --- Update node colors ---
+      for (c = 0; c <= STAGES; c++) {
+        for (r = 0; r < N; r++) {
+          if (c === 0) {
+            nodes[c][r].material.color.setHex(COL_NODE);
+          } else if (c - 1 < currentStage || (c - 1 === currentStage && stageProgress > 0.8)) {
+            nodes[c][r].material.color.setHex(COL_ACTIVE);
+          } else if (c - 1 === currentStage) {
+            var ne = easeInOutCubic(stageProgress);
+            var col = new THREE.Color(0x475569);
+            col.lerp(new THREE.Color(COL_ACTIVE), ne);
+            nodes[c][r].material.color.copy(col);
+          } else {
+            nodes[c][r].material.color.setHex(0x475569);
+          }
+        }
+      }
+
+      // Final column goes green when all stages done
+      if (currentStage === STAGES - 1 && stageProgress >= 1.0) {
+        for (r = 0; r < N; r++) {
+          nodes[STAGES][r].material.color.setHex(COL_OUT);
+        }
+      }
+
+      // --- Animate pulses ---
+      for (p = 0; p < PULSE_COUNT; p++) {
+        var pulse = pulses[p];
+        if (currentStage < 0) {
+          // During intro: pulses sit at input
+          pulse.mat.opacity = easeInOutCubic(Math.min(1, cycleT / INTRO_DUR));
+          pulse.mesh.position.set(colX[0], rowY[p], 0.2);
+        } else {
+          // Each pulse progresses through stages
+          // Compute global progress: which stage + how far through it
+          var globalProg = currentStage + stageProgress;
+          var pulseCol = Math.floor(globalProg);
+          var pulseT = globalProg - pulseCol;
+
+          if (pulseCol > STAGES - 1) {
+            pulseCol = STAGES - 1;
+            pulseT = 1.0;
+          }
+
+          // Determine where this pulse goes during current butterfly
+          var pRow = p;
+          var groupSize2 = 1 << (STAGES - pulseCol);
+          var halfGroup2 = groupSize2 / 2;
+          var group2 = Math.floor(pRow / groupSize2) * groupSize2;
+          var posInGroup = pRow - group2;
+          var isUpper = posInGroup < halfGroup2;
+
+          // Pulse travels from col[pulseCol] to col[pulseCol+1]
+          var fromX = colX[pulseCol];
+          var toX = colX[Math.min(pulseCol + 1, STAGES)];
+          var e2 = easeInOutCubic(pulseT);
+
+          pulse.mesh.position.x = lerp(fromX, toX, e2);
+          pulse.mesh.position.y = rowY[p];
+          pulse.mat.opacity = 0.9;
+
+          // Pulse glow effect
+          var glowT = Math.sin(elapsed * 4 + p * 0.8) * 0.3 + 0.7;
+          pulse.mesh.scale.setScalar(glowT);
+        }
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    // --- Resize handler ---
+    window.addEventListener('resize', function() {
+      var nw = container.clientWidth;
+      var aspect = nw / H;
+      camera.left = -7 * aspect / (W / H);
+      camera.right = 7 * aspect / (W / H);
+      camera.updateProjectionMatrix();
+      renderer.setSize(nw, H);
+      W = nw;
+    });
+
+    animate();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFFTViz);
+  } else {
+    initFFTViz();
+  }
+})();
+</script>
+
 ---
 
 ## Putting It Together: FFT-Based Polynomial Multiplication
@@ -1146,58 +1538,136 @@ The remaining $\log \log n$ factor is the residue of recursive nesting. Eliminat
 
 # Harvey-van der Hoeven: $O(n \log n)$
 
-## Reaching the Theoretical Floor
+## The Last Factor Standing
 
-If Schönhage-Strassen was the "unbeatable" champion for 48 years, the 2019 paper by David Harvey and Joris van der Hoeven closes the book on the complexity of integer multiplication. For decades, the mathematical community conjectured that $O(n \log n)$ was the absolute floor -- the information-theoretic "speed of light" for multiplication. Harvey and van der Hoeven proved it achievable, completing a quest that began with Kolmogorov and Karatsuba in the 1960s.
+We have arrived at the final chapter. Let us take stock of where we are.
 
-## The Problem: The Recursive Tax
+You now understand that multiplying two $n$-digit integers is really computing a convolution of their digits. You understand that the FFT evaluates a polynomial at all $N$-th roots of unity in $O(N \log N)$ time, and that the Convolution Theorem lets us turn this evaluation into multiplication. You understand that Schönhage and Strassen sidestepped floating-point precision by working in the ring $\mathbb{Z}/(2^m + 1)\mathbb{Z}$, where twiddle factors are just bit-shifts.
 
-We just saw that Schönhage-Strassen's $\log \log n$ factor arises because the NTT requires recursive multiplications at each level. At depth $d$, we perform NTTs of size $\sim n^{1/2^d}$, and the recursion bottoms out after $\log \log n$ levels. Each level contributes $O(n \log n)$ non-recursive work, giving $O(n \log n \log \log n)$ in total.
+And you understand the one blemish: the $\log \log n$ factor. It comes from the fact that the NTT's pointwise multiplications are themselves multiplications on smaller numbers, requiring their own NTTs, which require their own pointwise multiplications, and so on. The recursion bottoms out after $\log \log n$ levels, each contributing $O(n \log n)$ work. Multiply those together: $O(n \log n \log \log n)$.
 
-To eliminate this factor, Harvey and van der Hoeven needed a way to avoid the accumulation of work across recursion levels.
+For 48 years -- from 1971 to 2019 -- nobody could kill that last factor. Then David Harvey and Joris van der Hoeven did.
 
-## The Solution: Multi-Dimensional FFTs and Gaussian Resampling
+## The Intuition: Why $\log \log n$ Exists and How to Eliminate It
 
-The key ideas, at a high level:
+To understand the fix, we first need a sharper picture of the disease.
 
-### 1. Multi-dimensional decomposition
+### The disease: a long chain of recursive calls
 
-Instead of treating the input as a 1-dimensional sequence of $K$ chunks (as Schönhage-Strassen does), Harvey and van der Hoeven arrange the chunks into a $d$-dimensional array of dimensions $s_1 \times s_2 \times \cdots \times s_d$, where each $s_i$ is a prime of size approximately $(n / \log n)^{1/d}$. The total array size is $S = \prod s_i \approx n / \log n$.
+In Schönhage-Strassen, we split our $n$-bit number into $K \approx \sqrt{n}$ chunks of $m \approx \sqrt{n}$ bits each. The NTT on these chunks is cheap (just bit-shifts and additions), but the **pointwise multiplications** -- the $K$ products of $m$-bit numbers in $\mathbb{Z}/(2^m+1)$ -- each require a recursive call to the entire algorithm.
 
-By choosing $d$ to be large (growing with $n$), the individual dimensions $s_i$ become small, and FFTs along each dimension are cheap.
-
-### 2. Gaussian resampling
-
-Direct multidimensional DFTs on prime-sized dimensions would be awkward (the Cooley-Tukey radix-2 trick does not apply to primes). Instead, they use a **Gaussian resampling** technique: convolve the input with a Gaussian kernel to transform the problem into a DFT on a larger array whose dimensions are powers of 2.
-
-The Gaussian function has the remarkable property of being (approximately) its own Fourier transform, and it provides excellent control over the approximation error when mapping between the irregular (prime) grid and the regular (power-of-2) grid. The error can be made exponentially small with only a constant-factor increase in the array size.
-
-### 3. Synthetic FFTs (Nussbaumer's transform)
-
-The DFTs within each dimension are performed using **Nussbaumer's polynomial transform**, which works over the ring $\mathbb{C}[y]/(y^r + 1)$ (for $r$ a power of 2). These transforms replace most multiplications with additions and subtractions, reducing the multiplicative cost per dimension.
-
-The remaining pointwise multiplications in the transformed space are handled by **Kronecker substitution** (reducing polynomial multiplication to integer multiplication) and recursion.
-
-### 4. Controlling the recursion
-
-With $d$ dimensions, the recursive subproblems at each level have size roughly $n^{1/d + o(1)}$. As $d$ grows, the subproblems shrink rapidly, and the recursion depth remains bounded. The total cost satisfies:
+At the next level down, each $m$-bit multiplication splits into $\sqrt{m}$ chunks of $\sqrt{m}$ bits, and so on. The problem sizes form a chain:
 
 $$
-M(n) \leq K \cdot n \cdot n' \cdot M(n') + O(n \log n)
+n \;\to\; \sqrt{n} \;\to\; n^{1/4} \;\to\; n^{1/8} \;\to\; \cdots \;\to\; O(1)
 $$
 
-where $n' \ll n$. With careful bookkeeping, this resolves to $M(n) = O(n \log n)$.
+This chain has $\log \log n$ links (since $n^{1/2^d} = O(1)$ when $2^d \approx \log n$, giving $d \approx \log \log n$). Each link does $O(n \log n)$ work in total. The $\log \log n$ factor is simply the number of links in this chain.
 
-## The "1729" Caveat: A Galactic Algorithm
+### The cure: make the chain shorter
 
-This algorithm belongs to the class of **galactic algorithms** -- algorithms that are theoretically superior but whose crossover point (where they outperform existing methods) lies beyond any practically realizable input size.
+Harvey and van der Hoeven's idea, at its core, is beautifully simple: **if the recursion depth is the problem, reduce the recursion depth.**
 
-The crossover point for Harvey-van der Hoeven is estimated at numbers with more than $2^{1729^{12}}$ digits.
+Instead of splitting into $\sqrt{n}$ pieces (which halves the exponent at each level), split into **far more** pieces that are **far smaller**. If you split an $n$-bit number into $n/\log n$ pieces of $\log n$ bits each, then the recursive subproblems have size $\log n$ -- which is already small enough to multiply by schoolbook in $O((\log n)^2)$ time! The recursion bottoms out in a single step. No chain. No $\log \log n$.
 
-- For scale, there are roughly $10^{80}$ atoms in the observable universe.
-- $2^{1729^{12}}$ is so incomprehensibly large that it cannot be written down even if every atom in the universe were used to store a single digit.
+But this creates a new problem. With $n / \log n$ chunks, the NTT must operate on a sequence of length $\sim n / \log n$, and the transform must happen in a ring large enough to hold the convolution without overflow. Finding a ring that simultaneously supports (a) cheap roots of unity, (b) sufficiently many of them, and (c) exact arithmetic with no precision loss -- all while keeping the transform cost to $O(n \log n)$ -- is the hard part. This is where the paper earns its 80 pages.
 
-The result is a triumph of pure mathematics: a proof that the conjectured $O(n \log n)$ bound is achievable, even if no computer that will ever exist can benefit from it.
+## The Architecture: Three Key Ideas
+
+### Idea 1: Fold the sequence into a multi-dimensional array
+
+Rather than treating the $n / \log n$ chunks as a flat list, Harvey and van der Hoeven reshape them into a $d$-dimensional array of size $s_1 \times s_2 \times \cdots \times s_d$, where each $s_i$ is a small prime and $\prod s_i \approx n / \log n$.
+
+Why does this help? A $d$-dimensional convolution can be computed by performing **1-dimensional DFTs along each dimension** in succession (this is the standard "row-column" algorithm for multidimensional transforms). If each dimension $s_i$ is small, each 1D DFT is cheap. And crucially, the total number of 1D DFT operations is:
+
+$$
+\text{cost} = \sum_{i=1}^{d} \frac{S}{s_i} \cdot (\text{cost of a length-}s_i\text{ DFT})
+$$
+
+where $S = \prod s_i$. By choosing $d$ to grow with $n$ (specifically, $d \sim \log n / \log \log n$), each $s_i$ stays bounded by a constant, and the DFTs along each dimension have constant cost per element. The total transform cost is $O(S \cdot d) = O\!\left(\frac{n}{\log n} \cdot \frac{\log n}{\log \log n}\right) = O\!\left(\frac{n}{\log \log n}\right)$, which is well within the $O(n \log n)$ budget.
+
+The problem is that the Cooley-Tukey radix-2 trick does not work on prime-sized dimensions. This is where the second idea comes in.
+
+### Idea 2: Gaussian resampling -- making primes act like powers of 2
+
+The Cooley-Tukey FFT requires the transform length to be a power of 2 (or at least highly composite). The dimensions $s_i$ are primes. How do we bridge this gap?
+
+Harvey and van der Hoeven use a technique inspired by **Bluestein's algorithm**, but with a Gaussian twist. The idea is:
+
+1. Embed the length-$s_i$ DFT into a slightly larger length-$t_i$ **cyclic convolution**, where $t_i$ is the next power of 2 above $s_i$.
+
+2. Compute this cyclic convolution using Nussbaumer's algorithm (a multiplication-free polynomial transform), which only needs additions, subtractions, and cyclic shifts.
+
+3. The "embedding" is done via multiplication by a **Gaussian chirp** -- a sequence of the form $e^{\pi i k^2 / s_i}$. The Gaussian chirp has the remarkable property that it converts a DFT into a convolution (this is the classical "chirp-$z$ transform" idea of Bluestein). And because the Gaussian is approximately its own Fourier transform, the approximation errors when rounding $s_i$ up to $t_i$ can be made exponentially small with only $O(1)$ extra bits of precision.
+
+The net effect: each prime-sized DFT is replaced by a power-of-2-sized convolution that can be computed without any multiplications in the traditional sense -- only additions and shifts. The cost per element remains $O(1)$.
+
+### Idea 3: Nussbaumer's algorithm -- transforms without multiplications
+
+The inner convolutions (from Idea 2) are computed using **Nussbaumer's polynomial transform**, which operates over the ring $R[y]/(y^r + 1)$ for $r$ a power of 2. In this ring:
+
+- Multiplication by $y$ is a **cyclic shift** (free, like multiplying by $2$ in $\mathbb{Z}/(2^m + 1)$ was free for Schönhage-Strassen).
+- The transform uses only $O(r \log r)$ additions and subtractions -- **no multiplications** at this level.
+
+This is the key that breaks the recursive chain. In Schönhage-Strassen, the pointwise multiplications in the NTT were genuine multiplications that demanded recursive calls. In Harvey-van der Hoeven, the analogous step uses Nussbaumer transforms that need **no multiplications**, only shifts and additions. No recursive call is needed. The chain has been cut.
+
+The only remaining multiplications are tiny: each "pointwise product" in the Nussbaumer-transformed domain amounts to a multiplication of numbers with $O(\log n)$ bits, which can be done by schoolbook in $O((\log n)^2)$ time -- a cost that is absorbed into the $O(n \log n)$ total.
+
+## How the Pieces Fit Together
+
+The full algorithm, stripped to its skeleton:
+
+1. **Split** the $n$-bit inputs into $S \approx n / \log n$ chunks of $\sim \log n$ bits each.
+
+2. **Reshape** the chunk sequence into a $d$-dimensional array ($d \sim \log n / \log \log n$ dimensions, each of prime size $s_i = O(\log \log n)$).
+
+3. **For each dimension** $i = 1, \ldots, d$:
+   - Apply the Gaussian chirp to convert the length-$s_i$ DFT along that dimension into a cyclic convolution of length $t_i = O(s_i)$.
+   - Compute that cyclic convolution using Nussbaumer's addition-only polynomial transform.
+
+4. **Pointwise multiply** the transformed arrays. Each pointwise product involves numbers of $O(\log n)$ bits -- small enough for schoolbook.
+
+5. **Invert** the multidimensional transform (same process in reverse).
+
+6. **Carry-propagate** and reassemble the final product.
+
+The total cost at each step:
+- Steps 3 and 5 (transforms): $O(n)$ additions across $d$ dimensions, times $d = O(\log n / \log \log n)$, giving $O(n \log n / \log \log n)$ -- well within budget.
+- Step 4 (pointwise): $S$ multiplications of $O(\log n)$-bit numbers at $O((\log n)^2)$ each, giving $O(n \log n)$.
+- Steps 1, 2, 6: $O(n)$.
+
+**Total: $O(n \log n)$.**
+
+## Why 1729?
+
+The algorithm's correctness depends on the Gaussian resampling errors being negligible, which requires extra precision bits. The number of extra bits grows with $d$, and $d$ grows with $n$. Working through the constants, the algorithm only becomes faster than Schönhage-Strassen when $n$ is so large that the constant-factor overhead of managing $d$ dimensions, Gaussian chirps, and Nussbaumer bookkeeping is finally absorbed.
+
+Harvey and van der Hoeven estimate this crossover at numbers with more than $2^{1729^{12}}$ digits.
+
+The appearance of **1729** -- Ramanujan's famous "taxicab number," the smallest number expressible as the sum of two cubes in two different ways -- is a coincidence, but a poetic one. The number arises from a chain of parameter optimizations in the proof, not from any deep connection to Ramanujan's work. But it is fitting that the algorithm that closes the book on multiplication complexity should bear, in its constant, an echo of one of mathematics' most beautiful stories.
+
+To put $2^{1729^{12}}$ in perspective:
+- The observable universe contains roughly $10^{80}$ atoms.
+- $2^{1729^{12}}$ has approximately $10^{38}$ decimal digits in its *exponent alone*.
+- If every atom in the universe were a hard drive, and every hard drive stored $10^{15}$ digits, you could store roughly $10^{95}$ digits. This is *nothing* compared to $2^{1729^{12}}$.
+
+This is a **galactic algorithm** -- beautiful, true, and utterly useless for any computation that will ever be performed in the physical universe. But its existence answers a question that stood open for sixty years: **can multiplication be done in $O(n \log n)$?** The answer is yes.
+
+## The View from the Summit
+
+Let us look back at the full arc:
+
+| Year | Algorithm | Complexity | Key Insight |
+|------|-----------|-----------|-------------|
+| antiquity | Schoolbook | $O(n^2)$ | Every digit meets every digit |
+| 1960 | Karatsuba | $O(n^{1.585})$ | One clever identity saves 25% per level |
+| 1963 | Toom-Cook | $O(n^{1+\varepsilon})$ for any $\varepsilon > 0$ | Polynomial interpolation at $k$ points |
+| 1971 | Schönhage-Strassen | $O(n \log n \log \log n)$ | NTT in $\mathbb{Z}/(2^m+1)$; roots of unity via bit-shifts |
+| 2019 | Harvey-van der Hoeven | $O(n \log n)$ | Multi-dim NTT; Nussbaumer kills the recursion |
+
+Each breakthrough changed the *kind* of mathematics being used. Karatsuba's was an algebraic identity. Toom-Cook was polynomial algebra. Schönhage-Strassen was number-theoretic harmonic analysis. Harvey-van der Hoeven is multi-dimensional algebraic geometry fused with analytic number theory.
+
+And yet the punchline is the same as it was in the schoolbook algorithm: we are still just multiplying digits together and adding up the results. Every advance has been about finding a cleverer *order* in which to do it.
 
 # Connections to Sorting Algorithms
 To establish a formal mathematical symmetry between the Harvey–van der Hoeven (HvH) multiplication algorithm and comparison-based sorting, we must look at them through the lens of Information Theory and the Divide-and-Conquer recurrence.
