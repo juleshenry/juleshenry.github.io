@@ -4,570 +4,353 @@ title: "Back-of-the-Envelope: Grover's Search"
 date: 2024-09-13
 ---
 
-<!-- Three.js and MathJax Setup -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js" type="module"></script>
-<script>
-  // Fallback to local copy if CDN fails
-  window.addEventListener('error', function(e) {
-    if (e.target.tagName === 'SCRIPT' && !window.THREE) {
-      var script = document.createElement('script');
-      script.src = '/javascripts/three.min.js';
-      script.type = 'module';
-      document.head.appendChild(script);
-    }
-  }, true);
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+# The Key-Ring Problem
 
-# Primer
-Herein we explain one of the most fascinating results in computer science, Grover's Search. You will need to be familiar with linear algebra and Big O notation to understand the signficance of this work. If a concept is mentioned but not explained, keep reading, and it will become more clear!
+You find a key-ring on the ground. $N$ keys, one door, no labels. What do you do? You try every last one. In the worst case, you try all $N$. On average, $\frac{N}{2}$. No cleverness saves you here; any classical strategy for searching an unstructured collection requires $O(N)$ tries.
 
-## bra-ket notation
-Quantum computing is deeply connected to physics. Those familiar with linear algebra will quickly be able to pick up so-called "bra-ket" notation. It works as follows:
+This is the problem of **searching an unsorted database**. Given $N$ items, find the one that satisfies some property. Classically, there is nothing faster than brute force.
 
-Bra-ket notation, also known as Dirac notation, is a standard and powerful way to represent quantum states in 
-the field of quantum mechanics. It was introduced by physicist Paul Adrien Maurice Dirac. This notation 
-facilitates operations between vectors (states) and their duals (operators), which are essential in quantum 
-theory calculations.
+But what if the keys existed in a kind of superposition -- all being tried at once, in a space where interference could amplify the correct answer and suppress the wrong ones? In 1996, Lov Grover showed that a quantum computer can find the needle in the haystack using only $O(\sqrt{N})$ queries. For a million items, that is 1,000 queries instead of 1,000,000. In the same paper, he proved this is the best any quantum algorithm can do.
 
-In this system, two types of symbols are used:
+Herein we build your understanding of Grover's algorithm from the ground up. If you have taken Calculus 1 through 3 and have seen matrices and dot products, you have all the prerequisites. Everything else, we build together. By the end, you will understand not only *why* the algorithm works, but *why it must be stopped at the right moment* -- a property that has no classical analogue and is, frankly, one of the strangest things in all of computer science.
 
-1. Kets or |ψ⟩: These represent a column vector containing complex numbers corresponding to the state's 
-amplitude for each possible measurement outcome. It is often called an "ket" and denoted using angle brackets 
-(e.g., |ψ⟩). For example, if we have three possible outcomes 1, 2, and 3, the ket may look like:
+---
 
-|ψ⟩ = [a₁, a₂, a₃]ᵀ,
+# The Calculus Bridge: Rotation as Repeated Small Kicks
 
-where each ai is complex amplitude for the corresponding outcome.
+Before we touch any quantum mechanics, let us build the geometric intuition that makes the whole thing click. No qubits required. Just calculus.
 
-2. Bras or ⟨ψ| : These represent the conjugate transpose (Hermitian adjoint) of kets and are used to denote dual 
-vectors or bras. A bra looks like:
+## Euler's Method Recap
 
-⟨ψ| = [b₁*, b₂*, b₃*]ᵀ,
+In Calculus you learned to solve differential equations like $\frac{dy}{dx} = f(x, y)$ numerically using **Euler's method**: start at a known point, take a small step in the direction of the derivative, repeat.
 
-where each bi* is complex conjugate of ai. The star symbol (*) denotes the complex conjugation operation. 
+Each step is an approximation. The key insight -- and this is worth pausing on -- is:
 
-In addition to representing quantum states, Dirac notation can be used for expressing inner products between two 
-kets and bras:
+- **Too few steps**: you have not reached the target yet.
+- **Just right**: you land close to the true solution.
+- **Too many steps**: you **overshoot** and diverge away from the answer.
 
-```math
-⟨ϕ|ψ⟩ = a₁*b₁ + a₂*b₂ + a₃*b₃.
-```
+The step size matters. If each step is $h$, then after $k$ steps you have traveled approximately $kh$ total. Overshoot is not a bug in your code; it is a fundamental property of discrete approximations to continuous problems.
 
-It's worth noting that the order of multiplication matters in bra-ket notation, as it represents an outer product when taking elements from different vectors (kets).
+## Rotation on a Circle
 
-In summary, bra-ket notation is a fundamental tool for expressing and manipulating quantum states, operators, 
-inner products, and other essential concepts within quantum mechanics.
+Now consider a different scenario: you have a vector starting nearly horizontal, and you want to rotate it to point straight up (vertical). Suppose each "kick" rotates the vector by a small angle $2\theta$.
 
-## The Unitary matrix
+After $k$ kicks, the vector has rotated by $2k\theta$ total. You want the total rotation to be $\frac{\pi}{2}$ (a quarter turn, from horizontal to vertical):
 
-In mathematics and physics, a unitary matrix is an important concept, particularly in quantum mechanics where it relates to operations on state vectors represented by ket notation. A unitary matrix U satisfies the condition that its conjugate transpose (Hermitian adjoint) multiplied by itself equals the identity matrix:
+$$2k\theta \approx \frac{\pi}{2} \implies k \approx \frac{\pi}{4\theta}$$
 
-U†U = I,
+If the angle $\theta$ is small -- say $\theta \approx \frac{1}{\sqrt{N}}$ -- then you need about $\frac{\pi}{4}\sqrt{N}$ kicks. Now here is where it gets wild: keep kicking past that sweet spot and the vector **rotates past vertical**, pointing away from the target. The alignment gets *worse* the more work you do.
 
-where U† is called the conjugate transpose of U and I is the 2x2 identity matrix.
-There is also the requirement that:
+This is **exactly** what Grover's algorithm does. Each iteration is a small angular kick, rotating a quantum state vector toward the solution. The "vector pointing up" represents having found the answer. And just like Euler's method, if you take too many kicks, the vector overshoots and the probability of finding the answer actually decreases.
 
-rank(U†) = rank(U).
+We will return to this analogy in full force once we have the quantum vocabulary to make it precise. Keep this picture in your head: a vector on a circle, being kicked toward vertical, one small rotation at a time.
 
-For a unitary matrix to exist, it must be square (same number of rows and columns), have an even dimension, and its elements are complex numbers. The determinant of any unitary matrix has an absolute value of one, which is a property that ensures the preservation of probability amplitudes in quantum mechanics when state vectors are 
-transformed.
+---
 
-Here's how you can create a simple unitary matrix in Python using NumPy and verify its properties:
+# Quantum Vocabulary
+
+This section introduces the mathematical language of quantum computing. Each concept is motivated by *why you need it*, defined precisely, and connected back to mathematics you already know from Calc 1-3. If something feels dense, keep reading -- the payoff is in the algorithm itself, and these tools will serve you well beyond this post.
+
+## Bra-Ket Notation
+
+**Why you need this**: Physicists write vectors differently than mathematicians. Since quantum computing grew out of physics, we inherit their notation. It is just a shorthand for things you already know. Do not let the angle brackets intimidate you.
+
+A **ket** $\lvert \psi \rangle$ is simply a column vector:
+
+$$\lvert \psi \rangle = \begin{pmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{pmatrix}$$
+
+where each $a_i$ is a complex number called a **probability amplitude**.
+
+A **bra** $\langle \psi \rvert$ is the conjugate transpose (take the transpose, then complex-conjugate every entry):
+
+$$\langle \psi \rvert = \begin{pmatrix} a_1^* & a_2^* & \cdots & a_n^* \end{pmatrix}$$
+
+The **inner product** (the "bra-ket," get it?) of two states is the generalized dot product you know from Calc 3:
+
+$$\langle \phi \mid \psi \rangle = \sum_{i} b_i^* \, a_i$$
+
+This is a single complex number. When $\langle \phi \mid \psi \rangle = 0$, the states are **orthogonal** -- perpendicular, in the language you already speak.
+
+**Normalization**: A valid quantum state must satisfy $\langle \psi \mid \psi \rangle = 1$. The vector has unit length. The probability of measuring outcome $i$ is $\lvert a_i \rvert^2$, and these must sum to 1. If this reminds you of the constraint that a unit vector in $\mathbb{R}^n$ satisfies $\sum x_i^2 = 1$, good -- it is the same idea, extended to complex numbers.
+
+### The Computational Basis
+
+The simplest quantum states for a single qubit are:
+
+$$\lvert 0 \rangle = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \quad \lvert 1 \rangle = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$$
+
+Any single-qubit state can be written as a linear combination: $\lvert \psi \rangle = \alpha \lvert 0 \rangle + \beta \lvert 1 \rangle$ with $\lvert \alpha \rvert^2 + \lvert \beta \rvert^2 = 1$. That is the whole game. Superposition is just linear combination with a normalization constraint.
+
+---
+
+## Unitary Matrices: Rotations That Preserve Length
+
+**Why you need this**: Quantum operations must preserve the total probability of 1. The matrices that preserve vector length are exactly the **unitary** matrices -- the complex generalization of the rotation matrices you know from Calc 3.
+
+Recall that a rotation matrix $R$ in $\mathbb{R}^2$ preserves length: $\lVert Rv \rVert = \lVert v \rVert$. The defining property is $R^T R = I$. Unitary matrices are the same idea, but for complex vectors: transpose becomes conjugate transpose.
+
+A matrix $U$ is **unitary** if:
+
+$$U^\dagger U = I$$
+
+where $U^\dagger$ denotes the conjugate transpose and $I$ is the identity matrix.
+
+Key properties:
+- The columns of $U$ form an orthonormal basis.
+- $\lvert \det(U) \rvert = 1$.
+- **Every quantum gate is a unitary matrix.** This guarantees that quantum computation is reversible and probability-preserving.
 
 ```python
 import numpy as np
 
-# Define a 2x2 unitary matrix U
+# A 2x2 unitary matrix
 U = np.array([[1/np.sqrt(2), -1j/np.sqrt(2)],
-              [1j/np.sqrt(2), 1/np.sqrt(2)]])
+              [1j/np.sqrt(2),  1/np.sqrt(2)]])
 
-# Check the property: U†U should equal the identity matrix
-identity_matrix = np.eye(2, dtype=complex)
-is_unitary = np.allclose(np.dot(U.conj().T, U), identity_matrix)
-print("Is U unitary?", is_unitary)  # True if U unitary
+# Verify: U dagger U = I
+print(np.allclose(U.conj().T @ U, np.eye(2)))  # True
 ```
 
-The example above creates a specific 2x2 unitary matrix and checks whether it meets the criterion for being 
-unitary by using `np.allclose`, which verifies that the result of the conjugate transpose multiplication approximates the identity matrix (allowing for some numerical error). This is essential because in practice, floating-point computations may introduce small errors due to rounding and representation issues.
+---
 
-Unitary matrices are fundamental in quantum computing as they represent quantum gates, which are reversible operations on qubits that preserve the total probability of 1. They ensure that a quantum computation can be accurately undone if necessary (as part of error correction), and play a critical role in maintaining coherence 
-across complex computations involving multiple quantum states.
+## Hermitian Matrices: The Matrices of Measurement
 
-In summary, unitary matrices are deeply tied to concepts like probabilities and preservation of information, making them central not only in theoretical physics but also practical applications such as quantum computing, where they serve as the building blocks for manipulating qubits through gate operations while maintaining the 
-physical laws that govern the quantum realm.
+**Why you need this**: So why should you care about Hermitian matrices? Because in quantum mechanics, anything you can physically **measure** -- energy, position, momentum -- is represented by a Hermitian matrix. Their eigenvalues are always real numbers, which makes sense because measurement results are real. That is not a coincidence; it is the reason physicists use them.
 
-## The Adjoint matrix
-```math
-\documentclass{article}
-\usepackage[utf8]{inputenc}
+A matrix $A$ is **Hermitian** (also called self-adjoint) if:
 
-\begin{document}
+$$A = A^\dagger$$
 
-The \textit{adjoint} or Hermitian conjugate $A^*$ of a complex square matrix $A$ is the transpose of the complex 
-conjugate of $A$. It can be denoted as:
+It equals its own conjugate transpose. Equivalently, $A_{ij} = A_{ji}^*$ -- each entry above the diagonal is the complex conjugate of the entry below.
 
-```math
-\[ A^* = (A^\dagger) = \overline{A^T}, \]
-```
+Key properties:
+- All eigenvalues are **real**.
+- Eigenvectors for distinct eigenvalues are **orthogonal**.
+- A Hermitian matrix can always be diagonalized by a unitary matrix (the spectral theorem).
 
-where $$\overline{A^T}$$ indicates taking the complex conjugate of each element in $A^T$, and then transposing the 
-result. The adjoint is crucial in quantum mechanics because it represents the linear operator corresponding to 
-the adjoint or Hermitian operation on quantum states, which has important implications for measurement and 
-observables.
+**Example**: The matrix $\begin{pmatrix} 2 & 1-i \\ 1+i & 3 \end{pmatrix}$ is Hermitian. Swap rows and columns, conjugate, and you get the same matrix back. Check it yourself -- it takes ten seconds.
 
-\end{document}
-```
+---
 
-## The Hermitian matrix
+## The Hamiltonian: The Energy Operator
 
-In mathematics and physics, particularly within quantum mechanics, a Hermitian matrix is an important concept 
-that has unique properties suited to the analysis of observables (quantities that can be measured) and their 
-corresponding eigenvalues, which represent possible outcomes or measurement results. The term "Hermitian" comes 
-from Jacques Hadamard and Charles Hermite's names—two mathematicians who extensively studied these types of 
-matrices.
+**Why you need this**: The Hamiltonian tells a quantum system how to evolve in time. It is the bridge between quantum mechanics and the differential equations you studied in Calculus. If you understood $\frac{dy}{dx} = ky$ and its solution $y = y_0 e^{kx}$, you already have the intuition.
 
-A matrix A is said to be Hermitian if it satisfies the condition that:
+The **Hamiltonian** $\hat{H}$ is a Hermitian matrix representing the total energy of a quantum system. The fundamental equation governing quantum time evolution is the **Schrodinger equation**:
 
-```math
-\[ A = A^\dagger \]
-```
+$$i\hbar \frac{d}{dt} \lvert \psi(t) \rangle = \hat{H} \lvert \psi(t) \rangle$$
 
-where $$\( A^\dagger \)$$ (the conjugate transpose, also called the Hermitian adjoint) of a complex matrix A is obtained by taking the transpose of A and then taking the complex conjugate of each element.
+This is a first-order linear ODE! Its solution, when $\hat{H}$ is time-independent, is:
 
-The key features that define a Hermitian matrix are as follows:
+$$\lvert \psi(t) \rangle = e^{-i\hat{H}t/\hbar} \lvert \psi(0) \rangle$$
 
-- It is square (same number of rows and columns).
+The operator $e^{-i\hat{H}t/\hbar}$ is **unitary** (preserves probabilities), and it acts as a **rotation** in the state space. This is the deep connection: **time evolution in quantum mechanics is rotation**, driven by the Hamiltonian. When we say "each Grover iteration rotates the state by $2\theta$," we are implicitly standing in this framework.
 
-- The elements on the diagonal can be real or complex numbers. However, for off-diagonal elements, each element 
-$$\( A_{ij} \)$$ where i ≠ j has its conjugate equal to $$\( A_{ji}^* \)$$, where the asterisk denotes complex conjugation. This means that if an entry in the matrix is (a + bi), then the corresponding position across the diagonal will be (a - bi).
+We will not use the Hamiltonian directly in Grover's algorithm, but the intuition that quantum operations are rotations *is* the Hamiltonian picture at work, and it will serve you well in everything quantum from here forward.
 
-- The important implication of this structure is that Hermitian matrices are inherently stable and self-adjoint operators, which is a central concept in quantum mechanics. Observables have real eigenvalues because measurements yield real values. Moreover, eigenvectors corresponding to distinct eigenvalues for a Hermitian 
-matrix are orthogonal (perpendicular) to each other, which implies that the system has well-defined quantized states.
+> **Notation warning**: Two critical concepts, one letter. The Hamiltonian is often written $\hat{H}$ or $\mathcal{H}$. This is different from the Hadamard gate $H$ (no hat), introduced next. Physicists are a generous people, but nomenclature is not their gift. Context will always make clear which is meant.
 
-Hermitian matrices are widely used in quantum mechanics as they correspond to physical observables such as position, momentum, and energy, all of which have real eigenvalues representing measurable quantities in experiments. They also form a special class within the complex matrix algebra known as unitary group U(n), where 
-'n' indicates the size of the matrix.
+---
 
-When solving systems of linear equations or analyzing their stability through methods like diagonalization, Hermitian matrices are preferred due to these real eigenvalues and orthogonal eigenvectors, which simplify many problems in quantum mechanics and engineering fields that involve signal processing or control theory.
+## The Hadamard Gate: The Coin-Flip Operator
 
-## the Pauli matrices
+**Why you need this**: To search all possibilities at once, we need a state that is an equal superposition of every possible answer. The Hadamard gate creates exactly this -- it is the quantum equivalent of flipping a perfectly fair coin.
 
-The Pauli matrices are four distinct 2x2 complex matrices that form an orthogonal basis in the space of all 2x2 Hermitian matrices, and they play a fundamental role in quantum mechanics, particularly in the study of spin-1/2 systems. Named after Wolfgang Pauli, these matrices satisfy several important properties:
+The **Hadamard gate** $H$ is the $2 \times 2$ unitary matrix:
 
-1. Orthogonality: The Pauli matrices are orthogonal to each other; that is, their inner product equals zero for 
-different matrices and equals 1 for a matrix with itself when complex conjugated. Mathematically represented as:
+$$H = \frac{1}{\sqrt{2}} \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}$$
 
-```math
-⟨σᵤ|σⱼ⟩ = (σᵤ†σⱼ + σⱼ†σᵤ)/2, where |u=1,j=1,...,3>.
-```
+Its action on the computational basis states:
 
-2. Unitary property: Each Pauli matrix is unitary, meaning its Hermitian conjugate multiplied by itself equals 
-the identity matrix:
+$$H\lvert 0 \rangle = \frac{\lvert 0 \rangle + \lvert 1 \rangle}{\sqrt{2}}, \qquad H\lvert 1 \rangle = \frac{\lvert 0 \rangle - \lvert 1 \rangle}{\sqrt{2}}$$
 
-σᵤ†σᵤ = I, for all u=1,2,3.
+Applied to $n$ qubits all starting in $\lvert 0 \rangle$, the tensor product $H^{\otimes n}\lvert 0 \rangle^{\otimes n}$ creates a uniform superposition over all $N = 2^n$ basis states:
 
-The three non-trivial Pauli matrices are as follows:
+$$\lvert \phi \rangle = H^{\otimes n}\lvert 0 \rangle^{\otimes n} = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \lvert x \rangle$$
 
-```math
-\begin{equation}
-    \label{eq:sigma_one} % Label for cross-referencing in the document
-    σ₁ = 
-    \left[ \begin{array}{cc}
-        0 & 1 \\
-        1 & 0 \\
-    \end{array} \right]
-\end{equation}
+Every key is now being tried with equal probability. This is our starting state for Grover's algorithm.
 
-\begin{equation}
-    \label{eq:sigma_one} % Label for cross-referencing in the document
-    σ₂ = 
-    \left[ \begin{array}{cc}
-        0 & -i \\
-        i & 0 \\
-    \end{array} \right]
-\end{equation}
+---
 
-\begin{equation}
-    \label{eq:sigma_one} % Label for cross-referencing in the document
-    σ₃ = 
-    \left[ \begin{array}{cc}
-        1 & 0 \\
-        0 & -1 \\
-    \end{array} \right]
-\end{equation}
-```
+## Pauli Matrices
 
-These matrices can be represented using bra-ket notation. For instance, if we have a state vector |ψ⟩ representing spin up along the z-axis (|↑z⟩), it can be written as:
+**Why you need this**: The Pauli matrices are the fundamental building blocks for single-qubit operations. They will appear everywhere in quantum computing, so you might as well meet them now.
 
-|ψ⟩ = √(1/2)|0⟩ + i√(1/2)|1⟩.
+The three Pauli matrices are:
 
-We can apply any Pauli matrix to this ket using bra notation, such as for σ₁ and obtain the new state |φ⟩ resulting from its action on |ψ⟩:
+$$\sigma_x = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \quad
+\sigma_y = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \quad
+\sigma_z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$$
 
-## Hilbert spaces
-```math
-\documentclass{article}
-\usepackage[utf8]{inputenc}
+Together with the identity $I$, they form a basis for all $2 \times 2$ Hermitian matrices. Each Pauli matrix is both Hermitian ($\sigma = \sigma^\dagger$) and unitary ($\sigma^\dagger \sigma = I$). That dual nature is unusual and worth remembering.
 
-\begin{document}
+- $\sigma_x$ is the **bit-flip** (NOT gate): $\sigma_x \lvert 0\rangle = \lvert 1\rangle$
+- $\sigma_z$ is the **phase-flip**: $\sigma_z \lvert 1\rangle = -\lvert 1\rangle$ (the state looks the same, but its sign has changed -- quantum mechanics cares about signs!)
+- $\sigma_y = i\sigma_x\sigma_z$ combines both
 
-A \textit{Hilbert space} $H$ is a complete inner product space. In the context of quantum mechanics, it can 
-represent the state space of a system where physical observables are represented by self-adjoint operators and 
-states as vectors in this space. A typical element from a Hilbert space could be denoted by an orthonormal basis 
-$\{e_n\}_{n=1}^{\infty}$, which is indexed by the natural numbers, with each $e_n$ being an eigenvector 
-corresponding to a quantized observable.
+---
 
-For two elements $u, v \in H$, their inner product can be written as:
+## Hilbert Space
 
-\[
-\langle u, v \rangle = \sum_{n=1}^{\infty} c_n \overline{d_n},
-\]
+**Why you need this**: We need a mathematical space big enough to hold all possible quantum states, equipped with an inner product so we can compute probabilities and angles between states.
 
-where $\{c_n\}$ and $\{d_n\}$ are the coefficients in the expansion of $u$ and $v$ with respect to the 
-orthonormal basis. The completeness property can be stated as: every Cauchy sequence $ \{x_k\} \in H$ converges 
-to an element $x \in H$.
+A **Hilbert space** $\mathcal{H}$ is a (possibly infinite-dimensional) vector space with an inner product, in which every Cauchy sequence converges. If this felt abstract, good -- it is. The good news: for Grover's algorithm, we only need a finite-dimensional Hilbert space, which is just $\mathbb{C}^{2^n}$ for an $n$-qubit system. Fancy name, same vector space you know and love.
 
-\end{document}
-```
+The inner product is the bra-ket: $\langle \phi \mid \psi \rangle$. Quantum states live on the **unit sphere** in this space, and quantum operations are **rotations** (unitary transformations) on that sphere. That is the whole geometric picture.
 
-## Hadamard Gate
-```math
-\documentclass{article}
-\usepackage[utf8]{inputenc}
+---
 
-\begin{document}
+# Grover's Search Algorithm
 
-The \textit{Hadamard gate}, often denoted by $H$, is one of the fundamental quantum gates used in quantum 
-computing. It creates a superposition state from a classical bit, mapping the basis states $|0\rangle$ and 
-$|1\rangle$ to $\frac{|0\rangle + |1\rangle}{\sqrt{2}}$ and $\frac{|0\rangle - |1\rangle}{\sqrt{2}}$, 
-respectively.
-
-The matrix representation of the Hadamard Gate is given by:
-
-\[ H = \frac{1}{\sqrt{2}} 
-\begin{pmatrix}
-1 &  1 \\
-1 & -1 \\
-\end{pression>
-```
-
-# Intuition: the Lost Key-Ring Quandary
-Imagine one has found a key-ring on the ground and wants to know which key will open a nearby door. Some thought reveals there can be no better strategy than to try every key one-by-one. In the worst case, one chooses the correct key last by chance. 
-
-This metaphor will be instructive to understand the problem of the unsorted database. 
-
-"An unsorted database contains N records, and the task is to identify the one record that satisfies a specific property. Classical algorithms, whether deterministic or probabilistic, would require O(N) steps on average to examine a significant portion of the records. However, quantum mechanical systems can perform multiple operations simultaneously due to their wave-like properties." -Lov K. Grover, 1996
-
-Grover's Search is a quantum mechanical algorithm that can identify the record in O(√N) steps, and in the same paper proved it is within a constant factor of the fastest possible quantum mechanical algorithm.
-
-Back to the key-ring. In Grover's search, we will entangle all keys a quantum state, essentially another them to an alternate dimension. We perform a special operation on the quantum state, and after only √N tries, the dimension of the correct key will be the most amplified, while the other dimensions will become exceedingly dimmed. We insert the final key and find that it works!
-
-# Grover's Search
+Armed with our vocabulary, we can describe Grover's algorithm precisely. The beautiful surprise is that the entire algorithm lives in a simple two-dimensional geometric picture. All the machinery we built is in service of understanding *that*.
 
 ## The Oracle
 
-A crucial component of Grover's algorithm is the use of the "oracle," which plays a central role in its functioning. The oracle simply tells whether or not a potential state is the actual solution to the query. We can think of this as "finding the key" from the intuition section.
+The **oracle** $U_f$ is a black-box operation. You give it a state, it tells you whether that state is the solution by **flipping the phase**:
 
-The primary function of the oracle within Grover's Algorithm is to determine whether a given input state corresponds to a solution i.e. the target or marked item for which we search. It does this by reversibly applying a phase shift and/or an inversion to that specific quantum state depending on its value.
+$$U_f \lvert x \rangle = (-1)^{f(x)} \lvert x \rangle$$
 
-Here's how it works:
+where $f(x) = 1$ if $x$ is the solution, and $f(x) = 0$ otherwise.
 
-1. The oracle is designed such that it has two inputs - the input states (represented as superposition of basis 
-states) we are searching for, and their corresponding output states, which indicates whether they match with our 
-target or not.
-2. When a quantum state |x⟩ (input state) passes through the oracle, if |x| corresponds to a solution, it 
-applies an inversion operator X; otherwise, it leaves the input unchanged.
-3. In terms of matrix representation, when x is equal to the solution, we can write:
+Think of it as trying a key: you insert it, the lock either clicks or it does not. But unlike a classical lock, the oracle does not *extract* the answer for us. It merely **marks** it with a minus sign. We still need a way to amplify that mark so it dominates when we measure. That amplification is the genius of the algorithm.
 
-   θ = -H ⊗ I^n_2 (where H is Hadamard gate and n_2 represents a n-qubit identity)
-   
-4. When x does not correspond to the solution, it acts as an Identity operator:
+Concretely, if the solution is the state $\lvert s \rangle$:
+- $U_f \lvert s \rangle = -\lvert s \rangle$ (the solution gets a phase flip)
+- $U_f \lvert x \rangle = \lvert x \rangle$ for all $x \neq s$ (everything else is unchanged)
 
-   θ = I ⊗ I^n_2
+Geometrically, $U_f$ is a **reflection** about the hyperplane orthogonal to $\lvert s \rangle$. File that away -- the word "reflection" is about to become very important.
 
-So effectively, when we pass |x⟩ through the oracle function of Grover's Algorithm, if |x| is a valid or target state (1), then Oracle will apply an inversion X to this specific input. If not (0), it leaves the quantum state unchanged. This operation marks our solution by flipping its phase from -1 to 1 and vice versayer for non-solution states.
+## The Geometry: A 2D Story
 
-The use of the oracle enables Grover's algorithm to amplify the probability amplitude of the desired solutions, making them more likely to be observed when measuring the final quantum state. After several iterations using a combination of Grover's diffusion operator (which involves applying a Hadamard gate followed by the Oracle 
-function) and this phase inversion property of the oracle, we can obtain an enhanced probability distribution that allows us to find our desired solution with high confidence.
+Here is the beautiful simplification that makes the whole thing tractable: no matter how many qubits you have -- even millions -- the action of Grover's algorithm takes place in a **two-dimensional plane**. Everything else is a spectator.
 
+Define two orthogonal states:
+- $\lvert s \rangle$: the solution state (what we are looking for)
+- $\lvert s^\perp \rangle$: the uniform superposition of everything *except* the solution:
 
-## The Procedure
-1. Apply the Oracle
-2. Apply the Hadamard transform
-3. Perform a conditional phase shift on the computer, with every computational basis state except |0> receiving a phase shift of -1
-4. Apply the Hadamard transform
+$$\lvert s^\perp \rangle = \frac{1}{\sqrt{N-1}} \sum_{x \neq s} \lvert x \rangle$$
 
-<div id="grover-viz-algo" role="img" aria-label="Animation of Grover's algorithm showing iterative rotation of quantum state vector toward solution state through reflections" style="width: 100%; height: 600px; position: relative; background: #000;">
-  <div id="controls-algo" style="position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
-    <button id="play-pause-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">▶ Play</button>
-    <button id="reset-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">↺ Reset</button>
-    <button id="step-back-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">⏮ Step Back</button>
-    <button id="step-forward-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">⏭ Step Forward</button>
-    <div id="iteration-counter-algo" style="color: white; margin-top: 10px; font-size: 16px;" role="status" aria-live="polite">Iteration: 0</div>
-  </div>
-  <div id="formulas-algo" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 300px;">
-    <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Analysis of Grover's algorithm</div>
-    <div>Algorithm: \((-HU_0HU_f)^k H|0...0\rangle\)</div>
-    <div style="margin-top: 10px; font-size: 12px;">Rotation by \(2\theta\) per iteration</div>
-  </div>
-</div>
+Our initial superposition $\lvert \phi \rangle = \frac{1}{\sqrt{N}} \sum_x \lvert x \rangle$ decomposes in this basis as:
 
-<script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js';
+$$\lvert \phi \rangle = \sin\theta \, \lvert s \rangle + \cos\theta \, \lvert s^\perp \rangle$$
 
-(function() {
-  const container = document.getElementById('grover-viz-algo');
-  const width = container.clientWidth;
-  const height = container.clientHeight;
-  
-  // Scene setup
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000000);
-  
-  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-  camera.position.set(5, 5, 5);
-  camera.lookAt(0, 0, 0);
-  
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(width, height);
-  container.appendChild(renderer.domElement);
-  
-  // Lighting
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-  scene.add(ambientLight);
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-  directionalLight.position.set(5, 5, 5);
-  scene.add(directionalLight);
-  
-  // Create circle
-  const circleGeometry = new THREE.RingGeometry(2.8, 3, 64);
-  const circleMaterial = new THREE.MeshBasicMaterial({ color: 0x6666ff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
-  const circle = new THREE.Mesh(circleGeometry, circleMaterial);
-  circle.rotation.x = Math.PI / 2;
-  scene.add(circle);
-  
-  // Helper function to create arrow
-  function createArrow(color, length = 3) {
-    const dir = new THREE.Vector3(0, 1, 0);
-    const origin = new THREE.Vector3(0, 0, 0);
-    const arrow = new THREE.ArrowHelper(dir, origin, length, color, 0.3, 0.2);
-    return arrow;
-  }
-  
-  // Create vectors
-  const A0_arrow = createArrow(0x888888, 3);
-  A0_arrow.setDirection(new THREE.Vector3(1, 0, 0));
-  scene.add(A0_arrow);
-  
-  const arrows = [];
-  const numIterations = 6;
-  const thetaStep = Math.PI / 12; // Small angle for demonstration
-  
-  for (let i = 0; i <= numIterations; i++) {
-    const angle = thetaStep + i * 2 * thetaStep;
-    const arrow = createArrow(0xaa66ff, 3);
-    const dir = new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0);
-    arrow.setDirection(dir);
-    arrow.visible = (i === 0);
-    scene.add(arrow);
-    arrows.push(arrow);
-  }
-  
-  // Animation state
-  let currentIteration = 0;
-  let isPlaying = false;
-  let lastTime = 0;
-  const iterationDuration = 2000; // 2 seconds per iteration
-  
-  // Controls
-  const playPauseBtn = document.getElementById('play-pause-algo');
-  const resetBtn = document.getElementById('reset-algo');
-  const stepBackBtn = document.getElementById('step-back-algo');
-  const stepForwardBtn = document.getElementById('step-forward-algo');
-  const iterationCounter = document.getElementById('iteration-counter-algo');
-  
-  function updateDisplay() {
-    arrows.forEach((arrow, i) => {
-      arrow.visible = (i === currentIteration);
-    });
-    iterationCounter.textContent = `Iteration: ${currentIteration}`;
-  }
-  
-  playPauseBtn.addEventListener('click', () => {
-    isPlaying = !isPlaying;
-    playPauseBtn.textContent = isPlaying ? '⏸ Pause' : '▶ Play';
-    if (isPlaying) lastTime = Date.now();
-  });
-  
-  resetBtn.addEventListener('click', () => {
-    currentIteration = 0;
-    isPlaying = false;
-    playPauseBtn.textContent = '▶ Play';
-    updateDisplay();
-  });
-  
-  stepBackBtn.addEventListener('click', () => {
-    if (currentIteration > 0) {
-      currentIteration--;
-      updateDisplay();
-    }
-  });
-  
-  stepForwardBtn.addEventListener('click', () => {
-    if (currentIteration < numIterations) {
-      currentIteration++;
-      updateDisplay();
-    }
-  });
-  
-  // Animation loop
-  function animate() {
-    requestAnimationFrame(animate);
-    
-    if (isPlaying) {
-      const currentTime = Date.now();
-      if (currentTime - lastTime >= iterationDuration) {
-        if (currentIteration < numIterations) {
-          currentIteration++;
-          updateDisplay();
-        } else {
-          isPlaying = false;
-          playPauseBtn.textContent = '▶ Play';
-        }
-        lastTime = currentTime;
-      }
-    }
-    
-    // Gentle camera rotation
-    const time = Date.now() * 0.0001;
-    camera.position.x = Math.sin(time) * 6;
-    camera.position.z = Math.cos(time) * 6;
-    camera.lookAt(0, 0, 0);
-    
-    renderer.render(scene, camera);
-  }
-  
-  animate();
-  updateDisplay();
-  
-  // Handle resize
-  window.addEventListener('resize', () => {
-    const newWidth = container.clientWidth;
-    const newHeight = container.clientHeight;
-    camera.aspect = newWidth / newHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(newWidth, newHeight);
-  });
-})();
-</script>
+where $\sin\theta = \frac{1}{\sqrt{N}}$, the amplitude of the solution in the uniform superposition.
 
-<noscript>
-  <img src="/blog/assets/2024/grovers/algo.png" alt="Animation of Grover's algorithm showing iterative rotation of quantum state vector toward solution state through reflections">
-</noscript>
-
-The operating idea here is that the inital random state will be reflected about the orthogonal position to the correct state, |s> until it is most probabilistically aligned with the correct state. A final reading will reveal the correct solution to the oracle.
+For large $N$, $\theta$ is tiny. The initial state is nearly orthogonal to the solution -- nearly horizontal in our circle picture. Grover's algorithm will rotate it toward vertical.
 
 <div id="grover-viz-ortho" role="img" aria-label="3D visualization of quantum state vectors showing solution state, superposition state, and orthogonal state on a unit circle" style="width: 100%; height: 500px; position: relative; background: #000;">
   <div id="formulas-ortho" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 400px; font-size: 14px;">
-    <div>\(\langle s|\phi\rangle = \langle s| \frac{1}{\sqrt{N}} \sum_{x \in \{0,1\}^n} |x\rangle\)</div>
-    <div style="margin-top: 10px;">\(|s^\perp\rangle = \frac{1}{\sqrt{N-1}} \left(\sum_{x \in \{0,1\}^n} |x\rangle - |s\rangle\right)\)</div>
+    <div>\(|\phi\rangle = \sin\theta\,|s\rangle + \cos\theta\,|s^\perp\rangle\)</div>
+    <div style="margin-top: 10px;">\(\sin\theta = \frac{1}{\sqrt{N}}\)</div>
+    <div style="margin-top: 10px; font-size: 12px; color: #aaa;">For large N, the initial state is nearly horizontal</div>
   </div>
 </div>
 
 <script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js';
-
 (function() {
+  const THREE = window.THREE;
+  if (!THREE) return;
+
   const container = document.getElementById('grover-viz-ortho');
   const width = container.clientWidth;
   const height = container.clientHeight;
-  
+
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
-  
+
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
   camera.position.set(4, 4, 4);
   camera.lookAt(0, 0, 0);
-  
+
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
   container.appendChild(renderer.domElement);
-  
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-  scene.add(ambientLight);
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-  directionalLight.position.set(5, 5, 5);
-  scene.add(directionalLight);
-  
-  // Create circle
-  const circleGeometry = new THREE.RingGeometry(2.8, 3, 64);
-  const circleMaterial = new THREE.MeshBasicMaterial({ color: 0x4466ff, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
-  const circle = new THREE.Mesh(circleGeometry, circleMaterial);
-  circle.rotation.x = Math.PI / 2;
-  scene.add(circle);
-  
-  // Helper to create arrow
-  function createArrow(color, length, label) {
-    const dir = new THREE.Vector3(0, 1, 0);
-    const origin = new THREE.Vector3(0, 0, 0);
-    const arrow = new THREE.ArrowHelper(dir, origin, length, color, 0.3, 0.2);
-    return arrow;
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  dirLight.position.set(5, 5, 5);
+  scene.add(dirLight);
+
+  // Unit circle
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(2.8, 3, 64),
+    new THREE.MeshBasicMaterial({ color: 0x4466ff, side: THREE.DoubleSide, transparent: true, opacity: 0.4 })
+  );
+  ring.rotation.x = Math.PI / 2;
+  scene.add(ring);
+
+  function arrow(color, len) {
+    return new THREE.ArrowHelper(new THREE.Vector3(0,1,0), new THREE.Vector3(0,0,0), len, color, 0.3, 0.2);
   }
-  
-  // |s⟩ - solution state (salmon/pink, pointing up)
-  const s_arrow = createArrow(0xff8888, 3);
-  s_arrow.setDirection(new THREE.Vector3(0, 1, 0));
-  scene.add(s_arrow);
-  
-  // |s⊥⟩ - orthogonal state (blue, horizontal)
-  const s_perp_arrow = createArrow(0x4488ff, 3);
-  s_perp_arrow.setDirection(new THREE.Vector3(1, 0, 0));
-  scene.add(s_perp_arrow);
-  
-  // |φ⟩ - superposition state (yellow, small angle from s⊥)
-  const phi_arrow = createArrow(0xffdd44, 3);
+
+  // |s> solution (salmon, up)
+  const sArr = arrow(0xff8888, 3);
+  sArr.setDirection(new THREE.Vector3(0, 1, 0));
+  scene.add(sArr);
+
+  // |s_perp> (blue, horizontal)
+  const spArr = arrow(0x4488ff, 3);
+  spArr.setDirection(new THREE.Vector3(1, 0, 0));
+  scene.add(spArr);
+
+  // |phi> (yellow, small angle)
   const smallAngle = Math.PI / 12;
-  phi_arrow.setDirection(new THREE.Vector3(Math.cos(smallAngle), Math.sin(smallAngle), 0));
-  scene.add(phi_arrow);
-  
-  // Animation loop with auto-rotation
+  const phiArr = arrow(0xffdd44, 3);
+  phiArr.setDirection(new THREE.Vector3(Math.cos(smallAngle), Math.sin(smallAngle), 0));
+  scene.add(phiArr);
+
+  // Angle arc
+  const arcCurve = new THREE.EllipseCurve(0, 0, 1.2, 1.2, 0, smallAngle, false, 0);
+  const arcPts = arcCurve.getPoints(20).map(p => new THREE.Vector3(p.x, p.y, 0));
+  scene.add(new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(arcPts),
+    new THREE.LineBasicMaterial({ color: 0xffaa44 })
+  ));
+
   function animate() {
     requestAnimationFrame(animate);
-    
-    const time = Date.now() * 0.0002;
-    camera.position.x = Math.sin(time) * 5;
-    camera.position.z = Math.cos(time) * 5;
+    const t = Date.now() * 0.0002;
+    camera.position.x = Math.sin(t) * 5;
+    camera.position.z = Math.cos(t) * 5;
     camera.lookAt(0, 0, 0);
-    
     renderer.render(scene, camera);
   }
-  
   animate();
-  
+
   window.addEventListener('resize', () => {
-    const newWidth = container.clientWidth;
-    const newHeight = container.clientHeight;
-    camera.aspect = newWidth / newHeight;
+    const w = container.clientWidth, h = container.clientHeight;
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setSize(newWidth, newHeight);
+    renderer.setSize(w, h);
   });
 })();
 </script>
 
 <noscript>
-  <img src="/blog/assets/2024/grovers/ortho.png" alt="3D visualization of quantum state vectors showing solution state, superposition state, and orthogonal state on a unit circle">
+  <img src="/blog/assets/2024/grovers/ortho.png" alt="3D visualization of quantum state vectors on a unit circle">
 </noscript>
 
-## Composition of Reflections
-For any two reflections with an angle θ, their composition is a rotation of angle 2θ.
+In the visualization above:
+- **Pink arrow** ($\lvert s \rangle$): the solution, pointing vertically
+- **Blue arrow** ($\lvert s^\perp \rangle$): the orthogonal complement, pointing horizontally
+- **Yellow arrow** ($\lvert \phi \rangle$): the initial superposition, at a small angle $\theta$ from horizontal
 
-<div id="grover-viz-reflect" role="img" aria-label="Geometric diagram showing how two reflections compose to create a rotation by angle 2θ in a two-dimensional plane" style="width: 100%; height: 500px; position: relative; background: #ffffff;">
+## Composition of Two Reflections
+
+The heart of Grover's algorithm rests on a lemma from Euclidean geometry that you can verify with the rotation matrices from Calc 3:
+
+> **Lemma**: The composition of two reflections, with angle $\theta$ between their axes, is a **rotation by $2\theta$**.
+
+If $R_1$ reflects about axis $\ell_1$ and $R_2$ reflects about axis $\ell_2$, and the angle between $\ell_1$ and $\ell_2$ is $\theta$, then $R_2 \circ R_1$ is a rotation by $2\theta$. This is the engine of the algorithm.
+
+<div id="grover-viz-reflect" role="img" aria-label="Geometric diagram showing how two reflections compose to create a rotation by angle 2theta" style="width: 100%; height: 500px; position: relative; background: #ffffff;">
   <div style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); text-align: center;">
-    <h2 style="margin: 0; font-size: 28px;">Composing two reflections</h2>
-    <p style="margin: 5px 0; font-size: 16px;">Reflections in two-dimensional plane</p>
+    <h3 style="margin: 0; font-size: 22px;">Two Reflections = Rotation by \(2\theta\)</h3>
   </div>
   <div style="position: absolute; bottom: 20px; left: 20px; background: rgba(200,200,200,0.9); padding: 15px; border-radius: 5px; max-width: 500px;">
     <div style="font-weight: bold; margin-bottom: 5px;">Lemma:</div>
-    <div>For any two reflections with angle θ between them, the composition of the two reflections is a rotation by 2θ</div>
+    <div>For any two reflections with angle \(\theta\) between their axes, the composition is a rotation by \(2\theta\).</div>
   </div>
   <div style="position: absolute; bottom: 80px; right: 20px; background: rgba(255,200,200,0.9); padding: 10px; border-radius: 5px;">
     <div style="font-weight: bold;">Note: \(\theta_1 + \theta_2 = \theta\)</div>
@@ -575,424 +358,794 @@ For any two reflections with an angle θ, their composition is a rotation of ang
 </div>
 
 <script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js';
-
 (function() {
+  const THREE = window.THREE;
+  if (!THREE) return;
+
   const container = document.getElementById('grover-viz-reflect');
   const width = container.clientWidth;
   const height = container.clientHeight;
-  
+
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xffffff);
-  
+
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
   camera.position.set(0, 0, 8);
   camera.lookAt(0, 0, 0);
-  
+
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
   container.appendChild(renderer.domElement);
-  
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-  scene.add(ambientLight);
-  
-  // Create dashed lines for reflection axes
-  const lineMaterial = new THREE.LineDashedMaterial({ color: 0xaaaaaa, dashSize: 0.2, gapSize: 0.1, linewidth: 2 });
-  
-  // Reflection line 1
-  const line1Points = [new THREE.Vector3(-4, -2, 0), new THREE.Vector3(4, 2, 0)];
-  const line1Geometry = new THREE.BufferGeometry().setFromPoints(line1Points);
-  const line1 = new THREE.Line(line1Geometry, lineMaterial);
-  line1.computeLineDistances();
-  scene.add(line1);
-  
-  // Reflection line 2
-  const line2Points = [new THREE.Vector3(-4, 2, 0), new THREE.Vector3(4, -2, 0)];
-  const line2Geometry = new THREE.BufferGeometry().setFromPoints(line2Points);
-  const line2 = new THREE.Line(line2Geometry, lineMaterial);
-  line2.computeLineDistances();
-  scene.add(line2);
-  
-  // Helper to create arrow
-  function createArrow(color, startPoint, direction, length) {
-    const arrow = new THREE.ArrowHelper(direction.normalize(), startPoint, length, color, 0.3, 0.2);
-    return arrow;
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+
+  // Reflection axes (dashed)
+  const dashMat = new THREE.LineDashedMaterial({ color: 0xaaaaaa, dashSize: 0.2, gapSize: 0.1 });
+
+  const l1 = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-4,-2,0), new THREE.Vector3(4,2,0)]),
+    dashMat
+  );
+  l1.computeLineDistances();
+  scene.add(l1);
+
+  const l2 = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-4,2,0), new THREE.Vector3(4,-2,0)]),
+    dashMat
+  );
+  l2.computeLineDistances();
+  scene.add(l2);
+
+  function mkArrow(color, dir, len) {
+    return new THREE.ArrowHelper(dir.normalize(), new THREE.Vector3(0,0,0), len, color, 0.3, 0.2);
   }
-  
-  // Initial vector (red)
-  const initialDir = new THREE.Vector3(1, -0.3, 0).normalize();
-  const initialArrow = createArrow(0xcc0000, new THREE.Vector3(0, 0, 0), initialDir, 2.5);
-  scene.add(initialArrow);
-  
-  // Intermediate vectors showing reflections
-  const midDir = new THREE.Vector3(0.5, 1, 0).normalize();
-  const midArrow = createArrow(0xaa44aa, new THREE.Vector3(0, 0, 0), midDir, 2.5);
-  scene.add(midArrow);
-  
-  // Final rotated vector (purple)
-  const finalDir = new THREE.Vector3(-0.3, 1, 0).normalize();
-  const finalArrow = createArrow(0x8844cc, new THREE.Vector3(0, 0, 0), finalDir, 2.5);
-  scene.add(finalArrow);
-  
-  // Create angle arcs
-  function createArc(radius, startAngle, endAngle, color) {
-    const curve = new THREE.EllipseCurve(0, 0, radius, radius, startAngle, endAngle, false, 0);
-    const points = curve.getPoints(50);
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const material = new THREE.LineBasicMaterial({ color: color });
-    const arc = new THREE.Line(geometry, material);
-    return arc;
+
+  // Initial (red), after 1st reflection (magenta), after 2nd (purple)
+  scene.add(mkArrow(0xcc0000, new THREE.Vector3(1, -0.3, 0), 2.5));
+  scene.add(mkArrow(0xaa44aa, new THREE.Vector3(0.5, 1, 0), 2.5));
+  scene.add(mkArrow(0x8844cc, new THREE.Vector3(-0.3, 1, 0), 2.5));
+
+  // Angle arcs
+  function mkArc(r, s, e, c) {
+    const pts = new THREE.EllipseCurve(0,0,r,r,s,e,false,0).getPoints(50);
+    return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({color:c}));
   }
-  
-  const arc1 = createArc(0.8, -0.3, 1.2, 0xff6666);
-  scene.add(arc1);
-  
-  const arc2 = createArc(1.0, 1.2, 1.5, 0xff6666);
-  scene.add(arc2);
-  
-  // Animation loop
-  let rotationAngle = 0;
+  scene.add(mkArc(0.8, -0.3, 1.2, 0xff6666));
+  scene.add(mkArc(1.0, 1.2, 1.5, 0xff6666));
+
+  let rot = 0;
   function animate() {
     requestAnimationFrame(animate);
-    
-    // Gentle rotation
-    rotationAngle += 0.001;
-    scene.rotation.y = Math.sin(rotationAngle) * 0.1;
-    scene.rotation.x = Math.cos(rotationAngle * 0.7) * 0.05;
-    
+    rot += 0.001;
+    scene.rotation.y = Math.sin(rot) * 0.1;
+    scene.rotation.x = Math.cos(rot * 0.7) * 0.05;
     renderer.render(scene, camera);
   }
-  
   animate();
-  
+
   window.addEventListener('resize', () => {
-    const newWidth = container.clientWidth;
-    const newHeight = container.clientHeight;
-    camera.aspect = newWidth / newHeight;
+    const w = container.clientWidth, h = container.clientHeight;
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setSize(newWidth, newHeight);
+    renderer.setSize(w, h);
   });
 })();
 </script>
 
 <noscript>
-  <img src="/blog/assets/2024/grovers/grove4.png" alt="Geometric diagram showing how two reflections compose to create a rotation by angle 2θ in a two-dimensional plane">
+  <img src="/blog/assets/2024/grovers/grove4.png" alt="Diagram: two reflections compose into a rotation by 2theta">
 </noscript>
 
-Now, if we let |A_0> be the vector orthogonal to our solution state, |A_1> the reason for understanding reflection compositions is elucidated:
+In the diagram: the **red** vector is reflected to **magenta** (first reflection), then to **purple** (second reflection). The net effect? A rotation by $2\theta$. No magic, just geometry.
 
-Finally, we observe:
+## The Grover Iteration
 
-<div id="grover-viz-analysis" role="img" aria-label="Animated analysis showing how Grover's algorithm rotates the state vector by 2θ each iteration, converging to solution state in O(√N) steps" style="width: 100%; height: 600px; position: relative; background: #000;">
-  <div id="controls-analysis" style="position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
-    <button id="play-pause-analysis" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">▶ Play</button>
-    <button id="reset-analysis" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">↺ Reset</button>
-    <div id="iteration-counter-analysis" style="color: white; margin-top: 10px; font-size: 16px;" role="status" aria-live="polite">Iteration: 0</div>
+Each iteration of Grover's algorithm consists of two reflections:
+
+1. **The Oracle** $U_f$: reflects the state about $\lvert s^\perp \rangle$ (flips the sign of the solution component).
+2. **The Diffusion Operator** $D = 2\lvert \phi \rangle \langle \phi \rvert - I$: reflects the state about the initial superposition $\lvert \phi \rangle$ (reflects about the mean).
+
+The Grover operator is their composition:
+
+$$G = D \cdot U_f$$
+
+By the reflection lemma, $G$ is a rotation by $2\theta$ in the $(\lvert s^\perp \rangle, \lvert s \rangle)$ plane, toward $\lvert s \rangle$. Each application nudges the state vector a little closer to the solution. This is the "small kick" from our calculus bridge.
+
+### The Full Procedure
+
+1. **Initialize**: Prepare $\lvert 0 \rangle^{\otimes n}$ and apply $H^{\otimes n}$ to create $\lvert \phi \rangle$.
+2. **Iterate**: Apply $G = D \cdot U_f$ a total of $k$ times.
+3. **Measure**: Read out the quantum state. With high probability, you get $\lvert s \rangle$.
+
+That is the entire algorithm. Three steps. The rest is understanding *why* it works and *when to stop*.
+
+<div id="grover-viz-algo" role="img" aria-label="Animation of Grover's algorithm showing iterative rotation toward solution state" style="width: 100%; height: 600px; position: relative; background: #000;">
+  <div id="controls-algo" style="position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
+    <button id="play-pause-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">&#9654; Play</button>
+    <button id="reset-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">&#8634; Reset</button>
+    <button id="step-back-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">&#9198; Back</button>
+    <button id="step-forward-algo" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">&#9197; Forward</button>
+    <div id="iteration-counter-algo" style="color: white; margin-top: 10px; font-size: 16px;" role="status" aria-live="polite">Iteration: 0</div>
   </div>
-  <div id="formulas-analysis" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 350px;">
-    <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Analysis of Grover's algorithm</div>
-    <div style="margin-bottom: 10px;">Algorithm: \((-HU_0HU_f)^k H|0...0\rangle\)</div>
-    <div style="font-size: 12px; margin-bottom: 10px;">Since \(-HU_0HU_f\) is a composition of two reflections, it's a rotation by \(2\theta\)</div>
-    <div style="background: rgba(255,255,255,0.1); padding: 8px; border-radius: 3px; margin-top: 10px;">
-      <div style="font-weight: bold;">How many iterations \(k\)?</div>
-      <div style="font-size: 11px; margin-top: 5px;">If \(s_1 = 1\) then \(\sin(\theta) = \sqrt{\frac{1}{N}}\)</div>
-      <div style="font-size: 11px;">Set \(k \approx \frac{\pi}{4}\sqrt{N}\)</div>
-      <div style="font-size: 11px; color: #88ff88; margin-top: 5px;">Result: \(O(\sqrt{N})\) queries</div>
-    </div>
+  <div id="formulas-algo" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 300px;">
+    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">Grover's Algorithm</div>
+    <div>\(G^k |\phi\rangle\) where \(G = D \cdot U_f\)</div>
+    <div style="margin-top: 10px; font-size: 12px;">Each iteration rotates by \(2\theta\)</div>
   </div>
 </div>
 
 <script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js';
-
 (function() {
-  const container = document.getElementById('grover-viz-analysis');
+  const THREE = window.THREE;
+  if (!THREE) return;
+
+  const container = document.getElementById('grover-viz-algo');
   const width = container.clientWidth;
   const height = container.clientHeight;
-  
+
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
-  
+
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
   camera.position.set(5, 5, 5);
   camera.lookAt(0, 0, 0);
-  
+
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
   container.appendChild(renderer.domElement);
-  
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-  scene.add(ambientLight);
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-  directionalLight.position.set(5, 5, 5);
-  scene.add(directionalLight);
-  
-  // Helper to create arrow
-  function createArrow(color, length) {
-    const dir = new THREE.Vector3(0, 1, 0);
-    const origin = new THREE.Vector3(0, 0, 0);
-    const arrow = new THREE.ArrowHelper(dir, origin, length, color, 0.3, 0.2);
-    return arrow;
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const dl = new THREE.DirectionalLight(0xffffff, 0.8);
+  dl.position.set(5, 5, 5);
+  scene.add(dl);
+
+  // Circle
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(2.8, 3, 64),
+    new THREE.MeshBasicMaterial({ color: 0x6666ff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 })
+  );
+  ring.rotation.x = Math.PI / 2;
+  scene.add(ring);
+
+  function mkA(c, l) {
+    return new THREE.ArrowHelper(new THREE.Vector3(0,1,0), new THREE.Vector3(0,0,0), l||3, c, 0.3, 0.2);
   }
-  
-  // |A₀⟩ - orthogonal to solution (gray, horizontal)
-  const A0_arrow = createArrow(0x888888, 3);
-  A0_arrow.setDirection(new THREE.Vector3(1, 0, 0));
-  scene.add(A0_arrow);
-  
-  // |A₁⟩ - solution state (light purple/gray, vertical)
-  const A1_arrow = createArrow(0xaa88cc, 3);
-  A1_arrow.setDirection(new THREE.Vector3(0, 1, 0));
-  scene.add(A1_arrow);
-  
-  // Create multiple purple arrows showing rotation progression
+
+  // |s_perp> gray horizontal
+  const a0 = mkA(0x888888); a0.setDirection(new THREE.Vector3(1,0,0)); scene.add(a0);
+  // |s> pink vertical
+  const sol = mkA(0xff8888); sol.setDirection(new THREE.Vector3(0,1,0)); scene.add(sol);
+
   const arrows = [];
-  const numSteps = 7;
-  const startAngle = Math.PI / 16; // Small starting angle
-  const angleIncrement = Math.PI / 12; // 2θ per step
-  
-  for (let i = 0; i <= numSteps; i++) {
-    const angle = startAngle + i * angleIncrement;
-    const arrow = createArrow(0xaa66ff, 3);
-    const dir = new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0);
-    arrow.setDirection(dir);
-    arrow.visible = (i === 0);
-    scene.add(arrow);
-    arrows.push(arrow);
-    
-    // Add arc trail for each step
-    if (i > 0) {
-      const prevAngle = startAngle + (i - 1) * angleIncrement;
-      const arcCurve = new THREE.EllipseCurve(
-        0, 0,
-        3, 3,
-        prevAngle, angle,
-        false, 0
-      );
-      const arcPoints = arcCurve.getPoints(20);
-      const arcPoints3D = arcPoints.map(p => new THREE.Vector3(p.x, p.y, 0));
-      const arcGeometry = new THREE.BufferGeometry().setFromPoints(arcPoints3D);
-      const arcMaterial = new THREE.LineBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.5 });
-      const arc = new THREE.Line(arcGeometry, arcMaterial);
-      arc.visible = false;
-      scene.add(arc);
-      arrows[i].userData.arc = arc;
-    }
+  const numIterations = 6;
+  const thetaStep = Math.PI / 12;
+
+  for (let i = 0; i <= numIterations; i++) {
+    const angle = thetaStep + i * 2 * thetaStep;
+    const a = mkA(0xaa66ff);
+    a.setDirection(new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0));
+    a.visible = (i === 0);
+    scene.add(a);
+    arrows.push(a);
   }
-  
-  // Animation state
-  let currentIteration = 0;
-  let isPlaying = false;
-  let lastTime = 0;
-  const iterationDuration = 2000;
-  
-  const playPauseBtn = document.getElementById('play-pause-analysis');
-  const resetBtn = document.getElementById('reset-analysis');
-  const iterationCounter = document.getElementById('iteration-counter-analysis');
-  
-  function updateDisplay() {
-    arrows.forEach((arrow, i) => {
-      arrow.visible = (i === currentIteration);
-      if (arrow.userData.arc) {
-        arrow.userData.arc.visible = (i <= currentIteration);
-      }
-    });
-    iterationCounter.textContent = `Iteration: ${currentIteration}`;
+
+  let cur = 0, playing = false, lastT = 0;
+  const dur = 2000;
+
+  const ppBtn = document.getElementById('play-pause-algo');
+  const rstBtn = document.getElementById('reset-algo');
+  const bkBtn = document.getElementById('step-back-algo');
+  const fwBtn = document.getElementById('step-forward-algo');
+  const ctr = document.getElementById('iteration-counter-algo');
+
+  function upd() {
+    arrows.forEach((a,i) => { a.visible = (i === cur); });
+    ctr.textContent = 'Iteration: ' + cur;
   }
-  
-  playPauseBtn.addEventListener('click', () => {
-    isPlaying = !isPlaying;
-    playPauseBtn.textContent = isPlaying ? '⏸ Pause' : '▶ Play';
-    if (isPlaying) lastTime = Date.now();
+
+  ppBtn.addEventListener('click', () => {
+    playing = !playing;
+    ppBtn.innerHTML = playing ? '&#9208; Pause' : '&#9654; Play';
+    if (playing) lastT = Date.now();
   });
-  
-  resetBtn.addEventListener('click', () => {
-    currentIteration = 0;
-    isPlaying = false;
-    playPauseBtn.textContent = '▶ Play';
-    updateDisplay();
-  });
-  
+  rstBtn.addEventListener('click', () => { cur = 0; playing = false; ppBtn.innerHTML = '&#9654; Play'; upd(); });
+  bkBtn.addEventListener('click', () => { if (cur > 0) { cur--; upd(); } });
+  fwBtn.addEventListener('click', () => { if (cur < numIterations) { cur++; upd(); } });
+
   function animate() {
     requestAnimationFrame(animate);
-    
-    if (isPlaying) {
-      const currentTime = Date.now();
-      if (currentTime - lastTime >= iterationDuration) {
-        if (currentIteration < numSteps) {
-          currentIteration++;
-          updateDisplay();
-        } else {
-          isPlaying = false;
-          playPauseBtn.textContent = '▶ Play';
-        }
-        lastTime = currentTime;
+    if (playing) {
+      const now = Date.now();
+      if (now - lastT >= dur) {
+        if (cur < numIterations) { cur++; upd(); } else { playing = false; ppBtn.innerHTML = '&#9654; Play'; }
+        lastT = now;
       }
     }
-    
-    const time = Date.now() * 0.0001;
-    camera.position.x = Math.sin(time) * 6;
-    camera.position.z = Math.cos(time) * 6;
+    const t = Date.now() * 0.0001;
+    camera.position.x = Math.sin(t) * 6;
+    camera.position.z = Math.cos(t) * 6;
     camera.lookAt(0, 0, 0);
-    
     renderer.render(scene, camera);
   }
-  
   animate();
-  updateDisplay();
-  
+  upd();
+
   window.addEventListener('resize', () => {
-    const newWidth = container.clientWidth;
-    const newHeight = container.clientHeight;
-    camera.aspect = newWidth / newHeight;
+    const w = container.clientWidth, h = container.clientHeight;
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setSize(newWidth, newHeight);
+    renderer.setSize(w, h);
   });
 })();
 </script>
 
 <noscript>
-  <img src="/blog/assets/2024/grovers/grove7.png" alt="Animated analysis showing how Grover's algorithm rotates the state vector by 2θ each iteration, converging to solution state in O(√N) steps">
+  <img src="/blog/assets/2024/grovers/algo.png" alt="Animation of Grover's algorithm rotating the state vector toward the solution">
 </noscript>
 
-Seen in another light, we leverage the arcsin estimation formula for small theta, and of course for N >> 2, we do have a small theta indeed.
+Watch how the **purple vector** rotates toward the **pink solution vector** with each iteration. Each step adds $2\theta$ of rotation. The gray horizontal arrow is $\lvert s^\perp \rangle$ for reference.
 
-<div id="grover-viz-finit" role="img" aria-label="Mathematical visualization showing the arcsin approximation used to derive that Grover's algorithm requires O(√N) iterations" style="width: 100%; height: 500px; position: relative; background: #000;">
-  <div id="formulas-finit" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 350px; font-size: 13px;">
-    <div>\(\arcsin\left(\frac{1}{\sqrt{N}}\right) \approx \frac{1}{\sqrt{N}} \approx \theta\)</div>
-    <div style="margin-top: 10px;">\((2t+1) \frac{1}{\sqrt{N}} \rightarrow \frac{\pi}{2}\)</div>
-    <div style="margin-top: 10px;">\(\frac{2t}{\sqrt{N}} = \frac{\pi}{2} - \frac{1}{\sqrt{N}}\)</div>
-    <div style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 3px;">
-      \(t = \frac{\pi}{4}\sqrt{N} - \frac{1}{2}\)
-    </div>
-    <div style="margin-top: 15px; font-size: 16px; color: #88ff88; font-weight: bold;">
-      Run \(t\) times \(\rightarrow O(\sqrt{N})\)
-    </div>
+Now let us see the full analysis with arc trails showing accumulated rotation:
+
+<div id="grover-viz-analysis" role="img" aria-label="Analysis showing accumulated rotation per Grover iteration" style="width: 100%; height: 600px; position: relative; background: #000;">
+  <div id="controls-analysis" style="position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
+    <button id="play-pause-analysis" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">&#9654; Play</button>
+    <button id="reset-analysis" style="margin: 5px; padding: 8px 16px; font-size: 14px; cursor: pointer;">&#8634; Reset</button>
+    <div id="iteration-counter-analysis" style="color: white; margin-top: 10px; font-size: 16px;" role="status" aria-live="polite">Iteration: 0</div>
   </div>
-  <div id="formulas-finit-right" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 300px; font-size: 13px;">
-    <div>\(\langle s|\phi\rangle = \langle s| \frac{1}{\sqrt{N}} \sum_{x \in \{0,1\}^n} |x\rangle\)</div>
-    <div style="margin-top: 10px;">\(|s^\perp\rangle = \frac{1}{\sqrt{N-1}} \left(\sum_{x \in \{0,1\}^n} |x\rangle - |s\rangle\right)\)</div>
-    <div style="margin-top: 10px;">\(|\phi\rangle \frac{1}{\sqrt{N}}\)</div>
+  <div id="formulas-analysis" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 350px;">
+    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">Rotation Accumulation</div>
+    <div style="margin-bottom: 10px;">\(G = D \cdot U_f\) rotates by \(2\theta\) per step</div>
+    <div style="font-size: 12px; margin-bottom: 10px;">After \(k\) iterations: total angle = \((2k+1)\theta\)</div>
+    <div style="background: rgba(255,255,255,0.1); padding: 8px; border-radius: 3px;">
+      <div style="font-weight: bold;">Optimal iterations:</div>
+      <div style="font-size: 12px; margin-top: 5px;">\(\sin\theta = \frac{1}{\sqrt{N}} \implies \theta \approx \frac{1}{\sqrt{N}}\)</div>
+      <div style="font-size: 12px;">\((2k+1)\theta \approx \frac{\pi}{2}\)</div>
+      <div style="font-size: 12px; color: #88ff88; margin-top: 5px;">\(k \approx \frac{\pi}{4}\sqrt{N}\)</div>
+    </div>
   </div>
 </div>
 
 <script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.min.js';
-
 (function() {
-  const container = document.getElementById('grover-viz-finit');
+  const THREE = window.THREE;
+  if (!THREE) return;
+
+  const container = document.getElementById('grover-viz-analysis');
   const width = container.clientWidth;
   const height = container.clientHeight;
-  
+
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
-  
+
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-  camera.position.set(4, 4, 4);
+  camera.position.set(5, 5, 5);
   camera.lookAt(0, 0, 0);
-  
+
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
   container.appendChild(renderer.domElement);
-  
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-  scene.add(ambientLight);
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-  directionalLight.position.set(5, 5, 5);
-  scene.add(directionalLight);
-  
-  // Create circle
-  const circleGeometry = new THREE.RingGeometry(2.8, 3, 64);
-  const circleMaterial = new THREE.MeshBasicMaterial({ color: 0x4466ff, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
-  const circle = new THREE.Mesh(circleGeometry, circleMaterial);
-  circle.rotation.x = Math.PI / 2;
-  scene.add(circle);
-  
-  // Helper to create arrow
-  function createArrow(color, length) {
-    const dir = new THREE.Vector3(0, 1, 0);
-    const origin = new THREE.Vector3(0, 0, 0);
-    const arrow = new THREE.ArrowHelper(dir, origin, length, color, 0.3, 0.2);
-    return arrow;
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const dl = new THREE.DirectionalLight(0xffffff, 0.8);
+  dl.position.set(5,5,5);
+  scene.add(dl);
+
+  function mkA(c,l) {
+    return new THREE.ArrowHelper(new THREE.Vector3(0,1,0), new THREE.Vector3(0,0,0), l, c, 0.3, 0.2);
   }
-  
-  // |s⟩ - solution state (salmon, pointing up)
-  const s_arrow = createArrow(0xff8888, 3);
-  s_arrow.setDirection(new THREE.Vector3(0, 1, 0));
-  scene.add(s_arrow);
-  
-  // |s⊥⟩ - orthogonal state (blue, horizontal)
-  const s_perp_arrow = createArrow(0x4488ff, 3);
-  s_perp_arrow.setDirection(new THREE.Vector3(1, 0, 0));
-  scene.add(s_perp_arrow);
-  
-  // |φ⟩ - superposition state (yellow, small angle from s⊥)
-  const phi_arrow = createArrow(0xffdd44, 3);
-  const smallAngle = Math.PI / 12;
-  phi_arrow.setDirection(new THREE.Vector3(Math.cos(smallAngle), Math.sin(smallAngle), 0));
-  scene.add(phi_arrow);
-  
-  // Add small angle arc indicator
-  const arcCurve = new THREE.EllipseCurve(
-    0, 0,
-    1.2, 1.2,
-    0, smallAngle,
-    false, 0
-  );
-  const arcPoints = arcCurve.getPoints(20);
-  const arcPoints3D = arcPoints.map(p => new THREE.Vector3(p.x, p.y, 0));
-  const arcGeometry = new THREE.BufferGeometry().setFromPoints(arcPoints3D);
-  const arcMaterial = new THREE.LineBasicMaterial({ color: 0xffaa44, linewidth: 2 });
-  const arc = new THREE.Line(arcGeometry, arcMaterial);
-  scene.add(arc);
-  
-  // Animation loop
+
+  // Axes
+  const ax0 = mkA(0x888888,3); ax0.setDirection(new THREE.Vector3(1,0,0)); scene.add(ax0);
+  const ax1 = mkA(0xaa88cc,3); ax1.setDirection(new THREE.Vector3(0,1,0)); scene.add(ax1);
+
+  const arrows = [], arcs = [];
+  const numSteps = 7;
+  const startAngle = Math.PI / 16;
+  const angleInc = Math.PI / 12;
+
+  for (let i = 0; i <= numSteps; i++) {
+    const angle = startAngle + i * angleInc;
+    const a = mkA(0xaa66ff, 3);
+    a.setDirection(new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0));
+    a.visible = (i === 0);
+    scene.add(a);
+    arrows.push(a);
+
+    if (i > 0) {
+      const prev = startAngle + (i-1) * angleInc;
+      const curve = new THREE.EllipseCurve(0,0,3,3,prev,angle,false,0);
+      const pts = curve.getPoints(20).map(p => new THREE.Vector3(p.x,p.y,0));
+      const arc = new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineBasicMaterial({color:0xff4444,transparent:true,opacity:0.5})
+      );
+      arc.visible = false;
+      scene.add(arc);
+      arcs.push(arc);
+    }
+  }
+
+  let cur = 0, playing = false, lastT = 0;
+  const dur = 2000;
+
+  const ppBtn = document.getElementById('play-pause-analysis');
+  const rstBtn = document.getElementById('reset-analysis');
+  const ctr = document.getElementById('iteration-counter-analysis');
+
+  function upd() {
+    arrows.forEach((a,i) => { a.visible = (i === cur); });
+    arcs.forEach((a,i) => { a.visible = (i < cur); });
+    ctr.textContent = 'Iteration: ' + cur;
+  }
+
+  ppBtn.addEventListener('click', () => {
+    playing = !playing;
+    ppBtn.innerHTML = playing ? '&#9208; Pause' : '&#9654; Play';
+    if (playing) lastT = Date.now();
+  });
+  rstBtn.addEventListener('click', () => { cur = 0; playing = false; ppBtn.innerHTML = '&#9654; Play'; upd(); });
+
   function animate() {
     requestAnimationFrame(animate);
-    
-    const time = Date.now() * 0.0002;
-    camera.position.x = Math.sin(time) * 5;
-    camera.position.z = Math.cos(time) * 5;
+    if (playing) {
+      const now = Date.now();
+      if (now - lastT >= dur) {
+        if (cur < numSteps) { cur++; upd(); } else { playing = false; ppBtn.innerHTML = '&#9654; Play'; }
+        lastT = now;
+      }
+    }
+    const t = Date.now() * 0.0001;
+    camera.position.x = Math.sin(t) * 6;
+    camera.position.z = Math.cos(t) * 6;
     camera.lookAt(0, 0, 0);
-    
     renderer.render(scene, camera);
   }
-  
   animate();
-  
+  upd();
+
   window.addEventListener('resize', () => {
-    const newWidth = container.clientWidth;
-    const newHeight = container.clientHeight;
-    camera.aspect = newWidth / newHeight;
+    const w = container.clientWidth, h = container.clientHeight;
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setSize(newWidth, newHeight);
+    renderer.setSize(w, h);
   });
 })();
 </script>
 
 <noscript>
-  <img src="/blog/assets/2024/grovers/finit.png" alt="Mathematical visualization showing the arcsin approximation used to derive that Grover's algorithm requires O(√N) iterations">
+  <img src="/blog/assets/2024/grovers/grove7.png" alt="Analysis showing accumulated rotation arcs per Grover iteration">
 </noscript>
 
-The topic of quantum circuit gates is another topic requiring its own deep dive. We couch that dicussion while providing a diagram for Grover's Search. The curious reader can delve deeper into this topic for deeper understanding.
-![diagram](/blog/assets/2024/grovers/grove5.png)
+---
 
-## Conclusion
-Most databases are indeed structured. Therefore, the unsorted nature of the problem appears contrived. Moreover, given the difficulty of maintaining quantum-classical interface and the information loss of qubits, it is unlikely Grover's Search will be used to solve any pressing computations any time soon.
+# Why $\sqrt{N}$? The Calculus Payoff
 
-Nevertheless, the algorithm can be used in other quantum simulations to calculate otherwise intractable calculations. 
+Now we cash in the calculus.
 
-I hope you enjoyed this introduction to this fascinating result in computer science!
+After $k$ applications of the Grover operator, the state has been rotated to angle $(2k+1)\theta$ from the $\lvert s^\perp \rangle$ axis. We want this angle to equal $\frac{\pi}{2}$ (pointing straight at $\lvert s \rangle$):
 
-Major Key Alert! 🔑💰
+$$(2k+1)\theta = \frac{\pi}{2}$$
+
+We know $\sin\theta = \frac{1}{\sqrt{N}}$. For large $N$, $\theta$ is small, and we invoke the **Taylor series approximation** from Calc 2:
+
+$$\sin\theta = \theta - \frac{\theta^3}{6} + \cdots \approx \theta \quad \text{for small } \theta$$
+
+Therefore:
+
+$$\theta \approx \arcsin\!\left(\frac{1}{\sqrt{N}}\right) \approx \frac{1}{\sqrt{N}}$$
+
+Substituting:
+
+$$(2k+1) \cdot \frac{1}{\sqrt{N}} \approx \frac{\pi}{2}$$
+
+$$k \approx \frac{\pi}{4}\sqrt{N} - \frac{1}{2}$$
+
+And there it is: $O(\sqrt{N})$ iterations.
+
+<div id="grover-viz-finit" role="img" aria-label="Visualization of the arcsin approximation for O(sqrt N)" style="width: 100%; height: 500px; position: relative; background: #000;">
+  <div id="formulas-finit" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; max-width: 350px; font-size: 13px;">
+    <div>\(\arcsin\!\left(\frac{1}{\sqrt{N}}\right) \approx \frac{1}{\sqrt{N}} \approx \theta\)</div>
+    <div style="margin-top: 10px;">\((2k+1)\theta \rightarrow \frac{\pi}{2}\)</div>
+    <div style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 3px;">
+      \(k = \frac{\pi}{4}\sqrt{N} - \frac{1}{2}\)
+    </div>
+    <div style="margin-top: 15px; font-size: 16px; color: #88ff88; font-weight: bold;">
+      Query complexity: \(O(\sqrt{N})\)
+    </div>
+  </div>
+</div>
+
+<script type="module">
+(function() {
+  const THREE = window.THREE;
+  if (!THREE) return;
+
+  const container = document.getElementById('grover-viz-finit');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+  camera.position.set(4, 4, 4);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(width, height);
+  container.appendChild(renderer.domElement);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const dl = new THREE.DirectionalLight(0xffffff, 0.8);
+  dl.position.set(5,5,5);
+  scene.add(dl);
+
+  // Circle
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(2.8, 3, 64),
+    new THREE.MeshBasicMaterial({ color: 0x4466ff, side: THREE.DoubleSide, transparent: true, opacity: 0.4 })
+  );
+  ring.rotation.x = Math.PI / 2;
+  scene.add(ring);
+
+  function mkA(c,l) {
+    return new THREE.ArrowHelper(new THREE.Vector3(0,1,0), new THREE.Vector3(0,0,0), l, c, 0.3, 0.2);
+  }
+
+  const sA = mkA(0xff8888,3); sA.setDirection(new THREE.Vector3(0,1,0)); scene.add(sA);
+  const spA = mkA(0x4488ff,3); spA.setDirection(new THREE.Vector3(1,0,0)); scene.add(spA);
+
+  const smallAngle = Math.PI / 12;
+  const phiA = mkA(0xffdd44,3);
+  phiA.setDirection(new THREE.Vector3(Math.cos(smallAngle), Math.sin(smallAngle), 0));
+  scene.add(phiA);
+
+  const arcCurve = new THREE.EllipseCurve(0,0,1.2,1.2,0,smallAngle,false,0);
+  const arcPts = arcCurve.getPoints(20).map(p => new THREE.Vector3(p.x,p.y,0));
+  scene.add(new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(arcPts),
+    new THREE.LineBasicMaterial({color:0xffaa44})
+  ));
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = Date.now() * 0.0002;
+    camera.position.x = Math.sin(t) * 5;
+    camera.position.z = Math.cos(t) * 5;
+    camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    const w = container.clientWidth, h = container.clientHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  });
+})();
+</script>
+
+<noscript>
+  <img src="/blog/assets/2024/grovers/finit.png" alt="Arcsin approximation visualization for O(sqrt N) derivation">
+</noscript>
+
+Grover's algorithm solves unsorted search with $O(\sqrt{N})$ oracle queries -- a **quadratic speedup** over the classical $O(N)$. And Grover proved this is optimal: no quantum algorithm can do better than $\Omega(\sqrt{N})$. The small-angle approximation from your Calc 2 Taylor series is doing real work here.
+
+---
+
+# The Overshoot: Why Grover's Algorithm Must Be Halted
+
+Now we arrive at the strangest part, and the place where the Euler's method analogy pays off most beautifully.
+
+In classical search, more work always helps. If you have tried 500 keys and not found the right one, trying 100 more can only improve your situation. You are monotonically narrowing down the possibilities.
+
+**Grover's algorithm is fundamentally different.** Running it for too long makes things *worse*. My God.
+
+## The Probability Oscillation
+
+After $k$ iterations of Grover's algorithm, the probability of measuring the correct answer is:
+
+$$P(k) = \sin^2\!\big((2k+1)\theta\big)$$
+
+This is a **sinusoidal oscillation**. It peaks at $P \approx 1$ when $(2k+1)\theta = \frac{\pi}{2}$, which gives the optimal $k^* \approx \frac{\pi}{4}\sqrt{N}$.
+
+But look at what happens if you keep going:
+
+| Iterations $k$ | Total angle $(2k+1)\theta$ | $P(k) = \sin^2$ | What happens |
+|---|---|---|---|
+| $0$ | $\theta \approx \frac{1}{\sqrt{N}}$ | $\frac{1}{N}$ | Initial uniform state |
+| $\frac{\pi}{8}\sqrt{N}$ | $\frac{\pi}{4}$ | $0.5$ | Halfway there |
+| $\frac{\pi}{4}\sqrt{N}$ | $\frac{\pi}{2}$ | $\approx 1$ | **Stop here!** |
+| $\frac{3\pi}{8}\sqrt{N}$ | $\frac{3\pi}{4}$ | $0.5$ | Overshooting... |
+| $\frac{\pi}{2}\sqrt{N}$ | $\pi$ | $\approx 0$ | **Back to zero!** |
+
+The vector has rotated **past** the solution and is now pointing away from it. Just like Euler's method overshooting a curve, over-iterating Grover's sends the state vector past the target. And it keeps going -- the probability is periodic, oscillating forever. You had the answer and then you lost it by doing more work. There is no classical analogue to this.
+
+## The Grover Overshoot Explorer
+
+Use the sliders below to see this for yourself. Adjust $N$ (database size) and $k$ (iteration count) to watch the state vector move on the unit circle and the probability oscillate.
+
+<div id="grover-viz-overshoot" role="img" aria-label="Interactive dual-slider visualization showing Grover overshoot" style="width: 100%; min-height: 650px; position: relative; background: #111; border-radius: 8px; overflow: hidden;">
+  <div style="display: flex; flex-wrap: wrap; height: 100%;">
+    <div id="overshoot-3d" style="flex: 1; min-width: 300px; height: 450px; position: relative;"></div>
+    <div id="overshoot-plot" style="flex: 1; min-width: 300px; height: 450px; position: relative;">
+      <canvas id="overshoot-canvas" style="width: 100%; height: 100%;"></canvas>
+    </div>
+  </div>
+  <div style="padding: 15px 20px; background: rgba(0,0,0,0.8); border-top: 1px solid #333;">
+    <div style="margin-bottom: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <label style="color: #aaa; font-size: 14px; min-width: 200px;">Database size \(N\): <strong><span id="n-value" style="color: #88ff88;">64</span></strong></label>
+      <input type="range" id="n-slider" min="2" max="10" value="6" step="1" style="flex: 1; min-width: 200px; accent-color: #88ff88;">
+      <span style="color: #666; font-size: 12px;">(sets \(\log_2 N\), so \(N = 2^m\))</span>
+    </div>
+    <div style="margin-bottom: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <label style="color: #aaa; font-size: 14px; min-width: 200px;">Iterations \(k\): <strong><span id="k-value" style="color: #ffaa44;">0</span></strong></label>
+      <input type="range" id="k-slider" min="0" max="75" value="0" step="1" style="flex: 1; min-width: 200px; accent-color: #ffaa44;">
+    </div>
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px;">
+      <span style="color: #ccc;">Probability: <strong><span id="prob-value" style="color: #ffdd44;">0.016</span></strong></span>
+      <span style="color: #ccc;">Optimal \(k^*\): <strong><span id="optimal-k" style="color: #88ff88;">6</span></strong></span>
+      <span style="color: #ccc;">Angle: <strong><span id="angle-value" style="color: #aa88ff;">0.125 rad</span></strong></span>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+(function() {
+  const THREE = window.THREE;
+  if (!THREE) return;
+
+  let N = 64, k = 0, theta = Math.asin(1 / Math.sqrt(N));
+
+  const nSlider = document.getElementById('n-slider');
+  const kSlider = document.getElementById('k-slider');
+  const nVal = document.getElementById('n-value');
+  const kVal = document.getElementById('k-value');
+  const probVal = document.getElementById('prob-value');
+  const optK = document.getElementById('optimal-k');
+  const angVal = document.getElementById('angle-value');
+  const canvas = document.getElementById('overshoot-canvas');
+  const ctx = canvas.getContext('2d');
+
+  // --- Three.js ---
+  const c3d = document.getElementById('overshoot-3d');
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x111111);
+
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+  camera.position.set(0, 0, 8);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  c3d.appendChild(renderer.domElement);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const dl = new THREE.DirectionalLight(0xffffff, 0.8);
+  dl.position.set(5,5,5);
+  scene.add(dl);
+
+  // Unit circle (XY plane)
+  scene.add(new THREE.Mesh(
+    new THREE.RingGeometry(2.85, 3, 128),
+    new THREE.MeshBasicMaterial({ color: 0x333366, side: THREE.DoubleSide, transparent: true, opacity: 0.5 })
+  ));
+
+  function mkA(c,l) {
+    return new THREE.ArrowHelper(new THREE.Vector3(0,1,0), new THREE.Vector3(0,0,0), l, c, 0.2, 0.15);
+  }
+
+  // |s> (pink, up)
+  const sA = mkA(0xff8888, 3); sA.setDirection(new THREE.Vector3(0,1,0)); scene.add(sA);
+  // |s_perp> (blue, right)
+  const spA = mkA(0x4488ff, 3); spA.setDirection(new THREE.Vector3(1,0,0)); scene.add(spA);
+  // State vector
+  const stA = mkA(0xffdd44, 3); scene.add(stA);
+
+  // Optimal line (green dashed)
+  const optLine = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(0,3.2,0)]),
+    new THREE.LineDashedMaterial({ color: 0x88ff88, dashSize: 0.15, gapSize: 0.1 })
+  );
+  optLine.computeLineDistances();
+  scene.add(optLine);
+
+  let curArc = null;
+  function updateArc(totalAngle) {
+    if (curArc) scene.remove(curArc);
+    const a = Math.max(0.001, totalAngle);
+    const pts = new THREE.EllipseCurve(0,0,1.5,1.5,0,a,false,0).getPoints(64).map(p => new THREE.Vector3(p.x,p.y,0));
+    const prob = Math.sin(a);
+    const r = Math.floor(255 * (1 - prob * prob));
+    const g = Math.floor(255 * prob * prob);
+    curArc = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(pts),
+      new THREE.LineBasicMaterial({ color: (r << 16) | (g << 8) | 0x44 })
+    );
+    scene.add(curArc);
+  }
+
+  // --- 2D Plot ---
+  function drawPlot() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    const W = rect.width, H = rect.height;
+
+    ctx.fillStyle = '#111';
+    ctx.fillRect(0, 0, W, H);
+
+    const pad = { top: 30, right: 20, bottom: 50, left: 55 };
+    const pW = W - pad.left - pad.right;
+    const pH = H - pad.top - pad.bottom;
+
+    // Axes
+    ctx.strokeStyle = '#555'; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, pad.top);
+    ctx.lineTo(pad.left, pad.top + pH);
+    ctx.lineTo(pad.left + pW, pad.top + pH);
+    ctx.stroke();
+
+    // Labels
+    ctx.fillStyle = '#aaa'; ctx.font = '12px monospace'; ctx.textAlign = 'center';
+    ctx.fillText('Iterations k', pad.left + pW/2, H - 8);
+    ctx.save();
+    ctx.translate(15, pad.top + pH/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.fillText('P(k)', 0, 0);
+    ctx.restore();
+
+    ctx.fillStyle = '#ddd'; ctx.font = 'bold 13px monospace';
+    ctx.fillText('Probability of Correct Answer', pad.left + pW/2, 18);
+
+    const kOpt = Math.round(Math.PI / (4 * theta));
+    const kMax = Math.max(Math.ceil(3 * kOpt), k + 5, 10);
+
+    // Y ticks
+    ctx.fillStyle = '#666'; ctx.font = '10px monospace'; ctx.textAlign = 'right';
+    for (let y = 0; y <= 1; y += 0.25) {
+      const py = pad.top + pH * (1 - y);
+      ctx.fillText(y.toFixed(2), pad.left - 5, py + 3);
+      ctx.strokeStyle = '#222'; ctx.beginPath(); ctx.moveTo(pad.left, py); ctx.lineTo(pad.left + pW, py); ctx.stroke();
+    }
+
+    // X ticks
+    ctx.textAlign = 'center';
+    const tStep = Math.max(1, Math.floor(kMax / 8));
+    for (let x = 0; x <= kMax; x += tStep) {
+      ctx.fillStyle = '#666';
+      ctx.fillText(x.toString(), pad.left + (x/kMax)*pW, pad.top + pH + 18);
+    }
+
+    // Probability curve
+    ctx.strokeStyle = '#ffdd44'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i <= kMax; i++) {
+      const ta = (2*i+1)*theta;
+      const p = Math.pow(Math.sin(ta), 2);
+      const px = pad.left + (i/kMax)*pW;
+      const py = pad.top + pH*(1 - p);
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Optimal k* line (green dashed)
+    const optPx = pad.left + (kOpt/kMax)*pW;
+    ctx.strokeStyle = '#88ff8866'; ctx.lineWidth = 1; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(optPx, pad.top); ctx.lineTo(optPx, pad.top + pH); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#88ff88'; ctx.font = '11px monospace'; ctx.textAlign = 'center';
+    ctx.fillText('k*=' + kOpt, optPx, pad.top > 15 ? pad.top - 5 : pad.top + 12);
+
+    // Current k marker
+    if (k >= 0) {
+      const curPx = pad.left + (k/kMax)*pW;
+      const ta = (2*k+1)*theta;
+      const cp = Math.pow(Math.sin(ta), 2);
+      const curPy = pad.top + pH*(1 - cp);
+
+      ctx.strokeStyle = '#ffaa44'; ctx.lineWidth = 1.5; ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(curPx, pad.top); ctx.lineTo(curPx, pad.top + pH); ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = cp > 0.7 ? '#88ff88' : (cp > 0.3 ? '#ffdd44' : '#ff6644');
+      ctx.beginPath(); ctx.arc(curPx, curPy, 5, 0, Math.PI*2); ctx.fill();
+    }
+  }
+
+  function update() {
+    theta = Math.asin(1 / Math.sqrt(N));
+    const ta = (2*k+1)*theta;
+    const prob = Math.pow(Math.sin(ta), 2);
+    const ko = Math.round(Math.PI / (4*theta));
+
+    nVal.textContent = N;
+    kVal.textContent = k;
+    probVal.textContent = prob.toFixed(4);
+    optK.textContent = ko;
+    angVal.textContent = ta.toFixed(3) + ' rad';
+
+    probVal.style.color = prob > 0.7 ? '#88ff88' : (prob > 0.3 ? '#ffdd44' : '#ff6644');
+
+    stA.setDirection(new THREE.Vector3(Math.cos(ta), Math.sin(ta), 0));
+    const r = Math.floor(255*(1-prob)), g = Math.floor(255*prob);
+    stA.setColor(new THREE.Color(r/255, g/255, 0.2));
+
+    updateArc(ta);
+    drawPlot();
+  }
+
+  nSlider.addEventListener('input', function() {
+    N = Math.pow(2, parseInt(this.value));
+    theta = Math.asin(1/Math.sqrt(N));
+    const newMax = Math.ceil(3*Math.sqrt(N));
+    kSlider.max = newMax;
+    if (k > newMax) { k = newMax; kSlider.value = k; }
+    update();
+  });
+  kSlider.addEventListener('input', function() { k = parseInt(this.value); update(); });
+
+  function onResize() {
+    const w = c3d.clientWidth, h = c3d.clientHeight;
+    if (w > 0 && h > 0) {
+      camera.aspect = w/h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    }
+    drawPlot();
+  }
+  window.addEventListener('resize', onResize);
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+
+  setTimeout(() => { onResize(); update(); animate(); }, 100);
+})();
+</script>
+
+<noscript>
+  <p>This interactive visualization requires JavaScript. It shows how the probability of measuring the correct answer in Grover's algorithm oscillates sinusoidally, peaking at k* = (pi/4)*sqrt(N) and declining afterward.</p>
+</noscript>
+
+**What to notice** (go on, play with it):
+- Set $N = 64$ and slowly drag $k$ up. The probability rises to nearly 1 around $k = 6$, then **falls back toward 0**. You had the answer and kept going.
+- Set $N = 1024$ and watch the slower, smoother rise peaking at $k \approx 25$, then the decline.
+- The probability is periodic. It will rise again later, but the first peak at $k^* \approx \frac{\pi}{4}\sqrt{N}$ is where you should measure.
+
+This is the deep lesson, and it has no classical analogue: **quantum algorithms have a rhythm**. Unlike classical computation where more work monotonically improves the result, quantum interference creates oscillations. The art of quantum algorithm design is knowing exactly when to stop. One iteration too many and you start losing what you had.
+
+Recall our Euler's method analogy: each Grover iteration is a small angular kick of $2\theta$. At the optimal number of kicks, the vector aligns with the answer. One kick too many and you start moving away. The vector swings past $\frac{\pi}{2}$ and the $\sin^2$ probability decreases. The algorithm has overshot. My word.
+
+---
+
+# Quantum Circuits
+
+We couch the broader discussion of quantum circuit gates for a future deep dive, but provide a diagram for Grover's Search for the curious reader who wants to see how the abstract procedure maps to hardware-level operations.
+
+![Grover's search circuit diagram](/blog/assets/2024/grovers/grove5.png)
+
+---
+
+# Conclusion
+
+Grover's algorithm achieves a **quadratic speedup** for unsorted search: $O(\sqrt{N})$ queries instead of $O(N)$. It does so through a beautiful geometric mechanism -- repeated rotations in a two-dimensional subspace -- that you can understand entirely through calculus concepts you already possess: small-angle approximations, rotation, and the idea that iterative procedures can overshoot their targets.
+
+Most real-world databases are structured, so the unsorted search problem may seem contrived. But Grover's algorithm is far more than a database search trick. Its core technique, **amplitude amplification**, serves as a subroutine in many quantum algorithms, providing quadratic speedups wherever exhaustive search appears as a bottleneck. It is a primitive, not a product.
+
+The Hamiltonian formalism, bra-ket notation, and Hermitian matrices introduced here are the language of quantum computing and quantum mechanics more broadly. As you continue studying, these tools will reappear in quantum error correction, quantum simulation, and the design of new quantum algorithms. We have barely scratched the surface.
+
+For a condensed, hand-written sketch of the derivation based on Nielsen and Chuang, see [this PDF](/blog/assets/2025/grovers/sketch.pdf).
 
 ### Sources
 
-[Gordan Ma Video](https://www.youtube.com/watch?v=c30KrWjHaw4)
+[Gordan Ma -- Grover's Algorithm Explained (Video)](https://www.youtube.com/watch?v=c30KrWjHaw4)
 
-L. K. Grover. A fast quantum mechanical algorithm for database search. Nov. 19, 1996. arXiv: quant- ph/9605043.
+L. K. Grover. "A fast quantum mechanical algorithm for database search." Nov. 19, 1996. arXiv: quant-ph/9605043.
 
-M. A. Nielsen and I. L. Chuang. Quantum computation and quantum information. 10th anniversary ed. Cam- bridge ; New York: Cambridge University Press, 2010. 676 pp. ISBN: 978-1-107-00217-3.
-
-
-TODO: redo the formatting
+M. A. Nielsen and I. L. Chuang. *Quantum Computation and Quantum Information*. 10th anniversary ed. Cambridge University Press, 2010. ISBN: 978-1-107-00217-3.
