@@ -1589,6 +1589,40 @@ where $S = \prod s_i$. By choosing $d$ to grow with $n$ (specifically, $d \sim \
 
 The problem is that the Cooley-Tukey radix-2 trick does not work on prime-sized dimensions. This is where the second idea comes in.
 
+### The Chinese Remainder Theorem: The Bridge Between Dimensions
+
+In this algorithm, the Chinese Remainder Theorem (CRT) is the bridge that turns a massive, "one-dimensional" multiplication problem into a more manageable "multi-dimensional" one.
+
+**What is the Chinese Remainder Theorem (CRT)?**
+
+In general mathematics, the CRT is a theorem that allows you to uniquely identify a large number by its remainders when divided by a set of smaller, relatively prime numbers.
+
+In the context of this paper, it is used to create an isomorphism (a structural match) between two different algebraic spaces:
+
+- **One-Dimensional Space:** $\mathbb{Z}[x]/(x^{s_1 \cdots s_d} - 1)$ -- This represents the large integer split into one long line of chunks.
+
+- **Multi-Dimensional Space:** $\mathbb{Z}[x_1, \ldots, x_d]/(x_1^{s_1}-1, \ldots, x_d^{s_d}-1)$ -- This represents the same data arranged on a $d$-dimensional grid (like a cube or hypercube).
+
+**Why use CRT at all?**
+
+The authors use the CRT for several critical reasons:
+
+1. **To enable "Fast Polynomial Transforms."** The fastest tools for this algorithm (Nussbaumer's transforms) require the problem to be structured as a multidimensional grid. The CRT is what allows the authors to "reshape" the flat list of integer chunks into that grid.
+
+2. **To reduce problem size.** By using the CRT to map the data onto a grid of size $s_1 \times s_2 \times \cdots \times s_d$, the problem of computing one giant Discrete Fourier Transform (DFT) is broken down into a collection of much smaller DFTs along each dimension.
+
+3. **Efficient recursion.** The "multi-dimensional" approach is what allows the algorithm to reach the $O(n \log n)$ speed. By splitting the integer into $d$ different dimensions (where $d$ is a parameter they can choose, like 1729), they can reduce the size of the sub-problems much more aggressively at each step of the recursion.
+
+**The Workflow Summary**
+
+1. **Split:** Take the $n$-bit integer and split it into many small chunks.
+
+2. **Map (CRT):** Use the CRT to arrange those chunks into a $d$-dimensional grid based on distinct prime numbers ($s_1, \ldots, s_d$).
+
+3. **Multiply:** Perform the multiplication on this grid using fast Fourier transforms.
+
+4. **Reverse:** Use the inverse of the CRT mapping to "flatten" the result back into a single large integer.
+
 ### Idea 2: Gaussian resampling -- making primes act like powers of 2
 
 The Cooley-Tukey FFT requires the transform length to be a power of 2 (or at least highly composite). The dimensions $s_i$ are primes. How do we bridge this gap?
