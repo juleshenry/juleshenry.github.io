@@ -100,6 +100,30 @@ ul.posts li {
 	text-align: center;
 }
 
+/* ── Book Review Styles ── */
+.book-cover {
+	max-width: 300px;
+	display: block;
+	margin: 1.5em auto;
+	border-radius: 6px;
+	box-shadow: var(--glow);
+}
+
+.book-img {
+	max-width: 100%;
+	display: block;
+	margin: 1.5em auto;
+	border-radius: 4px;
+}
+
+.book-meta {
+	font-size: 0.95rem;
+	color: var(--muted);
+	margin-top: -0.5em;
+	margin-bottom: 1.5em;
+	letter-spacing: 0.02em;
+}
+
 /* ── Header Glitch Canvas ── */
 .glitch-canvas {
 	position: absolute;
