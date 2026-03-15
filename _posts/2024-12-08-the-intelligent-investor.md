@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Book Review: The Intelligent Investor"
+title: "📚 Book Review: The Intelligent Investor"
 date: 2024-12-08
 categories: book-review wealth
 book_author: "Benjamin Graham"

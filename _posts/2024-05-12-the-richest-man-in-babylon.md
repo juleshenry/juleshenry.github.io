@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Book Review: The Richest Man in Babylon"
+title: "📚 Book Review: The Richest Man in Babylon"
 date: 2024-05-12
 categories: book-review wealth
 book_author: "George S. Clason"
