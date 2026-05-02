@@ -209,17 +209,17 @@ nav ul li a {
   border: none;
   font-size: 0.95rem;
   font-weight: 500;
-  color: var(--muted);
+  color: var(--text);
   box-shadow: none;
   text-transform: lowercase;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
 }
 
 nav ul li a:hover {
   background: transparent;
-  color: var(--accent-2);
-  text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
-  transform: translateX(4px);
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(255, 167, 204, 0.5);
+  transform: none;
 }
 
 section#main_content {

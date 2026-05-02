@@ -1,4 +1,4 @@
-name: Julian Henry's Blog
+name: Julian Henry — polyglot / software engineer / author
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
 future: true
