@@ -110,18 +110,24 @@ a:hover {
   padding: 60px 16px 48px;
 }
 
-/* ArXiv Corner Logo */
+/* Top Left Blown Up Favicon */
 #arxiv-logo {
   position: fixed;
-  top: 15px;
-  left: 15px;
+  top: 20px;
+  left: 20px;
   z-index: 100;
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   background-image: url('/blog/favicon.ico');
   background-size: contain;
   background-repeat: no-repeat;
-  filter: drop-shadow(0 0 5px var(--accent));
+  filter: drop-shadow(0 0 10px var(--accent));
+  transition: transform 0.3s ease;
+  pointer-events: auto;
+}
+
+#arxiv-logo:hover {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .inner {
