@@ -3,5 +3,6 @@ markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
 future: true
 kramdown:
+  input: GFM
   math_engine: mathjax
   syntax_highlighter: rouge

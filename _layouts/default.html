@@ -2,9 +2,22 @@
 <html>
   <head>
     <title>{{ page.title }}</title>
-        <meta charset='utf-8'>
+    <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Julian Henry — polyglot / software engineer / author. Writing about ML, quantum computing, systems programming, linguistics, and more.">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="Julian Henry — polyglot / software engineer / author.">
+    <meta property="og:image" content="https://juleshenry.github.io/blog/favicon.ico">
+    <meta property="og:url" content="https://juleshenry.github.io{{ page.url }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ page.title }}">
+    <meta name="twitter:description" content="Julian Henry — polyglot / software engineer / author.">
+    <meta name="twitter:image" content="https://juleshenry.github.io/blog/favicon.ico">
+
     <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
@@ -57,14 +70,21 @@
   {{ content }}
 </section>
   
-  <footer>
-   <ul>
-   <li><a href="https://github.com/juleshenry">https://www.github.com/juleshenry</a></li>
-   </ul>
-   </footer>
+
 </div>
 </div>
   
+  <!-- Active nav state -->
+  <script>
+    (function() {
+      var path = window.location.pathname.replace(/\/$/, '');
+      document.querySelectorAll('nav a').forEach(function(a) {
+        var href = a.getAttribute('href').replace(/\/$/, '');
+        if (href && path.startsWith(href)) a.classList.add('active');
+      });
+    })();
+  </script>
+
   <!-- Cyberpunk Background -->
   <script src="/javascripts/main.js"></script>
 

@@ -233,11 +233,16 @@ nav ul li a {
   transition: color 0.2s ease, text-shadow 0.2s ease;
 }
 
-nav ul li a:hover {
+nav ul li a:hover,
+nav ul li a.active {
   background: transparent;
   color: var(--accent);
   text-shadow: 0 0 10px rgba(255, 167, 204, 0.5);
   transform: none;
+}
+
+nav ul li a.active {
+  border-bottom: 1px solid var(--accent);
 }
 
 section#main_content {
