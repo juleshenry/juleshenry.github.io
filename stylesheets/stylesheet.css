@@ -67,14 +67,14 @@ table {
   --bg-alt: #121212;
   --card: rgba(18, 18, 18, 0.75);
   --border: rgba(255, 255, 255, 0.1);
-  --border-accent: rgba(179, 27, 27, 0.3);
+  --border-accent: rgba(255, 167, 204, 0.3);
   --text: #e0e0e0;
   --muted: #a0a0a0;
-  --accent: #b31b1b;
-  --accent-2: #ff4d4d;
+  --accent: #FFA7CC;
+  --accent-2: #00FFFF;
   --accent-3: #ffffff;
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.4);
-  --shadow-hover: 0 0 20px rgba(179, 27, 27, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 0 20px rgba(255, 167, 204, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
   --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 }
 
@@ -116,16 +116,12 @@ a:hover {
   top: 15px;
   left: 15px;
   z-index: 100;
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: var(--accent);
-  border: 2px solid var(--accent);
-  padding: 2px 8px;
-  text-transform: lowercase;
-  letter-spacing: -0.05em;
-  background: var(--bg);
-  box-shadow: 4px 4px 0px var(--accent);
-  pointer-events: none;
+  width: 64px;
+  height: 64px;
+  background-image: url('/blog/favicon.ico');
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 5px var(--accent));
 }
 
 .inner {
@@ -151,19 +147,27 @@ header {
   gap: 12px;
   padding-bottom: 30px;
   border-bottom: 1px solid var(--border);
-  text-align: left;
+  text-align: center;
 }
 
 header h1 {
-  font-size: 3.5rem;
+  font-size: 4rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
   margin: 0;
-  color: var(--text);
+  color: transparent;
   text-transform: lowercase;
   /* Glowing Outline Effect */
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
-  text-shadow: 0 0 10px rgba(179, 27, 27, 0.2), 0 0 20px rgba(179, 27, 27, 0.1);
+  -webkit-text-stroke: 1px var(--text);
+  text-shadow: 0 0 15px rgba(255, 167, 204, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+}
+
+header h1:hover {
+  color: var(--text);
+  text-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
 }
 
 header h1 a {
@@ -187,6 +191,7 @@ nav ul {
   flex-wrap: wrap;
   gap: 24px;
   padding: 0;
+  justify-content: center;
 }
 
 nav ul li a {

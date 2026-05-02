@@ -5,14 +5,14 @@
 	--bg-alt: #121212;
 	--card: rgba(18, 18, 18, 0.75);
 	--border: rgba(255, 255, 255, 0.1);
-	--border-accent: rgba(179, 27, 27, 0.3);
+	--border-accent: rgba(255, 167, 204, 0.3);
 	--text: #e0e0e0;
 	--muted: #a0a0a0;
-	--accent: #b31b1b; /* ArXiv Red */
-	--accent-2: #ff4d4d;
+	--accent: #FFA7CC; /* Favicon Pink */
+	--accent-2: #00FFFF; /* Favicon Cyan/Blue */
 	--accent-3: #ffffff;
 	--shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.4);
-	--shadow-hover: 0 0 20px rgba(179, 27, 27, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
+	--shadow-hover: 0 0 20px rgba(255, 167, 204, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
 	--font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 }
 

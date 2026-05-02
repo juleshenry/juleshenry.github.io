@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const offset = Math.sin(time + (dot.x * 0.01) + (dot.y * 0.01)) * 0.5;
             const currentAlpha = Math.max(0.05, dot.alpha + offset * 0.1);
             
-            ctx.fillStyle = `rgba(179, 27, 27, ${currentAlpha})`;
+            ctx.fillStyle = `rgba(255, 167, 204, ${currentAlpha})`;
             ctx.beginPath();
             ctx.arc(dot.x, dot.y, dot.size + offset * 0.2, 0, Math.PI * 2);
             ctx.fill();
