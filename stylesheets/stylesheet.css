@@ -765,26 +765,11 @@ ul.posts li a:hover {
 
 /* ── Technical Decorations ── */
 .inner::before {
-  content: '[ SYSTEM READY ]';
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--accent);
-  opacity: 0.6;
-  letter-spacing: 0.1em;
+  display: none;
 }
 
 .inner::after {
-  content: 'LOG_ID: ' attr(data-page-id);
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--muted);
-  opacity: 0.4;
+  display: none;
 }
 
 code {
