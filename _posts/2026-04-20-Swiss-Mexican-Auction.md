@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🔍 The Swiss-Mexican Auction: Solving Budget-Constrained Combinatorial Auctions at Scale"
+title: "🔍 The Swiss-Mexican Auction: Combinatorial Bidding"
 date: 2026-04-20
 mathjax: true
 ---

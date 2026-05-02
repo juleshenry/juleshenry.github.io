@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🔍 Deconstructing the Twitter Recommendation Algorithm"
+title: "🔍 Deconstructing the Twitter Algorithm"
 date: 2025-05-14
 ---
 Wherein we deep dive into the open-sourced X algorithm...

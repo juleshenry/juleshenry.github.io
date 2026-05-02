@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "✏️ Back-of-the-Envelope: Retrieval Augmented Generation (RAG)"
+title: "✏️ Back-of-the-Envelope: Retrieval Augmentation"
 date: 2024-08-24
 ---
 

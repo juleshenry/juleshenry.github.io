@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "📦 Mr. Worldwide: Say Hello in 80 Languages, as a GIF"
+title: "📦 Mr. Worldwide: Hello in 80 Languages as a GIF"
 date: 2026-03-30
 ---
 

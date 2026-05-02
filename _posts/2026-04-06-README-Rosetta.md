@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "📦 README Rosetta: Making Open Source Truly Global with Local LLMs"
+title: "📦 README Rosetta: Open Source in Every Language"
 date: 2026-04-06
 ---
 

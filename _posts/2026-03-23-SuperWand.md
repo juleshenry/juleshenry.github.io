@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "📦 SuperWand: A Magic Wand for Image and CSS Retheming"
+title: "📦 SuperWand: Magic Wand for Image Retheming"
 date: 2026-03-23
 ---
 
