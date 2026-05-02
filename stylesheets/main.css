@@ -1,14 +1,16 @@
 :root {
-	--bg: #0a0a0f;
-	--bg-alt: #12121a;
-	--card: rgba(18, 18, 30, 0.85);
-	--border: rgba(190, 50, 255, 0.22);
-	--text: #e8eaf0;
-	--muted: #8a8fa8;
-	--accent: #be32ff;
-	--accent-2: #ff2d8a;
-	--accent-3: #39ff75;
-	--glow: 0 14px 50px rgba(190, 50, 255, 0.25);
+	--bg: #f5f5f7;
+	--bg-alt: #ffffff;
+	--card: rgba(255, 255, 255, 0.78);
+	--border: rgba(0, 0, 0, 0.09);
+	--border-accent: rgba(0, 113, 227, 0.18);
+	--text: #1d1d1f;
+	--muted: #6e6e73;
+	--accent: #0071e3;
+	--accent-2: #5e5ce6;
+	--accent-3: #30b0c7;
+	--shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+	--shadow-hover: 0 12px 36px rgba(0, 113, 227, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 * {
@@ -18,11 +20,7 @@
 body {
 	margin: 0;
 	font-family: 'Space Grotesk', 'Manrope', 'Helvetica Neue', Arial, sans-serif;
-	background:
-		radial-gradient(circle at 20% 20%, rgba(190, 50, 255, 0.15), transparent 35%),
-		radial-gradient(circle at 80% 0%, rgba(255, 45, 138, 0.12), transparent 28%),
-		radial-gradient(circle at 60% 80%, rgba(57, 255, 117, 0.06), transparent 30%),
-		linear-gradient(160deg, var(--bg), var(--bg-alt));
+	background: var(--bg);
 	color: var(--text);
 	min-height: 100vh;
 }
@@ -30,17 +28,17 @@ body {
 a {
 	color: var(--accent);
 	text-decoration: none;
-	transition: color 0.2s ease, text-shadow 0.35s ease;
+	transition: color 0.18s ease, opacity 0.18s ease;
 }
 
 a:hover {
 	color: var(--accent-2);
-	text-shadow: 0 0 18px rgba(255, 45, 138, 0.5);
+	opacity: 0.85;
 }
 
 p,
 ul {
-	font-size: 1.08rem;
+	font-size: 1.05rem;
 	line-height: 1.7;
 	color: var(--muted);
 }
@@ -54,22 +52,21 @@ h4 {
 	color: var(--text);
 }
 
-h1 { font-size: 2.8rem; }
-h2 { font-size: 2.25rem; }
-h3 { font-size: 1.8rem; }
-h4 { font-size: 1.4rem; }
+h1 { font-size: 2.7rem; }
+h2 { font-size: 2.1rem; }
+h3 { font-size: 1.7rem; }
+h4 { font-size: 1.35rem; }
 
 nav ul,
 footer ul {
-	font-size: 0.98rem;
+	font-size: 0.92rem;
 	list-style: none;
 	padding: 0;
 	margin: 0;
 	display: flex;
-	gap: 14px;
+	gap: 10px;
 	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
+	letter-spacing: 0.01em;
 }
 
 nav ul li,
@@ -87,7 +84,7 @@ footer {
 ul.posts {
 	margin: 20px auto 40px;
 	padding: 0;
-	font-size: 1.12rem;
+	font-size: 1.08rem;
 }
 
 ul.posts li {
@@ -105,15 +102,15 @@ ul.posts li {
 	max-width: 300px;
 	display: block;
 	margin: 1.5em auto;
-	border-radius: 6px;
-	box-shadow: var(--glow);
+	border-radius: 8px;
+	box-shadow: var(--shadow);
 }
 
 .book-img {
 	max-width: 100%;
 	display: block;
 	margin: 1.5em auto;
-	border-radius: 4px;
+	border-radius: 6px;
 }
 
 .book-meta {
@@ -124,11 +121,7 @@ ul.posts li {
 	letter-spacing: 0.02em;
 }
 
-/* ── Header Glitch Canvas ── */
+/* ── Header Banner Canvas (hidden — replaced by CSS banners) ── */
 .glitch-canvas {
-	position: absolute;
-	pointer-events: none;
-	z-index: 9999;
-	image-rendering: pixelated;
-	mix-blend-mode: screen;
+	display: none;
 }
