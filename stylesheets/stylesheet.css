@@ -717,12 +717,56 @@ section#main_content h3.banner-reveal {
   margin: 0;
 }
 
-.work-card-desc {
-  font-size: 0.9rem;
+.work-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.lang-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 2px;
+  background: rgba(255, 167, 204, 0.07);
   color: var(--muted);
-  line-height: 1.5;
-  margin: 0;
-  flex: 1;
+  border: 1px solid rgba(255, 167, 204, 0.2);
+}
+
+.lang-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.lang-dot.python   { background: #3572A5; }
+.lang-dot.julia    { background: #a270ba; }
+.lang-dot.shell    { background: #4eaa25; }
+.lang-dot.js       { background: #c0a80e; }
+.lang-dot.ts       { background: #3178c6; }
+.lang-dot.css      { background: #563d7c; }
+.lang-dot.wasm     { background: #6460ee; }
+.lang-dot.jupyter  { background: #DA5B0B; }
+.lang-dot.notes    { background: #e8a838; }
+
+.star-count {
+  font-size: 0.74rem;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.star-count svg {
+  width: 13px;
+  height: 13px;
+  fill: var(--accent);
 }
 
 ul.posts {
