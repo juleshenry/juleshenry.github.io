@@ -950,22 +950,53 @@ section#main_content table {
     border-radius: 2px;
   }
 
+  header {
+    padding: 28px 28px 20px;
+  }
+
   header h1 {
-    font-size: 2.8rem;
+    font-size: 2.6rem;
   }
 
   nav ul {
-    gap: 15px;
+    gap: 10px;
+    justify-content: center;
   }
 }
 
 @media only screen and (max-width: 767px) {
+  header {
+    padding: 20px 16px 16px;
+    gap: 8px;
+  }
+
   header h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
+  }
+
+  header h2 {
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+
+  nav {
+    margin-top: 10px;
+  }
+
+  nav ul {
+    justify-content: center;
+    gap: 8px;
   }
 
   .inner {
     padding: 24px 16px;
+  }
+
+  #arxiv-logo {
+    width: 48px;
+    height: 48px;
+    top: 12px;
+    left: 12px;
   }
 
   ul.posts li {
@@ -976,11 +1007,6 @@ section#main_content table {
 
   ul.posts li span {
     min-width: 0;
-  }
-
-  #arxiv-logo {
-    font-size: 1rem;
-    padding: 1px 6px;
   }
 }
 
@@ -997,13 +1023,35 @@ section#main_content table {
   #container {
     padding: 8px 4px 20px;
   }
+
+  header {
+    padding: 16px 12px 14px;
+    gap: 6px;
+  }
   
   header h1 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   header h2 {
-    font-size: 0.9rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  nav {
+    margin-top: 8px;
+  }
+
+  nav ul {
+    gap: 6px;
+    justify-content: center;
+  }
+
+  #arxiv-logo {
+    width: 36px;
+    height: 36px;
+    top: 8px;
+    left: 8px;
   }
   
   h1 { font-size: 1.8rem; }
