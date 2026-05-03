@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🔍 The Swiss-Mexican Auction: Combinatorial Bidding"
+title: "The Swiss-Mexican Auction: Combinatorial Bidding"
 date: 2026-04-20
 mathjax: true
 ---

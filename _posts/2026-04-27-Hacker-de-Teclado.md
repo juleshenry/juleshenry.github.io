@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🔍 Hacker de Teclado: Acoustic Side-Channel Attack"
+title: "Hacker de Teclado: Acoustic Side-Channel Attack"
 date: 2026-04-27
 ---
 

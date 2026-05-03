@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "📦 git-goblin: 195+ Shortcuts and a Pure Bash TUI"
+title: "git-goblin: 195+ Shortcuts and a Pure Bash TUI"
 date: 2026-04-13
 ---
 

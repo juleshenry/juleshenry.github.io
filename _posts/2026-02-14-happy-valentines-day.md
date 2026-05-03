@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "💜 February 14: Perfect Phase Coherence"
+title: "February 14: Perfect Phase Coherence"
 date: 2026-02-14
 categories: personal
 ---

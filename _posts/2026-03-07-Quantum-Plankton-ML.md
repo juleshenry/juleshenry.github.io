@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🔍 Quantum Plankton Under Compression"
+title: "Quantum Plankton Under Compression"
 date: 2026-03-07
 mathjax: true
 ---

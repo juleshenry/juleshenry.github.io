@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "✨ Sphere Eversion Phi3 Notes I"
+title: "Sphere Eversion Phi3 Notes I"
 date: 2024-05-22
 categories: differential topology, ai, ollama
 mathjax: true

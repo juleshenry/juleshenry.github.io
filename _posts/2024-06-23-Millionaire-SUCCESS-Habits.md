@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "📚 Book Review: Millionaire SUCCESS Habits"
+title: "Book Review: Millionaire SUCCESS Habits"
 date: 2024-06-23
 categories: book-review wealth
 book_author: "Dean Graziosi"

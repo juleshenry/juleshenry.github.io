@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "📦 touch_keeper: Mass-Personalized New Year's Texts"
+title: "touch_keeper: Mass-Personalized New Year's Texts"
 date: 2026-05-04
 ---
 

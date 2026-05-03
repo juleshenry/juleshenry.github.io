@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "📚 Book Review: The Strategy and Tactics of Pricing"
+title: "Book Review: The Strategy and Tactics of Pricing"
 date: 2024-06-04
 categories: book-review wealth
 book_author: "Thomas T. Nagle & Reed K. Holden"

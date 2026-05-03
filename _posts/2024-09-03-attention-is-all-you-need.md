@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "✏️ Back-of-the-Envelope: Attention is All You Need"
+title: "Back-of-the-Envelope: Attention is All You Need"
 date: 2024-09-03
 ---
 "Attention is All You Need" demands attention because of its profound impact. Given its impact in LLM development, the transformer with attention is a bona fide `e=m*c^2` of our time.

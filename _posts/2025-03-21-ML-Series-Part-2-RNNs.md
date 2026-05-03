@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "⚡ ML Smörgåsbord 2: Recurrent Memory and LSTMs"
+title:  "ML Smörgåsbord 2: Recurrent Memory and LSTMs"
 date:   2025-03-21 10:00:00 -0000
 categories: blog
 mathjax: true

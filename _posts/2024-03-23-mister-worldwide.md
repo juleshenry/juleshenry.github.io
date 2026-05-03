@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "📦 Mr. Worldwide: Friendly Github Landing Gif Maker"
+title: "Mr. Worldwide: Friendly Github Landing Gif Maker"
 date: 2024-03-23
 categories: python gif polyglot
 ---

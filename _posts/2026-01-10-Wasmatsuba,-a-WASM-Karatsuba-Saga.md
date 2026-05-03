@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🔍 Wasmatsuba: WASM Karatsuba vs BigInt"
+title: "Wasmatsuba: WASM Karatsuba vs BigInt"
 date: 2026-01-10
 mathjax: true
 ---

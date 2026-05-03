@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "📚 Book Review: The Master Key to Riches"
+title: "Book Review: The Master Key to Riches"
 date: 2024-06-03
 categories: book-review wealth
 book_author: "Napoleon Hill"

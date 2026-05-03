@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🔮 Um ensaio analítico de 'El Rubí' por Rafael Troyo"
+title: "Um ensaio analítico de 'El Rubí' por Rafael Troyo"
 date: 2018-12-19
 ---
 ### Un ensayo escrito para [Profesora Almeyda-Cohen](https://www.colby.edu/people/people-directory/ana-almeyda-cohen/), en la clase de español 223 - mi mejor escritura de la universidad.
