@@ -6,6 +6,8 @@ categories: differential topology, ai, ollama
 mathjax: true
 ---
 
+**Disclaimer.** These are raw notes from a local Phi-3 session. It has now come to my attention that Phi-3's answers are often erroneous or misattributed. Please do not take them as correct. A corrected Socratic writeup is [Circling the Sphere](/blog/2026/08/17/circling-the-sphere).
+
 # Context
 First Notes in series exploring differential topology viz. the sphere eversion.
 

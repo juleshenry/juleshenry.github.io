@@ -5,6 +5,8 @@ date: 2024-09-27
 mathjax: true
 ---
 
+**Disclaimer.** The companion [Phi-3 notes](/blog/2024/05/22/sphere-eversion-phi3-notes-I) that this post points to are a raw local-model transcript. It has now come to my attention that Phi-3's answers are often erroneous or misattributed. Please do not take them as correct. A corrected Socratic writeup is [Circling the Sphere](/blog/2026/08/17/circling-the-sphere).
+
 *A guided ascent from calculus to one of topology's most counter-intuitive theorems.*
 
 ---
@@ -979,7 +981,7 @@ The eversion of the sphere is not a trick. It is a theorem that reveals deep str
 
 Smale's proof tells us the path exists. Morin showed us what it looks like. Thurston showed us how to construct it. And now, perhaps, you can see *why* it must be so.
 
-For further exploration of tangent bundles, differential geometry, and related topics, see my companion post: [Differential Topology Q&A with Phi3](https://juleshenry.github.io/blog/2024/05/22/sphere-eversion-phi3-notes-I#what-is-a-tangent-bundle).
+For a corrected treatment of this material, see [Circling the Sphere](/blog/2026/08/17/circling-the-sphere). The earlier [Phi-3 Q&A](/blog/2024/05/22/sphere-eversion-phi3-notes-I) is left up as a transcript only --- do not take its answers as correct.
 
 ---
 
