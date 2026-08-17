@@ -35,9 +35,37 @@ The still below is a genuine eversion (Morin's halfway model). We will not prete
   .cs-ctrl input[type="range"] { width: 42%; vertical-align: middle; }
   .cs-ctrl select { background: #1e293b; color: #e2e8f0; border: 1px solid #475569; border-radius: 4px; padding: 2px 6px; font-family: inherit; font-size: 12px; }
   .cs-cap { color: #94a3b8; font-size: 0.92em; margin: 0 0 1.8em; }
-  .cs-err { width: 100%; border-collapse: collapse; font-size: 0.92em; margin: 1em 0 2em; }
-  .cs-err th, .cs-err td { border: 1px solid rgba(255,255,255,0.12); padding: 0.55em 0.7em; vertical-align: top; }
-  .cs-err th { color: #e2e8f0; }
+  /* Override global table glass (white bg + light MathJax = invisible formulas). */
+  .cs-err {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+    margin: 1em 0 2em;
+    background: #141414 !important;
+    color: #e8e8e8;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .cs-err th, .cs-err td {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.7em 0.9em;
+    vertical-align: top;
+    color: #e8e8e8 !important;
+    background: transparent !important;
+    font-weight: 400;
+  }
+  .cs-err thead th {
+    background: rgba(255, 167, 204, 0.14) !important;
+    color: #fafafa !important;
+    font-weight: 600;
+  }
+  .cs-err tbody tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.04) !important;
+  }
+  .cs-err mjx-container {
+    color: #f5f5f5 !important;
+  }
   .mermaid .nodeLabel, .mermaid .label, .mermaid .nodeLabel span {
     font-weight: 400 !important;
     color: #e2e8f0 !important;
