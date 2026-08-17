@@ -66,13 +66,36 @@ The still below is a genuine eversion (Morin's halfway model). We will not prete
   .cs-err mjx-container {
     color: #f5f5f5 !important;
   }
-  .mermaid .nodeLabel, .mermaid .label, .mermaid .nodeLabel span {
-    font-weight: 400 !important;
+  .cs-chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem 0.25rem;
+    margin: 1.4em 0;
+    padding: 1em 0.75em;
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+  }
+  .cs-chain-node {
+    background: #1e293b;
+    border: 1px solid #64748b;
+    border-radius: 6px;
+    padding: 0.55em 0.75em;
+    color: #e2e8f0;
+    font-weight: 400;
+    line-height: 1.45;
+    text-align: center;
+  }
+  .cs-chain-node mjx-container {
     color: #e2e8f0 !important;
   }
-  .mermaid .edgeLabel, .mermaid .edgeLabel span {
-    color: #cbd5e1 !important;
-    background-color: transparent !important;
+  .cs-chain-arrow {
+    color: #94a3b8;
+    font-size: 1.1em;
+    padding: 0 0.15em;
+    user-select: none;
   }
 </style>
 
@@ -686,15 +709,19 @@ $$\pi_2(V_{3,2})\cong\pi_2(SO(3))\cong\pi_2(\mathbb{RP}^3)\cong\pi_2(S^3)=0.$$
 
 So $\Omega(f,g)=0$ for every pair. In particular $\iota$ and $\alpha$ lie in the same path-component of $\operatorname{Imm}(S^2,\mathbb{R}^3)$.
 
-```mermaid
-%%{init: {"theme":"dark","themeVariables":{"primaryTextColor":"#e2e8f0","secondaryTextColor":"#e2e8f0","tertiaryTextColor":"#e2e8f0","lineColor":"#94a3b8","primaryColor":"#1e293b","primaryBorderColor":"#64748b","secondaryColor":"#334155","tertiaryColor":"#0f172a","fontFamily":"ui-monospace, SFMono-Regular, Menlo, monospace","fontSize":"16px"}}}%%
-flowchart LR
-  Imm["Imm(S^2, R^3)"] --> Tf["T_f : S^2 to V_3,2"]
-  Tf --> Pi["pi_2(V_3,2)"]
-  Pi --> SO["pi_2(SO(3))"]
-  SO --> RP["pi_2(RP^3)"]
-  RP --> Z["pi_2(S^3) = 0"]
-```
+<div class="cs-chain" role="img" aria-label="Chain from Imm of S2 in R3 down to pi2 of S3 equals zero">
+  <span class="cs-chain-node">$\operatorname{Imm}(S^2,\mathbb{R}^3)$</span>
+  <span class="cs-chain-arrow">$\to$</span>
+  <span class="cs-chain-node">$T&#95;{f}\colon S^2\to V&#95;{3,2}$</span>
+  <span class="cs-chain-arrow">$\to$</span>
+  <span class="cs-chain-node">$\pi&#95;{2}(V&#95;{3,2})$</span>
+  <span class="cs-chain-arrow">$\to$</span>
+  <span class="cs-chain-node">$\pi&#95;{2}(SO(3))$</span>
+  <span class="cs-chain-arrow">$\to$</span>
+  <span class="cs-chain-node">$\pi&#95;{2}(\mathbb{RP}^3)$</span>
+  <span class="cs-chain-arrow">$\to$</span>
+  <span class="cs-chain-node">$\pi&#95;{2}(S^3)=0$</span>
+</div>
 
 This is an existence proof. It produces no picture. For $n=4$ the same machine gives $\pi&#95;{2}(V&#95;{4,2})\cong\mathbb{Z}$, so immersions $S^2\to\mathbb{R}^4$ have infinitely many regular homotopy classes, detected by the Euler class of the normal bundle (twice the algebraic self-intersection). The vanishing is special to codimension one in $\mathbb{R}^3$.
 
