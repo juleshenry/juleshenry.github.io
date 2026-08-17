@@ -192,7 +192,7 @@ The still below is a genuine eversion (Morin's halfway model). We will not prete
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> A manifold is a space that is Euclidean in the small. Formally, a smooth $n$-manifold is a Hausdorff space covered by charts $\varphi\sb{\alpha}: U\sb{\alpha}\to\mathbb{R}^n$ whose transition maps $\varphi\sb{\beta}\circ\varphi\sb{\alpha}^{-1}$ are $C^\infty$. You already know one: the surface of the Earth. No single paper map covers it, but an atlas does, and the overlap rules are smooth.
+<strong>Teacher.</strong> A manifold is a space that is Euclidean in the small. Formally, a smooth $n$-manifold is a Hausdorff space covered by charts $\varphi&#95;{\alpha}: U&#95;{\alpha}\to\mathbb{R}^n$ whose transition maps $\varphi&#95;{\beta}\circ\varphi&#95;{\alpha}^{-1}$ are $C^\infty$. You already know one: the surface of the Earth. No single paper map covers it, but an atlas does, and the overlap rules are smooth.
 </div>
 
 The **2-sphere** is the set of unit vectors,
@@ -203,7 +203,7 @@ Spherical coordinates are a pair of charts (you need at least two: the azimuth $
 
 $$\mathbf{r}(\theta,\varphi)=\bigl(\sin\theta\cos\varphi,\;\sin\theta\sin\varphi,\;\cos\theta\bigr),\qquad \theta\in(0,\pi),\;\varphi\in(0,2\pi).$$
 
-A **point** is not a function of $(\theta,\varphi)$. The model that answered you computed $\partial\sb{\theta}(1,0,0)=\mathbf{0}$ and called it a day. The object that has derivatives is the chart:
+A **point** is not a function of $(\theta,\varphi)$. The model that answered you computed $\partial&#95;{\theta}(1,0,0)=\mathbf{0}$ and called it a day. The object that has derivatives is the chart:
 
 $$
 \begin{aligned}
@@ -216,7 +216,7 @@ At $(1,0,0)$ one has $(\theta,\varphi)=(\pi/2,\,0)$, so
 
 $$\mathbf{r}_\theta=(0,0,-1),\qquad \mathbf{r}_\varphi=(0,1,0),\qquad \mathbf{r}_\theta\times\mathbf{r}_\varphi=(1,0,0)=\mathbf{r}.$$
 
-Those two vectors are a basis of the tangent plane $T\sb{(1,0,0)}S^2$, the $yz$-plane. Drag the sliders; the cyan and pink arrows are exactly $\mathbf{r}\sb{\theta}$ and $\mathbf{r}\sb{\varphi}$.
+Those two vectors are a basis of the tangent plane $T&#95;{(1,0,0)}S^2$, the $yz$-plane. Drag the sliders; the cyan and pink arrows are exactly $\mathbf{r}&#95;{\theta}$ and $\mathbf{r}&#95;{\varphi}$.
 
 <div id="cs-charts" class="cs-stage" style="height:440px;">
   <div class="cs-hud cs-hud-tl" id="cs-charts-eq">r, r_theta, r_phi</div>
@@ -225,7 +225,7 @@ Those two vectors are a basis of the tangent plane $T\sb{(1,0,0)}S^2$, the $yz$-
     <label>phi <input type="range" id="cs-ph" min="0" max="628" value="0"> <span id="cs-ph-v">0</span></label>
   </div>
 </div>
-<p class="cs-cap">The sphere is the image of $\mathbf{r}$. Cyan is $\mathbf{r}\sb{\theta}$, pink is $\mathbf{r}\sb{\varphi}$, gold is their cross product. At the poles $\sin\theta=0$ and the <em>chart</em> is singular; the sphere is not. That distinction is the whole subject.</p>
+<p class="cs-cap">The sphere is the image of $\mathbf{r}$. Cyan is $\mathbf{r}&#95;{\theta}$, pink is $\mathbf{r}&#95;{\varphi}$, gold is their cross product. At the poles $\sin\theta=0$ and the <em>chart</em> is singular; the sphere is not. That distinction is the whole subject.</p>
 
 <script>
 CS.mount({
@@ -289,7 +289,7 @@ CS.mount({
 <div class="cs-a">
 <strong>Teacher.</strong> Take the equator as a curve $\gamma:[0,2\pi]\to S^2$,
 $$\gamma(t)=(\cos t,\;\sin t,\;0).$$
-Then $\gamma'(t)=(-\sin t,\;\cos t,\;0)\neq\mathbf{0}$. At $t=0$ this is $(0,1,0)$, which is $\mathbf{r}\sb{\varphi}$ at $(1,0,0)$. The model wrote $\gamma(t)=(\sin(\pi t),0,\cos(\pi t))$ and claimed it was the equator with $\varphi$ fixed at $0$; that is a meridian, a semicircle from north pole to south, and at its midpoint the velocity is $(0,0,-\pi)$, not a trip around the equator. Wrapping around $S^2$ means the image of $\gamma$ is a closed loop that is not contractible in $S^2\setminus\{\text{two poles}\}$. We will need that loop.
+Then $\gamma'(t)=(-\sin t,\;\cos t,\;0)\neq\mathbf{0}$. At $t=0$ this is $(0,1,0)$, which is $\mathbf{r}&#95;{\varphi}$ at $(1,0,0)$. The model wrote $\gamma(t)=(\sin(\pi t),0,\cos(\pi t))$ and claimed it was the equator with $\varphi$ fixed at $0$; that is a meridian, a semicircle from north pole to south, and at its midpoint the velocity is $(0,0,-\pi)$, not a trip around the equator. Wrapping around $S^2$ means the image of $\gamma$ is a closed loop that is not contractible in $S^2\setminus\{\text{two poles}\}$. We will need that loop.
 </div>
 
 ---
@@ -301,7 +301,7 @@ Then $\gamma'(t)=(-\sin t,\;\cos t,\;0)\neq\mathbf{0}$. At $t=0$ this is $(0,1,0
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> For $f:\mathbb{R}^n\to\mathbb{R}^m$ the Jacobian is the $m\times n$ matrix of first partials --- rows are outputs, columns are inputs. The model wrote $n\times m$. An <strong>immersion</strong> $f:M\to N$ is a smooth map whose differential $df\sb{p}:T\sb{p}M\to T\sb{f(p)}N$ is injective at every $p$. For $f:S^2\to\mathbb{R}^3$ that is the statement that the $3\times 2$ matrix
+<strong>Teacher.</strong> For $f:\mathbb{R}^n\to\mathbb{R}^m$ the Jacobian is the $m\times n$ matrix of first partials --- rows are outputs, columns are inputs. The model wrote $n\times m$. An <strong>immersion</strong> $f:M\to N$ is a smooth map whose differential $df&#95;{p}:T&#95;{p}M\to T&#95;{f(p)}N$ is injective at every $p$. For $f:S^2\to\mathbb{R}^3$ that is the statement that the $3\times 2$ matrix
 $$
 J_f=\begin{pmatrix}
 \partial_u f_1 & \partial_v f_1 \\
@@ -309,7 +309,7 @@ J_f=\begin{pmatrix}
 \partial_u f_3 & \partial_v f_3
 \end{pmatrix}
 $$
-has rank $2$ everywhere, equivalently $\mathbf{f}\sb{u}\times\mathbf{f}\sb{v}\neq\mathbf{0}$. There is no $2\times 2$ determinant to watch. The only vanishing that matters is that cross product.
+has rank $2$ everywhere, equivalently $\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}\neq\mathbf{0}$. There is no $2\times 2$ determinant to watch. The only vanishing that matters is that cross product.
 </div>
 
 A sign change of $\det J$ for a map $\mathbb{R}^n\to\mathbb{R}^n$ means the map reverses orientation. It does **not** mean a saddle: $f(x,y)=(e^x\cos y,\,e^x\sin y)$ has $\det J=e^{2x}>0$ everywhere (it is a local diffeomorphism, the complex exponential). At $(0,\pi/2)$ one has $\det J=1$, not $-1$, and there is no critical point. Vanishing of $\det J$ *does* mean the inverse-function theorem fails: the map is not a local diffeomorphism there.
@@ -321,7 +321,7 @@ Self-intersection is allowed. A figure-eight $\gamma(t)=(\sin 2t,\,\sin t)$ is a
 # the homotopy that is not regular
 
 <div class="cs-q">
-<strong>Student.</strong> Any two $C^2$ immersions of $S^2$ in $E^3$ are regularly homotopic. Here is a proof: $H(x,t)=(1-t)f\sb{0}(x)+t f\sb{1}(x)$. Also, what is $S^2\times[0,1]$?
+<strong>Student.</strong> Any two $C^2$ immersions of $S^2$ in $E^3$ are regularly homotopic. Here is a proof: $H(x,t)=(1-t)f&#95;{0}(x)+t f&#95;{1}(x)$. Also, what is $S^2\times[0,1]$?
 </div>
 
 <div class="cs-a">
@@ -344,7 +344,7 @@ $$
 \bigl\|\mathbf{F}_\theta\times\mathbf{F}_\varphi\bigr\|=\lvert\sin\theta\rvert\sqrt{(1-2s)^2\sin^2\theta+\cos^2\theta}.
 $$
 
-At $s=\tfrac12$ this is $\lvert\sin\theta\cos\theta\rvert$, which is zero all along the equator. The image is a disk covered twice, with a fold on the boundary. That is a crease. Colour in the canvas is $\lVert\mathbf{F}\sb{\theta}\times\mathbf{F}\sb{\varphi}\rVert$: indigo is a healthy tangent plane, red is rank drop.
+At $s=\tfrac12$ this is $\lvert\sin\theta\cos\theta\rvert$, which is zero all along the equator. The image is a disk covered twice, with a fold on the boundary. That is a crease. Colour in the canvas is $\lVert\mathbf{F}&#95;{\theta}\times\mathbf{F}&#95;{\varphi}\rVert$: indigo is a healthy tangent plane, red is rank drop.
 
 <div id="cs-crease" class="cs-stage" style="height:460px;">
   <div class="cs-hud cs-hud-tl" id="cs-crease-hud">min |F_theta x F_phi|</div>
@@ -353,7 +353,7 @@ At $s=\tfrac12$ this is $\lvert\sin\theta\cos\theta\rvert$, which is zero all al
     <label>s <input type="range" id="cs-s" min="0" max="100" value="0"> <span id="cs-s-v">0.00</span></label>
   </div>
 </div>
-<p class="cs-cap">$F\sb{s}(\theta,\varphi)=(\sin\theta\cos\varphi,\,\sin\theta\sin\varphi,\,(1-2s)\cos\theta)$. This is <em>not</em> an eversion. At $s=1$ you have reflected the sphere through the $xy$-plane, and at $s=1/2$ you have left $\mathrm{Imm}(S^2,\mathbb{R}^3)$.</p>
+<p class="cs-cap">$F&#95;{s}(\theta,\varphi)=(\sin\theta\cos\varphi,\,\sin\theta\sin\varphi,\,(1-2s)\cos\theta)$. This is <em>not</em> an eversion. At $s=1$ you have reflected the sphere through the $xy$-plane, and at $s=1/2$ you have left $\mathrm{Imm}(S^2,\mathbb{R}^3)$.</p>
 
 <script>
 CS.mount({
@@ -418,7 +418,7 @@ CS.mount({
 });
 </script>
 
-An **eversion** is a regular homotopy from the inclusion $\iota(p)=p$ to the antipodal embedding $\alpha(p)=-p$. The map $\alpha$ reverses orientation of $\mathbb{R}^3$ ($\det D\alpha=(-1)^3=-1$), and the outward normal of the image sphere at $-p$ is $-p$, while the pushed tangent frame produces the opposite normal. Inside has become outside. $F\sb{s}$ never reaches $\alpha$. It reaches a reflection, and it cheats.
+An **eversion** is a regular homotopy from the inclusion $\iota(p)=p$ to the antipodal embedding $\alpha(p)=-p$. The map $\alpha$ reverses orientation of $\mathbb{R}^3$ ($\det D\alpha=(-1)^3=-1$), and the outward normal of the image sphere at $-p$ is $-p$, while the pushed tangent frame produces the opposite normal. Inside has become outside. $F&#95;{s}$ never reaches $\alpha$. It reaches a reflection, and it cheats.
 
 ---
 
@@ -563,7 +563,7 @@ CS.mount({
 });
 </script>
 
-The surprise is dimensional. The turning number of a curve is an element of $\pi\sb{1}(S^1)=\mathbb{Z}$. For a surface in $\mathbb{R}^3$ the analogous invariant lives in $\pi\sb{2}(V\sb{3,2})$, and that group is $0$. One extra dimension is enough room for the obstruction to die.
+The surprise is dimensional. The turning number of a curve is an element of $\pi&#95;{1}(S^1)=\mathbb{Z}$. For a surface in $\mathbb{R}^3$ the analogous invariant lives in $\pi&#95;{2}(V&#95;{3,2})$, and that group is $0$. One extra dimension is enough room for the obstruction to die.
 
 ---
 
@@ -581,7 +581,7 @@ Given an immersion $f$,
 
 $$\mathbf{n}_f=\frac{\mathbf{f}_u\times\mathbf{f}_v}{\lVert\mathbf{f}_u\times\mathbf{f}_v\rVert}:S^2\to S^2.$$
 
-The **degree** of a map $g:S^n\to S^n$ is the integer that records signed coverings of the target. For the inclusion, $\mathbf{n}\sb{\iota}(p)=p$, so $\deg\mathbf{n}\sb{\iota}=1$. Degree is a regular-homotopy invariant (an integer moving continuously cannot jump). Gauss--Bonnet supplies the same integer without Smale: $\deg\mathbf{n}=\tfrac12\chi(S^2)=1$. Every immersion $S^2\looparrowright\mathbb{R}^3$ has Gauss degree $1$. The everted sphere does too. Degree does not forbid eversion.
+The **degree** of a map $g:S^n\to S^n$ is the integer that records signed coverings of the target. For the inclusion, $\mathbf{n}&#95;{\iota}(p)=p$, so $\deg\mathbf{n}&#95;{\iota}=1$. Degree is a regular-homotopy invariant (an integer moving continuously cannot jump). Gauss--Bonnet supplies the same integer without Smale: $\deg\mathbf{n}=\tfrac12\chi(S^2)=1$. Every immersion $S^2\looparrowright\mathbb{R}^3$ has Gauss degree $1$. The everted sphere does too. Degree does not forbid eversion.
 
 The canvas is an ellipsoid, not a round sphere, so that $\mathbf{n}$ is not the identity. For
 
@@ -593,7 +593,7 @@ the Gauss map is the normalization of $(x/a^2,\,y/b^2,\,z/c^2)$. It is still deg
   <div class="cs-hud cs-hud-tl">left: ellipsoid f<br>right: n_f(S^2)</div>
   <div class="cs-hud cs-hud-tr" id="cs-gauss-hud">n</div>
 </div>
-<p class="cs-cap">$\mathbf{n}\sb{f}=(\mathbf{f}\sb{\theta}\times\mathbf{f}\sb{\varphi})/\lVert\cdot\rVert$. Gold on the left is a point of the domain; cyan on the right is its unit normal. The image of $\mathbf{n}\sb{f}$ is the whole target sphere, once.</p>
+<p class="cs-cap">$\mathbf{n}&#95;{f}=(\mathbf{f}&#95;{\theta}\times\mathbf{f}&#95;{\varphi})/\lVert\cdot\rVert$. Gold on the left is a point of the domain; cyan on the right is its unit normal. The image of $\mathbf{n}&#95;{f}$ is the whole target sphere, once.</p>
 
 <script>
 CS.mount({
@@ -655,11 +655,11 @@ CS.mount({
 });
 </script>
 
-The finer invariant records the whole **2-frame** $(\mathbf{f}\sb{u},\mathbf{f}\sb{v})$, not just its normal. That pair lives in the Stiefel manifold
+The finer invariant records the whole **2-frame** $(\mathbf{f}&#95;{u},\mathbf{f}&#95;{v})$, not just its normal. That pair lives in the Stiefel manifold
 
 $$V_{3,2}=\bigl\{(v_1,v_2)\in\mathbb{R}^3\times\mathbb{R}^3:v_1,v_2\text{ linearly independent}\bigr\}.$$
 
-Normalizing, $V\sb{3,2}\simeq SO(3)$: a positively oriented orthonormal 2-frame completes uniquely to a rotation matrix. Each immersion $f$ gives a tangential map $T\sb{f}:S^2\to V\sb{3,2}$. Smale's invariant $\Omega(f,g)\in\pi\sb{2}(V\sb{3,2})$ is the homotopy class of the sphere you get by gluing $T\sb{f}$ to $T\sb{g}$ along a disk. Two immersions are regularly homotopic if and only if $\Omega(f,g)=0$.
+Normalizing, $V&#95;{3,2}\simeq SO(3)$: a positively oriented orthonormal 2-frame completes uniquely to a rotation matrix. Each immersion $f$ gives a tangential map $T&#95;{f}:S^2\to V&#95;{3,2}$. Smale's invariant $\Omega(f,g)\in\pi&#95;{2}(V&#95;{3,2})$ is the homotopy class of the sphere you get by gluing $T&#95;{f}$ to $T&#95;{g}$ along a disk. Two immersions are regularly homotopic if and only if $\Omega(f,g)=0$.
 
 ---
 
@@ -670,15 +670,15 @@ Normalizing, $V\sb{3,2}\simeq SO(3)$: a positively oriented orthonormal 2-frame 
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> The paper is <em>A classification of immersions of the two-sphere</em>, Trans. Amer. Math. Soc. <strong>90</strong> (1958). It does not use contact structures, Reeb foliations, or a "magic formula" of Thurston. Those are neighbouring subjects that the model dragged in. The argument is: regular homotopy classes of immersions $S^2\to\mathbb{R}^n$ are in bijection with $\pi\sb{2}(V\sb{n,2})$, and for $n=3$ that group is zero.
+<strong>Teacher.</strong> The paper is <em>A classification of immersions of the two-sphere</em>, Trans. Amer. Math. Soc. <strong>90</strong> (1958). It does not use contact structures, Reeb foliations, or a "magic formula" of Thurston. Those are neighbouring subjects that the model dragged in. The argument is: regular homotopy classes of immersions $S^2\to\mathbb{R}^n$ are in bijection with $\pi&#95;{2}(V&#95;{n,2})$, and for $n=3$ that group is zero.
 </div>
 
 The computation, written so each symbol is a space you can name:
 
-1. $V\sb{3,2}\simeq SO(3)$. An oriented orthonormal 2-frame in $\mathbb{R}^3$ is the first two columns of a rotation.
+1. $V&#95;{3,2}\simeq SO(3)$. An oriented orthonormal 2-frame in $\mathbb{R}^3$ is the first two columns of a rotation.
 2. $SO(3)\simeq\mathbb{RP}^3$. Unit quaternions are $S^3$. The map $q\mapsto$ (the rotation $v\mapsto qvq^{-1}$) identifies $q\sim -q$, so $SO(3)\simeq S^3/\{\pm 1\}=\mathbb{RP}^3$. This is the same double cover as the plate trick: a $2\pi$ rotation is a nontrivial loop, a $4\pi$ rotation is contractible.
-3. The covering $S^3\to\mathbb{RP}^3$ has discrete fibre $S^0=\{\pm 1\}$. The long exact sequence of a fibration collapses, in degree $2$, to $\pi\sb{2}(\mathbb{RP}^3)\cong\pi\sb{2}(S^3)$.
-4. $\pi\sb{k}(S^n)=0$ for $k<n$. In particular $\pi\sb{2}(S^3)=0$: a 2-sphere in a 3-sphere has room to shrink. (The same reason $\pi\sb{1}(S^2)=0$.)
+3. The covering $S^3\to\mathbb{RP}^3$ has discrete fibre $S^0=\{\pm 1\}$. The long exact sequence of a fibration collapses, in degree $2$, to $\pi&#95;{2}(\mathbb{RP}^3)\cong\pi&#95;{2}(S^3)$.
+4. $\pi&#95;{k}(S^n)=0$ for $k<n$. In particular $\pi&#95;{2}(S^3)=0$: a 2-sphere in a 3-sphere has room to shrink. (The same reason $\pi&#95;{1}(S^2)=0$.)
 
 Therefore
 
@@ -696,9 +696,9 @@ flowchart LR
   RP --> Z["pi_2(S^3) = 0"]
 ```
 
-This is an existence proof. It produces no picture. For $n=4$ the same machine gives $\pi\sb{2}(V\sb{4,2})\cong\mathbb{Z}$, so immersions $S^2\to\mathbb{R}^4$ have infinitely many regular homotopy classes, detected by the Euler class of the normal bundle (twice the algebraic self-intersection). The vanishing is special to codimension one in $\mathbb{R}^3$.
+This is an existence proof. It produces no picture. For $n=4$ the same machine gives $\pi&#95;{2}(V&#95;{4,2})\cong\mathbb{Z}$, so immersions $S^2\to\mathbb{R}^4$ have infinitely many regular homotopy classes, detected by the Euler class of the normal bundle (twice the algebraic self-intersection). The vanishing is special to codimension one in $\mathbb{R}^3$.
 
-A **fiber bundle** $E\to B$ with fibre $F$ is a space that is locally $B\times F$ but perhaps twisted globally (a cylinder versus a Möbius strip). Smale's technical work is to show that "immersions of a disk with given boundary data" is a fibration over the space of that boundary data, and that the fibre is weakly homotopy equivalent to a loop space of $V\sb{n,2}$. That is why $\pi\sb{0}$ of the fibre --- path-components of immersions with fixed boundary --- is $\pi\sb{2}(V\sb{n,2})$. You do not need the tower to believe the computation above; you need it to believe that the computation classifies immersions.
+A **fiber bundle** $E\to B$ with fibre $F$ is a space that is locally $B\times F$ but perhaps twisted globally (a cylinder versus a Möbius strip). Smale's technical work is to show that "immersions of a disk with given boundary data" is a fibration over the space of that boundary data, and that the fibre is weakly homotopy equivalent to a loop space of $V&#95;{n,2}$. That is why $\pi&#95;{0}$ of the fibre --- path-components of immersions with fixed boundary --- is $\pi&#95;{2}(V&#95;{n,2})$. You do not need the tower to believe the computation above; you need it to believe that the computation classifies immersions.
 
 ---
 
@@ -709,16 +709,16 @@ A **fiber bundle** $E\to B$ with fibre $F$ is a space that is locally $B\times F
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> There is no such formula, and Thurston did not prove existence --- Smale did. What Thurston gave, in the 1990s, is a <em>construction</em>: corrugate the surface so that it has slack, pass the ripples through one another, then iron the ripples out. The model invented a condition on $\det J(g\sb{t})>0$. The actual local move is a normal oscillation.
+<strong>Teacher.</strong> There is no such formula, and Thurston did not prove existence --- Smale did. What Thurston gave, in the 1990s, is a <em>construction</em>: corrugate the surface so that it has slack, pass the ripples through one another, then iron the ripples out. The model invented a condition on $\det J(g&#95;{t})>0$. The actual local move is a normal oscillation.
 </div>
 
 $$
 \mathbf{f}_\varepsilon(\theta,\varphi)=\bigl(1+\varepsilon\sin\theta\sin(k\varphi)\bigr)\,\mathbf{r}(\theta,\varphi).
 $$
 
-The amplitude $\varepsilon\sin\theta$ dies at the poles, so the chart singularities of $\mathbf{r}$ stay chart singularities. For $\lvert\varepsilon\rvert<1$ the radial factor never vanishes, and a computation of $\mathbf{f}\sb{\theta}\times\mathbf{f}\sb{\varphi}$ shows the cross product stays a positive multiple of $\mathbf{r}$ plus a controlled ripple --- still nonzero. This is an immersion for every $\varepsilon$ in that range. It is **not** an eversion. It is the ingredient that makes an eversion possible: extra wiggles so that later, when you try to pass sheets through each other, you have room.
+The amplitude $\varepsilon\sin\theta$ dies at the poles, so the chart singularities of $\mathbf{r}$ stay chart singularities. For $\lvert\varepsilon\rvert<1$ the radial factor never vanishes, and a computation of $\mathbf{f}&#95;{\theta}\times\mathbf{f}&#95;{\varphi}$ shows the cross product stays a positive multiple of $\mathbf{r}$ plus a controlled ripple --- still nonzero. This is an immersion for every $\varepsilon$ in that range. It is **not** an eversion. It is the ingredient that makes an eversion possible: extra wiggles so that later, when you try to pass sheets through each other, you have room.
 
-The old post implemented "corrugation" and then multiplied $z$ by a factor passing through zero. That second step is $F\sb{s}$ again. Here there is no second step. The heatmap is $\lVert\mathbf{f}\sb{\theta}\times\mathbf{f}\sb{\varphi}\rVert$; it should not go red.
+The old post implemented "corrugation" and then multiplied $z$ by a factor passing through zero. That second step is $F&#95;{s}$ again. Here there is no second step. The heatmap is $\lVert\mathbf{f}&#95;{\theta}\times\mathbf{f}&#95;{\varphi}\rVert$; it should not go red.
 
 <div id="cs-corr" class="cs-stage" style="height:460px;">
   <div class="cs-hud cs-hud-tl" id="cs-corr-hud">corrugation</div>
@@ -728,7 +728,7 @@ The old post implemented "corrugation" and then multiplied $z$ by a factor passi
     <label>k <input type="range" id="cs-k" min="2" max="10" value="4"> <span id="cs-k-v">4</span></label>
   </div>
 </div>
-<p class="cs-cap">$\mathbf{f}\sb{\varepsilon}=(1+\varepsilon\sin\theta\sin(k\varphi))\,\hat{\mathbf{r}}$. Indigo is the outside, orange the inside. Increase $\varepsilon$: petals, no fold. This is slack, not eversion.</p>
+<p class="cs-cap">$\mathbf{f}&#95;{\varepsilon}=(1+\varepsilon\sin\theta\sin(k\varphi))\,\hat{\mathbf{r}}$. Indigo is the outside, orange the inside. Increase $\varepsilon$: petals, no fold. This is slack, not eversion.</p>
 
 <script>
 CS.mount({
@@ -904,18 +904,18 @@ To finish the sphere one maps $h=\omega\sin\theta/\cos^n\theta$ and applies Bedn
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> Track the average alignment of normals. For a path $f\sb{s}$ with unit normal $\mathbf{n}\sb{s}$,
+<strong>Teacher.</strong> Track the average alignment of normals. For a path $f&#95;{s}$ with unit normal $\mathbf{n}&#95;{s}$,
 $$S(s)=\int_{S^2}\mathbf{n}_0\cdot\mathbf{n}_s\,dA.$$
-If $f\sb{s}$ is a genuine eversion, $S(0)=4\pi$ and $S(1)=-4\pi$, so the intermediate-value theorem --- freshman calculus, on a continuous function of one real variable --- produces an $s^*$ with $S(s^*)=0$. That is a reasonable definition of halfway. The Morin surface is a geometric refinement of that idea (four-fold symmetry, one quadruple point), not just the vanishing of an integral.
+If $f&#95;{s}$ is a genuine eversion, $S(0)=4\pi$ and $S(1)=-4\pi$, so the intermediate-value theorem --- freshman calculus, on a continuous function of one real variable --- produces an $s^*$ with $S(s^*)=0$. That is a reasonable definition of halfway. The Morin surface is a geometric refinement of that idea (four-fold symmetry, one quadruple point), not just the vanishing of an integral.
 </div>
 
-For the illegal homotopy $F\sb{s}$ one can compute the integrand in closed form, $\theta\in(0,\pi)$:
+For the illegal homotopy $F&#95;{s}$ one can compute the integrand in closed form, $\theta\in(0,\pi)$:
 
 $$
 \mathbf{n}_0\cdot\mathbf{n}_s=\frac{(1-2s)\sin^2\theta+\cos^2\theta}{\sqrt{(1-2s)^2\sin^2\theta+\cos^2\theta}}.
 $$
 
-Then $S(s)=2\pi\int\sb{0}^\pi(\mathbf{n}\sb{0}\cdot\mathbf{n}\sb{s})\sin\theta\,d\theta$. At $s=0$ this is $4\pi$. At $s=1$ it is $-4\pi/3$, not $-4\pi$: $F\sb{1}$ is equatorial reflection, not $\alpha$. At $s=\tfrac12$ the formula for $\mathbf{n}\sb{s}$ fails on the equator, because $F\sb{s}$ is not an immersion. The plot is that integral, by a trapezoid rule on the displayed integrand.
+Then $S(s)=2\pi\int&#95;{0}^\pi(\mathbf{n}&#95;{0}\cdot\mathbf{n}&#95;{s})\sin\theta\,d\theta$. At $s=0$ this is $4\pi$. At $s=1$ it is $-4\pi/3$, not $-4\pi$: $F&#95;{1}$ is equatorial reflection, not $\alpha$. At $s=\tfrac12$ the formula for $\mathbf{n}&#95;{s}$ fails on the equator, because $F&#95;{s}$ is not an immersion. The plot is that integral, by a trapezoid rule on the displayed integrand.
 
 <div id="cs-sync-wrap" style="width:100%; margin:1.4em 0 0.4em; border-radius:8px; overflow:hidden; background:#0f172a; position:relative;">
   <canvas id="cs-sync" style="width:100%; height:280px; display:block;"></canvas>
@@ -923,7 +923,7 @@ Then $S(s)=2\pi\int\sb{0}^\pi(\mathbf{n}\sb{0}\cdot\mathbf{n}\sb{s})\sin\theta\,
     <label>s <input type="range" id="cs-ss" min="0" max="100" value="0"> <span id="cs-ss-v">0.00</span></label>
   </div>
 </div>
-<p class="cs-cap">Gold: $S(s)/(4\pi)$ for the crease homotopy $F\sb{s}$. The red line is $s=1/2$, where the integrand is not the Gauss map of an immersion. A true eversion would run from $+1$ to $-1$ without that puncture.</p>
+<p class="cs-cap">Gold: $S(s)/(4\pi)$ for the crease homotopy $F&#95;{s}$. The red line is $s=1/2$, where the integrand is not the Gauss map of an immersion. A true eversion would run from $+1$ to $-1$ without that puncture.</p>
 
 <script>
 (function () {
@@ -1014,13 +1014,13 @@ The May transcript is still worth reading. It is a record of the questions one a
     <tr><th>Claim in the Phi-3 notes</th><th>Fact</th></tr>
   </thead>
   <tbody>
-    <tr><td>$H=(1-t)f\sb{0}+tf\sb{1}$ is a regular homotopy.</td><td>It is a homotopy of maps. Rank drops. See $F\sb{s}$.</td></tr>
-    <tr><td>$\partial\sb{\theta}(1,0,0)=\mathbf{0}$.</td><td>Differentiate the chart, not the point. $\mathbf{r}\sb{\theta}(1,0,0)=(0,0,-1)$.</td></tr>
+    <tr><td>$H=(1-t)f&#95;{0}+tf&#95;{1}$ is a regular homotopy.</td><td>It is a homotopy of maps. Rank drops. See $F&#95;{s}$.</td></tr>
+    <tr><td>$\partial&#95;{\theta}(1,0,0)=\mathbf{0}$.</td><td>Differentiate the chart, not the point. $\mathbf{r}&#95;{\theta}(1,0,0)=(0,0,-1)$.</td></tr>
     <tr><td>Jacobian of $f:\mathbb{R}^n\to\mathbb{R}^m$ is $n\times m$.</td><td>$m\times n$. For immersions $S^2\to\mathbb{R}^3$ it is $3\times 2$; there is no determinant.</td></tr>
     <tr><td>$\det J=-1$ means a saddle.</td><td>It means orientation reversal. A saddle is a critical point, which requires $\det J=0$ (in the square case).</td></tr>
     <tr><td>$S^2\times[0,1]$ is a ball.</td><td>It is a spherical shell. The ball is $D^3$.</td></tr>
     <tr><td>Smale's hairy ball theorem.</td><td>Poincaré--Brouwer. Smale classified immersions of $S^2$.</td></tr>
-    <tr><td>Thurston's magic formula ($J(g\sb{t})>0$) proves eversion.</td><td>Smale proved existence. Thurston gave corrugations. Bednorz wrote a ruled family.</td></tr>
+    <tr><td>Thurston's magic formula ($J(g&#95;{t})>0$) proves eversion.</td><td>Smale proved existence. Thurston gave corrugations. Bednorz wrote a ruled family.</td></tr>
     <tr><td>Eversion forbids self-intersection and uses contact / Reeb foliations.</td><td>Self-intersection is the point. Contact geometry is a different chapter.</td></tr>
     <tr><td>The complex exponential at $(0,\pi/2)$ has $\det J=-1$.</td><td>$\det J=e^{2x}=1$ there. The map is a local diffeomorphism everywhere.</td></tr>
   </tbody>
@@ -1030,7 +1030,7 @@ The May transcript is still worth reading. It is a record of the questions one a
 
 # the arc
 
-Calculus gives the language: charts, $J\sb{f}$, $\mathbf{f}\sb{u}\times\mathbf{f}\sb{v}\neq\mathbf{0}$. Function spaces give the question: is $\operatorname{Imm}(S^2,\mathbb{R}^3)$ path-connected? Circles in the plane say no, by $\pi\sb{1}(S^1)=\mathbb{Z}$. One dimension up, the same instinct produces $\pi\sb{2}(V\sb{3,2})$, and that group is zero. Smale's theorem is that computation plus a fibration argument. Morin, Thurston, and Bednorz are what you do if you want to *see* a path.
+Calculus gives the language: charts, $J&#95;{f}$, $\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}\neq\mathbf{0}$. Function spaces give the question: is $\operatorname{Imm}(S^2,\mathbb{R}^3)$ path-connected? Circles in the plane say no, by $\pi&#95;{1}(S^1)=\mathbb{Z}$. One dimension up, the same instinct produces $\pi&#95;{2}(V&#95;{3,2})$, and that group is zero. Smale's theorem is that computation plus a fibration argument. Morin, Thurston, and Bednorz are what you do if you want to *see* a path.
 
 The first post asked. The second post answered, and then drew the forbidden crease. This one circles the sphere until the picture and the equation are the same object.
 
