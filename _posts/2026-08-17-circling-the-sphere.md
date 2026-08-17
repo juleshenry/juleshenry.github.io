@@ -38,6 +38,14 @@ The still below is a genuine eversion (Morin's halfway model). We will not prete
   .cs-err { width: 100%; border-collapse: collapse; font-size: 0.92em; margin: 1em 0 2em; }
   .cs-err th, .cs-err td { border: 1px solid rgba(255,255,255,0.12); padding: 0.55em 0.7em; vertical-align: top; }
   .cs-err th { color: #e2e8f0; }
+  .mermaid .nodeLabel, .mermaid .label, .mermaid .nodeLabel span {
+    font-weight: 400 !important;
+    color: #e2e8f0 !important;
+  }
+  .mermaid .edgeLabel, .mermaid .edgeLabel span {
+    color: #cbd5e1 !important;
+    background-color: transparent !important;
+  }
 </style>
 
 <script>
@@ -651,6 +659,7 @@ $$\pi_2(V_{3,2})\cong\pi_2(SO(3))\cong\pi_2(\mathbb{RP}^3)\cong\pi_2(S^3)=0.$$
 So $\Omega(f,g)=0$ for every pair. In particular $\iota$ and $\alpha$ lie in the same path-component of $\operatorname{Imm}(S^2,\mathbb{R}^3)$.
 
 ```mermaid
+%%{init: {"theme":"dark","themeVariables":{"primaryTextColor":"#e2e8f0","secondaryTextColor":"#e2e8f0","tertiaryTextColor":"#e2e8f0","lineColor":"#94a3b8","primaryColor":"#1e293b","primaryBorderColor":"#64748b","secondaryColor":"#334155","tertiaryColor":"#0f172a","fontFamily":"ui-monospace, SFMono-Regular, Menlo, monospace","fontSize":"16px"}}}%%
 flowchart LR
   Imm["Imm(S^2, R^3)"] --> Tf["T_f : S^2 to V_3,2"]
   Tf --> Pi["pi_2(V_3,2)"]
