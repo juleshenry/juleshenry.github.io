@@ -6,7 +6,7 @@ categories: wealth
 mathjax: true
 ---
 
-The Black–Scholes–Merton formula prices a European call on a non-dividend stock. Fischer Black and Myron Scholes published the PDE and its solution in 1973; Robert Merton derived the same price from a more general theory the same year. The inputs are the spot $S_t$, the strike $K$, the time to expiry $\tau = T-t$, a constant interest rate $r$, and a constant volatility $\sigma$. The output is
+The Black–Scholes–Merton formula prices a European call on a stock that pays no dividend. Fischer Black and Myron Scholes published it in 1973; Robert Merton derived the same price from a more general theory the same year. The inputs are the current stock price $S_t$ (the **spot**), the strike $K$, the time left until expiry $\tau = T-t$, a constant interest rate $r$, and a constant **volatility** $\sigma$ (how wildly the stock's *log* return wiggles, measured as a standard deviation per square-root year). The output is
 
 $$
 C(S_t,K,T) = S_t\,\Phi(d_1) - K e^{-r\tau}\,\Phi(d_2), \tag{1}
@@ -16,18 +16,20 @@ $$
 d_1 = \frac{\ln(S_t/K)+\bigl(r+\tfrac12\sigma^2\bigr)\tau}{\sigma\sqrt{\tau}}, \qquad d_2 = d_1 - \sigma\sqrt{\tau},
 $$
 
-where $\Phi$ is the standard normal cdf,
+where $\Phi$ is the **cumulative distribution function** (cdf) of the standard normal: the area under the bell curve to the left of $x$, which is also the probability that a standard-normal random variable $Z$ satisfies $Z\le x$,
 
 $$
-\Phi(x) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x} e^{-u^2/2}\,du.
+\Phi(x) = P(Z\le x) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x} e^{-u^2/2}\,du.
 $$
 
-This note derives $(1)$ from the lognormal law of $S_T$. The stock is a geometric Brownian motion; Itô's lemma makes $\ln S_T$ Gaussian; under the risk-neutral measure the parameters of that Gaussian are known; the call is then two integrals against a lognormal, and both integrals evaluate in closed form once you complete the square. A change of numeraire gives the same formula by a different bookkeeping. The PDE is recorded at the end as the same argument in another costume.
+This note derives $(1)$ by showing that the future stock price $S_T$ is **lognormal** (its logarithm is a bell curve) and then integrating the call payoff against that law. The noise in the stock is a **Brownian motion**, defined and graphed below. A second bookkeeping — changing the unit of account — gives the same formula. A partial differential equation at the end is the same argument in another costume.
 
 - [What is being priced](#what-is-being-priced)
 - [A numerical check](#a-numerical-check)
+- [Brownian motion](#brownian-motion)
+- [The stock: geometric Brownian motion](#the-stock-geometric-brownian-motion)
 - [Assumptions](#assumptions)
-- [Wiener processes and martingales](#wiener-processes-and-martingales)
+- [Martingales](#martingales)
 - [Itô's lemma](#itos-lemma)
 - [Risk-neutral pricing](#risk-neutral-pricing)
 - [Toolkit: the lognormal](#toolkit-the-lognormal)
@@ -50,11 +52,11 @@ $$
 (S_T - K)^+ = \max(S_T - K,\, 0).
 $$
 
-A **European put** is the right to sell at $K$, payoff $(K - S_T)^+$. An **American** contract may be exercised at any time up to $T$. That extra right is a genuine complication: the holder is solving an optimal-stopping problem, and there is no two-$\Phi$ formula for a general American put. One mercy, due to Merton: a call on a non-dividend stock is never exercised early, so the American call collapses to the European one. We price the European call. The European put then follows from put-call parity, not from a second integral.
+A **European put** is the right to sell at $K$, payoff $(K - S_T)^+$. An **American** contract may be exercised at any time up to $T$. That extra right is a genuine complication: at every moment the holder must decide whether to exercise now or wait, and there is no two-$\Phi$ formula for a general American put. One mercy, due to Merton: a call on a non-dividend stock is never exercised early, so the American call collapses to the European one. We price the European call. The European put then follows from put-call parity, not from a second integral.
 
 ![A European call: the kink at expiry, the smooth price today](/blog/assets/2024/bsm/call-payoff.png)
 
-The brown line is the expiry payoff. The blue curve is the time-$t$ value of that lottery, for one year of remaining life and the parameters of the next section. The shaded gap is time value. Equation $(1)$ is a machine that draws the blue curve.
+The brown line is the expiry payoff. The blue curve is the time-$t$ value of that lottery, for one year of remaining life and the parameters of the next section. The shaded gap is **time value**: extra worth from still having time left for the stock to wander. Equation $(1)$ is a machine that draws the blue curve.
 
 ---
 
@@ -75,12 +77,12 @@ $$
 
 | Symbol | Meaning |
 |---|---|
-| $S_t$ | spot |
-| $K$ | strike |
-| $r$ | continuously compounded risk-free rate, constant |
-| $\tau = T-t$ | time remaining, in years |
-| $\sigma$ | volatility of the *log* return, per square-root year |
-| $\Phi$ | standard normal cdf |
+| $S_t$ | spot: the stock price right now |
+| $K$ | strike: the price the call lets you buy at |
+| $r$ | risk-free interest rate, compounded continuously, held constant |
+| $\tau = T-t$ | time remaining until expiry, in years |
+| $\sigma$ | volatility: standard deviation of the log return, per $\sqrt{\text{year}}$ |
+| $\Phi$ | standard normal cdf, $P(Z\le x)$ |
 
 ```python
 from math import log, exp, sqrt, erf
@@ -94,64 +96,133 @@ print(S*Phi(d1) - K*exp(-r*tau)*Phi(d2))
 
 ---
 
-# Assumptions
-{: #assumptions}
+# Brownian motion
+{: #brownian-motion}
 
-Four assumptions do the mathematics. A fifth is the trading plumbing that lets the mathematics be a *price*.
+A **Brownian motion** — also called a **Wiener process**, written $W_t$ — is the model of pure noise used in this note. Picture a pollen grain on a water surface, or a walker who at every instant takes a tiny random step up or down. The walker's height at time $t$ is $W_t$.
 
-1. **The stock is a geometric Brownian motion with constant coefficients.**
+It is *not* a stock price. It starts at $0$, it is as likely to be negative as positive, and its typical size at time $t$ is $\sqrt{t}$, not $t$. The stock will be built from it in the next section.
+
+## A coin-flip construction
+
+Fix a time horizon $T$ and chop it into $n$ equal pieces of length $\Delta t = T/n$. Flip a fair coin at each tick. On heads walk up $\sqrt{\Delta t}$; on tails walk down $\sqrt{\Delta t}$. After time $t = k\,\Delta t$ the position is
+
+$$
+W_t^{(n)} = \sqrt{\Delta t}\,(\xi_1 + \cdots + \xi_k), \qquad \xi_i = \pm 1 \text{ with equal probability}.
+$$
+
+Each step has mean $0$ and variance $\Delta t$, so the sum of $k$ steps has mean $0$ and variance $k\,\Delta t = t$. The central limit theorem — a sum of many small independent kicks becomes a bell curve — says that for large $n$ the position at a fixed $t$ is approximately $\mathcal{N}(0,t)$. Send $n\to\infty$ and the staircase becomes a continuous scribble. That scribble is Brownian motion.
+
+![A fair coin-flip walk becoming Brownian motion](/blog/assets/2024/bsm/random-walk-to-brownian.png)
+
+The three panels are the *same* sequence of coin flips, grouped into fewer, larger steps on the left and drawn almost continuously on the right. Brownian motion is the right-hand picture, taken as a mathematical limit.
+
+## The four properties, in symbols
+
+A **standard Brownian motion** is a random function $t\mapsto W_t$ satisfying:
+
+1. **Starts at zero.** $W_0 = 0$.
+2. **Independent increments.** For $t>s$, the future step $W_t-W_s$ does not depend on the path before time $s$. The next wiggle does not remember how it got here.
+3. **Gaussian increments.** $W_t - W_s \sim \mathcal{N}(0,\, t-s)$. In words: over an interval of length $\Delta t$ the step is drawn from a bell curve with mean $0$ and variance $\Delta t$. In particular the position itself is
    $$
-   dS_t = \mu S_t\,dt + \sigma S_t\,dW_t. \tag{2}
+   W_t \sim \mathcal{N}(0,t), \qquad \mathbb{E}[W_t] = 0, \qquad \mathrm{Var}(W_t) = t.
    $$
-   Prices stay positive, returns compound, and the only randomness is a single Wiener process $W_t$. No jumps, no stochastic volatility. This is what makes $S_T$ lognormal.
+   The **typical size** of $W_t$ is therefore the standard deviation $\sqrt{t}$, not $t$. Over a short interval the typical move is $\sqrt{\Delta t}$, which is much larger than $\Delta t$ itself when $\Delta t$ is small.
+4. **Continuous paths.** The graph of $t\mapsto W_t$ has no jumps. It is a jagged scribble with no breaks.
 
-2. **The short rate $r$ is a known constant.** Borrowing and lending are unlimited at $r$. The money-market account is then $B_t = e^{rt}$. Merton later let $r$ wander; the two-$\Phi$ formula does not survive that generalization in this form.
+**Normal reminder.** We write $Z\sim\mathcal{N}(m,s^2)$ to mean that $Z$ has the bell-curve (**Gaussian**, **normal**) density
 
-3. **No dividends during the life of the option.** A cash dividend drops $S$ by the amount paid and would change both the hedge and the law of $S_T$. The repair, recorded at the end, is one letter: a continuous yield $q$ replaces $S_t$ by $S_t e^{-q\tau}$ and $r$ by $r-q$ inside $d_1,d_2$.
+$$
+f(z) = \frac{1}{s\sqrt{2\pi}}\exp\Bigl(-\frac12\Bigl(\frac{z-m}{s}\Bigr)^2\Bigr).
+$$
 
-4. **No arbitrage, continuous trading, a complete market.** One source of noise and two traded assets (stock and bond) means every reasonable payoff can be replicated. The replicating portfolio's value is the price, and that is why the physical drift $\mu$ will cancel: the hedge does not contain it.
+The number $m$ is the mean, $s^2$ is the variance. The **standard normal** is the special case $\mathcal{N}(0,1)$. The function $\Phi$ at the top of this note is $P(Z\le x)$ for a standard normal $Z$.
 
-Plumbing, said once: short sales are allowed, proceeds may be used, securities are perfectly divisible, there are no transaction costs. None of that enters an integral.
+![Standard Brownian motion: paths, the $\sqrt{t}$ envelope, and the law of $W_1$](/blog/assets/2024/bsm/brownian-motion.png)
 
-The gap between this universe and listed options is the subject of Derman and Miller's *The Volatility Smile*. The market still *quotes* in the language of $(1)$.
+On the left, every path starts at $0$ and wanders equally above and below the axis — several paths are *negative*, which a stock price cannot be. The shaded trumpet is the band $\pm 2\sqrt{t}$; at each fixed $t$ about 95% of paths sit inside it, because a normal random variable is within two standard deviations of its mean about 95% of the time. On the right, many independent runs are stopped at $t=1$ and histogrammed. The histogram is the $\mathcal{N}(0,1)$ density, which is property 3 at $t=1$.
 
----
+## The increment $dW_t$, and why ordinary calculus fails
 
-# Wiener processes and martingales
-{: #wiener-processes-and-martingales}
-
-The Wiener process $W_t$ (standard Brownian motion) is the stand-in for market noise: not for the *level* of prices, which have drift and stay positive, but for the irreducible jitter.
-
-1. $W_0 = 0$.
-2. Independent increments: $W_t - W_s$ is independent of the path up to $s$.
-3. Gaussian increments: $W_t - W_s \sim \mathcal{N}(0,\,t-s)$. In particular the typical move over $\Delta t$ has size $\sqrt{\Delta t}$, not $\Delta t$.
-4. Continuous paths, almost surely.
-
-Paths are almost surely nowhere differentiable, so the ordinary chain rule does not apply. The multiplication table that replaces it is
+Write $dW_t$ for the increment of $W$ over an instant of length $dt$. Property 3 says $dW_t$ is approximately $\mathcal{N}(0,dt)$, so $(dW_t)^2$ is typically of size $dt$, not $(dt)^2$. That is the multiplication table we will use:
 
 $$
 dt\cdot dt \to 0, \qquad dt\cdot dW_t \to 0, \qquad dW_t\cdot dW_t \to dt.
 $$
 
-The third rule is quadratic variation. Over a partition of $[0,t]$ into $n$ steps of length $\Delta t = t/n$, each increment satisfies $\mathbb{E}[(\Delta W_i)^2] = \Delta t$, the sum of the squares has expectation $t$, and the variance of that sum is $O(1/n)$. The sum converges to $t$ in probability: $\langle W\rangle_t = t$. In the infinitesimal shorthand, $(dW_t)^2 = dt$.
+The third rule has a name, **quadratic variation**. Chop $[0,t]$ into $n$ steps of length $\Delta t=t/n$. Each increment $\Delta W_i$ satisfies $\mathbb{E}[(\Delta W_i)^2]=\Delta t$, so the sum of the squares has expectation $t$. The variance of that sum shrinks like $1/n$ and vanishes as $n\to\infty$. The sum of squared wiggles converges to $t$: in the infinitesimal shorthand, $(dW_t)^2=dt$. Ordinary calculus throws $(dx)^2$ away. Here it is the same size as $dt$, so it must be kept. That is why, when we later differentiate functions of $S_t$, we will need Itô's lemma rather than the chain rule from Calculus 1.
 
-A process $M_t$ is a **martingale** if $\mathbb{E}[M_T\mid\mathcal{F}_t] = M_t$. Read $\mathcal{F}_t$ as the information available at time $t$. A martingale is a fair game: given what you know now, the expected future value is the present value. $W_t$ itself is a martingale. The physical stock $S_t$ is not — it has drift $\mu$. Derivative pricing lives on a different probability measure $\mathbb{Q}$, equivalent to the real-world measure $\mathbb{P}$, under which the *discounted* stock $S_t/B_t$ **is** a martingale. Under $\mathbb{Q}$ every traded asset earns $r$ on average. The call price is then an expectation under this fair-game measure, discounted at $r$.
+The paths are so jagged that, with probability $1$, they have no tangent line anywhere. You cannot write $dW_t/dt$. You can only write $dW_t$.
 
-Two stand-ins:
+---
 
-- $W_t$ stands in for the market's noise.
+# The stock: geometric Brownian motion
+{: #the-stock-geometric-brownian-motion}
+
+$W_t$ is a bad model for a stock. It can be negative, and a \$100 stock and a \$10 stock should not make dollar moves of the same typical size. The model used here is **geometric Brownian motion**: the *percentage* move is Brownian.
+
+$$
+dS_t = \mu S_t\,dt + \sigma S_t\,dW_t. \tag{2}
+$$
+
+Read the equation as a recipe for a short interval $dt$:
+
+- the stock grows by a deterministic fraction $\mu\,dt$ (the **drift** $\mu$ is the expected rate of return);
+- plus a random fraction $\sigma\,dW_t$ (the **volatility** $\sigma$ scales the Brownian increment).
+
+Because the noise is multiplied by the current price $S_t$, a \$200 stock wiggles twice as many dollars as a \$100 stock, and $S_t$ stays positive. The $d$ on the left is the same kind of increment as $dW_t$: it is not a derivative, it is a small change.
+
+![Geometric Brownian motion: stock paths, which stay positive](/blog/assets/2024/bsm/gbm-paths.png)
+
+Each path is one draw of $W$, turned into a price by $(2)$. Compare with the previous figure: these paths cannot cross zero, and they spread in proportion to the level of $S$. A European call with the dashed strike pays the excess over $100$ if the path ends above the line, and zero otherwise. Pricing the call is averaging that payoff over every such path — under a fair-game probability we will define after the assumptions, not under the real-world drift $\mu$.
+
+---
+
+# Assumptions
+{: #assumptions}
+
+Four assumptions do the mathematics. A fifth is the trading plumbing that lets the mathematics be a *price*.
+
+1. **The stock follows the geometric Brownian motion $(2)$, with $\mu$ and $\sigma$ constant.** One source of randomness, namely the single Brownian motion $W_t$. No sudden jumps, no volatility that itself wiggles. This is what makes $S_T$ lognormal.
+
+2. **The interest rate $r$ is a known constant.** You may borrow or lend any amount at this rate. A dollar deposited in the **money-market account** (a riskless savings account) grows to $B_t = e^{rt}$. The exponential is **continuous compounding**: interest is added every instant, so the growth factor over time $t$ is $e^{rt}$ rather than $(1+r)^t$. Merton later let $r$ wander; the two-$\Phi$ formula does not survive that generalization in this form.
+
+3. **No dividends during the life of the option.** A cash dividend drops $S$ by the amount paid and would change both the hedge and the law of $S_T$. The repair, recorded at the end, is one letter: a continuous yield $q$ replaces $S_t$ by $S_t e^{-q\tau}$ and $r$ by $r-q$ inside $d_1,d_2$.
+
+4. **No arbitrage, continuous trading, a complete market.** An **arbitrage** is a riskless profit — a free lunch. **Continuous trading** means you may rebalance at every instant. A market is **complete** when every payoff you can write down can be manufactured by trading the stock and the money-market account. Here there is one source of noise and two traded assets, so the market is complete. The manufactured (replicating) portfolio's value *is* the price, and that is why the physical drift $\mu$ will cancel: the hedge does not contain it.
+
+Plumbing, said once: you may sell a stock you do not own (**short selling**) and use the cash, securities may be held in any fractional amount, and there are no transaction costs. None of that enters an integral.
+
+The gap between this universe and listed options is the subject of Derman and Miller's *The Volatility Smile*. The market still *quotes* in the language of $(1)$.
+
+---
+
+# Martingales
+{: #martingales}
+
+A **stochastic process** is a family of random variables indexed by time — a random path. A process $M_t$ is a **martingale** if
+
+$$
+\mathbb{E}[M_T\mid \text{information up to time }t] = M_t.
+$$
+
+In words: a martingale is a **fair game**. Given what you know now, the expected future value *is* the present value. You should not expect to win or to lose. The notation $\mathcal{F}_t$ is the usual name for “the information available at time $t$,” so the same sentence is written $\mathbb{E}[M_T\mid\mathcal{F}_t]=M_t$.
+
+Brownian motion itself is a martingale: $\mathbb{E}[W_T\mid W_t]=W_t$, because the remaining increment $W_T-W_t$ has mean $0$ and is independent of the past. The physical stock $S_t$ is *not* a martingale — it has drift $\mu$, which is why anyone bothers to own it.
+
+Derivative pricing lives on a different assignment of probabilities, written $\mathbb{Q}$ and called the **risk-neutral measure**. A **probability measure** is just a consistent way of assigning probabilities to outcomes. The real-world measure is written $\mathbb{P}$. We say $\mathbb{Q}$ is **equivalent** to $\mathbb{P}$ when the two agree on which events are impossible (probability zero); they may disagree on how likely the possible events are. Under $\mathbb{Q}$ the **discounted** stock $S_t/B_t$ — the stock measured in time-$0$ dollars, by dividing out the growth of the money-market account — **is** a martingale: every traded asset earns $r$ on average, so risk is not paid extra. The call price is then an expectation under this fair-game measure, multiplied by $e^{-r\tau}$ to bring the future payoff back to today.
+
+Two stand-ins, for the rest of the note:
+
+- Brownian motion $W_t$ stands in for the market's noise.
 - A martingale stands in for the market's fairness, once the probabilities have been changed so that risk is not paid extra.
-
-![Geometric Brownian motion: twelve draws of the same market](/blog/assets/2024/bsm/gbm-paths.png)
-
-Each path is one realization of $W$, exponentiated so $S$ cannot go negative. A European call on the dashed strike pays the excess over $100$ if the path ends above the line, and zero otherwise. Pricing the call is averaging that payoff over every path, under $\mathbb{Q}$, not under $\mathbb{P}$.
 
 ---
 
 # Itô's lemma
 {: #itos-lemma}
 
-Let $X_t$ satisfy $dX_t = a\,dt + b\,dW_t$, with $a$ and $b$ allowed to depend on $X$ and $t$. For smooth $f(t,x)$,
+Let $X_t$ satisfy $dX_t = a\,dt + b\,dW_t$, with $a$ and $b$ allowed to depend on $X$ and $t$. For a function $f(t,x)$ that is twice differentiable in $x$ and once in $t$ (the usual meaning of **smooth** here),
 
 $$
 df(t,X_t) = \Bigl(f_t + a f_x + \tfrac12 b^2 f_{xx}\Bigr)dt + b f_x\,dW_t. \tag{3}
@@ -187,13 +258,13 @@ The $\tfrac12\sigma^2$ that left the log-drift returns in the mean of the lognor
 # Risk-neutral pricing
 {: #risk-neutral-pricing}
 
-Girsanov's theorem says a Brownian motion may be given an extra drift and remain a Brownian motion, provided the probabilities are changed. The tilt we want is the market price of risk $\theta = (\mu-r)/\sigma$, the stock's excess return per unit of volatility. Set
+**Girsanov's theorem** is the fact that you may add a drift to a Brownian motion and still have a Brownian motion, provided you change which paths you treat as likely. The tilt we want is the **market price of risk** $\theta = (\mu-r)/\sigma$: excess return on the stock per unit of volatility. Set
 
 $$
 W_t^{\mathbb{Q}} = W_t + \theta t.
 $$
 
-Then $W^{\mathbb{Q}}$ is Brownian motion under a measure $\mathbb{Q}\sim\mathbb{P}$. Substitute $dW = dW^{\mathbb{Q}} - \theta\,dt$ into $(2)$:
+Then $W^{\mathbb{Q}}$ is Brownian motion under the risk-neutral measure $\mathbb{Q}$ (the notation $\mathbb{Q}\sim\mathbb{P}$ means the two measures are equivalent, as in the previous section). Substitute $dW = dW^{\mathbb{Q}} - \theta\,dt$ into $(2)$:
 
 \begin{align*}
 dS_t
@@ -203,7 +274,7 @@ dS_t
 
 The physical drift $\mu$ has been replaced by $r$. That is the content of "risk-neutral."
 
-Let $\tilde S_t = S_t e^{-rt}$ be the stock in time-$0$ dollars. The product rule plus Itô (the cross variation $dS\cdot d(e^{-rt})$ vanishes) gives, under $\mathbb{Q}$,
+Let $\tilde S_t = S_t e^{-rt}$ be the stock in time-$0$ dollars. The ordinary product rule, plus Itô (the mixed increment $dS\cdot d(e^{-rt})$ is a $dW\cdot dt$ term, which the multiplication table sends to $0$), gives, under $\mathbb{Q}$,
 
 $$
 d\tilde S_t = \sigma\tilde S_t\,dW_t^{\mathbb{Q}}.
@@ -234,7 +305,7 @@ Equation $(6)$ is now an integral against that lognormal. Two traders who disagr
 # Toolkit: the lognormal
 {: #toolkit-the-lognormal}
 
-This is the engine. Let $Y\sim\mathcal{N}(m,s^2)$ and $X=e^Y$, so $X$ is lognormal and $X>0$ almost surely. Completing the square in the Gaussian integral for $e^Y$ gives the mean; a second moment computation gives the variance:
+This is the engine. Let $Y\sim\mathcal{N}(m,s^2)$ and $X=e^Y$, so $X$ is lognormal and $X>0$ with probability $1$. Completing the square in the Gaussian integral for $e^Y$ gives the mean; a second moment computation gives the variance:
 
 $$
 \mathbb{E}[X] = e^{m+s^2/2}, \qquad \mathrm{Var}(X) = \bigl(e^{s^2}-1\bigr)e^{2m+s^2}. \tag{8}
@@ -246,7 +317,7 @@ $$
 f_X(x) = \frac{1}{s\,x\sqrt{2\pi}}\exp\Bigl(-\frac12\Bigl(\frac{\ln x-m}{s}\Bigr)^2\Bigr), \qquad x>0. \tag{9}
 $$
 
-The extra $1/x$ is the Jacobian. The cdf is the Gaussian cdf evaluated at $\ln x$:
+The extra $1/x$ is the stretching factor from the substitution (sometimes called the Jacobian): $dy=dx/x$. The cdf is the Gaussian cdf evaluated at $\ln x$:
 
 $$
 F_X(x) = \Phi\Bigl(\frac{\ln x-m}{s}\Bigr). \tag{10}
@@ -257,6 +328,8 @@ The call does not need $\mathbb{E}[X]$ and does not need $\mathbb{E}[X\mid X>K]$
 $$
 L_X(K) := \mathbb{E}\bigl[X\,1_{\{X>K\}}\bigr] = \int_K^{\infty} x\,f_X(x)\,dx. \tag{11}
 $$
+
+The symbol $1_{\{X>K\}}$ is the **indicator** of the event $\{X>K\}$: it equals $1$ when $X>K$ and $0$ otherwise, so $X\,1_{\{X>K\}}$ keeps $X$ on the upper tail and throws the rest away.
 
 This is not the conditional tail expectation $\mathbb{E}[X\mid X>K]$, which would divide $(11)$ by $1-F_X(K)$. (That mix-up appears in some notes, including Rouah's; the integral they write is $(11)$, and $(11)$ is the object that enters the call.)
 
@@ -311,7 +384,7 @@ That is the identity Route I spends. Completing the square shifted the mean of $
 # Route I: two lognormal integrals
 {: #route-i-two-lognormal-integrals}
 
-Start from $(6)$ and split the payoff on the event $\{S_T>K\}$:
+Start from $(6)$ and split the payoff on the event $\{S_T>K\}$. Write $F$ for the cdf of $S_T$ under $\mathbb{Q}$, so $\int g\,dF$ means the expected value of $g(S_T)$ — if $F$ has density $f$, this is the ordinary integral $\int g(x)\,f(x)\,dx$:
 
 \begin{align*}
 C
@@ -358,13 +431,13 @@ $$
 
 which is $(1)$.
 
-**Reading the two terms.** $\Phi(d_2)=\mathbb{Q}(S_T>K)$ is the risk-neutral probability of exercise, so the second term is a cash-or-nothing binary: $K$ zero-coupon bonds that pay if and only if the call finishes in the money. The first term is a share-or-nothing binary. $\Phi(d_1)$ is the same exercise probability after the mean shift $m\mapsto m+s^2$ that $(14)$ performed — equivalently, as Route II will show, the exercise probability when the unit of account is the stock itself.
+**Reading the two terms.** $\Phi(d_2)=\mathbb{Q}(S_T>K)$ is the risk-neutral probability of exercise, so the second term is a **cash-or-nothing** contract: $K$ dollars paid at $T$ if and only if the call finishes **in the money** ($S_T>K$), and nothing otherwise. (A claim to one dollar at $T$ is a **zero-coupon bond**, worth $e^{-r\tau}$ today, which is why $K$ is multiplied by $e^{-r\tau}$.) The first term is a **share-or-nothing**: you receive one share if $S_T>K$, and nothing otherwise. $\Phi(d_1)$ is the same exercise probability after the mean shift $m\mapsto m+s^2$ that $(14)$ performed — equivalently, as Route II will show, the exercise probability when the unit of account is the stock itself.
 
 ![Two evaluations of the same bell curve](/blog/assets/2024/bsm/phi-anatomy.png)
 
-For the ATM numbers above, $d_1$ and $d_2$ sit $\sigma\sqrt{\tau}=0.20$ apart. That gap is the Itô correction, visible on the page.
+For the at-the-money numbers above (spot equals strike), $d_1$ and $d_2$ sit $\sigma\sqrt{\tau}=0.20$ apart. That gap is the Itô correction, visible on the page.
 
-**Put-call parity.** A European call minus a European put with the same strike and expiry is a forward, and a forward on a non-dividend stock is worth $S_t - K e^{-r\tau}$:
+**Put-call parity.** A European call minus a European put with the same strike and expiry is a **forward** — a contract that obliges you to buy the stock at $K$ at time $T$, with no choice. A forward on a non-dividend stock is worth $S_t - K e^{-r\tau}$:
 
 $$
 C - P = S_t - K e^{-r\tau}.
@@ -376,7 +449,7 @@ $$
 P = K e^{-r\tau}\,\Phi(-d_2) - S_t\,\Phi(-d_1).
 $$
 
-For the ATM numbers, $P\approx 5.57$. The call is worth more than the put because the forward is in the money once $r>0$.
+For those same numbers, $P\approx 5.57$. The call is worth more than the put because the forward is already profitable once $r>0$.
 
 **Remark (standard-normal coordinates).** Writing $S_T = S_t\exp\bigl((r-\sigma^2/2)\tau + \sigma\sqrt{\tau}\,Z\bigr)$ with $Z\sim\mathcal{N}(0,1)$, the event $\{S_T>K\}$ becomes $\{Z>-d_2\}$, and the partial expectation $\mathbb{E}[S_T 1_{\{Z>-d_2\}}]$ is the same completed square as $(12)$–$(14)$, now in the variable $Z$. Same algebra, different name for the integration variable.
 
@@ -463,17 +536,17 @@ Same formula. The two $\Phi$ terms are now both probabilities, each belonging to
 # The PDE, briefly
 {: #the-pde-briefly}
 
-Black and Scholes did not start from $(6)$. They started from a portfolio $\Pi=-V+\Delta S$. Itô-expand $dV$, choose $\Delta=V_S$ so the $dW$ terms cancel (**delta-hedging**), and require the now-riskless $\Pi$ to earn $r$, or else there is an arbitrage against the money-market account. The result is the Black–Scholes PDE
+Black and Scholes did not start from $(6)$. They started from a portfolio $\Pi=-V+\Delta S$ (short one option, long $\Delta$ shares). Expand $dV$ with Itô's lemma, choose $\Delta=V_S$ so the $dW$ terms cancel — that choice is **delta-hedging**, and $V_S$ is the **delta** of the option — and require the now-riskless $\Pi$ to earn $r$, or else there is an arbitrage against the money-market account. The result is the Black–Scholes **partial differential equation** (PDE): an equation relating the partial derivatives of $V$ with respect to $t$ and $S$,
 
 $$
 V_t + rS V_S + \tfrac12\sigma^2 S^2 V_{SS} - rV = 0, \tag{17}
 $$
 
-with $V(S,T)=(S-K)^+$. The drift $\mu$ cancelled with the $dW$ terms. The coefficient $V_{SS}$ is the gamma; $\tfrac12\sigma^2 S^2 V_{SS}$ is Itô's correction, now sitting in a PDE.
+with $V(S,T)=(S-K)^+$. The drift $\mu$ cancelled with the $dW$ terms. The second derivative $V_{SS}$ is the **gamma**; $\tfrac12\sigma^2 S^2 V_{SS}$ is Itô's correction, now sitting in a PDE.
 
-Feynman–Kac is the dictionary between $(17)$ and $(6)$: a parabolic PDE with drift coefficient $rS$ and discount $r$ is solved by $e^{-r\tau}\mathbb{E}^{\mathbb{Q}}[h(S_T)\mid S_t]$ along the diffusion $(5)$. The hedging argument produces the PDE; Feynman–Kac translates it into the integral Route I already evaluated.
+The **Feynman–Kac theorem** is the dictionary between $(17)$ and $(6)$: a PDE of this shape, with drift coefficient $rS$ and discount $r$, is solved by $e^{-r\tau}\mathbb{E}^{\mathbb{Q}}[h(S_T)\mid S_t]$ along the stock $(5)$. The hedging argument produces the PDE; Feynman–Kac translates it into the integral Route I already evaluated.
 
-A further change of variables — $x=\ln(S/K)$, time-to-go rescaled by $\sigma^2/2$, an exponential prefactor to absorb discounting — turns $(17)$ into the heat equation $W_{\tilde\tau}=W_{xx}$. The fundamental solution is a Gaussian, and the antiderivative of a Gaussian is $\Phi$. The algebra is written out in Rouah §7 of the [hosted note](/blog/assets/2024/bsm/Black-Scholes-Formula-Rouah.pdf). The Gaussian in $(1)$ is both the transition density of geometric Brownian motion and the heat kernel: the same assumption, two costumes.
+A further change of variables — $x=\ln(S/K)$, time-to-go rescaled by $\sigma^2/2$, an exponential prefactor to absorb discounting — turns $(17)$ into the **heat equation** $W_{\tilde\tau}=W_{xx}$, the same PDE that describes temperature spreading along a rod. The solution that starts as a spike at the origin and then smears out is a Gaussian (the **heat kernel**). Integrate a Gaussian and you get $\Phi$. The algebra is written out in Rouah §7 of the [hosted note](/blog/assets/2024/bsm/Black-Scholes-Formula-Rouah.pdf). The bell curve in $(1)$ is both the law of where geometric Brownian motion ends up and the shape of spreading heat: the same assumption, two costumes.
 
 ---
 
@@ -488,11 +561,11 @@ $$
 
 $r$ replaced by $r-q$ inside $d_1$ and $d_2$ as well. Index options live here ($q$ is the basket yield), FX options live here ($q$ is the foreign rate), and futures options live here ($q=r$: Black 1976).
 
-**The smile.** After 1987 the market stopped believing in a single $\sigma$. Implied volatility against strike is a smile, or in equities a smirk. Traders still quote in Black–Scholes implied vol. They do not believe the lognormal assumption that produced it.
+**The smile.** After 1987 the market stopped believing in a single $\sigma$. **Implied volatility** is the number $\sigma$ you must feed into $(1)$ to recover the price the market is actually quoting. Plot that number against strike and you get a smile, or in equities a smirk. Traders still quote in Black–Scholes implied vol. They do not believe the lognormal assumption that produced it.
 
-**Jumps, stochastic vol, Americans.** Merton added Poisson jumps. Heston let $\sigma_t$ diffuse. Dupire showed that a surface of implied vols is equivalent to a local-vol diffusion that refits every vanilla. None of these has a two-$\Phi$ formula of the same shape. The American put is an optimal-stopping problem; a binomial tree is the honest computation.
+**Jumps, stochastic vol, Americans.** Merton added sudden jumps (a Poisson process: events that arrive at random times). Heston let $\sigma_t$ itself wander. Dupire showed that a whole surface of implied vols is equivalent to a local-vol model — $\sigma$ depends on $S$ and $t$ — that refits every ordinary call and put. None of these has a two-$\Phi$ formula of the same shape. The American put has no closed form of this kind; a binomial tree (the coin-flip walk, used as a calculator) is the honest computation.
 
-What has been proved is a theorem about a complete market driven by one Wiener process: the unique no-arbitrage price of $(S_T-K)^+$ is $(1)$. Using that theorem as a price, as a quoting convention, or as the first term of a perturbation is a separate decision.
+What has been proved is a theorem about a complete market driven by one Brownian motion: the unique no-arbitrage price of $(S_T-K)^+$ is $(1)$. Using that theorem as a price, as a quoting convention, or as the first term of an approximation is a separate decision.
 
 ---
 
