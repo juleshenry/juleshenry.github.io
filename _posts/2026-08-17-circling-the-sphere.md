@@ -97,6 +97,31 @@ The still below is a genuine eversion (Morin's halfway model). We will not prete
     padding: 0 0.15em;
     user-select: none;
   }
+  .cs-toc {
+    margin: 1.6em 0 2em;
+    padding: 1em 1.2em;
+    background: rgba(18, 18, 18, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+  }
+  .cs-toc > strong {
+    display: block;
+    color: #e8e8e8;
+    margin-bottom: 0.55em;
+    font-weight: 600;
+  }
+  .cs-toc ol {
+    margin: 0;
+    padding-left: 1.3em;
+    color: #c4c4c4;
+  }
+  .cs-toc li {
+    margin: 0.28em 0;
+    line-height: 1.45;
+  }
+  .cs-toc a {
+    color: #FFA7CC;
+  }
 </style>
 
 <script>
@@ -208,8 +233,26 @@ The still below is a genuine eversion (Morin's halfway model). We will not prete
 
 ---
 
-# the two-sphere, locally flat
 
+<div class="cs-toc">
+<strong>Contents</strong>
+<ol>
+  <li><a href="#the-two-sphere-locally-flat">the two-sphere, locally flat</a></li>
+  <li><a href="#immersions-and-the-matrix-that-must-not-drop-rank">immersions, and the matrix that must not drop rank</a></li>
+  <li><a href="#the-homotopy-that-is-not-regular">the homotopy that is not regular</a></li>
+  <li><a href="#circling-in-one-dimension-less">circling in one dimension less</a></li>
+  <li><a href="#the-gauss-map-is-not-the-obstruction">the gauss map is not the obstruction</a></li>
+  <li><a href="#why-the-obstruction-vanishes">why the obstruction vanishes</a></li>
+  <li><a href="#slack-that-does-not-crease">slack that does not crease</a></li>
+  <li><a href="#a-formula-that-actually-everts-a-band">a formula that actually everts a band</a></li>
+  <li><a href="#an-integral-that-must-cross-zero-and-one-that-must-not">an integral that must cross zero, and one that must not</a></li>
+  <li><a href="#what-the-model-got-wrong">what the model got wrong</a></li>
+  <li><a href="#the-arc">the arc</a></li>
+</ol>
+</div>
+
+# the two-sphere, locally flat
+{: #the-two-sphere-locally-flat}
 <div class="cs-q">
 <strong>Student.</strong> What is a manifold? What is a differentiable manifold? Give an example. Then give differentiable coordinates on $S^2$ and take a derivative at $(1,0,0)$.
 </div>
@@ -318,7 +361,7 @@ Then $\gamma'(t)=(-\sin t,\;\cos t,\;0)\neq\mathbf{0}$. At $t=0$ this is $(0,1,0
 ---
 
 # immersions, and the matrix that must not drop rank
-
+{: #immersions-and-the-matrix-that-must-not-drop-rank}
 <div class="cs-q">
 <strong>Student.</strong> What is an immersion? What is a Jacobian? What happens when the Jacobian determinant is zero, or switches sign?
 </div>
@@ -342,7 +385,7 @@ Self-intersection is allowed. A figure-eight $\gamma(t)=(\sin 2t,\,\sin t)$ is a
 ---
 
 # the homotopy that is not regular
-
+{: #the-homotopy-that-is-not-regular}
 <div class="cs-q">
 <strong>Student.</strong> Any two $C^2$ immersions of $S^2$ in $E^3$ are regularly homotopic. Here is a proof: $H(x,t)=(1-t)f&#95;{0}(x)+t f&#95;{1}(x)$. Also, what is $S^2\times[0,1]$?
 </div>
@@ -446,7 +489,7 @@ An **eversion** is a regular homotopy from the inclusion $\iota(p)=p$ to the ant
 ---
 
 # circling in one dimension less
-
+{: #circling-in-one-dimension-less}
 <div class="cs-q">
 <strong>Student.</strong> Why can't we just push it through? And if a sphere can turn inside out, can a circle?
 </div>
@@ -591,7 +634,7 @@ The surprise is dimensional. The turning number of a curve is an element of $\pi
 ---
 
 # the gauss map is not the obstruction
-
+{: #the-gauss-map-is-not-the-obstruction}
 <div class="cs-q">
 <strong>Student.</strong> So what invariant do we actually compute? The model mentioned Jacobians staying positive, and also something called the hairy ball theorem of Smale.
 </div>
@@ -687,7 +730,7 @@ Normalizing, $V&#95;{3,2}\simeq SO(3)$: a positively oriented orthonormal 2-fram
 ---
 
 # why the obstruction vanishes
-
+{: #why-the-obstruction-vanishes}
 <div class="cs-q">
 <strong>Student.</strong> Prove the existence. Use Smale's 1958 paper. I can understand it.
 </div>
@@ -730,7 +773,7 @@ A **fiber bundle** $E\to B$ with fibre $F$ is a space that is locally $B\times F
 ---
 
 # slack that does not crease
-
+{: #slack-that-does-not-crease}
 <div class="cs-q">
 <strong>Student.</strong> Explain Thurston's magic formula, the one that proves eversion.
 </div>
@@ -816,7 +859,7 @@ CS.mount({
 ---
 
 # a formula that actually everts a band
-
+{: #a-formula-that-actually-everts-a-band}
 Existence is not a picture. Morin gave the first explicit halfway model --- a four-lobed immersion with a single quadruple point --- and later Apéry wrote algebraic formulae. A family you can type into a shader is due to Adam and Witold Bednorz, *Analytic sphere eversion using ruled surfaces*, arXiv:1711.10466. They evert a cylinder (the sphere minus two polar caps) by a ruled surface, then close the caps by a damped inversion. We draw only the cylinder, so that every vertex is the displayed equation.
 
 $$
@@ -925,7 +968,7 @@ To finish the sphere one maps $h=\omega\sin\theta/\cos^n\theta$ and applies Bedn
 ---
 
 # an integral that must cross zero, and one that must not
-
+{: #an-integral-that-must-cross-zero-and-one-that-must-not}
 <div class="cs-q">
 <strong>Student.</strong> How do I know I am halfway?
 </div>
@@ -1033,7 +1076,7 @@ Then $S(s)=2\pi\int&#95;{0}^\pi(\mathbf{n}&#95;{0}\cdot\mathbf{n}&#95;{s})\sin\t
 ---
 
 # what the model got wrong
-
+{: #what-the-model-got-wrong}
 The May transcript is still worth reading. It is a record of the questions one actually asks. Here is the answer key.
 
 <table class="cs-err">
@@ -1056,7 +1099,7 @@ The May transcript is still worth reading. It is a record of the questions one a
 ---
 
 # the arc
-
+{: #the-arc}
 Calculus gives the language: charts, $J&#95;{f}$, $\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}\neq\mathbf{0}$. Function spaces give the question: is $\operatorname{Imm}(S^2,\mathbb{R}^3)$ path-connected? Circles in the plane say no, by $\pi&#95;{1}(S^1)=\mathbb{Z}$. One dimension up, the same instinct produces $\pi&#95;{2}(V&#95;{3,2})$, and that group is zero. Smale's theorem is that computation plus a fibration argument. Morin, Thurston, and Bednorz are what you do if you want to *see* a path.
 
 The first post asked. The second post answered, and then drew the forbidden crease. This one circles the sphere until the picture and the equation are the same object.
