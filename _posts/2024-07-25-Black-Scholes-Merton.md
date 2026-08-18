@@ -75,23 +75,61 @@ $$
 C \approx 100\cdot 0.6368 - 100\cdot e^{-0.05}\cdot 0.5596 \approx 10.45.
 $$
 
-| Symbol | Meaning |
-|---|---|
-| $S_t$ | spot: the stock price right now |
-| $K$ | strike: the price the call lets you buy at |
-| $r$ | risk-free interest rate, compounded continuously, held constant |
-| $\tau = T-t$ | time remaining until expiry, in years |
-| $\sigma$ | volatility: standard deviation of the log return, per $\sqrt{\text{year}}$ |
-| $\Phi$ | standard normal cdf, $P(Z\le x)$ |
+<table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Meaning</th>
+      <th>In the example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(S\)</td>
+      <td>spot — the stock price right now</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>\(K\)</td>
+      <td>strike — the price the call lets you buy at</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>\(r\)</td>
+      <td>risk-free interest rate, compounded continuously, held constant</td>
+      <td>0.05</td>
+    </tr>
+    <tr>
+      <td>\(\tau = T-t\)</td>
+      <td>time remaining until expiry, in years</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>\(\sigma\)</td>
+      <td>volatility — standard deviation of the log return, per square-root year</td>
+      <td>0.20</td>
+    </tr>
+    <tr>
+      <td>\(\Phi\)</td>
+      <td>standard normal cdf, \(P(Z\le x)\)</td>
+      <td>\(\Phi(0.35)\approx 0.6368\), \(\Phi(0.15)\approx 0.5596\)</td>
+    </tr>
+  </tbody>
+</table>
+
+The same arithmetic in Python:
 
 ```python
 from math import log, exp, sqrt, erf
-Phi = lambda x: 0.5 * (1 + erf(x / sqrt(2)))
+
+def Phi(x):
+    return 0.5 * (1 + erf(x / sqrt(2)))
+
 S, K, r, sig, tau = 100, 100, 0.05, 0.20, 1.0
-d1 = (log(S/K) + (r + 0.5*sig*sig)*tau) / (sig*sqrt(tau))
-d2 = d1 - sig*sqrt(tau)
-print(S*Phi(d1) - K*exp(-r*tau)*Phi(d2))
-# 10.450583572185565
+d1 = (log(S / K) + (r + 0.5 * sig**2) * tau) / (sig * sqrt(tau))
+d2 = d1 - sig * sqrt(tau)
+C = S * Phi(d1) - K * exp(-r * tau) * Phi(d2)
+print(C)  # 10.450583572185565
 ```
 
 ---
@@ -526,10 +564,33 @@ $$
 
 Same formula. The two $\Phi$ terms are now both probabilities, each belonging to the numeraire that multiplies it.
 
-| Numeraire | Measure | Martingale | $\mathbb{Q}^{\,\cdot}(S_T>K)$ | Role in $(1)$ |
-|---|---|---|---|---|
-| bond $B_t=e^{rt}$ | $\mathbb{Q}$ | $S_t/B_t$ | $\Phi(d_2)$ | multiplies the cash $Ke^{-r\tau}$ |
-| stock $S_t$ | $\mathbb{Q}^{S}$ | $B_t/S_t$ | $\Phi(d_1)$ | multiplies the share $S_t$ |
+<table>
+  <thead>
+    <tr>
+      <th>Numeraire</th>
+      <th>Measure</th>
+      <th>Martingale</th>
+      <th>\(\mathbb{Q}^{\,\cdot}(S_T&gt;K)\)</th>
+      <th>Role in (1)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bond \(B_{t}=e^{rt}\)</td>
+      <td>\(\mathbb{Q}\)</td>
+      <td>\(S_{t}/B_{t}\)</td>
+      <td>\(\Phi(d_{2})\)</td>
+      <td>multiplies the cash \(Ke^{-r\tau}\)</td>
+    </tr>
+    <tr>
+      <td>stock \(S_{t}\)</td>
+      <td>\(\mathbb{Q}^{S}\)</td>
+      <td>\(B_{t}/S_{t}\)</td>
+      <td>\(\Phi(d_{1})\)</td>
+      <td>multiplies the share \(S_{t}\)</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
