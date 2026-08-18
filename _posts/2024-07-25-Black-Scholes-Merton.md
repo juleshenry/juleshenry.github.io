@@ -6,31 +6,21 @@ categories: wealth
 mathjax: true
 ---
 
-The Black–Scholes–Merton formula prices a European call on a stock that pays no dividend. Fischer Black and Myron Scholes published it in 1973; Robert Merton derived the same price from a more general theory the same year. The inputs are the current stock price $S_t$ (the **spot**), the strike $K$, the time left until expiry $\tau = T-t$, a constant interest rate $r$, and a constant **volatility** $\sigma$ (how wildly the stock's *log* return wiggles, measured as a standard deviation per square-root year). The output is
+Is it optional to know what an option is? No.
 
-$$
-C(S_t,K,T) = S_t\,\Phi(d_1) - K e^{-r\tau}\,\Phi(d_2), \tag{1}
-$$
+This note prices a European call. We will not write the famous formula until we have the tools to read it. First: what the contract *is*. Then a detour to Japan, where Kiyosi Itô repaired the chain rule for paths that jitter like a stock. Then, and only then, the price.
 
-$$
-d_1 = \frac{\ln(S_t/K)+\bigl(r+\tfrac12\sigma^2\bigr)\tau}{\sigma\sqrt{\tau}}, \qquad d_2 = d_1 - \sigma\sqrt{\tau},
-$$
+If you have Calc 1–2, a first course in probability (bell curves, means, the substitution $y=\ln x$), and have never seen a derivative in the Wall Street sense, you are the intended reader. Every term is defined when it appears.
 
-where $\Phi$ is the **cumulative distribution function** (cdf) of the standard normal: the area under the bell curve to the left of $x$, which is also the probability that a standard-normal random variable $Z$ satisfies $Z\le x$,
-
-$$
-\Phi(x) = P(Z\le x) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x} e^{-u^2/2}\,du.
-$$
-
-This note derives $(1)$ by showing that the future stock price $S_T$ is **lognormal** (its logarithm is a bell curve) and then integrating the call payoff against that law. The noise in the stock is a **Brownian motion**, defined and graphed below. A second bookkeeping — changing the unit of account — gives the same formula. A partial differential equation at the end is the same argument in another costume.
-
-- [What is being priced](#what-is-being-priced)
-- [A numerical check](#a-numerical-check)
+- [What is an option?](#what-is-an-option)
+- [How do we price one of these things?](#how-do-we-price-one-of-these-things)
+- [A detour to Japan](#a-detour-to-japan)
 - [Brownian motion](#brownian-motion)
 - [The stock: geometric Brownian motion](#the-stock-geometric-brownian-motion)
-- [Assumptions](#assumptions)
 - [Martingales](#martingales)
 - [Itô's lemma](#itos-lemma)
+- [Assumptions](#assumptions)
+- [The Black–Scholes–Merton formula](#the-blackscholesmerton-formula)
 - [Risk-neutral pricing](#risk-neutral-pricing)
 - [Toolkit: the lognormal](#toolkit-the-lognormal)
 - [Route I: two lognormal integrals](#route-i-two-lognormal-integrals)
@@ -43,96 +33,88 @@ The change-of-numeraire calculation follows Fabrice Douglas Rouah, *Four Derivat
 
 ---
 
-# What is being priced
-{: #what-is-being-priced}
+# What is an option?
+{: #what-is-an-option}
 
-A **European call** is the right, and not the obligation, to buy one share at a fixed strike $K$ at a single expiry $T$. At expiry the holder exercises if and only if $S_T > K$, so the payoff is
+In ordinary English, optional means you do not have to. In finance that is almost the definition.
 
-$$
-(S_T - K)^+ = \max(S_T - K,\, 0).
-$$
+An **option** is a contract that gives its owner the *right*, and not the obligation, to buy or sell something at a pre-agreed price. The something is the **underlying** — a share of stock, a bushel of wheat. The pre-agreed price is the **strike**, written $K$. The deadline is **expiry**, written $T$. For that right you pay money up front, the **premium**. The rest of this note is the question: what must the premium be?
 
-A **European put** is the right to sell at $K$, payoff $(K - S_T)^+$. An **American** contract may be exercised at any time up to $T$. That extra right is a genuine complication: at every moment the holder must decide whether to exercise now or wait, and there is no two-$\Phi$ formula for a general American put. One mercy, due to Merton: a call on a non-dividend stock is never exercised early, so the American call collapses to the European one. We price the European call. The European put then follows from put-call parity, not from a second integral.
+You already know the everyday version. A rain check that lets you buy a TV at today's price next month is a call option on the TV. If the store drops the price, you ignore the rain check and buy cheaper. If the store raises the price, you use the rain check. You will only exercise when it helps you. That one-sidedness is the whole point.
 
-![A European call: the kink at expiry, the smooth price today](/blog/assets/2024/bsm/call-payoff.png)
+## Calls and puts: bets in favor and bets against
 
-The brown line is the expiry payoff. The blue curve is the time-$t$ value of that lottery, for one year of remaining life and the parameters of the next section. The shaded gap is **time value**: extra worth from still having time left for the stock to wander. Equation $(1)$ is a machine that draws the blue curve.
+Options come in two flavors.
 
----
+A **call** is the right to *buy* the underlying at the strike. It is a bet the underlying will finish *above* $K$. A **put** is the right to *sell* the underlying at the strike. It is a bet the underlying will finish *below* $K$.
 
-# A numerical check
-{: #a-numerical-check}
+Walk through a call with numbers, before any symbols. A stock trades at 100 dollars today. You buy a call with strike $K = 100$, expiring in one year. You have paid some premium $C$ — we do not yet know what $C$ should be. One year later the stock is at $S_T$, and you look at the contract:
 
-Spot $S = 100$, strike $K = 100$, one year left, $r = 5\%$, $\sigma = 20\%$. Then
+- If $S_T = 130$, you exercise: buy at 100 a share that is worth 130, and pocket 30. Your net profit is $30 - C$.
+- If $S_T = 80$, exercising would mean paying 100 for something worth 80. You are not required to be that foolish. You throw the contract away. Your net profit is $-C$ (you already paid the premium).
+- If $S_T = 100$, exercising gains you nothing. You are indifferent. Payoff of the contract itself is 0.
 
-$$
-d_1 = \frac{0 + (0.05 + 0.02)\cdot 1}{0.20} = 0.35, \qquad d_2 = 0.15,
-$$
-
-$\Phi(0.35) \approx 0.6368$, $\Phi(0.15) \approx 0.5596$, and
+The **payoff** of the contract — what it hands you at expiry, ignoring the premium you already paid — is therefore
 
 $$
-C \approx 100\cdot 0.6368 - 100\cdot e^{-0.05}\cdot 0.5596 \approx 10.45.
+(S_T - K)^+ \;=\; \max(S_T - K,\, 0).
 $$
+
+The little plus means “take this if it is positive, otherwise take zero.” A put’s payoff is $(K - S_T)^+$.
 
 <table>
   <thead>
     <tr>
-      <th>Symbol</th>
-      <th>Meaning</th>
-      <th>In the example</th>
+      <th>Stock at expiry \(S_T\)</th>
+      <th>Call payoff \(\max(S_T-100,\,0)\)</th>
+      <th>Put payoff \(\max(100-S_T,\,0)\)</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>\(S\)</td>
-      <td>spot — the stock price right now</td>
-      <td>100</td>
-    </tr>
-    <tr>
-      <td>\(K\)</td>
-      <td>strike — the price the call lets you buy at</td>
-      <td>100</td>
-    </tr>
-    <tr>
-      <td>\(r\)</td>
-      <td>risk-free interest rate, compounded continuously, held constant</td>
-      <td>0.05</td>
-    </tr>
-    <tr>
-      <td>\(\tau = T-t\)</td>
-      <td>time remaining until expiry, in years</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>\(\sigma\)</td>
-      <td>volatility — standard deviation of the log return, per square-root year</td>
-      <td>0.20</td>
-    </tr>
-    <tr>
-      <td>\(\Phi\)</td>
-      <td>standard normal cdf, \(P(Z\le x)\)</td>
-      <td>\(\Phi(0.35)\approx 0.6368\), \(\Phi(0.15)\approx 0.5596\)</td>
-    </tr>
+    <tr><td>70</td><td>0</td><td>30</td></tr>
+    <tr><td>100</td><td>0</td><td>0</td></tr>
+    <tr><td>120</td><td>20</td><td>0</td></tr>
+    <tr><td>150</td><td>50</td><td>0</td></tr>
   </tbody>
 </table>
 
-The same arithmetic in Python:
+When $S_T > K$ people say the call is **in the money**. When $S_T < K$ it is **out of the money**. When $S_T = K$ it is **at the money**. Those are just nicknames for the three rows.
 
-```python
-from math import log, exp, sqrt, erf
+## Europeans and Americans
 
-def Phi(x):
-    return 0.5 * (1 + erf(x / sqrt(2)))
+Two nationalities, and this is the only distinction that matters here.
 
-S, K, r, sig, tau = 100, 100, 0.05, 0.20, 1.0
-d1 = (log(S / K) + (r + 0.5 * sig**2) * tau) / (sig * sqrt(tau))
-d2 = d1 - sig * sqrt(tau)
-C = S * Phi(d1) - K * exp(-r * tau) * Phi(d2)
-print(C)  # 10.450583572185565
-```
+- A **European** option may be exercised only at the single instant $T$. You wait until expiry, then decide.
+- An **American** option may be exercised on any day up to and including $T$.
+
+The American extra right sounds valuable, and for a *put* it is. For a *call* on a stock that pays no dividend, it is a theorem of Merton’s that you should never exercise early — so the American call and the European call have the same price. We price the European call. The European put will fall out of an accounting identity later, not a second integral.
 
 ---
+
+# How do we price one of these things?
+{: #how-do-we-price-one-of-these-things}
+
+At expiry the payoff is arithmetic: count on your fingers. The hard question is *today’s* premium. What should you pay *now* for a lottery that, one year from now, pays $\max(S_T - 100,\, 0)$?
+
+The honest answer depends on how $S$ is going to wander between now and $T$. If the stock is almost surely going to sit at 100, the lottery is almost surely worth nothing and you should pay almost nothing. If the stock is liable to be at 200 or at 20, the lottery is juicy — you capture the 200 and walk away from the 20 — and you should pay more.
+
+So we need a model of the wander. Stock prices are not smooth curves. They jitter. The chain rule you learned in Calculus 1 assumes a tangent line; a stock path does not offer one. In 1942 the Japanese mathematician Kiyosi Itô found the corrected chain rule for this kind of path. We cannot write down a price until we have that correction. Detour.
+
+---
+
+# A detour to Japan
+{: #a-detour-to-japan}
+
+Itô’s observation, in one sentence: if the input to a function is a Brownian scribble, the $\tfrac12 f''(x)\,(dx)^2$ term in Taylor’s formula is the *same size* as the $f'(x)\,dx$ term, and you cannot throw it away. That leftover is the entire difference between a world you can hedge and a world you cannot.
+
+We need four things from his world, in order.
+
+1. **Brownian motion** $W_t$ — a stand-in for the market’s noise. (Also called a **Wiener process**. Same object, two names.)
+2. **Geometric Brownian motion** — the stock, built from $W_t$ so the price stays positive.
+3. A **martingale** — a fair game. This is how we will mean “no free lunch.”
+4. **Itô’s lemma** — the corrected chain rule.
+
+Then we can write the formula.
 
 # Brownian motion
 {: #brownian-motion}
@@ -174,7 +156,13 @@ $$
 f(z) = \frac{1}{s\sqrt{2\pi}}\exp\Bigl(-\frac12\Bigl(\frac{z-m}{s}\Bigr)^2\Bigr).
 $$
 
-The number $m$ is the mean, $s^2$ is the variance. The **standard normal** is the special case $\mathcal{N}(0,1)$. The function $\Phi$ at the top of this note is $P(Z\le x)$ for a standard normal $Z$.
+The number $m$ is the mean, $s^2$ is the variance. The **standard normal** is the special case $\mathcal{N}(0,1)$. Later we will need the **cumulative distribution function** (cdf) of this law: the area under the bell curve to the left of a point $x$, written
+
+$$
+\Phi(x) = P(Z\le x) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x} e^{-u^2/2}\,du, \qquad Z\sim\mathcal{N}(0,1).
+$$
+
+If that integral looks unfriendly, just remember: $\Phi(0)=1/2$ (half the bell is to the left of zero), $\Phi$ increases from $0$ to $1$, and $\Phi(-x)=1-\Phi(x)$. We will only ever *evaluate* $\Phi$, never compute the integral by hand.
 
 ![Standard Brownian motion: paths, the $\sqrt{t}$ envelope, and the law of $W_1$](/blog/assets/2024/bsm/brownian-motion.png)
 
@@ -231,7 +219,7 @@ Four assumptions do the mathematics. A fifth is the trading plumbing that lets t
 
 Plumbing, said once: you may sell a stock you do not own (**short selling**) and use the cash, securities may be held in any fractional amount, and there are no transaction costs. None of that enters an integral.
 
-The gap between this universe and listed options is the subject of Derman and Miller's *The Volatility Smile*. The market still *quotes* in the language of $(1)$.
+The gap between this universe and listed options is the subject of Derman and Miller's *The Volatility Smile*. The market still *quotes* in the language of the formula we are about to write.
 
 ---
 
@@ -259,6 +247,10 @@ Two stand-ins, for the rest of the note:
 
 # Itô's lemma
 {: #itos-lemma}
+
+You already know the chain rule. If $f$ is a smooth function of a smooth path $x(t)$, then $df = f'(x)\,dx$. Taylor's formula actually produces a second term, $\tfrac12 f''(x)\,(dx)^2$, which Calculus 1 throws away because $(dx)^2$ is negligible compared to $dx$.
+
+For Brownian motion that discard is illegal: $(dW_t)^2 = dt$, same size as the terms you kept. **Itô's lemma** is the chain rule with that leftover put back.
 
 Let $X_t$ satisfy $dX_t = a\,dt + b\,dW_t$, with $a$ and $b$ allowed to depend on $X$ and $t$. For a function $f(t,x)$ that is twice differentiable in $x$ and once in $t$ (the usual meaning of **smooth** here),
 
@@ -289,12 +281,113 @@ $$
 \mathbb{E}[\ln S_T\mid S_t] = \ln S_t + \bigl(\mu-\tfrac12\sigma^2\bigr)\tau, \qquad \mathrm{Var}(\ln S_T\mid S_t) = \sigma^2\tau.
 $$
 
-The $\tfrac12\sigma^2$ that left the log-drift returns in the mean of the lognormal: $\mathbb{E}[S_T\mid S_t] = S_t e^{\mu\tau}$. Nothing is lost. It is booked in a different ledger. Under $\mathbb{Q}$ the same calculation will hold with $\mu$ replaced by $r$, and that lognormal is the one Route I integrates against.
+The $\tfrac12\sigma^2$ that left the log-drift returns in the mean of the lognormal: $\mathbb{E}[S_T\mid S_t] = S_t e^{\mu\tau}$. Nothing is lost. It is booked in a different ledger. Under the fair-game probabilities of the next section the same calculation will hold with $\mu$ replaced by $r$, and that lognormal is the one we will integrate against.
+
+We now have the four tools. Time to write the price.
+
+---
+
+# The Black–Scholes–Merton formula
+{: #the-blackscholesmerton-formula}
+
+Fischer Black and Myron Scholes published the following in 1973; Robert Merton derived the same price from a more general theory the same year. The **spot** $S_t$ is the stock price right now. The **volatility** $\sigma$ is how wildly the *logarithm* of the stock wiggles, measured as a standard deviation per square-root year. The **time remaining** is $\tau = T-t$. The risk-free interest rate $r$ is constant. Then the European call is worth
+
+$$
+C(S_t,K,T) = S_t\,\Phi(d_1) - K e^{-r\tau}\,\Phi(d_2), \tag{1}
+$$
+
+$$
+d_1 = \frac{\ln(S_t/K)+\bigl(r+\tfrac12\sigma^2\bigr)\tau}{\sigma\sqrt{\tau}}, \qquad d_2 = d_1 - \sigma\sqrt{\tau}.
+$$
+
+In English, before we derive it: the call is a package of $\Phi(d_1)$ shares, minus a package of $K$ dollars delivered at expiry with probability $\Phi(d_2)$, brought back to today by the discount $e^{-r\tau}$. The two numbers $d_1$ and $d_2$ are just places on the bell curve. We will see exactly which places.
+
+![A European call: the kink at expiry, the smooth price today](/blog/assets/2024/bsm/call-payoff.png)
+
+The brown line is the expiry payoff you already understand. The blue curve is $(1)$, drawn as a function of today's spot, with one year left, $r=5\%$, $\sigma=20\%$. The shaded gap is **time value**: extra worth from still having time left for the stock to wander. The rest of the note is why the blue curve is that shape.
+
+## A numerical check
+{: #a-numerical-check}
+
+Take the call we walked through by hand: spot $S = 100$, strike $K = 100$, one year left, $r = 5\%$, $\sigma = 20\%$. Then
+
+$$
+d_1 = \frac{\ln(1) + (0.05 + 0.02)\cdot 1}{0.20} = 0.35, \qquad d_2 = 0.15,
+$$
+
+$\Phi(0.35) \approx 0.6368$, $\Phi(0.15) \approx 0.5596$, and
+
+$$
+C \approx 100\cdot 0.6368 - 100\cdot e^{-0.05}\cdot 0.5596 \approx 10.45.
+$$
+
+So the rain check on a 100-dollar stock, struck at 100, one year out, is worth about ten dollars and forty-five cents. That is the number the algebra below is trying to explain.
+
+<table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Meaning</th>
+      <th>In the example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(S\)</td>
+      <td>spot — the stock price right now</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>\(K\)</td>
+      <td>strike — the price the call lets you buy at</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>\(r\)</td>
+      <td>risk-free interest rate, compounded continuously, held constant</td>
+      <td>0.05</td>
+    </tr>
+    <tr>
+      <td>\(\tau = T-t\)</td>
+      <td>time remaining until expiry, in years</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>\(\sigma\)</td>
+      <td>volatility — standard deviation of the log return, per square-root year</td>
+      <td>0.20</td>
+    </tr>
+    <tr>
+      <td>\(\Phi\)</td>
+      <td>standard normal cdf, \(P(Z\le x)\), defined above</td>
+      <td>\(\Phi(0.35)\approx 0.6368\), \(\Phi(0.15)\approx 0.5596\)</td>
+    </tr>
+  </tbody>
+</table>
+
+The same arithmetic in Python:
+
+```python
+from math import log, exp, sqrt, erf
+
+def Phi(x):
+    return 0.5 * (1 + erf(x / sqrt(2)))
+
+S, K, r, sig, tau = 100, 100, 0.05, 0.20, 1.0
+d1 = (log(S / K) + (r + 0.5 * sig**2) * tau) / (sig * sqrt(tau))
+d2 = d1 - sig * sqrt(tau)
+C = S * Phi(d1) - K * exp(-r * tau) * Phi(d2)
+print(C)  # 10.450583572185565
+```
 
 ---
 
 # Risk-neutral pricing
 {: #risk-neutral-pricing}
+
+Equation $(1)$ does not contain $\mu$, the stock's expected return. That is the first surprise, and it is the reason a market can exist: two people who disagree about whether the stock will go up can still agree on the call price, provided they agree on $\sigma$.
+
+The mechanism is a change of probabilities. We already named the fair-game measure $\mathbb{Q}$ in the martingales section. Here is how you get there from the real world.
 
 **Girsanov's theorem** is the fact that you may add a drift to a Brownian motion and still have a Brownian motion, provided you change which paths you treat as likely. The tilt we want is the **market price of risk** $\theta = (\mu-r)/\sigma$: excess return on the stock per unit of volatility. Set
 
@@ -302,7 +395,7 @@ $$
 W_t^{\mathbb{Q}} = W_t + \theta t.
 $$
 
-Then $W^{\mathbb{Q}}$ is Brownian motion under the risk-neutral measure $\mathbb{Q}$ (the notation $\mathbb{Q}\sim\mathbb{P}$ means the two measures are equivalent, as in the previous section). Substitute $dW = dW^{\mathbb{Q}} - \theta\,dt$ into $(2)$:
+Then $W^{\mathbb{Q}}$ is Brownian motion under the risk-neutral measure $\mathbb{Q}$ (the notation $\mathbb{Q}\sim\mathbb{P}$ means the two measures are equivalent: they agree on which events are impossible). Substitute $dW = dW^{\mathbb{Q}} - \theta\,dt$ into $(2)$:
 
 \begin{align*}
 dS_t
