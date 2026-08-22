@@ -48,19 +48,83 @@ Options come in two flavors.
 
 A **call** is the right to *buy* the underlying at the strike. It is a bet the underlying will finish *above* $K$. A **put** is the right to *sell* the underlying at the strike. It is a bet the underlying will finish *below* $K$.
 
-Walk through a call with numbers, before any symbols. A stock trades at 100 dollars today. You buy a call with strike $K = 100$, expiring in one year. You have paid some premium $C$ — we do not yet know what $C$ should be. One year later the stock is at $S_T$, and you look at the contract:
+Every contract has two sides. The **buyer** (the **holder**, **long** the option) pays the premium today and owns the right. The **seller** (the **writer**, **short** the option) *captures* that premium today and takes on the matching **obligation**. Whatever the buyer can choose to do, the writer can be forced to do. The buyer’s profit is the writer’s loss, dollar for dollar. An option is a zero-sum bet between those two people.
 
-- If $S_T = 130$, you exercise: buy at 100 a share that is worth 130, and pocket 30. Your net profit is $30 - C$.
-- If $S_T = 80$, exercising would mean paying 100 for something worth 80. You are not required to be that foolish. You throw the contract away. Your net profit is $-C$ (you already paid the premium).
-- If $S_T = 100$, exercising gains you nothing. You are indifferent. Payoff of the contract itself is 0.
+To see the cash actually move, fix a working premium of 10 dollars. We do not yet know whether 10 is the *right* price — that is the rest of the note — but we need a number to subtract. A stock trades at 100 dollars today. Strike \(K = 100\), expiry in one year.
 
-The **payoff** of the contract — what it hands you at expiry, ignoring the premium you already paid — is therefore
+### The call buyer: right to buy at 100
+
+You pay 10 dollars today. One year later the stock is at \(S_T\), and you look at the ticket.
+
+- If \(S_T = 130\), you **exercise**. The writer must sell you the share at 100. You now hold something worth 130 that you paid 100 for, so the contract itself paid 30. Subtract the 10 you already spent: **net profit \(+20\)**. Same thing in two steps if you do not want to keep the share: buy at 100 via the call, immediately sell in the open market at 130.
+- If \(S_T = 80\), exercising would mean paying 100 for a share worth 80. You are not required to be that foolish. You let the ticket expire. The 10 is gone. **Net profit \(-10\)**.
+- If \(S_T = 100\), exercising gains you nothing. You walk away. **Net profit \(-10\)**.
+
+The buyer of a call has **unlimited upside** (the stock can in principle go to the moon) and **limited downside** (the worst case is losing the premium). That is why people buy calls.
+
+### The call writer: capturing the premium
+
+Someone had to take the other side. That person received your 10 dollars today. In exchange they promised: “if you choose to buy at 100, I *must* sell to you at 100.”
+
+- If \(S_T = 80\) or \(S_T = 100\), the buyer walks away. You keep the 10. You do nothing. **Net profit \(+10\)**. This is the writer’s dream: collect premium, option expires worthless.
+- If \(S_T = 130\), the buyer knocks. You must sell a 130-dollar share for 100.
+  - If you already owned the share (**covered call**): you hand it over at 100 instead of selling it in the market at 130. You missed out on 30 of upside, but you had pocketed 10, so **net \(-20\)**.
+  - If you did not own it (**naked call**): you buy the share in the market at 130, sell it to the buyer at 100, and lose 30 on that round trip, again offset by the 10 you captured. **Net \(-20\)**.
+
+The writer of a call has **limited upside** (the premium is the most they can make) and **unlimited downside** (the stock can in principle go to the moon, and they still have to sell at 100). That is why writing naked calls is a dangerous way to “collect premium,” and why a covered call is the version a junior should picture first: you already own the stock, you are willing to let it get called away, and the premium is extra income if it does not.
+
+Break-even for both sides of this call is \(S_T = 110\): the stock has to rally 10 just to recoup the 10 you paid (or, for the writer, that is where the obligation starts to eat the premium).
+
+<table>
+  <thead>
+    <tr>
+      <th>\(S_T\)</th>
+      <th>Call buyer (paid 10)</th>
+      <th>Call writer (captured 10)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>70</td><td>expires, −10</td><td>keeps premium, +10</td></tr>
+    <tr><td>100</td><td>expires, −10</td><td>keeps premium, +10</td></tr>
+    <tr><td>110</td><td>exercise, 10 − 10 = 0</td><td>obligation, 10 − 10 = 0</td></tr>
+    <tr><td>130</td><td>buy at 100, sell at 130: +20</td><td>must sell at 100 a share worth 130: −20</td></tr>
+    <tr><td>150</td><td>+40</td><td>−40</td></tr>
+  </tbody>
+</table>
+
+Each row sums to zero. That is the bet.
+
+### The put buyer: right to sell at 100
+
+A put is the other flavor: you have paid a premium (call it 8 dollars for this paragraph) for the right to *sell* the share at 100, even if the market has collapsed.
+
+The clean way to see the cash is: **buy the stock low in the open market, then sell it high to the put writer at the strike.**
+
+- If \(S_T = 70\), the share is cheap. You buy it in the market for 70, then exercise the put: the writer is forced to buy it from you at 100. You have bought low and sold high, pocket 30, minus the 8 you paid for the ticket. **Net \(+22\)**.
+- If \(S_T = 130\), nobody will let you sell a 130-dollar share to them at 100. You throw the put away. **Net \(-8\)**.
+
+So a put is not a mystical “bet against.” It is a coupon that says: if this thing gets cheap, I may purchase it cheaply in the market and put it to you at the old high price.
+
+### The put writer: capturing that premium
+
+The put writer collected the 8 dollars and promised: “if you choose to sell to me at 100, I *must* buy.”
+
+- If \(S_T = 130\), the put expires. Writer keeps the 8. **Net \(+8\)**.
+- If \(S_T = 70\), the buyer puts the share to them. Writer pays 100 for a share worth 70, loses 30, offset by the 8. **Net \(-22\)**.
+
+The put writer’s upside is the premium; their downside is that the stock can go to zero, in which case they pay 100 for something worthless.
+
+### Payoff versus profit
+
+Two different words, please keep them apart.
+
+The **payoff** is what the contract hands you at expiry, *before* subtracting the premium. For the call buyer that is \(\max(S_T-K,\,0)\); for the put buyer, \(\max(K-S_T,\,0)\). The little plus means “take this if it is positive, otherwise take zero.”
+
+The **profit** is payoff minus premium for the buyer, and premium minus payoff for the writer.
 
 $$
 (S_T - K)^+ \;=\; \max(S_T - K,\, 0).
 $$
-
-The little plus means “take this if it is positive, otherwise take zero.” A put’s payoff is $(K - S_T)^+$.
 
 <table>
   <thead>
@@ -78,7 +142,7 @@ The little plus means “take this if it is positive, otherwise take zero.” A 
   </tbody>
 </table>
 
-When $S_T > K$ people say the call is **in the money**. When $S_T < K$ it is **out of the money**. When $S_T = K$ it is **at the money**. Those are just nicknames for the three rows.
+When \(S_T > K\) people say the call is **in the money** (the put is out). When \(S_T < K\) the call is **out of the money** (the put is in). When \(S_T = K\) both are **at the money**. Those are nicknames for the rows. The rest of this note prices the *call*; the put will fall out later from an accounting identity.
 
 ## Europeans and Americans
 
