@@ -55,7 +55,7 @@ Only the middle case feeds the later $S_5$ machine (a transposition plus a $5$-c
 
 ## A proof that does not hide the analysis
 
-The theorem is not a theorem of algebra in the modern sense. Any proof uses some continuity. Here is one that uses as little as possible: polynomials grow at infinity, $\lvert p\rvert$ attains a minimum, and that minimum cannot be positive.
+The theorem is not a theorem of algebra in the modern sense. Any proof uses some continuity. The argument below is geometric: identify $\mathbb{C}$ with the plane $\mathbb{R}^2$, view $\lvert p(z)\rvert$ as a height function over that plane, and find a closed disk on which the height is forced to dip to zero.
 
 Write $p(z) = a_n z^n + a_{n-1}z^{n-1} + \cdots + a_0$ with $a_n\neq 0$ and $n\ge 1$. For $\lvert z\rvert$ large, the leading term dominates:
 
@@ -63,7 +63,29 @@ $$
 \bigl\lvert p(z) - a_n z^n\bigr\rvert \le \bigl(\lvert a_{n-1}\rvert + \cdots + \lvert a_0\rvert\bigr)\,\lvert z\rvert^{n-1},
 $$
 
-so there is $R \gt 0$ such that $\lvert z\rvert \gt R$ implies $\lvert p(z)\rvert \ge \tfrac12 \lvert a_n\rvert\,\lvert z\rvert^n \gt \lvert p(0)\rvert$, say. On the compact disk $\lvert z\rvert\le R$, the continuous function $\lvert p\rvert$ attains a minimum at some $z_0$. The inequality just written forces $\lvert z_0\rvert \lt R$, so $z_0$ is interior. We claim $p(z_0)=0$.
+so there is $R \gt 0$ such that $\lvert z\rvert \ge R$ implies
+
+$$
+\lvert p(z)\rvert \ge \tfrac12 \lvert a_n\rvert\,\lvert z\rvert^n \gt \lvert p(0)\rvert.
+$$
+
+(The closed condition $\lvert z\rvert \ge R$, not just $\lvert z\rvert \gt R$, is the one we want: height already exceeds $\lvert p(0)\rvert$ on and beyond the circle of radius $R$.)
+
+**The compact disk.** Write
+
+$$
+\overline{D}_R := \{\, z\in\mathbb{C} : \lvert z\rvert \le R \,\}
+$$
+
+for the **closed disk** of radius $R$ centered at the origin — the filled circle, boundary included. As a subset of the plane $\mathbb{R}^2$ it is closed and bounded, hence **compact** by Heine–Borel. The modulus $\lvert p\rvert : \mathbb{C}\to[0,\infty)$ is continuous (a polynomial is continuous, and $\lvert\,\cdot\,\rvert$ is continuous). A continuous real-valued function on a compact set attains its minimum: there exists $z_0\in\overline{D}_R$ with $\lvert p(z_0)\rvert \le \lvert p(z)\rvert$ for every $z\in\overline{D}_R$.
+
+That minimum cannot live on the boundary. The origin $0$ lies in $\overline{D}_R$, so $\lvert p(z_0)\rvert \le \lvert p(0)\rvert$. But on the circle $\lvert z\rvert = R$ we already have $\lvert p(z)\rvert \gt \lvert p(0)\rvert$. Therefore $\lvert z_0\rvert \lt R$: $z_0$ is an **interior** point of the disk. We claim $p(z_0)=0$.
+
+The figure is this height function for the later quintic $p(z)=z^5-z-1$, with $R=1.6$. Five dark wells sit strictly inside the cyan circle; each well is a root. The real slice on the right is the same height restricted to $\overline{D}_R\cap\mathbb{R}=[-R,R]$.
+
+<p style="text-align:center;">
+  <img src="/blog/assets/2026/abel-ruffini/compact-disk.png" alt="Modulus of z^5-z-1 as a heatmap on the complex plane, with the compact disk of radius R outlined and all five roots interior" style="max-width:100%;">
+</p>
 
 Suppose not: $p(z_0)=a\neq 0$. Expand around $z_0$,
 
