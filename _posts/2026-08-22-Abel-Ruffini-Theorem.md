@@ -49,15 +49,15 @@ A real quintic always has at least one real root, by the intermediate-value theo
 
 ## A proof that does not hide the analysis
 
-The theorem is not a theorem of algebra in the modern sense. Any proof uses some continuity. Here is one that uses as little as possible: polynomials grow at infinity, $|p|$ attains a minimum, and that minimum cannot be positive.
+The theorem is not a theorem of algebra in the modern sense. Any proof uses some continuity. Here is one that uses as little as possible: polynomials grow at infinity, $\lvert p\rvert$ attains a minimum, and that minimum cannot be positive.
 
-Write $p(z) = a_n z^n + a_{n-1}z^{n-1} + \cdots + a_0$ with $a_n\neq 0$ and $n\ge 1$. For $|z|$ large, the leading term dominates:
+Write $p(z) = a_n z^n + a_{n-1}z^{n-1} + \cdots + a_0$ with $a_n\neq 0$ and $n\ge 1$. For $\lvert z\rvert$ large, the leading term dominates:
 
 $$
-\bigl|p(z) - a_n z^n\bigr| \le \bigl(|a_{n-1}| + \cdots + |a_0|\bigr)\,|z|^{n-1},
+\bigl\lvert p(z) - a_n z^n\bigr\rvert \le \bigl(\lvert a_{n-1}\rvert + \cdots + \lvert a_0\rvert\bigr)\,\lvert z\rvert^{n-1},
 $$
 
-so there is $R>0$ such that $|z|>R$ implies $|p(z)| \ge \tfrac12 |a_n|\,|z|^n > |p(0)|$, say. On the compact disk $|z|\le R$, the continuous function $|p|$ attains a minimum at some $z_0$. The inequality just written forces $|z_0|<R$, so $z_0$ is interior. We claim $p(z_0)=0$.
+so there is $R>0$ such that $\lvert z\rvert>R$ implies $\lvert p(z)\rvert \ge \tfrac12 \lvert a_n\rvert\,\lvert z\rvert^n > \lvert p(0)\rvert$, say. On the compact disk $\lvert z\rvert\le R$, the continuous function $\lvert p\rvert$ attains a minimum at some $z_0$. The inequality just written forces $\lvert z_0\rvert<R$, so $z_0$ is interior. We claim $p(z_0)=0$.
 
 Suppose not: $p(z_0)=a\neq 0$. Expand around $z_0$,
 
@@ -71,7 +71,7 @@ $$
 p(z_0+tu) = a(1-t^k) + O(t^{k+1}).
 $$
 
-For $t$ small enough, $|p(z_0+tu)| < |a| = |p(z_0)|$, contradicting minimality. Hence $p(z_0)=0$.
+For $t$ small enough, $\lvert p(z_0+tu)\rvert < \lvert a\rvert = \lvert p(z_0)\rvert$, contradicting minimality. Hence $p(z_0)=0$.
 
 (If you prefer Liouville: if $p$ had no root then $1/p$ would be entire and bounded, hence constant, hence $p$ constant.)
 
@@ -291,21 +291,21 @@ A polynomial is **separable** if its irreducible factors have distinct roots in 
 
 **Theorem.** Let $E$ be a splitting field of a separable polynomial $f\in F[x]$. Then:
 
-1. $|\mathrm{Aut}(E/F)| = [E:F]$;
+1. $\lvert \mathrm{Aut}(E/F)\rvert = [E:F]$;
 2. the **fixed field** $\{\,x\in E : \sigma(x)=x\text{ for all }\sigma\in\mathrm{Aut}(E/F)\,\}$ equals $F$;
 3. $E/F$ is **normal**: every irreducible in $F[x]$ with one root in $E$ splits completely in $E$.
 
 A finite extension with these properties is called **Galois**. Conversely, every finite Galois extension is the splitting field of a separable polynomial. This is the content of the discussion at [Math.StackExchange 962898](https://math.stackexchange.com/questions/962898/on-a-proof-that-the-splitting-field-of-a-separable-polynomial-is-galois); the argument below is the standard one.
 
-*Why $|G|=[E:F]$.* Always $|\mathrm{Aut}(E/F)|\le [E:F]$: an $F$-automorphism is determined by where it sends a primitive element (or, inductively, a sequence of adjoined roots), and each minimal polynomial has at most its degree many roots in $E$. For a splitting field of a separable $f$, each such choice *extends*. Induct on the number of roots of $f$ outside $F$. If $f$ already splits in $F$, then $E=F$ and both sides are $1$. Otherwise let $\alpha$ be a root of an irreducible factor $p$ of $f$, of degree $d\ge 2$. There are $d$ distinct $F$-embeddings $F(\alpha)\to E$, one per root of $p$. Each extends to an automorphism of $E$ because $E$ is still a splitting field of $f$ over $F(\alpha)$. By induction $|\mathrm{Aut}(E/F(\alpha))|=[E:F(\alpha)]$. Counting:
+*Why $\lvert G\rvert=[E:F]$.* Always $\lvert \mathrm{Aut}(E/F)\rvert\le [E:F]$: an $F$-automorphism is determined by where it sends a primitive element (or, inductively, a sequence of adjoined roots), and each minimal polynomial has at most its degree many roots in $E$. For a splitting field of a separable $f$, each such choice *extends*. Induct on the number of roots of $f$ outside $F$. If $f$ already splits in $F$, then $E=F$ and both sides are $1$. Otherwise let $\alpha$ be a root of an irreducible factor $p$ of $f$, of degree $d\ge 2$. There are $d$ distinct $F$-embeddings $F(\alpha)\to E$, one per root of $p$. Each extends to an automorphism of $E$ because $E$ is still a splitting field of $f$ over $F(\alpha)$. By induction $\lvert \mathrm{Aut}(E/F(\alpha))\rvert=[E:F(\alpha)]$. Counting:
 
 $$
-|\mathrm{Aut}(E/F)| = d\cdot [E:F(\alpha)] = [F(\alpha):F]\,[E:F(\alpha)] = [E:F],
+\lvert \mathrm{Aut}(E/F)\rvert = d\cdot [E:F(\alpha)] = [F(\alpha):F]\,[E:F(\alpha)] = [E:F],
 $$
 
 where the last equality is the tower law, proved in the next section; if you want the logic acyclic, postpone this count until after that proof — the two results are meant to be read as a pair.
 
-*Why the fixed field is $F$.* Let $F'$ be the fixed field of $G=\mathrm{Aut}(E/F)$. Then $F\subset F'\subset E$, and $G=\mathrm{Aut}(E/F')$. But $E$ is still a splitting field of the same separable $f$ over $F'$, so $|\mathrm{Aut}(E/F')|=[E:F']$. Combined with $|\mathrm{Aut}(E/F)|=[E:F]$ we get $[E:F']=[E:F]$, hence $F'=F$.
+*Why the fixed field is $F$.* Let $F'$ be the fixed field of $G=\mathrm{Aut}(E/F)$. Then $F\subset F'\subset E$, and $G=\mathrm{Aut}(E/F')$. But $E$ is still a splitting field of the same separable $f$ over $F'$, so $\lvert \mathrm{Aut}(E/F')\rvert=[E:F']$. Combined with $\lvert \mathrm{Aut}(E/F)\rvert=[E:F]$ we get $[E:F']=[E:F]$, hence $F'=F$.
 
 *Normality.* If an irreducible $p\in F[x]$ has one root $\alpha\in E$, then any other root $\beta$ (in a splitting field) is the image of $\alpha$ under an $F$-embedding $F(\alpha)\to\overline{F}$, and such embeddings extend to automorphisms of $E$ when $E/F$ is a splitting field of a separable polynomial; thus $\beta\in E$.
 
@@ -382,7 +382,7 @@ $$
 \{\text{subgroups }H\le G\} \;\longleftrightarrow\; \{\text{fields }K\text{ with }F\subset K\subset E\}
 $$
 
-sending $H$ to its fixed field $E^H$ and sending $K$ to $\mathrm{Gal}(E/K)$. Degrees match orders: $[E:E^H]=|H|$ and $[E^H:F]=[G:H]$. Moreover $K/F$ is Galois if and only if $\mathrm{Gal}(E/K)$ is *normal* in $G$, in which case $\mathrm{Gal}(K/F)\cong G/\mathrm{Gal}(E/K)$.
+sending $H$ to its fixed field $E^H$ and sending $K$ to $\mathrm{Gal}(E/K)$. Degrees match orders: $[E:E^H]=\lvert H\rvert$ and $[E^H:F]=[G:H]$. Moreover $K/F$ is Galois if and only if $\mathrm{Gal}(E/K)$ is *normal* in $G$, in which case $\mathrm{Gal}(K/F)\cong G/\mathrm{Gal}(E/K)$.
 
 This is the dictionary between the group theory of §II and the towers of this section. A chain of fields $F=F_0\subset F_1\subset\cdots\subset F_k=E$ with each $F_{i+1}/F_i$ Galois cyclic corresponds to a chain of groups $G=\mathrm{Gal}(E/F_0)\trianglerighteq \mathrm{Gal}(E/F_1)\trianglerighteq\cdots\trianglerighteq\{1\}$ with cyclic quotients. That is a solvable series.
 
@@ -437,7 +437,7 @@ The following is a standard machine, of which [Math.StackExchange 3075225](https
 
 *Proof.* Let $E\subset\mathbb{C}$ be a splitting field, $G=\mathrm{Gal}(E/\mathbb{Q})\le S_p$.
 
-Irreducibility $\Rightarrow$ $G$ acts transitively on the $p$ roots. In particular $p$ divides $|G|=[E:\mathbb{Q}]$, by the orbit-stabilizer theorem (or: adjoining one root gives a subfield of degree $p$, and the tower law makes $p$ divide $[E:\mathbb{Q}]$). Cauchy’s theorem: $G$ contains an element of order $p$. The only elements of order $p$ in $S_p$ are $p$-cycles (a product of disjoint cycles has order the lcm of the lengths, and $p$ is prime). So $G$ contains a $p$-cycle.
+Irreducibility $\Rightarrow$ $G$ acts transitively on the $p$ roots. In particular $p$ divides $\lvert G\rvert=[E:\mathbb{Q}]$, by the orbit-stabilizer theorem (or: adjoining one root gives a subfield of degree $p$, and the tower law makes $p$ divide $[E:\mathbb{Q}]$). Cauchy’s theorem: $G$ contains an element of order $p$. The only elements of order $p$ in $S_p$ are $p$-cycles (a product of disjoint cycles has order the lcm of the lengths, and $p$ is prime). So $G$ contains a $p$-cycle.
 
 Complex conjugation is an automorphism of $\mathbb{C}$ fixing $\mathbb{Q}$. It preserves $E$ because it permutes the roots of $f$ (real coefficients). It fixes each of the $p-2$ real roots and swaps the two non-real ones. Restricted to $E$, it is therefore a **transposition** in $G$.
 
