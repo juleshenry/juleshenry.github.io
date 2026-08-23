@@ -43,9 +43,15 @@ Two corollaries, and nothing more from the analytic side.
 
 **The family of roots.** Given $p$ of degree $n$, we may speak of a complete **family** $\{r_1,\ldots,r_n\}$ in $\mathbb{C}$. Labels are arbitrary; later we will ask which rearrangements of the labels can be realized by maps that fix the coefficients.
 
-**Conjugate pairs.** If $p$ has *real* coefficients and $p(z)=0$, then $p(\overline{z})=0$, because conjugation is a field automorphism of $\mathbb{C}$ fixing $\mathbb{R}$. Non-real roots come in pairs. For a quintic with real coefficients, the number of non-real roots is even: $0$, $2$, or $4$. Equivalently, over $\mathbb{R}$ a quintic factors into linears and quadratics, and the number of irreducible quadratic factors is $0$, $1$, or $2$. The case of exactly one irreducible quadratic factor — exactly two non-real roots — will be a weapon: conjugation, restricted to the splitting field, becomes a transposition of those two roots.
+**Conjugate pairs.** If $p$ has *real* coefficients and $p(z)=0$, then $p(\overline{z})=0$, because conjugation $z\mapsto\overline{z}$ is a field automorphism of $\mathbb{C}$ fixing $\mathbb{R}$. Non-real roots therefore come in pairs $\lbrace z,\overline{z}\rbrace$. Restricted to a splitting field sitting in $\mathbb{C}$, conjugation is a $\mathbb{Q}$-automorphism, hence an element of the Galois group, and we can read it as a permutation of the five labeled roots: it *fixes every real root* and *swaps each conjugate pair*.
 
-A real quintic always has at least one real root, by the intermediate-value theorem ($x^5$ dominates, so $p(x)\to\pm\infty$ as $x\to\pm\infty$). That is the odd-degree case of the FTA’s real half, and it is why a real quintic cannot have zero real roots. The remaining possibilities are five real roots, or three real and two conjugate, or one real and two conjugate pairs. Only the middle possibility supplies a transposition from conjugation. The other two are silent about transpositions, which is why $x^5-2$ (one real root) slips through as solvable.
+A real quintic cannot have zero real roots: $x^{5}$ dominates, so $p(x)\to+\infty$ as $x\to+\infty$ and $p(x)\to-\infty$ as $x\to-\infty$, and the intermediate-value theorem supplies a real root. Combined with conjugate pairing (even number of non-real roots) and degree five, there are exactly three possibilities. Write the permutation type of conjugation in each:
+
+- **Five real roots.** Conjugation fixes all five labels. It is the identity in $S_5$, which is not a transposition.
+- **Three real roots and one conjugate pair.** Conjugation swaps those two non-real roots and fixes the three real ones. Cycle type: a single $2$-cycle. That *is* a transposition.
+- **One real root and two conjugate pairs.** Conjugation swaps two pairs and fixes the real root. Cycle type: a product of two disjoint transpositions, an even permutation of order $2$ — not a $2$-cycle.
+
+Only the middle case feeds the later $S_5$ machine (a transposition plus a $5$-cycle generate $S_5$). The other two are silent: they do not put a transposition in the Galois group. That is why $x^{5}-2$, which has one real fifth root of $2$ and two conjugate pairs among $\sqrt[5]{2}\,\zeta_5^{k}$ for $k=1,2,3,4$, slips through as solvable — conjugation on its roots is of the third type, not the second. We will compute its Galois group later; it has order $20$, not $120$.
 
 ## A proof that does not hide the analysis
 
