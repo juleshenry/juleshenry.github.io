@@ -837,7 +837,8 @@ table {
   width: 100%;
   max-width: 100%;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--bg-alt);
+  color: var(--text);
   border-radius: 8px;
   overflow: hidden;
   table-layout: auto;
@@ -852,18 +853,28 @@ td {
   word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 100%;
+  color: var(--text);
+  background: transparent;
+  vertical-align: top;
 }
 
 th {
   text-align: left;
-  font-weight: 700;
-  color: var(--text);
-  background: rgba(0, 113, 227, 0.04);
+  font-weight: 600;
+  color: var(--accent-3);
+  background: rgba(255, 167, 204, 0.14);
 }
 
 td {
   font-weight: 400;
-  color: var(--muted);
+}
+
+tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+table mjx-container {
+  color: var(--text);
 }
 
 footer {
@@ -934,13 +945,42 @@ mjx-container[jax="CHTML"]:not([display="true"]) {
   vertical-align: baseline;
 }
 
-/* Wrap tables in scrollable container for mobile */
+/* Wrap tables in scrollable container for mobile.
+   Dark cells: the old glass white bg made --text / MathJax invisible. */
 .post table,
 section#main_content table {
   display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   max-width: 100%;
+  background: var(--bg-alt);
+  color: var(--text);
+}
+
+.post table th,
+.post table td,
+section#main_content table th,
+section#main_content table td {
+  color: var(--text);
+  background: transparent;
+}
+
+.post table th,
+section#main_content table th,
+.post table thead th,
+section#main_content table thead th {
+  background: rgba(255, 167, 204, 0.14);
+  color: var(--accent-3);
+}
+
+.post table tbody tr:nth-child(even) td,
+section#main_content table tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.post table mjx-container,
+section#main_content table mjx-container {
+  color: var(--text);
 }
 
 /* Media Queries */
