@@ -14,7 +14,7 @@ That statement does **not** mean quintics have no roots. Every degree-five polyn
 
 The reason is symmetry. A polynomial’s coefficients do not care which root we call first. Some equations permit only a limited set of root rearrangements; others permit every rearrangement. Radical formulas can cope only with symmetries built in successive commutative layers. The general quintic has the full symmetry group $S_5$, and that group has an irreducible noncommutative core. That mismatch is Abel–Ruffini.
 
-If you are happy with polynomials over $\mathbb{Q}$, with $\mathbb{C}$ as a place roots can sit, and with the quadratic formula as a thing that *means* something, you are the intended reader: a college undergraduate, not someone who already knows Galois theory. Every term that follows — field, splitting field, degree of an extension, automorphism, Galois group, solvable group, radical tower — is defined and worked when it first appears. You do not need those words yet. The seven-stage map below is a table of contents in prose; the body of the post is where each line gets unpacked.
+The intended reader is a college undergraduate, not someone who already knows Galois theory. Every term that follows — field, splitting field, degree of an extension, automorphism, Galois group, solvable group, radical tower — is defined and worked when it first appears. You do not need those words yet. The seven-stage map below is a table of contents in prose; the body of the post is where each line gets unpacked.
 
 To understand why the quintic fails, we walk through those stages. The rest of the note fills them in.
 
