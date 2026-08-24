@@ -14,9 +14,20 @@ That statement does **not** mean quintics have no roots. Every degree-five polyn
 
 The reason is symmetry. A polynomial’s coefficients do not care which root we call first. Some equations permit only a limited set of root rearrangements; others permit every rearrangement. Radical formulas can cope only with symmetries built in successive commutative layers. The general quintic has the full symmetry group $S_5$, and that group has an irreducible noncommutative core. That mismatch is Abel–Ruffini.
 
-We will build this in four steps: roots exist; coefficients permit certain root symmetries; radicals impose a solvability constraint on those symmetries; and the general quintic violates that constraint. The next paragraph is the map. The rest of the note fills it in.
+To understand why the quintic fails, we walk through seven stages. The rest of the note fills them in.
 
-**Roadmap.** Existence (fundamental theorem of algebra): a degree-$n$ polynomial has a family of $n$ roots in $\mathbb{C}$. Symmetry: the family may be rearranged; all rearrangements form $S_n$, the even ones form $A_n$; for $n\ge 5$, $A_n$ is simple and non-abelian, so $S_n$ is not solvable. Housing: the family lives in a splitting field; automorphisms that fix the coefficients are the rearrangements the coefficients can see — the Galois group, a subgroup of $S_n$. Towers: a nested-radical formula is a tower of root extractions; after adjoining roots of unity, each step has cyclic symmetry, so the Galois group of a polynomial solvable by radicals is a solvable group, and conversely. Mismatch: the general degree-$n$ polynomial has Galois group $S_n$; for $n\ge 5$ that group is not solvable; hence no general radical formula. Particular polynomials such as $x^{5}-6x+3$ also have group $S_5$. Degree five is allowed to be solvable ($x^{5}-2$); $S_5$-sized symmetry is not.
+<div class="note">
+<p><strong>Roadmap</strong></p>
+<ol>
+<li><strong>Existence.</strong> By the fundamental theorem of algebra, every degree-$n$ polynomial over $\mathbb{C}$ has $n$ roots in $\mathbb{C}$, counted with multiplicity. This is existence, not a formula.</li>
+<li><strong>Symmetries of the labeled roots.</strong> All permutations of the labels form $S_n$. The sign homomorphism $S_n\to\{\pm 1\}$ has kernel $A_n$. For $n\ge 5$, $A_n$ is simple and non-abelian, so $S_n$ has no normal series with abelian quotients: $S_n$ is not solvable. That is the group-theoretic obstruction.</li>
+<li><strong>Which symmetries are realizable?</strong> Let $F$ be the coefficient field and $E$ a splitting field of $f$ over $F$. Every automorphism of $E$ fixing $F$ permutes the roots, giving $\mathrm{Gal}(E/F)\hookrightarrow S_n$. The Galois group is the subgroup of rearrangements the coefficients actually allow. Not every polynomial realizes all of $S_n$. The general polynomial does.</li>
+<li><strong>Radical towers have solvable symmetry.</strong> Roots lie in a tower $F=F_0\subset\cdots\subset F_m$ of $m_i$-th root steps if and only if — after adjoining enough roots of unity — each step is cyclic Galois. Thus $f$ is solvable by radicals $\iff$ $\mathrm{Gal}(f)$ is solvable. That is the bridge.</li>
+<li><strong>The general polynomial has full symmetry.</strong> For $x^n+a_1 x^{n-1}+\cdots+a_n$ with indeterminate coefficients, $\mathrm{Gal}$ over $\mathbb{C}(a_1,\ldots,a_n)$ is $S_n$. For $n\ge 5$ that group is not solvable. Hence no general radical formula for degree $5$ or higher.</li>
+<li><strong>Particular unsolvable quintics.</strong> The general result does not automatically exhibit a polynomial over $\mathbb{Q}$. Such polynomials exist: $x^5-6x+3$ is irreducible over $\mathbb{Q}$ with exactly two non-real roots, hence $\mathrm{Gal}\cong S_5$.</li>
+<li><strong>Degree five is not forbidden; $S_5$-symmetry is.</strong> $x^5-2$ has Galois group of order $20$, which is solvable. Abel–Ruffini forbids a uniform recipe; Galois theory additionally forbids radicals for those particular polynomials whose group is $S_5$ or $A_5$.</li>
+</ol>
+</div>
 
 If you are happy with polynomials over $\mathbb{Q}$, with $\mathbb{C}$ as a place roots can sit, and with the quadratic formula as a thing that *means* something, you are the intended reader. Groups, fields, and Galois groups are defined when they appear. Two standard theorems we will *use without proving* are named when they appear: the isomorphism-extension theorem for splitting fields, and Galois’ criterion (solvable by radicals if and only if the Galois group is solvable), of which we give a labeled sketch rather than a complete proof. Cauchy’s theorem and orbit-stabilizer are recalled in one line when used. The analytic proof of the FTA is optional.
 
@@ -178,9 +189,19 @@ A subgroup $N\le G$ is **normal**, written $N\trianglelefteq G$, if $gNg^{-1}=N$
 
 For $n\ge 5$ (in fact $n\neq 6$), $A_n$ is the *only* nontrivial proper normal subgroup of $S_n$. We will need a piece of that: $A_n$ itself, for $n\ge 5$, has *no* nontrivial proper normal subgroups. Such a group is called **simple**. $A_5$ is the smallest non-abelian simple group.
 
+## Why simplicity matters
+
+If a group is **simple**, it has no nontrivial proper normal subgroup, so it cannot be peeled into a smaller layer plus a quotient. Solvable groups are built from abelian pieces. A simple non-abelian group therefore cannot appear in a solvable series except as a dead end: you cannot start a stack of abelian quotients with it. That is why $A_5$ kills solvability of $S_5$: the only normal series of $S_5$ is $\{1\}\trianglelefteq A_5\trianglelefteq S_5$, and the factor $A_5$ is not abelian.
+
+Contrast $S_4$, which *can* be peeled: $\{1\}\trianglelefteq V_4\trianglelefteq A_4\trianglelefteq S_4$, with abelian (in fact cyclic, after one refinement) quotients.
+
+<p style="text-align:center;">
+  <img src="/blog/assets/2026/abel-ruffini/lattice-s4-s5.png" alt="Solvable chain of S4 versus the dead-end chain of S5 through A5" style="max-width:100%;">
+</p>
+
 ## $A_5$ is simple
 
-The next fact is technical; its only role is to establish that $A_5$ cannot be decomposed into simpler normal layers. We treat $A_n$ simple for $n\ge 5$ as a standard theorem and write the $A_5$ calculation in enough detail to be checked. Three facts.
+The calculation below establishes that $A_5$ has no nontrivial proper normal subgroups. Its role in the main argument is only the paragraph above: $A_5$ cannot be part of a solvable chain. Three facts.
 
 **(i) $A_n$ is generated by $3$-cycles**, for $n\ge 3$. A $3$-cycle is even, so lies in $A_n$. Conversely every even permutation is a product of an even number of transpositions, and
 
@@ -214,6 +235,10 @@ Once $N$ contains *one* $3$-cycle, conjugacy (ii) puts *every* $3$-cycle in $N$,
 Thus $A_5$ is simple. It is non-abelian: $(1\,2\,3)(3\,4\,5)\neq (3\,4\,5)(1\,2\,3)$. Therefore $A_5$ admits no chain of subgroups down to $\{1\}$ with abelian successive quotients, except the trivial two-step $\{1\}\trianglelefteq A_5$ whose quotient is not abelian. The same argument, with the extra room of unused letters, shows $A_n$ is simple for all $n\ge 5$.
 
 ## Solvable groups
+
+<div class="note">
+<p><strong>Solvable group.</strong> A finite group $G$ that admits a chain $\{1\}=G_0\trianglelefteq\cdots\trianglelefteq G_k=G$ with each quotient $G_{i+1}/G_i$ abelian. Built from commutative layers; the name of the constraint that radical formulas impose on symmetry.</p>
+</div>
 
 A finite group $G$ is **solvable** if there is a chain
 
@@ -270,7 +295,9 @@ For $\alpha=\sqrt{2}$ over $\mathbb{Q}$, the minimal polynomial is $x^2-2$, and 
 
 Adjoining one root is not always enough.
 
-**Definition.** A **splitting field** of $f\in F[x]$ over $F$ is an extension $E/F$ in which $f$ factors as a product of linear terms, and which is generated over $F$ by the roots of $f$. Equivalently: the smallest extension of $F$ containing the *entire family* of roots.
+<div class="note">
+<p><strong>Splitting field.</strong> An extension $E/F$ in which $f$ factors into linear terms, generated over $F$ by those roots. Equivalently: the smallest house containing the entire family.</p>
+</div>
 
 Existence: adjoin one root of an irreducible factor, repeat. Uniqueness up to an isomorphism fixing $F$: any two splitting fields are $F$-isomorphic. We work throughout with a splitting field sitting inside $\mathbb{C}$, which the FTA permits.
 
@@ -279,6 +306,10 @@ Existence: adjoin one root of an irreducible factor, repeat. Uniqueness up to an
 **Example: $x^3-2$ over $\mathbb{Q}$.** The real cube root $\sqrt[3]{2}$ generates $\mathbb{Q}(\sqrt[3]{2})\subset\mathbb{R}$. That field contains *one* root of $x^3-2$. The other two are $\sqrt[3]{2}\,\zeta_3$ and $\sqrt[3]{2}\,\zeta_3^2$, where $\zeta_3=e^{2\pi i/3}=-\frac12+i\frac{\sqrt{3}}{2}$ is a primitive cube root of unity. They are not real. So $\mathbb{Q}(\sqrt[3]{2})$ is *not* a splitting field. The splitting field is $\mathbb{Q}(\sqrt[3]{2},\zeta_3)$. The family of three roots lives there and nowhere smaller.
 
 This is the standing picture: coefficients in a base field $F$; family of roots in $\mathbb{C}$; splitting field $E=F(r_1,\ldots,r_n)$ the smallest house that holds them all.
+
+<div class="warn">
+<p><strong>Warning: not every radical step is Galois.</strong> Adjoining <em>one</em> $n$th root $F(\sqrt[n]{a})$ typically misses the other $n-1$ conjugates. They differ from the chosen root by $n$th roots of unity. For $x^3-2$, $\mathbb{Q}(\sqrt[3]{2})$ is real of degree $3$ and contains only one root; the extension is not Galois. To apply the Galois correspondence at that step we must also adjoin $\zeta_n$, so the step splits $x^n-a$ completely and becomes symmetric (cyclic, once $\zeta_n$ is present). That is why “radical tower $\Rightarrow$ solvable Galois group” requires a cyclotomic refinement, not the raw nested-radical expression alone.</p>
+</div>
 
 ## Nested radicals are a special kind of house
 
@@ -412,7 +443,7 @@ Hence $[M:K]=de$.
 
 ## What the formula forbids
 
-If $[M:K]$ is prime, there is no field strictly between $K$ and $M$: the only factorizations of a prime are $1\cdot p$ and $p\cdot 1$. Thus $\mathbb{C}/\mathbb{R}$, of degree $2$, has no intermediate field, and $\mathbb{Q}(\sqrt{2})/\mathbb{Q}$ has none either.
+If $[M:K]$ is prime, there is no field strictly between $K$ and $M$: the only factorizations of a prime are $1\cdot p$ and $p\cdot 1$. You cannot break the extension into smaller steps. That is why a prime-length cycle in a Galois group is powerful — under the correspondence it is an indivisible layer. Thus $\mathbb{C}/\mathbb{R}$, of degree $2$, has no intermediate field, and $\mathbb{Q}(\sqrt{2})/\mathbb{Q}$ has none either.
 
 **Worked tower: $\mathbb{Q}(\sqrt{2},\sqrt{3})$. ** Let $L=\mathbb{Q}(\sqrt{2})$, so $[L:\mathbb{Q}]=2$. The polynomial $x^2-3$ remains irreducible over $L$ (if $\sqrt{3}=a+b\sqrt{2}$ then squaring and comparing rational and irrational parts yields a contradiction). So $[L(\sqrt{3}):L]=2$, hence $[\mathbb{Q}(\sqrt{2},\sqrt{3}):\mathbb{Q}]=4$. A basis is $\{1,\sqrt{2},\sqrt{3},\sqrt{6}\}$. This is a radical tower of two square-root steps, total degree $2\cdot 2=4$.
 
@@ -437,6 +468,10 @@ $$
 each step Galois, first abelian (cyclotomic), then cyclic (Kummer). Cyclotomic extensions are themselves solvable — $\mathrm{Gal}(\mathbb{Q}(\zeta_n)/\mathbb{Q})\cong(\mathbb{Z}/n\mathbb{Z})^\times$ is abelian — so inserting them does not smuggle in non-solvable symmetry. It merely makes the correspondence apply at every rung.
 
 ## The Galois correspondence, exhibited on a small example
+
+<div class="note">
+<p><strong>Galois correspondence.</strong> Subgroups of $\mathrm{Gal}(E/F)$ $\leftrightarrow$ intermediate fields, inclusion-reversed. Normal subgroups $\leftrightarrow$ Galois subextensions. Degrees match orders.</p>
+</div>
 
 Let $E/F$ be finite Galois, $G=\mathrm{Gal}(E/F)$. There is an inclusion-reversing bijection
 
@@ -513,7 +548,9 @@ That is the original theorem: a statement about a formula in *indeterminates*. I
 
 ## Concrete quintics with $S_5$ symmetry
 
-The following is a standard machine, of which [Math.StackExchange 3075225](https://math.stackexchange.com/questions/3075225/f-irreducible-polynomial-with-p-2-real-roots-rightarrow-gal-mathbbq-f) is one instance.
+We have shown that the *general* quintic (indeterminate coefficients) has group $S_5$. That kills a uniform formula. It does not, by itself, exhibit a polynomial with *integer* coefficients that is unsolvable: in principle every particular quintic might still have had its own private radical expression. Hilbert irreducibility says that “most” rational specializations of the general quintic keep Galois group $S_5$ or $A_5$. Here is how to check a specific case without that theorem.
+
+The following machine is [Math.StackExchange 3075225](https://math.stackexchange.com/questions/3075225/f-irreducible-polynomial-with-p-2-real-roots-rightarrow-gal-mathbbq-f).
 
 **Theorem.** Let $p\ge 5$ be prime, and let $f\in\mathbb{Q}[x]$ be irreducible of degree $p$, with exactly $p-2$ real roots (hence exactly one conjugate pair of non-real roots). Then $\mathrm{Gal}(f/\mathbb{Q})\cong S_p$.
 

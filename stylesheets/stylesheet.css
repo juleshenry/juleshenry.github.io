@@ -945,6 +945,48 @@ mjx-container[jax="CHTML"]:not([display="true"]) {
   vertical-align: baseline;
 }
 
+/* Callouts in posts (definitions, warnings). */
+.post .note,
+section#main_content .note,
+.post .warn,
+section#main_content .warn {
+  padding: 0.85em 1.05em;
+  margin: 1.5em 0;
+  border-radius: 0 8px 8px 0;
+  color: var(--text);
+}
+.post .note,
+section#main_content .note {
+  border-left: 3px solid #FFA7CC;
+  background: rgba(255, 167, 204, 0.07);
+}
+.post .warn,
+section#main_content .warn {
+  border-left: 3px solid #00FFFF;
+  background: rgba(0, 255, 255, 0.05);
+}
+.post .note > p:first-child,
+.post .warn > p:first-child,
+section#main_content .note > p:first-child,
+section#main_content .warn > p:first-child {
+  margin-top: 0;
+}
+.post .note > p:last-child,
+.post .warn > p:last-child,
+section#main_content .note > p:last-child,
+section#main_content .warn > p:last-child {
+  margin-bottom: 0;
+}
+.post .note ol,
+section#main_content .note ol {
+  list-style: decimal;
+  margin: 0.4em 0 0.2em 1.2em;
+}
+.post .note li,
+section#main_content .note li {
+  margin: 0.45em 0;
+}
+
 /* Wrap tables in scrollable container for mobile.
    Dark cells: the old glass white bg made --text / MathJax invisible. */
 .post table,
