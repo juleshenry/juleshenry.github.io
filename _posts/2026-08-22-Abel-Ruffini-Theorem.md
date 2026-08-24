@@ -69,13 +69,13 @@ Only the middle case will later feed an $S_5$ machine (a transposition plus a $5
 
 The theorem is not a theorem of algebra in the modern sense. Any proof uses some continuity. The argument below is geometric: identify $\mathbb{C}$ with the plane $\mathbb{R}^2$, view $\lvert p(z)\rvert$ as a height function over that plane, and find a closed disk on which the height is forced to dip to zero.
 
-Write $p(z) = a_n z^n + a_{n-1}z^{n-1} + \cdots + a_0$ with $a_n\neq 0$ and $n\ge 1$. For $\lvert z\rvert$ large, the leading term dominates:
+Write $p(z) = a_n z^n + a_{n-1}z^{n-1} + \cdots + a_0$ with $a_n\neq 0$ and $n\ge 1$. For $\lvert z\rvert$ large, the leading term dominates. Precisely: the reverse triangle inequality gives $\lvert p(z)\rvert \ge \lvert a_n z^n\rvert - \lvert p(z)-a_n z^n\rvert$, and
 
 $$
-\bigl\lvert p(z) - a_n z^n\bigr\rvert \le \bigl(\lvert a_{n-1}\rvert + \cdots + \lvert a_0\rvert\bigr)\,\lvert z\rvert^{n-1},
+\bigl\lvert p(z) - a_n z^n\bigr\rvert \le \bigl(\lvert a_{n-1}\rvert + \cdots + \lvert a_0\rvert\bigr)\,\lvert z\rvert^{n-1}.
 $$
 
-so there is $R \gt 0$ such that $\lvert z\rvert \ge R$ implies
+If $\lvert z\rvert\ge 1$ the right-hand side is at most $M\lvert z\rvert^{n-1}$ with $M=\lvert a_{n-1}\rvert+\cdots+\lvert a_0\rvert$, so $\lvert p(z)\rvert \ge \bigl(\lvert a_n\rvert - M/\lvert z\rvert\bigr)\lvert z\rvert^n$. Choose $R\ge 1$ large enough that $M/R \le \lvert a_n\rvert/2$ and also $\tfrac12\lvert a_n\rvert R^n \gt \lvert p(0)\rvert$. Then $\lvert z\rvert \ge R$ implies
 
 $$
 \lvert p(z)\rvert \ge \tfrac12 \lvert a_n\rvert\,\lvert z\rvert^n \gt \lvert p(0)\rvert.
@@ -126,7 +126,9 @@ We now have a family of roots. The question is what we are allowed to *do* with 
 
 Label the roots $r_1,\ldots,r_n$. A **permutation** of the labels is a bijection $\sigma$ of the set $\{1,\ldots,n\}$. The set of all such bijections is the **symmetric group** $S_n$. There are $n!$ of them. Composition of functions is the group law: $(\sigma\tau)(i)=\sigma(\tau(i))$, done right to left. The identity $\mathrm{id}$ does nothing; every $\sigma$ has an inverse.
 
-This is the symmetry group of a labeled family of $n$ things. Whether a *particular* polynomial admits all $n!$ rearrangements as actual symmetries of its coefficients is a later question. First we need the group.
+This is the symmetry group of a labeled family of $n$ things. Whether a *particular* polynomial admits all $n!$ rearrangements as actual symmetries of its coefficients is a later question. First we need the group, and a few words for talking about groups.
+
+A **subgroup** of $G$ is a subset that is itself a group under the same operation (contains the identity, inverses, and products). Two elements $a,b$ **commute** if $ab=ba$; a group is **abelian** if every pair commutes. The **cyclic group** $C_n$ is the group of $n$ rotations of a regular $n$-gon, equivalently $\{\,1,g,g^2,\ldots,g^{n-1}\,\}$ with $g^n=1$; it is abelian. A **homomorphism** $\varphi:G\to H$ is a map with $\varphi(ab)=\varphi(a)\varphi(b)$. Its **kernel** is $\{\,g\in G:\varphi(g)=\mathrm{id}_H\,\}$, always a subgroup. Two groups are **isomorphic**, written $G\cong H$, if there is a bijective homomorphism between them: the same group law, relabeled. A **(left) coset** of a subgroup $H\le G$ is a translate $gH=\{\,gh:h\in H\,\}$; the distinct cosets partition $G$.
 
 ## Small pictures
 
@@ -144,7 +146,7 @@ $$
 \Delta(x_1,\ldots,x_n) = \prod_{1\le i<j\le n}(x_i-x_j).
 $$
 
-Permuting the variables either leaves $\Delta$ alone or multiplies it by $-1$, because each factor $x_i-x_j$ is sent to $\pm$ another factor. Define
+Permuting the variables either leaves $\Delta$ alone or multiplies it by $-1$, because each factor $x_i-x_j$ is sent to $\pm$ another factor. The square $\Delta^2=\prod_{i<j}(x_i-x_j)^2$ is the **discriminant** of the (monic) polynomial with those roots: it is unchanged by every permutation, hence is a polynomial in the coefficients. For $x^2+bx+c$ it is $b^2-4c$; the schoolbook $d=b^2-4ac$ of $ax^2+bx+c$ is $a^2$ times that quantity. We will need the name again when a prime is required not to divide the discriminant. Define
 
 $$
 \mathrm{sgn}(\sigma) := \frac{\Delta(x_{\sigma(1)},\ldots,x_{\sigma(n)})}{\Delta(x_1,\ldots,x_n)}\in\{+1,-1\}.
@@ -152,7 +154,7 @@ $$
 
 This is a **homomorphism** $S_n\to\{+1,-1\}$: $\mathrm{sgn}(\sigma\tau)=\mathrm{sgn}(\sigma)\,\mathrm{sgn}(\tau)$. A transposition sends $\Delta$ to $-\Delta$, so $\mathrm{sgn}$ of a transposition is $-1$. (An *adjacent* transposition flips exactly one factor; a non-adjacent one, such as $(1\,3)$ in $S_4$, flips an odd number of factors. Either way the overall sign is $-1$.) Therefore $\mathrm{sgn}(\sigma)=(-1)^m$ whenever $\sigma$ is a product of $m$ transpositions. The number $m$ is not unique, but its *parity* is. See [parity of a permutation](https://en.wikipedia.org/wiki/Parity_of_a_permutation) for the inversion-count, adjacent-transposition, and cycle-index proofs that these notions coincide.
 
-The even permutations form a subgroup, the **alternating group** $A_n=\ker\mathrm{sgn}$. It has index $2$ in $S_n$, hence order $n!/2$ for $n\ge 2$. The odd permutations are the other coset; they do not form a subgroup, because odd times odd is even.
+The even permutations form a subgroup, the **alternating group** $A_n=\ker\mathrm{sgn}$ — exactly the permutations sent to $+1$. It has index $2$ in $S_n$ (two cosets, even and odd), hence order $n!/2$ for $n\ge 2$. The odd permutations are the other coset $A_n\cdot(1\,2)$; they do not form a subgroup, because odd times odd is even.
 
 A $k$-cycle $(a_1\,a_2\,\cdots\,a_k)$ is a product of $k-1$ transpositions, for instance
 
@@ -161,6 +163,14 @@ $$
 $$
 
 So a $k$-cycle is even if and only if $k$ is odd: $3$-cycles are even, transpositions are odd, $5$-cycles are even. In a disjoint-cycle decomposition (including $1$-cycles if you like), the permutation is odd if and only if the number of even-length cycles is odd.
+
+**Conjugating a cycle relabels its entries.** If $\sigma=(a_1\,a_2\,\cdots\,a_k)$ and $\tau$ is any permutation, then
+
+$$
+\tau\sigma\tau^{-1} = \bigl(\tau(a_1)\,\tau(a_2)\,\cdots\,\tau(a_k)\bigr).
+$$
+
+The same rule applies factorwise to a product of disjoint cycles. This is the one computation used below to move $3$-cycles around $A_n$, to produce commutators in the simplicity argument, and to turn a $p$-cycle and a transposition into all adjacent transpositions.
 
 ## Normal subgroups and quotients
 
@@ -223,7 +233,7 @@ The picture is a stack of commutative layers. Each radical step $F(\sqrt[n]{a})/
 
 $V_4$ is normal in $S_4$ because conjugation preserves cycle type, and the three non-identity elements of $V_4$ are *all* the products of two disjoint transpositions in $S_4$. So $S_4$ permutes those three elements among themselves and leaves $V_4$ invariant. The quotient $A_4/V_4$ has order $3$, hence is cyclic. This is the group-theoretic shadow of Ferrari’s method: the resolvent cubic of a quartic is the quotient $S_4\to S_3\cong S_4/V_4$, and solving that cubic (solvable, because $S_3$ is) is the step that reduces a quartic to nested quadratics.
 
-**$S_n$ is not solvable for $n\ge 5$.** Any normal series of $S_n$ must pass through $A_n$: it is the unique subgroup of index $2$, kernel of $\mathrm{sgn}$, and for $n\neq 6$ the unique nontrivial proper normal subgroup of $S_n$. The factor $A_n$ is not abelian, and $A_n$ itself, being simple and non-abelian, cannot be broken into abelian quotients. There is no analogue of $V_4$ sitting normally inside $A_5$. That is the group-theoretic half of Abel–Ruffini, stated before we have fields. The rest of the note is the identification: a radical formula produces a solvable group of symmetries of the root family, and the general quintic’s group is $S_5$. Then $S_5$ is too big.
+**$S_n$ is not solvable for $n\ge 5$.** Two facts, connected. First: for $n\neq 6$, $A_n$ is the unique nontrivial proper normal subgroup of $S_n$ (it is $\ker\mathrm{sgn}$, index $2$). So any normal series from $\{1\}$ up to $S_n$ has $A_n$ as its last proper term: $\{1\}\trianglelefteq\cdots\trianglelefteq A_n\trianglelefteq S_n$. Second: $A_n$ is simple and non-abelian, so the stretch $\{1\}\trianglelefteq\cdots\trianglelefteq A_n$ cannot be refined into abelian quotients — the only possibilities are to skip $A_n$ (impossible, by uniqueness) or to leave the non-abelian factor $A_n$ in the series. There is no analogue of $V_4$ sitting normally inside $A_5$. That is the group-theoretic half of Abel–Ruffini, stated before we have fields. The rest of the note is the identification: a radical formula produces a solvable group of symmetries of the root family, and the general quintic’s group is $S_5$. Then $S_5$ is too big.
 
 One more computational fact, used twice below.
 
@@ -333,7 +343,7 @@ The image is the **Galois group of $f$ over $F$**, written $\mathrm{Gal}(f/F)$ o
 
 ## The splitting field of a separable polynomial is Galois
 
-A polynomial is **separable** if its irreducible factors have distinct roots in a splitting field. We care because the Galois group injects into $S_n$ with $n=\deg f$ only when there are $n$ distinct letters to permute; a multiple root collapses two labels into one and the count $\lvert\mathrm{Aut}(E/F)\rvert=[E:F]$ fails. Over $\mathbb{Q}$ (characteristic $0$) an irreducible is separable as soon as $f'\neq 0$, which it is not the zero polynomial — in characteristic $p$ one can have inseparables such as $x^p-a$. We work in characteristic $0$ from here.
+A polynomial is **separable** if its irreducible factors have distinct roots in a splitting field. We care because the Galois group injects into $S_n$ with $n=\deg f$ only when there are $n$ distinct letters to permute; a multiple root collapses two labels into one and the count $\lvert\mathrm{Aut}(E/F)\rvert=[E:F]$ fails. Over $\mathbb{Q}$ (characteristic $0$) an irreducible $f$ cannot share a root with its derivative $f'$ unless $f'$ is the zero polynomial, which it is not: $\deg f'\ge 0$ and the leading term of $f$ has not been killed by a characteristic. So every irreducible over $\mathbb{Q}$ is separable. (In characteristic $p$ one can have inseparables such as $x^p-a$.) We work in characteristic $0$ from here.
 
 **Theorem (standard; proof sketch below).** Let $E$ be a splitting field of a separable polynomial $f\in F[x]$. Then:
 
@@ -509,7 +519,7 @@ The following is a standard machine, of which [Math.StackExchange 3075225](https
 
 *Proof.* Let $E\subset\mathbb{C}$ be a splitting field, $G=\mathrm{Gal}(E/\mathbb{Q})\le S_p$.
 
-Irreducibility means all roots look algebraically interchangeable: the group $G$ moves them *transitively* (any root can be sent to any other). The orbit has size $p$, so by the orbit-stabilizer theorem $p$ divides $\lvert G\rvert=[E:\mathbb{Q}]$ (equivalently: adjoining one root gives a subfield of degree $p$, and the tower law makes $p$ divide $[E:\mathbb{Q}]$). Cauchy’s theorem: a finite group whose order is divisible by a prime $p$ contains an element of order $p$. The only elements of order $p$ in $S_p$ are $p$-cycles (a product of disjoint cycles has order the lcm of the lengths, and $p$ is prime). So $G$ contains a $p$-cycle.
+A group **acts** on a set if it permutes the set in a way compatible with the group law; the action is **transitive** if there is a single orbit — any point can be sent to any other. Irreducibility means all roots look algebraically interchangeable: the group $G$ acts transitively on them. The orbit has size $p$, so by the orbit-stabilizer theorem $p$ divides $\lvert G\rvert=[E:\mathbb{Q}]$ (equivalently: adjoining one root gives a subfield of degree $p$, and the tower law makes $p$ divide $[E:\mathbb{Q}]$). Cauchy’s theorem: a finite group whose order is divisible by a prime $p$ contains an element of order $p$. The only elements of order $p$ in $S_p$ are $p$-cycles (a product of disjoint cycles has order the lcm of the lengths, and $p$ is prime). So $G$ contains a $p$-cycle.
 
 Complex conjugation is an automorphism of $\mathbb{C}$ fixing $\mathbb{Q}$. It preserves $E$ because it permutes the roots of $f$ (real coefficients). It fixes each of the $p-2$ real roots and swaps the two non-real ones. Restricted to $E$, it is therefore a **transposition** in $G$.
 
@@ -525,11 +535,11 @@ indices modulo $p$ in $\{1,\ldots,p\}$. Adjacent transpositions generate $S_p$, 
 
 The hypothesis that $p$ is prime was used twice: to guarantee that an element of order $p$ is a single $p$-cycle, and to guarantee transitivity of that cycle on all $p$ letters. For composite degree the same counting can leave you in a proper transitive subgroup (dihedral, Frobenius, $A_n$, \ldots). Prime degree plus a transposition is a sledgehammer.
 
-**Example: $f(x)=x^5-6x+3$.** Eisenstein at $3$: $3$ divides $6$ and $3$, $9$ does not divide $3$. Irreducible over $\mathbb{Q}$. Now count real roots. $f(-2)=-17$, $f(-1)=8$, $f(0)=3$, $f(1)=-2$, $f(2)=23$: three sign changes, so at least three real roots by the intermediate-value theorem. The derivative $f'(x)=5x^4-6$ has exactly two real zeros, $\pm(6/5)^{1/4}$. Rolle’s theorem: between any two real roots of $f$ lies a root of $f'$, so $f$ has *at most* three real roots. Exactly three real roots, two non-real. The theorem gives $\mathrm{Gal}(f/\mathbb{Q})\cong S_5$.
+**Example: $f(x)=x^5-6x+3$.** Eisenstein at $3$, as stated above: $3$ divides $6$ and $3$, $9$ does not divide $3$. Irreducible over $\mathbb{Q}$. Now count real roots. $f(-2)=-17$, $f(-1)=8$, $f(0)=3$, $f(1)=-2$, $f(2)=23$: three sign changes, so at least three real roots by the intermediate-value theorem. The derivative $f'(x)=5x^4-6$ has exactly two real zeros, $\pm(6/5)^{1/4}$. Rolle’s theorem: between any two real roots of $f$ lies a root of $f'$, so $f$ has *at most* three real roots. Exactly three real roots, two non-real. The theorem gives $\mathrm{Gal}(f/\mathbb{Q})\cong S_5$.
 
 This polynomial is not solvable by radicals. Its five roots exist in $\mathbb{C}$, by the FTA. They do not lie in any radical tower over $\mathbb{Q}$.
 
-**Optional second method: $q(x)=x^5-x-1$.** The $p-2$ argument is self-contained. A different factory for cycle types is the **Dedekind–Frobenius theorem**, which we state and use but do not prove: if a monic $q\in\mathbb{Z}[x]$ factors modulo a prime $\ell$ not dividing the discriminant as a product of distinct irreducibles of degrees $d_1,\ldots,d_k$, then $G$ contains an element of cycle type $d_1+\cdots+d_k$.
+**Optional second method: $q(x)=x^5-x-1$.** The $p-2$ argument is self-contained. A different factory for cycle types is the **Dedekind–Frobenius theorem**, which we state and use but do not prove: if a monic $q\in\mathbb{Z}[x]$ factors modulo a prime $\ell$ not dividing the discriminant $\Delta=\prod_{i<j}(r_i-r_j)^2$ (the square of the Vandermonde product from the parity section) as a product of distinct irreducibles of degrees $d_1,\ldots,d_k$, then $G$ contains an element of cycle type $d_1+\cdots+d_k$.
 
 Modulo $2$, check by multiplying: $(x^2+x+1)(x^3+x^2+1)=x^5+x^4+x^2+x^4+x^3+x+x^3+x^2+1=x^5+x+1$ in $\mathbb{F}_2[x]$, and $x^5-x-1\equiv x^5+x+1\pmod{2}$. Two irreducibles of degrees $2$ and $3$, hence a permutation of type $2+3$ in $G$; cubing it yields a transposition. Modulo $3$, $q$ is irreducible, hence $G$ contains a $5$-cycle. A transposition and a $5$-cycle generate $S_5$. Same conclusion, different pair of hands.
 
@@ -547,7 +557,7 @@ $$
 \sqrt[5]{2}\mapsto \sqrt[5]{2}\,\zeta_5^{b}, \qquad \zeta_5\mapsto\zeta_5^{a},
 $$
 
-with $a\in(\mathbb{Z}/5\mathbb{Z})^\times$ and $b\in\mathbb{Z}/5\mathbb{Z}$. The maps with $a=1$ form a normal cyclic subgroup $C_5$ (pure translation of the radical); the quotient is $C_4$ (the cyclotomic Galois group). Solvable series: $\{1\}\trianglelefteq C_5 \trianglelefteq C_5\rtimes C_4$. And indeed $\sqrt[5]{2}$ is a radical, and the other roots are $\sqrt[5]{2}\,\zeta_5^k$.
+with $a\in(\mathbb{Z}/5\mathbb{Z})^\times$ and $b\in\mathbb{Z}/5\mathbb{Z}$. The maps with $a=1$ form a normal cyclic subgroup $C_5$ (pure translation of the radical); the quotient is $C_4$ (the cyclotomic Galois group). The whole group is the **semidirect product** $C_5\rtimes C_4$: the set of pairs $(b,a)$ with the multiplication coming from $C_4$ acting on $C_5$ by $a\cdot b = a b$ in $\mathbb{F}_5$ — equivalently, the group of affine maps $x\mapsto ax+b$ already named. Solvable series: $\{1\}\trianglelefteq C_5 \trianglelefteq C_5\rtimes C_4$. And indeed $\sqrt[5]{2}$ is a radical, and the other roots are $\sqrt[5]{2}\,\zeta_5^k$.
 
 Compare the two quintics as permutation groups acting on their five roots. For $x^5-2$, complex conjugation fixes the one real root and inverts $\zeta_5$, which (on a suitable labeling) is a product of two disjoint transpositions, an even permutation of order $2$ — not a transposition of two roots. The $p-2$ real-roots theorem never fires, because there are not three real roots to fix. For $x^5-6x+3$, conjugation *is* a transposition, the group is forced up to $S_5$, and solvability dies.
 
