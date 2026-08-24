@@ -14,7 +14,9 @@ That statement does **not** mean quintics have no roots. Every degree-five polyn
 
 The reason is symmetry. A polynomial’s coefficients do not care which root we call first. Some equations permit only a limited set of root rearrangements; others permit every rearrangement. Radical formulas can cope only with symmetries built in successive commutative layers. The general quintic has the full symmetry group $S_5$, and that group has an irreducible noncommutative core. That mismatch is Abel–Ruffini.
 
-To understand why the quintic fails, we walk through seven stages. The rest of the note fills them in.
+If you are happy with polynomials over $\mathbb{Q}$, with $\mathbb{C}$ as a place roots can sit, and with the quadratic formula as a thing that *means* something, you are the intended reader: a college undergraduate, not someone who already knows Galois theory. Every term that follows — field, splitting field, degree of an extension, automorphism, Galois group, solvable group, radical tower — is defined and worked when it first appears. You do not need those words yet. The seven-stage map below is a table of contents in prose; the body of the post is where each line gets unpacked.
+
+To understand why the quintic fails, we walk through those stages. The rest of the note fills them in.
 
 <div class="note">
 <p><strong>Roadmap</strong></p>
@@ -28,8 +30,6 @@ To understand why the quintic fails, we walk through seven stages. The rest of t
 <li><strong>Degree five is not forbidden; $S_5$-symmetry is.</strong> $x^5-2$ has Galois group of order $20$, which is solvable. Abel–Ruffini forbids a uniform recipe; Galois theory additionally forbids radicals for those particular polynomials whose group is $S_5$ or $A_5$.</li>
 </ol>
 </div>
-
-If you are happy with polynomials over $\mathbb{Q}$, with $\mathbb{C}$ as a place roots can sit, and with the quadratic formula as a thing that *means* something, you are the intended reader. Groups, fields, and Galois groups are defined when they appear. Two standard theorems we will *use without proving* are named when they appear: the isomorphism-extension theorem for splitting fields, and Galois’ criterion (solvable by radicals if and only if the Galois group is solvable), of which we give a labeled sketch rather than a complete proof. Cauchy’s theorem and orbit-stabilizer are recalled in one line when used. The analytic proof of the FTA is optional.
 
 - [The fundamental theorem of algebra](#the-fundamental-theorem-of-algebra)
 - [Group theory: symmetries of a labeled family](#group-theory-symmetries-of-a-labeled-family)
