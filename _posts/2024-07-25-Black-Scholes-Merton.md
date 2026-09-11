@@ -17,7 +17,7 @@ This note takes someone who can do calculus, differential equations, and a stats
 <li><strong>Martingales, Wiener, stocks.</strong> A Wiener process (Brownian motion) is the noise. A martingale is a fair game. A stock is the ODE $dS=\mu S\,dt$ plus that noise, scaled by $S$ so the price stays positive.</li>
 <li><strong>Lognormal properties.</strong> Multiplicative returns add in log space; the CLT makes $\ln S_T$ Gaussian. Density, Jacobian, median versus mean, $\mathbb{E}[e^{aZ}]=e^{a^2/2}$.</li>
 <li><strong>A simple calculus argument.</strong> Given that lognormal, completing the square turns $\mathbb{E}[(S_T-K)^+]$ into two $\Phi$'s, in parameters $(m,s)$. Then each assumption is perturbed: what morphs the formula, and what breaks it.</li>
-<li><strong>A detour to Japan.</strong> Ordinary calculus throws $(dW)^2$ away. Itô keeps it. Quadratic variation, Taylor in two variables, $d(W^2)=2W\,dW+dt$.</li>
+<li><strong>A detour to Japan.</strong> The chain rule throws $(dx)^2$ away. For Wiener that term is the same size as $dt$, so Itô keeps it. Quadratic variation, Taylor in two variables, $d(W^2)=2W\,dW+dt$.</li>
 <li><strong>Derive from stochastic calculus.</strong> Itô on $\ln S$ produces the lognormal with $m=\ln S+(\mu-\tfrac12\sigma^2)\tau$. Replication (a two-leaf tree) and Girsanov replace $\mu$ by $r$. Plug in: the rain check is $10.45$. The PDE is the same Gaussian, as heat.</li>
 <li><strong>Change of numeraire.</strong> $\Phi(d_2)$ is exercise probability in dollars. $\Phi(d_1)$ is exercise probability in shares. One more Girsanov, tilt $-\sigma$.</li>
 </ol>
@@ -221,7 +221,7 @@ Read it as a recipe for a short interval $dt$:
 - a deterministic fraction $\mu\,dt$ (the **drift** $\mu$ is the expected rate of return);
 - plus a random fraction $\sigma\,dW_t$ (the **volatility** $\sigma$ scales the Wiener increment).
 
-Because the noise is multiplied by $S_t$, a $\$200$ stock wiggles twice as many dollars as a $\$100$ stock, and $S_t$ stays positive. The $d$ on the left is an increment, not a derivative.
+Because the noise is multiplied by $S_t$, a $\$200$ stock has twice the dollar volatility of a $\$100$ stock, and $S_t$ stays positive. The $d$ on the left is an increment, not a derivative.
 
 The solution of $(2)$ is *not* $S_0 e^{\mu t}$ times a noise factor. Stage 5 will correct the exponent. Stage 3 is the distribution of $S_T$ that that solution will have: lognormal.
 
@@ -407,7 +407,9 @@ The assumptions are doing a lot of work. They are also why a rain check on a sto
 # 5. A detour to Japan
 {: #5-a-detour-to-japan}
 
-Ordinary calculus throws $(dx)^2$ away because it is $o(dx)$. For Wiener that discard is illegal: $(dW)^2$ is the same size as $dt$. In 1942 Kiyosi Itô put the leftover back. That leftover *is* the $e^{s^2/2}$ of stage 3.
+The chain rule you already know is first-order Taylor. If $x$ moves by $dx$, then $f$ moves by $f'(x)\,dx$, and the next term $\tfrac12 f''(x)\,(dx)^2$ is discarded because it vanishes faster than $dx$. For a path with a tangent that discard is legal.
+
+A Wiener path has no tangent. Each increment satisfies $(dW)^2=dt$, the same size as the clock, so the second-order term survives. In 1942 Kiyosi Itô put it back. The rest of this stage is that leftover, by hand, on $W^2$. Stage 6 spends it on $\ln S$: the extra $-\tfrac12\sigma^2\,dt$ in the log-drift *is* the $e^{s^2/2}$ of stage 3, booked in a different ledger.
 
 ## Quadratic variation, by hand
 
@@ -427,7 +429,7 @@ The paths have, with probability $1$, no tangent line anywhere. You cannot write
 
 ## Itô on $W^2$
 
-Taylor for $f(x)=x^2$ says $\Delta f=2x\,\Delta x+(\Delta x)^2$. Calculus 1 throws the second term away. On the four-step path of four heads, $W=0,0.5,1,1.5,2$, so $W^2$ ends at $4$. The Calculus-1 running sum $\sum 2W\,\Delta W$ is
+The chain rule on $f(x)=x^2$ says $\Delta f=2x\,\Delta x$. Taylor keeps the next term $(\Delta x)^2$. Calculus 1 throws that second term away. On the four-step path of four heads, $W=0,0.5,1,1.5,2$, so $W^2$ ends at $4$. The chain-rule running sum $\sum 2W\,\Delta W$ is
 
 $$
 2\cdot 0\cdot\tfrac12 + 2\cdot\tfrac12\cdot\tfrac12 + 2\cdot 1\cdot\tfrac12 + 2\cdot\tfrac32\cdot\tfrac12 \;=\; 3.
@@ -451,7 +453,7 @@ $$
 df(t,X_t) \;=\; \Bigl(f_t + a f_x + \tfrac12 b^2 f_{xx}\Bigr)dt + b f_x\,dW_t. \tag{3}
 $$
 
-The first two terms in the $dt$ coefficient are the ordinary chain rule. The third is the leftover on $W^2$. For $f(x)=x^2$ and $X=W$ ($a=0$, $b=1$, $f_{xx}=2$), the correction is $dt$, and $d(W^2)=2W\,dW+dt$. Integrate: $W_t^2=2\int W\,dW+t$. At $t=1$ the extra $+1$ is the gap in the figure.
+The first two terms in the $dt$ coefficient are that same chain rule. The third is the leftover we just computed on $W^2$. For $f(x)=x^2$ and $X=W$ ($a=0$, $b=1$, $f_{xx}=2$), the correction is $dt$, and $d(W^2)=2W\,dW+dt$. Integrate: $W_t^2=2\int W\,dW+t$. At $t=1$ the extra $+1$ is the gap in the figure.
 
 Stage 6 applies the same lemma to $\ln S$.
 
@@ -613,6 +615,8 @@ We guessed a working premium of $10$. The formula charges $10.45$. Close, for a 
 
 ![Two evaluations of the same bell curve](/blog/assets/2024/bsm/phi-anatomy.png)
 
+The same arithmetic in Python, standard library only:
+
 ```python
 from math import log, exp, sqrt, erf
 
@@ -743,11 +747,45 @@ The same Itô computation on $f=1/S$ produces the SDE for the inverse stock, who
 # Limitations
 {: #limitations}
 
-**Dividends.** A continuous yield $q$ changes the risk-neutral drift of $S$ from $r$ to $r-q$. The same two integrals produce $C=S_t e^{-q\tau}\Phi(d_1)-K e^{-r\tau}\Phi(d_2)$, with $r$ replaced by $r-q$ inside $d_1,d_2$ as well. Index options ($q$ is the basket yield), FX ($q$ is the foreign rate), futures ($q=r$: Black 1976).
+The theorem we proved is narrower than the word "option." It prices a European call on a stock that pays no dividend, driven by one Wiener process with a constant $\sigma$, in a market where you can trade continuously at a known rate $r$. Change any of those and either the two-$\Phi$ skeleton morphs — same shape, different inputs — or it breaks.
 
-**The smile.** After 1987 the market stopped believing in a single $\sigma$. **Implied volatility** is the number you feed into $(1)$ to recover the quoted price. Plot it against strike and you get a smile, or in equities a smirk. Traders still quote in Black–Scholes implied vol. They do not believe the lognormal.
+## Dividends
 
-**Jumps, stochastic vol, Americans.** Merton added jumps. Heston let $\sigma_t$ wander. Dupire's local vol refits a whole implied surface. None of these has a two-$\Phi$ formula of the same shape. The American put has no closed form of this kind; a binomial tree is the honest computation.
+The rain-check stock paid nothing while you held it. Under the fair-game measure $\mathbb{Q}$, its drift had to be $r$: otherwise you could pocket the excess over the bond. If the stock instead pays a continuous **yield** $q$ — a cash stream $qS\,dt$ while you hold it — the capital-gain drift under $\mathbb{Q}$ must be $r-q$. Total return, gain plus yield, equals $r$. Any more is a free lunch.
+
+The prepaid forward is then $S_t e^{-q\tau}$ instead of $S_t$. Stage 4's two integrals still close. The share piece picks up $e^{-q\tau}$, and $r$ is replaced by $r-q$ inside $d_1$ and $d_2$:
+
+$$
+C \;=\; S_t e^{-q\tau}\,\Phi(d_1) - K e^{-r\tau}\,\Phi(d_2).
+$$
+
+Give the rain-check stock a $2\%$ yield. Then $d_1=0.25$, $d_2=0.05$, and $C\approx 9.23$, cheaper than $10.45$: the stock itself now pays you, so the call is less of a reason to hold.
+
+The same skeleton prices three cousins, once you name what $q$ is.
+
+- A call on an **index**. The stocks in the basket pay dividends, so the index has a yield $q$.
+- A call on a **foreign currency** (Garman–Kohlhagen). Holding euros earns the euro interest rate $r_f$; that rate is $q$.
+- A call on a **futures** (Black 1976). You put up no cash to hold the futures, so you save the financing $r$. That saving is a yield $q=r$, and the formula collapses to $e^{-r\tau}\bigl[F\Phi(d_1)-K\Phi(d_2)\bigr]$.
+
+A discrete cash dividend of size $D$ just before $T$ is a different animal: $S_T$ is then a lognormal minus $D$, which is not lognormal, and $(1)$ as written does not apply.
+
+## The smile
+
+The model has one $\sigma$ for every strike. After the 1987 crash, out-of-the-money puts — insurance against a crash — started trading at prices no single $\sigma$ could fit. Low strikes implied a higher $\sigma$ than the rain check did.
+
+**Implied volatility** is the dictionary that survived. Given a quoted price, it is the number $\sigma_{\mathrm{imp}}$ you feed into $(1)$ to recover that quote. Our formula at $20\%$ says $10.45$; if the market shows $12$, implied vol is some number above $20\%$. Plot $\sigma_{\mathrm{imp}}$ against strike and you get a U in FX (a **smile**) and a downward slope in equities (a **smirk**: crash insurance is dear). Traders still quote "vol $22$" rather than a dollar price, because that number compares across strikes and tenors. They are using $(1)$ backwards as a language. They do not believe $\ln S_T$ is Gaussian.
+
+## Jumps, wandering vol, early exercise
+
+Three ways the one-Wiener story fails.
+
+Wiener paths are continuous: they cannot gap overnight. A crash is a gap. Merton added Poisson **jumps** on top of the Wiener process. You cannot hedge a jump with $\Delta$ shares, so the market is no longer complete, and the price is a *sum* of $\Phi$-pairs, one per jump-count, not a single pair.
+
+$\sigma$ need not be a constant. If $\sigma_t$ itself wanders (Heston), then $s$ is random and the call is an *average* of Black–Scholes prices, one per realised $s$. If instead $\sigma=\sigma(S,t)$ is fitted today so that every quoted strike is recovered (Dupire's **local vol**), $S_T$ is typically not lognormal at all: the two-$\Phi$ formula is being used as a quoting machine, not as a model.
+
+A European contract can be exercised only at $T$. An **American** put can be exercised at any time. If the stock is near zero, taking $K$ in cash now beats waiting. That is a free boundary; there is no two-$\Phi$ of this shape. The binomial tree of stage 6 is the honest computation: at each node, take the max of exercise and hold. (An American *call* on a non-dividend stock is never exercised early — the European formula still holds — because the stock pays you nothing for owning it now rather than later.)
+
+## What was proved
 
 What has been proved is a theorem about a complete market driven by one Wiener process: the unique no-arbitrage price of $(S_T-K)^+$ is $(1)$. Using that theorem as a price, as a quoting convention, or as the first term of an approximation is a separate decision.
 
