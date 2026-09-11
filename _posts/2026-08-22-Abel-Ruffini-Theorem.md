@@ -100,7 +100,7 @@ $$
 
 for the **closed disk** of radius $R$ centered at the origin — the filled circle, boundary included. As a subset of the plane $\mathbb{R}^2$ it is closed and bounded, hence **compact** by Heine–Borel. The modulus $\lvert p\rvert : \mathbb{C}\to[0,\infty)$ is continuous (a polynomial is continuous, and $\lvert\,\cdot\,\rvert$ is continuous). A continuous real-valued function on a compact set attains its minimum: there exists $z_0\in\overline{D}_R$ with $\lvert p(z_0)\rvert \le \lvert p(z)\rvert$ for every $z\in\overline{D}_R$.
 
-That minimum cannot live on the boundary. The origin $0$ lies in $\overline{D}_R$, so $\lvert p(z_0)\rvert \le \lvert p(0)\rvert$. But on the circle $\lvert z\rvert = R$ we already have $\lvert p(z)\rvert \gt \lvert p(0)\rvert$. Therefore $\lvert z_0\rvert \lt R$: $z_0$ is an **interior** point of the disk. We claim $p(z_0)=0$.
+That minimum cannot live on the boundary. The origin $0$ lies in $\overline{D}_R$, so $\lvert p(z_0)\rvert \le \lvert p(0)\rvert$. But on the circle $\lvert z\rvert = R$ we already have $\lvert p(z)\rvert \gt \lvert p(0)\rvert$. Therefore $\lvert z_0\rvert \lt R$: $z_0$ is an **interior** point of the disk. The same comparison shows the disk-minimum is a minimum on all of $\mathbb{C}$: outside the disk, $\lvert p\rvert$ is already larger than $\lvert p(z_0)\rvert$. We claim $p(z_0)=0$.
 
 The figure is this height function for the later quintic $p(z)=z^5-z-1$, with $R=1.6$. Five dark wells sit strictly inside the cyan circle; each well is a root. The real slice on the right is the same height restricted to $\overline{D}_R\cap\mathbb{R}=[-R,R]$.
 
@@ -108,19 +108,62 @@ The figure is this height function for the later quintic $p(z)=z^5-z-1$, with $R
   <img src="/blog/assets/2026/abel-ruffini/compact-disk.png" alt="Modulus of z^5-z-1 as a heatmap on the complex plane, with the compact disk of radius R outlined and all five roots interior" style="max-width:100%;">
 </p>
 
-Suppose not: $p(z_0)=a\neq 0$. Expand around $z_0$,
+Suppose not: $p(z_0)\neq 0$. Shift the putative minimum to the origin and scale it to $1$:
 
 $$
-p(z_0+w) = a + c_k w^k + c_{k+1}w^{k+1} + \cdots + c_n w^n,
+q(z) \;=\; \frac{p(z+z_0)}{p(z_0)}.
 $$
 
-with $c_k\neq 0$ and $k\ge 1$. Choose a $k$th root of $-a/c_k$, call it $u$, so $c_k u^k = -a$. For small positive $t$, set $w=tu$. Then
+Then $q(0)=1$, and $\lvert q\rvert$ has a global minimum of $1$ at $0$. Write
 
 $$
-p(z_0+tu) = a(1-t^k) + O(t^{k+1}).
+q(z) \;=\; 1 + b_k z^k + b_{k+1}z^{k+1} + \cdots + b_m z^m,
 $$
 
-For $t$ small enough, $\lvert p(z_0+tu)\rvert \lt \lvert a\rvert = \lvert p(z_0)\rvert$, contradicting minimality. Hence $p(z_0)=0$.
+where $k\ge 1$ is smallest with $b_k\neq 0$ — the first non-constant term. If we can produce a point at which $\lvert q\rvert<1$, the minimum is not a minimum.
+
+The first term $b_k z^k$ can be *aimed*. We want a direction $\beta$ with $b_k\beta^k=-1$, so that walking a small real distance $t$ along $\beta$ subtracts $t^k$ from $1$ rather than rotating around it. That equation is $\beta^k=-1/b_k$: a $k$th root of a complex number. Here is the construction.
+
+**De Moivre, and $k$th roots.**
+
+> **De Moivre's theorem.** If $k$ is a positive integer and $\theta\in\mathbb{R}$, then
+> $$(\cos\theta + i\sin\theta)^k \;=\; \cos(k\theta) + i\sin(k\theta).$$
+
+The proof is induction on $k$, using the addition formulas $\cos(\theta+\varphi)=\cos\theta\cos\varphi-\sin\theta\sin\varphi$ and $\sin(\theta+\varphi)=\sin\theta\cos\varphi+\cos\theta\sin\varphi$. Those two identities are the whole of trigonometry that the argument needs.
+
+Now take any $w\in\mathbb{C}$. Polar coordinates supply $r\ge 0$ and $\theta\in\mathbb{R}$ with $w=r(\cos\theta+i\sin\theta)$. The nonnegative real $r$ has a real $k$th root: $x\mapsto x^k$ is a continuous bijection $[0,\infty)\to[0,\infty)$, so it hits $r$ (intermediate-value theorem; uniqueness because the map is strictly increasing). De Moivre then gives
+
+$$
+\Bigl(r^{1/k}\bigl(\cos\tfrac{\theta}{k} + i\sin\tfrac{\theta}{k}\bigr)\Bigr)^k \;=\; w.
+$$
+
+Thus every complex number has a $k$th root. There are $k$ of them — replace $\theta$ by $\theta+2\pi j$ for $j=0,\ldots,k-1$; they sit equally spaced on the circle of radius $r^{1/k}$ — and we need only one. This is a statement about *points in the plane*, built from cosine, sine, and a real $k$th root of a length. It is not a radical formula in the coefficients of $p$. We will need that distinction later.
+
+**The walk.** Let $\beta$ be a $k$th root of $-1/b_k$, so $b_k\beta^k=-1$. For $t\in(0,1)$,
+
+$$
+q(t\beta) \;=\; 1 + b_k(t\beta)^k + \sum_{j=k+1}^{m} b_j(t\beta)^j \;=\; 1 - t^k + t^{k+1}\,r(t),
+$$
+
+where $r(t)=\sum_{j=k+1}^{m} b_j t^{j-k-1}\beta^j$ is a polynomial, hence bounded on $[0,1]$: $\lvert r(t)\rvert\le C$ for some $C$. (If $q$ has no terms past $z^k$, take $C=0$.) Pick a constant $c>\max(C,1)$. The triangle inequality and $t\in(0,1)$ give
+
+$$
+\lvert q(t\beta)\rvert \;\le\; \lvert 1-t^k\rvert + t^{k+1}c \;=\; 1-t^k + c\,t^{k+1} \;=\; 1-t^k(1-ct).
+$$
+
+Take $t=1/(2c)$. Then $t\in(0,1)$ and $1-ct=\tfrac12$, so
+
+$$
+\lvert q(t\beta)\rvert \;\le\; 1-\tfrac12 t^k \;<\; 1,
+$$
+
+contradicting the assumption that the global minimum of $\lvert q\rvert$ is $1$. Hence $p(z_0)=0$.
+
+The geometry: De Moivre aims $b_k(t\beta)^k$ *directly opposite* the constant term $1$, so the two cancel as real numbers $1-t^k$ rather than rotating around the unit circle. The leftover is one degree higher and, at $t=1/(2c)$, too small to push back outside the unit disk. A compressed writeup would hide the tail as $O(t^{k+1})$ and take $t$ small enough; the explicit $t=1/(2c)$ is the same estimate, with the constant named. (This walk is Axler's, from *Linear Algebra Done Right*, 4th ed., §4.12. The compactness that produces the minimum is the disk argument above.)
+
+<p style="text-align:center;">
+  <img src="/blog/assets/2026/abel-ruffini/de-moivre-walk.png" alt="Left: De Moivre placing the three cube roots of a complex number w equally spaced on a circle. Right: in the q-plane, the first non-constant term is aimed from 1 toward 0, and the higher-term error disk still lies inside the unit disk." style="max-width:100%;">
+</p>
 
 (If you prefer Liouville: if $p$ had no root then $1/p$ would be entire and bounded, hence constant, hence $p$ constant.)
 
@@ -633,4 +676,4 @@ Paolo Ruffini nearly proved the general-coefficient case in 1799, in *Teoria gen
 
 What this note does not claim: that roots cannot be approximated (they can, to any precision); that no closed form of any kind exists (Bring’s radical and elliptic modular functions give expressions outside the radical language); that every quintic is unsolvable (only those whose Galois group is not a solvable group).
 
-The sources woven here are the [fundamental theorem of algebra](https://en.wikipedia.org/wiki/Fundamental_theorem_of_algebra); [parity of a permutation](https://en.wikipedia.org/wiki/Parity_of_a_permutation); the [degree of a field extension](https://en.wikipedia.org/wiki/Degree_of_a_field_extension#The_multiplicativity_formula_for_degrees) and the [tower law](https://artofproblemsolving.com/wiki/index.php/Tower_law); [the splitting field of a separable polynomial is Galois](https://math.stackexchange.com/questions/962898/on-a-proof-that-the-splitting-field-of-a-separable-polynomial-is-galois); [irreducible of prime degree with $p-2$ real roots has Galois group $S_p$](https://math.stackexchange.com/questions/3075225/f-irreducible-polynomial-with-p-2-real-roots-rightarrow-gal-mathbbq-f); and the [Abel–Ruffini theorem](https://en.wikipedia.org/wiki/Abel%E2%80%93Ruffini_theorem). For the $S_p$ lemma in cleaner notes, Keith Conrad’s *Galois groups as permutation groups* is the standard blurb. Dummit and Foote, Chapter 14, is the textbook companion if you want every lemma with a number.
+The sources woven here are the [fundamental theorem of algebra](https://en.wikipedia.org/wiki/Fundamental_theorem_of_algebra); Sheldon Axler, [*Linear Algebra Done Right*](https://linear.axler.net), 4th ed., §4.12, for the $k$th-root walk; [parity of a permutation](https://en.wikipedia.org/wiki/Parity_of_a_permutation); the [degree of a field extension](https://en.wikipedia.org/wiki/Degree_of_a_field_extension#The_multiplicativity_formula_for_degrees) and the [tower law](https://artofproblemsolving.com/wiki/index.php/Tower_law); [the splitting field of a separable polynomial is Galois](https://math.stackexchange.com/questions/962898/on-a-proof-that-the-splitting-field-of-a-separable-polynomial-is-galois); [irreducible of prime degree with $p-2$ real roots has Galois group $S_p$](https://math.stackexchange.com/questions/3075225/f-irreducible-polynomial-with-p-2-real-roots-rightarrow-gal-mathbbq-f); and the [Abel–Ruffini theorem](https://en.wikipedia.org/wiki/Abel%E2%80%93Ruffini_theorem). For the $S_p$ lemma in cleaner notes, Keith Conrad’s *Galois groups as permutation groups* is the standard blurb. Dummit and Foote, Chapter 14, is the textbook companion if you want every lemma with a number.
