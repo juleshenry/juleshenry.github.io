@@ -10,12 +10,18 @@ layout: feed
    <name>Julian Henry</name>
  </author>
 
- {% for post in site.posts limit:20 %}
+ {% assign feed_count = 0 %}
+ {% for post in site.posts %}
+ {% unless post.redirect_to %}
+ {% if feed_count < 20 %}
  <entry>
    <title>{{ post.title }}</title>
-   <link href="http://hankquinlan.github.io{{ post.url }}"/>
+   <link href="http://juleshenry.github.io{{ post.url }}"/>
    <updated>{{ post.date | date_to_xmlschema }}</updated>
    <id>http://juleshenry.github.io/{{ post.id }}</id>
    <content type="html">{{ post.content | xml_escape }}</content>
  </entry>
+ {% assign feed_count = feed_count | plus: 1 %}
+ {% endif %}
+ {% endunless %}
  {% endfor %}

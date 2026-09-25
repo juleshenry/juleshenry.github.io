@@ -8,7 +8,7 @@ mathjax: true
 
 *A Socratic return to the two-sphere: the questions from a local Phi-3 session, answered so that the pictures are the equations.*
 
-In May 2024 I asked a small language model, running locally, to talk me through Smale's theorem that any two immersions of $S^2$ in $\mathbb{R}^3$ are regularly homotopic. The transcript is [Sphere Eversion Phi3 Notes I](/blog/2024/05/22/sphere-eversion-phi3-notes-I). The questions were the right questions. The proofs were not: a linear interpolation was offered as a regular homotopy, the hairy-ball theorem was credited to Smale, and $S^2\times[0,1]$ was described as a solid ball.
+In May 2024 I asked a small language model, running locally, to talk me through Smale's theorem that any two immersions of $S^2$ in $\mathbb{R}^3$ are regularly homotopic. The transcript is [Sphere Eversion Phi3 Notes I](https://honghaptang.github.io/blog/2024/05/22/sphere-eversion-phi3-notes-I). The questions were the right questions. The proofs were not: a linear interpolation was offered as a regular homotopy, the hairy-ball theorem was credited to Smale, and $S^2\times[0,1]$ was described as a solid ball.
 
 In September I wrote a straight exposition, [The Eversion of the Sphere](/blog/2024/09/27/the-eversion-of-the-sphere). It had the theorem right and the pictures wrong. The interactive "eversion" flattened $z$ through zero --- exactly the crease the text forbade --- and the "Morin surface" was an unnamed polynomial that did not match any formula on the page.
 
@@ -1104,4 +1104,4 @@ Calculus gives the language: charts, $J&#95;{f}$, $\mathbf{f}&#95;{u}\times\math
 
 The first post asked. The second post answered, and then drew the forbidden crease. This one circles the sphere until the picture and the equation are the same object.
 
-**Further reading.** S. Smale, *A classification of immersions of the two-sphere*, Trans. Amer. Math. Soc. 90 (1958). A. Bednorz and W. Bednorz, [arXiv:1711.10466](https://arxiv.org/abs/1711.10466). S. Levy, D. Maxwell, T. Munzner, *Outside In*, Geometry Center, 1994. Guillemin--Pollack, *Differential Topology*. The two parents of this page: [Phi-3 notes](/blog/2024/05/22/sphere-eversion-phi3-notes-I), [The Eversion of the Sphere](/blog/2024/09/27/the-eversion-of-the-sphere).
+**Further reading.** S. Smale, *A classification of immersions of the two-sphere*, Trans. Amer. Math. Soc. 90 (1958). A. Bednorz and W. Bednorz, [arXiv:1711.10466](https://arxiv.org/abs/1711.10466). S. Levy, D. Maxwell, T. Munzner, *Outside In*, Geometry Center, 1994. Guillemin--Pollack, *Differential Topology*. The two parents of this page: [Phi-3 notes](https://honghaptang.github.io/blog/2024/05/22/sphere-eversion-phi3-notes-I), [The Eversion of the Sphere](/blog/2024/09/27/the-eversion-of-the-sphere).
