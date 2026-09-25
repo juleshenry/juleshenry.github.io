@@ -1,0 +1,13 @@
+# Repo names (not owner/name) excluded from Selected Works.
+# Also auto-excluded: anything matching *_notes / *-notes
+#
+# Blog
+juleshenry.github.io
+
+# Scratchpads / one-offs
+-shtetltleths-
+jjokji
+khwam-ra-roeng
+marionet
+menetsir
+speculation_sur_lamplitude

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Refresh Selected Works header stats and per-card star counts from GitHub."""
+"""Regenerate selected-works.html from public GitHub repos (star-sorted)."""
 
 from __future__ import annotations
 
+import html
 import json
 import os
 import re
@@ -12,129 +13,208 @@ import urllib.request
 from pathlib import Path
 
 USER = "juleshenry"
-PAGE = Path(__file__).resolve().parents[1] / "selected-works.html"
-API = f"https://api.github.com/users/{USER}/repos?per_page=100&type=owner&sort=updated"
+ROOT = Path(__file__).resolve().parents[1]
+PAGE = ROOT / "selected-works.html"
+BLACKLIST_FILE = Path(__file__).resolve().parent / "selected_works_blacklist.txt"
+
+LANG_DOT = {
+    "Python": "python",
+    "JavaScript": "js",
+    "TypeScript": "ts",
+    "Shell": "shell",
+    "CSS": "css",
+    "Julia": "julia",
+    "WebAssembly": "wasm",
+    "Jupyter Notebook": "python",
+    "HTML": "js",
+    "Rust": "shell",
+    "Go": "shell",
+}
+
+STAR_SVG = (
+    '<svg viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 01.673.418l1.882 '
+    "3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 "
+    "01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 "
+    "6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z\"/>"
+    "</svg>"
+)
+
+
+def load_blacklist() -> set[str]:
+    names: set[str] = set()
+    if not BLACKLIST_FILE.exists():
+        return names
+    for line in BLACKLIST_FILE.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        # allow owner/name or bare name
+        names.add(line.split("/")[-1])
+    return names
+
+
+def is_notes_repo(name: str) -> bool:
+    return bool(re.search(r"(^|[_-])notes?$", name, re.I))
 
 
 def fetch_repos() -> list[dict]:
-    req = urllib.request.Request(
-        API,
-        headers={
-            "Accept": "application/vnd.github+json",
-            "User-Agent": f"{USER}-selected-works-stats",
-            **(
-                {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"}
-                if os.environ.get("GITHUB_TOKEN")
-                else {}
-            ),
-        },
+    out: list[dict] = []
+    page = 1
+    while True:
+        url = (
+            f"https://api.github.com/users/{USER}/repos"
+            f"?per_page=100&type=owner&sort=updated&page={page}"
+        )
+        req = urllib.request.Request(
+            url,
+            headers={
+                "Accept": "application/vnd.github+json",
+                "User-Agent": f"{USER}-selected-works",
+                **(
+                    {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"}
+                    if os.environ.get("GITHUB_TOKEN")
+                    else {}
+                ),
+            },
+        )
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            batch = json.load(resp)
+        if not batch:
+            break
+        out.extend(batch)
+        if len(batch) < 100:
+            break
+        page += 1
+    return out
+
+
+def display_title(name: str) -> str:
+    # mr.worldwide → Mr. Worldwide; ghee → ghee; quantum-plankton-ml → Quantum Plankton Ml
+    pretty = name.replace("_", " ").replace("-", " ")
+    if pretty.lower() == name.lower() and "." in name:
+        parts = name.split(".")
+        return ".".join(p[:1].upper() + p[1:] if p else "" for p in parts)
+    return " ".join(w[:1].upper() + w[1:] if w else "" for w in pretty.split())
+
+
+def lang_badge(language: str | None) -> str:
+    if not language:
+        return (
+            '<span class="lang-badge">'
+            '<span class="lang-dot notes"></span>Other</span>'
+        )
+    dot = LANG_DOT.get(language, "notes")
+    label = html.escape(language)
+    return (
+        f'<span class="lang-badge">'
+        f'<span class="lang-dot {dot}"></span>{label}</span>'
     )
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        return json.load(resp)
+
+
+def render_card(repo: dict) -> str:
+    full = repo["full_name"]
+    name = repo["name"]
+    url = repo["html_url"]
+    desc = (repo.get("description") or "").strip() or "No description yet."
+    stars = int(repo.get("stargazers_count") or 0)
+    title = html.escape(display_title(name))
+    return f"""    <li class="work-card">
+      <div class="work-card-header">
+        <h3 class="work-card-title"><a href="{html.escape(url)}">{title}</a></h3>
+      </div>
+      <p class="work-card-repo">{html.escape(full)}</p>
+      <p class="work-card-desc">{html.escape(desc)}</p>
+      <div class="work-card-meta">
+        {lang_badge(repo.get("language"))}
+        <span class="star-count">{STAR_SVG} {stars}</span>
+      </div>
+    </li>"""
+
+
+def render_page(repos: list[dict]) -> str:
+    n_repos = len(repos)
+    langs = sorted({r["language"] for r in repos if r.get("language")})
+    n_langs = len(langs)
+    n_stars = sum(int(r.get("stargazers_count") or 0) for r in repos)
+    cards = "\n\n".join(render_card(r) for r in repos)
+    return f"""---
+layout: default
+title: Selected Works - Julian Henry — polyglot / software engineer / author
+---
+
+<h1>Selected Works</h1>
+<p class="works-intro">
+  Open-source projects spanning scientific computing, developer tools, image processing,
+  language learning, and creative coding. Star-sorted from public GitHub repos
+  (notes, the blog, and blacklisted one-offs omitted).
+</p>
+
+<div class="works-stats">
+  <div class="stat">
+    <span class="stat-number">{n_repos}</span>
+    <span class="stat-label">Repositories</span>
+  </div>
+  <div class="stat">
+    <span class="stat-number">{n_langs}</span>
+    <span class="stat-label">Languages</span>
+  </div>
+  <div class="stat">
+    <span class="stat-number">{n_stars}</span>
+    <span class="stat-label">Stars</span>
+  </div>
+</div>
+
+<!-- AUTO-GENERATED: scripts/update_selected_works_stats.py — do not hand-edit cards -->
+<div class="works-section">
+  <h2 class="works-section-title"><span>&#x2B50;</span> Public repositories</h2>
+  <ul class="works-grid">
+
+{cards}
+
+  </ul>
+</div>
+"""
 
 
 def main() -> int:
+    blacklist = load_blacklist()
     try:
-        repos = fetch_repos()
+        raw = fetch_repos()
     except urllib.error.HTTPError as e:
         print(f"GitHub API error: {e.code} {e.reason}", file=sys.stderr)
         return 1
 
-    by_full = {
-        r["full_name"]: r
-        for r in repos
-        if not r.get("fork") and not r.get("archived")
-    }
+    selected: list[dict] = []
+    skipped: list[str] = []
+    for r in raw:
+        name = r["name"]
+        if r.get("fork") or r.get("private"):
+            continue
+        if name in blacklist or is_notes_repo(name):
+            skipped.append(name)
+            continue
+        selected.append(r)
 
-    html = PAGE.read_text(encoding="utf-8")
-
-    # Featured cards on the page (order preserved)
-    featured = re.findall(
-        r'<p class="work-card-repo">([^<]+)</p>',
-        html,
-    )
-    if not featured:
-        print("No work-card-repo entries found", file=sys.stderr)
-        return 1
-
-    featured_repos = []
-    for name in featured:
-        name = name.strip()
-        if name in by_full:
-            featured_repos.append(by_full[name])
-        else:
-            print(f"warn: not found or skipped: {name}", file=sys.stderr)
-
-    n_repos = len(featured)
-    langs = sorted(
-        {
-            r["language"]
-            for r in featured_repos
-            if r.get("language")
-        }
-    )
-    n_langs = len(langs)
-    n_stars = sum(r.get("stargazers_count", 0) for r in featured_repos)
-
-    # Replace the three labeled header stats (do not stop at nested </div>)
-    stats_pat = re.compile(
-        r'(<div class="works-stats">\s*'
-        r'<div class="stat">\s*<span class="stat-number">)\d+'
-        r'(</span>\s*<span class="stat-label">Repositories</span>[\s\S]*?'
-        r'<span class="stat-number">)\d+'
-        r'(</span>\s*<span class="stat-label">Languages</span>[\s\S]*?'
-        r'<span class="stat-number">)\d+'
-        r'(</span>\s*<span class="stat-label">Stars</span>)',
-    )
-    html2, n = stats_pat.subn(
-        rf"\g<1>{n_repos}\g<2>{n_langs}\g<3>{n_stars}\g<4>",
-        html,
-        count=1,
-    )
-    if n != 1:
-        print("Could not locate .works-stats block", file=sys.stderr)
-        return 1
-    html = html2
-
-    # Per-card stars: for each card, find work-card-repo then nearest star-count
-    star_re = re.compile(
-        r'(<span class="star-count"><svg[^>]*>.*?</svg>)\s*\d+(</span>)',
-        re.S,
+    selected.sort(
+        key=lambda r: (-int(r.get("stargazers_count") or 0), r["name"].lower())
     )
 
-    def patch_card(card: str) -> str:
-        m = re.search(r'<p class="work-card-repo">([^<]+)</p>', card)
-        if not m:
-            return card
-        full = m.group(1).strip()
-        repo = by_full.get(full)
-        if not repo:
-            return card
-        stars = repo.get("stargazers_count", 0)
-
-        def repl_stars(sm: re.Match[str]) -> str:
-            return f"{sm.group(1)} {stars}{sm.group(2)}"
-
-        return star_re.sub(repl_stars, card, count=1)
-
-    html = re.sub(
-        r'<li class="work-card">.*?</li>',
-        lambda m: patch_card(m.group(0)),
-        html,
-        flags=re.S,
-    )
-
-    if html == PAGE.read_text(encoding="utf-8"):
+    page = render_page(selected)
+    if PAGE.exists() and PAGE.read_text(encoding="utf-8") == page:
         print(
-            f"unchanged: {n_repos} repos, {n_langs} languages, {n_stars} stars"
+            f"unchanged: {len(selected)} repos, "
+            f"{sum(int(r.get('stargazers_count') or 0) for r in selected)} stars; "
+            f"skipped {len(skipped)}"
         )
         return 0
 
-    PAGE.write_text(html, encoding="utf-8")
+    PAGE.write_text(page, encoding="utf-8")
     print(
-        f"updated: {n_repos} repos, {n_langs} languages ({', '.join(langs)}), "
-        f"{n_stars} stars"
+        f"updated: {len(selected)} repos, "
+        f"{sum(int(r.get('stargazers_count') or 0) for r in selected)} stars"
     )
+    if skipped:
+        print("skipped:", ", ".join(sorted(skipped)))
     return 0
 
 
