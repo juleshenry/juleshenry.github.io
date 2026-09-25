@@ -18,7 +18,6 @@ tatuagem
 superwand
 mr.worldwide
 physical-menu-to-website
-minime
 polyglot-poster
 
 ## Developer Tools | 🛠
