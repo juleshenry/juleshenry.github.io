@@ -3,7 +3,7 @@
   <head>
     <title>{{ page.title }}</title>
     <meta charset='utf-8'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Julian Henry — polyglot / software engineer / author. Writing about ML, quantum computing, systems programming, linguistics, and more.">
     {% if page.redirect_to %}
@@ -55,7 +55,7 @@
   </head>
 
 
-  <body>
+  <body{% if page.layout == 'post' %} class="page-post"{% endif %}>
   <div id="arxiv-logo" title="Eclectic Genius"></div>
   <div id="container">
   <div class="inner">
@@ -68,7 +68,6 @@
               <li><a href="/about">About</a></li>
               <li><a href="/selected-works">Selected Works</a></li>
               <li><a href="/blog">Blog</a></li>
-              <li><a href="{{ site.resume_url | default: '/resume' }}">Resume</a></li>
             </ul>
           </nav>
         </header>
