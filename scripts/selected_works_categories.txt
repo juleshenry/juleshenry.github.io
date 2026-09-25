@@ -22,7 +22,6 @@ physical-menu-to-website
 ## Developer Tools | 🛠
 ghee
 readme_rosetta
-touchkeeper
 
 ## Language & Linguistics | 🌍
 vulgultra
