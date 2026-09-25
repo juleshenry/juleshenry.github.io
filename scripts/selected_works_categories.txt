@@ -1,0 +1,30 @@
+# Category map for Selected Works.
+# Section order = first appearance order below.
+# Repos not listed land in "Other".
+# Format:
+#   ## Section Title | emoji
+#   repo-name
+
+## Scientific & Engineering | 🔬
+quantum-plankton-ml
+zooplankton-image-tool
+vakyume
+equation_permute
+rafaga
+intersekt
+
+## Creative & Media | 🎨
+tatuagem
+superwand
+mr.worldwide
+physical-menu-to-website
+minime
+polyglot-poster
+
+## Developer Tools | 🛠
+ghee
+readme_rosetta
+touchkeeper
+
+## Language & Linguistics | 🌍
+vulgultra

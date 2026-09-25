@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Regenerate selected-works.html from public GitHub repos (star-sorted)."""
+"""Regenerate selected-works.html from public GitHub repos.
+
+Star-sorted within category rails. Blacklist + category map live beside
+this script.
+"""
 
 from __future__ import annotations
 
@@ -15,7 +19,9 @@ from pathlib import Path
 USER = "juleshenry"
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "selected-works.html"
-BLACKLIST_FILE = Path(__file__).resolve().parent / "selected_works_blacklist.txt"
+SCRIPT_DIR = Path(__file__).resolve().parent
+BLACKLIST_FILE = SCRIPT_DIR / "selected_works_blacklist.txt"
+CATEGORIES_FILE = SCRIPT_DIR / "selected_works_categories.txt"
 
 LANG_DOT = {
     "Python": "python",
@@ -25,7 +31,7 @@ LANG_DOT = {
     "CSS": "css",
     "Julia": "julia",
     "WebAssembly": "wasm",
-    "Jupyter Notebook": "python",
+    "Jupyter Notebook": "jupyter",
     "HTML": "js",
     "Rust": "shell",
     "Go": "shell",
@@ -48,9 +54,34 @@ def load_blacklist() -> set[str]:
         line = line.strip()
         if not line or line.startswith("#"):
             continue
-        # allow owner/name or bare name
         names.add(line.split("/")[-1])
     return names
+
+
+def load_categories() -> tuple[list[tuple[str, str]], dict[str, str]]:
+    """Return ([(title, emoji), ...], {repo_name: title})."""
+    order: list[tuple[str, str]] = []
+    mapping: dict[str, str] = {}
+    if not CATEGORIES_FILE.exists():
+        return order, mapping
+    current: str | None = None
+    for line in CATEGORIES_FILE.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("## "):
+            body = line[3:].strip()
+            if "|" in body:
+                title, emoji = [p.strip() for p in body.split("|", 1)]
+            else:
+                title, emoji = body, "⭐"
+            current = title
+            order.append((title, emoji))
+            continue
+        if current is None:
+            continue
+        mapping[line.split("/")[-1]] = current
+    return order, mapping
 
 
 def is_notes_repo(name: str) -> bool:
@@ -89,11 +120,10 @@ def fetch_repos() -> list[dict]:
 
 
 def display_title(name: str) -> str:
-    # mr.worldwide → Mr. Worldwide; ghee → ghee; quantum-plankton-ml → Quantum Plankton Ml
-    pretty = name.replace("_", " ").replace("-", " ")
-    if pretty.lower() == name.lower() and "." in name:
+    if "." in name and "-" not in name and "_" not in name:
         parts = name.split(".")
         return ".".join(p[:1].upper() + p[1:] if p else "" for p in parts)
+    pretty = name.replace("_", " ").replace("-", " ")
     return " ".join(w[:1].upper() + w[1:] if w else "" for w in pretty.split())
 
 
@@ -131,12 +161,53 @@ def render_card(repo: dict) -> str:
     </li>"""
 
 
-def render_page(repos: list[dict]) -> str:
+def render_section(title: str, emoji: str, repos: list[dict]) -> str:
+    cards = "\n\n".join(render_card(r) for r in repos)
+    return f"""<div class="works-section">
+  <h2 class="works-section-title"><span>{emoji}</span> {html.escape(title)}</h2>
+  <ul class="works-rail">
+
+{cards}
+
+  </ul>
+</div>"""
+
+
+def render_page(
+    repos: list[dict],
+    cat_order: list[tuple[str, str]],
+    cat_map: dict[str, str],
+) -> str:
     n_repos = len(repos)
     langs = sorted({r["language"] for r in repos if r.get("language")})
     n_langs = len(langs)
     n_stars = sum(int(r.get("stargazers_count") or 0) for r in repos)
-    cards = "\n\n".join(render_card(r) for r in repos)
+
+    buckets: dict[str, list[dict]] = {title: [] for title, _ in cat_order}
+    other: list[dict] = []
+    for r in repos:
+        title = cat_map.get(r["name"])
+        if title and title in buckets:
+            buckets[title].append(r)
+        else:
+            other.append(r)
+
+    for title in buckets:
+        buckets[title].sort(
+            key=lambda r: (-int(r.get("stargazers_count") or 0), r["name"].lower())
+        )
+    other.sort(
+        key=lambda r: (-int(r.get("stargazers_count") or 0), r["name"].lower())
+    )
+
+    sections: list[str] = []
+    for title, emoji in cat_order:
+        if buckets[title]:
+            sections.append(render_section(title, emoji, buckets[title]))
+    if other:
+        sections.append(render_section("Other", "📦", other))
+
+    body = "\n\n".join(sections)
     return f"""---
 layout: default
 title: Selected Works - Julian Henry — polyglot / software engineer / author
@@ -145,8 +216,8 @@ title: Selected Works - Julian Henry — polyglot / software engineer / author
 <h1>Selected Works</h1>
 <p class="works-intro">
   Open-source projects spanning scientific computing, developer tools, image processing,
-  language learning, and creative coding. Star-sorted from public GitHub repos
-  (notes, the blog, and blacklisted one-offs omitted).
+  language learning, and creative coding. Pulled from public GitHub repos, grouped by
+  category, star-sorted within each rail (notes, the blog, and blacklisted one-offs omitted).
 </p>
 
 <div class="works-stats">
@@ -164,20 +235,14 @@ title: Selected Works - Julian Henry — polyglot / software engineer / author
   </div>
 </div>
 
-<!-- AUTO-GENERATED: scripts/update_selected_works_stats.py — do not hand-edit cards -->
-<div class="works-section">
-  <h2 class="works-section-title"><span>&#x2B50;</span> Public repositories</h2>
-  <ul class="works-grid">
-
-{cards}
-
-  </ul>
-</div>
+<!-- AUTO-GENERATED: scripts/update_selected_works_stats.py — edit blacklist/categories, not cards -->
+{body}
 """
 
 
 def main() -> int:
     blacklist = load_blacklist()
+    cat_order, cat_map = load_categories()
     try:
         raw = fetch_repos()
     except urllib.error.HTTPError as e:
@@ -195,11 +260,7 @@ def main() -> int:
             continue
         selected.append(r)
 
-    selected.sort(
-        key=lambda r: (-int(r.get("stargazers_count") or 0), r["name"].lower())
-    )
-
-    page = render_page(selected)
+    page = render_page(selected, cat_order, cat_map)
     if PAGE.exists() and PAGE.read_text(encoding="utf-8") == page:
         print(
             f"unchanged: {len(selected)} repos, "
@@ -215,6 +276,9 @@ def main() -> int:
     )
     if skipped:
         print("skipped:", ", ".join(sorted(skipped)))
+    uncategorized = [r["name"] for r in selected if r["name"] not in cat_map]
+    if uncategorized:
+        print("uncategorized → Other:", ", ".join(sorted(uncategorized)))
     return 0
 
 

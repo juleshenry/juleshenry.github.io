@@ -645,17 +645,37 @@ section#main_content h3.banner-reveal {
   font-size: 1.2rem;
 }
 
-.works-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+.works-grid,
+.works-rail {
+  display: flex;
   gap: 14px;
-  padding: 0;
+  padding: 4px 2px 14px;
   margin: 0;
   list-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+
+.works-rail::-webkit-scrollbar,
+.works-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.works-rail::-webkit-scrollbar-thumb,
+.works-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 167, 204, 0.35);
+  border-radius: 999px;
 }
 
 .work-card {
   position: relative;
+  flex: 0 0 min(300px, 82vw);
+  max-width: 320px;
+  min-height: 180px;
   padding: 24px;
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -669,6 +689,7 @@ section#main_content h3.banner-reveal {
   flex-direction: column;
   gap: 12px;
   overflow: hidden;
+  scroll-snap-align: start;
 }
 
 .work-card:hover {
@@ -1335,7 +1356,9 @@ section#main_content table mjx-container {
   }
 
   .work-card {
+    flex-basis: min(280px, 88vw);
     padding: 14px;
+    min-height: 160px;
   }
 
   .work-card-title {
@@ -1344,6 +1367,12 @@ section#main_content table mjx-container {
 
   .work-card-desc {
     font-size: 0.82rem;
+  }
+
+  .works-rail,
+  .works-grid {
+    gap: 10px;
+    padding-bottom: 10px;
   }
 
   .works-stats {
