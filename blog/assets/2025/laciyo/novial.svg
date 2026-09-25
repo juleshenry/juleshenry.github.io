@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
+<path fill="#FFF" stroke="#DDD" d="m0,0h600v400H0z"/>
+<path fill="#fecd32" d="m223,139h154v154H223z"/>
+<path fill="#fe6766" stroke="#fe6766" stroke-linejoin="round" d="M167,216a150,190 0 0,0 133-180 150,190 0 0,0 133,180 180,180 0 0,0-133,133 180,180 0 0,0-133-133M210,126a280,280 0 0,1 0,180 280,280 0 0,1 180,0 280,280 0 0,1 0-180 280,280 0 0,1-180,0"/>
+</svg>

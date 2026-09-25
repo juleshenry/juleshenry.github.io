@@ -1,0 +1,1705 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Julian Henry//Blog Sunday Ritual//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:One post per Sunday → HN
+X-WR-CALDESC:Oldest to newest. One post each Sunday: copy-edit, then submit
+  to Hacker News. 48 weeks, 2026-09-13 through 2027-08-08.
+BEGIN:VEVENT
+UID:copyedit-hn-001@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20260913T090000
+DTEND:20260913T120000
+SUMMARY:Um ensaio analítico de 'El Rubí' por Rafael Troyo
+DESCRIPTION:Week 1 of 48. Oldest → newest. This week: this post only.\n\n
+ File: _posts/2018-12-19-Incrustando-la-narrativa.md\nPublished: 2018-12-19
+ \nLive: https://juleshenry.github.io/blog/2018/12/19/Incrustando-la-narrat
+ iva\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-
+ edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\, gram
+ mar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\,
+  no broken $ fences\n• Figures: files exist\, captions match\, no empty 
+ alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code fenc
+ es: language tags\, no truncated snippets\n• Front matter: title\, date\
+ , categories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Tit
+ le: Um ensaio analítico de 'El Rubí' por Rafael Troyo\n• URL: the live
+  permalink above\, not the GitHub markdown\n• One submit. Log title\, UR
+ L\, date.\n• Skip only if the post is not ready\; do not substitute anot
+ her.
+LOCATION:_posts/2018-12-19-Incrustando-la-narrativa.md
+URL:https://juleshenry.github.io/blog/2018/12/19/Incrustando-la-narrativa
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Um ensaio analítico de 'El Rubí' por Rafael Troyo
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Um ensaio analítico de 'El Rubí' por Rafael Troyo
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-002@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20260920T090000
+DTEND:20260920T120000
+SUMMARY:Undergraduate Thesis: Queries In the Mist
+DESCRIPTION:Week 2 of 48. Oldest → newest. This week: this post only.\n\n
+ File: _posts/2020-06-01-queries-in-the-mist.md\nPublished: 2020-06-01\nLiv
+ e: https://juleshenry.github.io/blog/2020/06/01/queries-in-the-mist\nHN su
+ bmit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• 
+ Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\, hyph
+ enation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no broken
+  $ fences\n• Figures: files exist\, captions match\, no empty alts\n• 
+ Links: permalinks\, papers\, GitHub — none dead\n• Code fences: langua
+ ge tags\, no truncated snippets\n• Front matter: title\, date\, categori
+ es still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Underg
+ raduate Thesis: Queries In the Mist\n• URL: the live permalink above\, n
+ ot the GitHub markdown\n• One submit. Log title\, URL\, date.\n• Skip 
+ only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2020-06-01-queries-in-the-mist.md
+URL:https://juleshenry.github.io/blog/2020/06/01/queries-in-the-mist
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Undergraduate Thesis: Queries In the Mist
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Undergraduate Thesis: Queries In the Mist
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-003@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20260927T090000
+DTEND:20260927T120000
+SUMMARY:Mr. Worldwide: Friendly Github Landing Gif Maker
+DESCRIPTION:Week 3 of 48. Oldest → newest. This week: this post only.\n\n
+ File: _posts/2024-03-23-mister-worldwide.md\nPublished: 2024-03-23\nLive: 
+ https://juleshenry.github.io/blog/2024/03/23/mister-worldwide\nHN submit: 
+ https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title 
+ and lede: one claim\, no throat-clearing\n• Typos\, grammar\, hyphenatio
+ n\, consistent spelling\n• Math: KaTeX/MathJax renders\, no broken $ fen
+ ces\n• Figures: files exist\, captions match\, no empty alts\n• Links:
+  permalinks\, papers\, GitHub — none dead\n• Code fences: language tag
+ s\, no truncated snippets\n• Front matter: title\, date\, categories sti
+ ll true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Mr. Worldwid
+ e: Friendly Github Landing Gif Maker\n• URL: the live permalink above\, 
+ not the GitHub markdown\n• One submit. Log title\, URL\, date.\n• Skip
+  only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2024-03-23-mister-worldwide.md
+URL:https://juleshenry.github.io/blog/2024/03/23/mister-worldwide
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Mr. Worldwide: Friendly Github Landing Gif Maker
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Mr. Worldwide: Friendly Github Landing Gif Maker
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-004@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261004T090000
+DTEND:20261004T120000
+SUMMARY:Book Review: The Richest Man in Babylon
+DESCRIPTION:Week 4 of 48. Oldest → newest. This week: this post only.\n\n
+ File: _posts/2024-05-12-the-richest-man-in-babylon.md\nPublished: 2024-05-
+ 12\nLive: https://juleshenry.github.io/blog/2024/05/12/the-richest-man-in-
+ babylon\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  C
+ opy-edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\, 
+ grammar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax rende
+ rs\, no broken $ fences\n• Figures: files exist\, captions match\, no em
+ pty alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code 
+ fences: language tags\, no truncated snippets\n• Front matter: title\, d
+ ate\, categories still true\n• Commit\n\n11:30–12:00  Hacker News\n•
+  Title: Book Review: The Richest Man in Babylon\n• URL: the live permali
+ nk above\, not the GitHub markdown\n• One submit. Log title\, URL\, date
+ .\n• Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2024-05-12-the-richest-man-in-babylon.md
+URL:https://juleshenry.github.io/blog/2024/05/12/the-richest-man-in-babylon
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: The Richest Man in Babylon
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: The Richest Man in Babylon
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-005@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261011T090000
+DTEND:20261011T120000
+SUMMARY:Sphere Eversion Phi3 Notes I
+DESCRIPTION:Week 5 of 48. Oldest → newest. This week: this post only.\n\n
+ File: _posts/2024-05-22-sphere-eversion-phi3-notes-I.md\nPublished: 2024-0
+ 5-22\nLive: https://juleshenry.github.io/blog/2024/05/22/sphere-eversion-p
+ hi3-notes-I\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:3
+ 0  Copy-edit\n• Title and lede: one claim\, no throat-clearing\n• Typo
+ s\, grammar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax r
+ enders\, no broken $ fences\n• Figures: files exist\, captions match\, n
+ o empty alts\n• Links: permalinks\, papers\, GitHub — none dead\n• C
+ ode fences: language tags\, no truncated snippets\n• Front matter: title
+ \, date\, categories still true\n• Commit\n\n11:30–12:00  Hacker News\
+ n• Title: Sphere Eversion Phi3 Notes I\n• URL: the live permalink abov
+ e\, not the GitHub markdown\n• One submit. Log title\, URL\, date.\n• 
+ Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2024-05-22-sphere-eversion-phi3-notes-I.md
+URL:https://juleshenry.github.io/blog/2024/05/22/sphere-eversion-phi3-notes
+ -I
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Sphere Eversion Phi3 Notes I
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Sphere Eversion Phi3 Notes I
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-006@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261018T090000
+DTEND:20261018T120000
+SUMMARY:Book Review: The Master Key to Riches
+DESCRIPTION:Week 6 of 48. Oldest → newest. This week: this post only.\n\n
+ File: _posts/2024-06-03-the-master-keys-to-riches.md\nPublished: 2024-06-0
+ 3\nLive: https://juleshenry.github.io/blog/2024/06/03/the-master-keys-to-r
+ iches\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Cop
+ y-edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\, gr
+ ammar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders
+ \, no broken $ fences\n• Figures: files exist\, captions match\, no empt
+ y alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code fe
+ nces: language tags\, no truncated snippets\n• Front matter: title\, dat
+ e\, categories still true\n• Commit\n\n11:30–12:00  Hacker News\n• T
+ itle: Book Review: The Master Key to Riches\n• URL: the live permalink a
+ bove\, not the GitHub markdown\n• One submit. Log title\, URL\, date.\n
+ • Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2024-06-03-the-master-keys-to-riches.md
+URL:https://juleshenry.github.io/blog/2024/06/03/the-master-keys-to-riches
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: The Master Key to Riches
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: The Master Key to Riches
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-007@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261025T090000
+DTEND:20261025T120000
+SUMMARY:Book Review: The Strategy and Tactics of Pricing
+DESCRIPTION:Week 7 of 48. Oldest → newest. This week: this post only.\n\n
+ File: _posts/2024-06-04-the-strategy-and-tactics-of-pricing.md\nPublished:
+  2024-06-04\nLive: https://juleshenry.github.io/blog/2024/06/04/the-strate
+ gy-and-tactics-of-pricing\nHN submit: https://news.ycombinator.com/submit\
+ n\n9:00–11:30  Copy-edit\n• Title and lede: one claim\, no throat-clea
+ ring\n• Typos\, grammar\, hyphenation\, consistent spelling\n• Math: K
+ aTeX/MathJax renders\, no broken $ fences\n• Figures: files exist\, capt
+ ions match\, no empty alts\n• Links: permalinks\, papers\, GitHub — no
+ ne dead\n• Code fences: language tags\, no truncated snippets\n• Front
+  matter: title\, date\, categories still true\n• Commit\n\n11:30–12:00
+   Hacker News\n• Title: Book Review: The Strategy and Tactics of Pricing
+ \n• URL: the live permalink above\, not the GitHub markdown\n• One sub
+ mit. Log title\, URL\, date.\n• Skip only if the post is not ready\; do 
+ not substitute another.
+LOCATION:_posts/2024-06-04-the-strategy-and-tactics-of-pricing.md
+URL:https://juleshenry.github.io/blog/2024/06/04/the-strategy-and-tactics-o
+ f-pricing
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: The Strategy and Tactics of Pricing
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: The Strategy and Tactics of Pricing
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-008@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261101T090000
+DTEND:20261101T120000
+SUMMARY:Book Review: Millionaire SUCCESS Habits
+DESCRIPTION:Week 8 of 48. Oldest → newest. This week: this post only.\n\n
+ File: _posts/2024-06-23-Millionaire-SUCCESS-Habits.md\nPublished: 2024-06-
+ 23\nLive: https://juleshenry.github.io/blog/2024/06/23/Millionaire-SUCCESS
+ -Habits\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  C
+ opy-edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\, 
+ grammar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax rende
+ rs\, no broken $ fences\n• Figures: files exist\, captions match\, no em
+ pty alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code 
+ fences: language tags\, no truncated snippets\n• Front matter: title\, d
+ ate\, categories still true\n• Commit\n\n11:30–12:00  Hacker News\n•
+  Title: Book Review: Millionaire SUCCESS Habits\n• URL: the live permali
+ nk above\, not the GitHub markdown\n• One submit. Log title\, URL\, date
+ .\n• Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2024-06-23-Millionaire-SUCCESS-Habits.md
+URL:https://juleshenry.github.io/blog/2024/06/23/Millionaire-SUCCESS-Habits
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: Millionaire SUCCESS Habits
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: Millionaire SUCCESS Habits
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-009@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261108T090000
+DTEND:20261108T120000
+SUMMARY:Back-of-the-Envelope: Black-Scholes-Merton
+DESCRIPTION:Week 9 of 48. Oldest → newest. This week: this post only.\n\n
+ File: _posts/2024-07-25-Black-Scholes-Merton.md\nPublished: 2024-07-25\nLi
+ ve: https://juleshenry.github.io/blog/2024/07/25/Black-Scholes-Merton\nHN 
+ submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n
+ • Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\, 
+ hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no br
+ oken $ fences\n• Figures: files exist\, captions match\, no empty alts\n
+ • Links: permalinks\, papers\, GitHub — none dead\n• Code fences: la
+ nguage tags\, no truncated snippets\n• Front matter: title\, date\, cate
+ gories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Ba
+ ck-of-the-Envelope: Black-Scholes-Merton\n• URL: the live permalink abov
+ e\, not the GitHub markdown\n• One submit. Log title\, URL\, date.\n• 
+ Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2024-07-25-Black-Scholes-Merton.md
+URL:https://juleshenry.github.io/blog/2024/07/25/Black-Scholes-Merton
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Black-Scholes-Merton
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Black-Scholes-Merton
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-010@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261115T090000
+DTEND:20261115T120000
+SUMMARY:Book Review: Your Money Life Your 30's
+DESCRIPTION:Week 10 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2024-08-01-your-money-life-your-30s.md\nPublished: 2024-08-0
+ 1\nLive: https://juleshenry.github.io/blog/2024/08/01/your-money-life-your
+ -30s\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy
+ -edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\, gra
+ mmar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\
+ , no broken $ fences\n• Figures: files exist\, captions match\, no empty
+  alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code fen
+ ces: language tags\, no truncated snippets\n• Front matter: title\, date
+ \, categories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Ti
+ tle: Book Review: Your Money Life Your 30's\n• URL: the live permalink a
+ bove\, not the GitHub markdown\n• One submit. Log title\, URL\, date.\n
+ • Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2024-08-01-your-money-life-your-30s.md
+URL:https://juleshenry.github.io/blog/2024/08/01/your-money-life-your-30s
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: Your Money Life Your 30's
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: Your Money Life Your 30's
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-011@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261122T090000
+DTEND:20261122T120000
+SUMMARY:Back-of-the-Envelope: Convolutional NNs
+DESCRIPTION:Week 11 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2024-08-05-convolutional-neural-networks.md\nPublished: 2024
+ -08-05\nLive: https://juleshenry.github.io/blog/2024/08/05/convolutional-n
+ eural-networks\nHN submit: https://news.ycombinator.com/submit\n\n9:00–1
+ 1:30  Copy-edit\n• Title and lede: one claim\, no throat-clearing\n• T
+ ypos\, grammar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJa
+ x renders\, no broken $ fences\n• Figures: files exist\, captions match\
+ , no empty alts\n• Links: permalinks\, papers\, GitHub — none dead\n
+ • Code fences: language tags\, no truncated snippets\n• Front matter: 
+ title\, date\, categories still true\n• Commit\n\n11:30–12:00  Hacker 
+ News\n• Title: Back-of-the-Envelope: Convolutional NNs\n• URL: the liv
+ e permalink above\, not the GitHub markdown\n• One submit. Log title\, U
+ RL\, date.\n• Skip only if the post is not ready\; do not substitute ano
+ ther.
+LOCATION:_posts/2024-08-05-convolutional-neural-networks.md
+URL:https://juleshenry.github.io/blog/2024/08/05/convolutional-neural-netwo
+ rks
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Convolutional NNs
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Convolutional NNs
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-012@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261129T090000
+DTEND:20261129T120000
+SUMMARY:Back-of-the-Envelope: Recurrent Neural Networks
+DESCRIPTION:Week 12 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2024-08-06-recurrent-neural-networks.md\nPublished: 2024-08-
+ 06\nLive: https://juleshenry.github.io/blog/2024/08/06/recurrent-neural-ne
+ tworks\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Co
+ py-edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\, g
+ rammar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax render
+ s\, no broken $ fences\n• Figures: files exist\, captions match\, no emp
+ ty alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code f
+ ences: language tags\, no truncated snippets\n• Front matter: title\, da
+ te\, categories still true\n• Commit\n\n11:30–12:00  Hacker News\n• 
+ Title: Back-of-the-Envelope: Recurrent Neural Networks\n• URL: the live 
+ permalink above\, not the GitHub markdown\n• One submit. Log title\, URL
+ \, date.\n• Skip only if the post is not ready\; do not substitute anoth
+ er.
+LOCATION:_posts/2024-08-06-recurrent-neural-networks.md
+URL:https://juleshenry.github.io/blog/2024/08/06/recurrent-neural-networks
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Recurrent Neural Networks
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Recurrent Neural Networks
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-013@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261206T090000
+DTEND:20261206T120000
+SUMMARY:Back-of-the-Envelope: Retrieval Augmentation
+DESCRIPTION:Week 13 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2024-08-24-retrieval-augmented-generation.md\nPublished: 202
+ 4-08-24\nLive: https://juleshenry.github.io/blog/2024/08/24/retrieval-augm
+ ented-generation\nHN submit: https://news.ycombinator.com/submit\n\n9:00
+ –11:30  Copy-edit\n• Title and lede: one claim\, no throat-clearing\n
+ • Typos\, grammar\, hyphenation\, consistent spelling\n• Math: KaTeX/M
+ athJax renders\, no broken $ fences\n• Figures: files exist\, captions m
+ atch\, no empty alts\n• Links: permalinks\, papers\, GitHub — none dea
+ d\n• Code fences: language tags\, no truncated snippets\n• Front matte
+ r: title\, date\, categories still true\n• Commit\n\n11:30–12:00  Hack
+ er News\n• Title: Back-of-the-Envelope: Retrieval Augmentation\n• URL:
+  the live permalink above\, not the GitHub markdown\n• One submit. Log t
+ itle\, URL\, date.\n• Skip only if the post is not ready\; do not substi
+ tute another.
+LOCATION:_posts/2024-08-24-retrieval-augmented-generation.md
+URL:https://juleshenry.github.io/blog/2024/08/24/retrieval-augmented-genera
+ tion
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Retrieval Augmentation
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Retrieval Augmentation
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-014@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261213T090000
+DTEND:20261213T120000
+SUMMARY:Back-of-the-Envelope: Attention is All You Need
+DESCRIPTION:Week 14 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2024-09-03-attention-is-all-you-need.md\nPublished: 2024-09-
+ 03\nLive: https://juleshenry.github.io/blog/2024/09/03/attention-is-all-yo
+ u-need\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Co
+ py-edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\, g
+ rammar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax render
+ s\, no broken $ fences\n• Figures: files exist\, captions match\, no emp
+ ty alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code f
+ ences: language tags\, no truncated snippets\n• Front matter: title\, da
+ te\, categories still true\n• Commit\n\n11:30–12:00  Hacker News\n• 
+ Title: Back-of-the-Envelope: Attention is All You Need\n• URL: the live 
+ permalink above\, not the GitHub markdown\n• One submit. Log title\, URL
+ \, date.\n• Skip only if the post is not ready\; do not substitute anoth
+ er.
+LOCATION:_posts/2024-09-03-attention-is-all-you-need.md
+URL:https://juleshenry.github.io/blog/2024/09/03/attention-is-all-you-need
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Attention is All You Need
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Attention is All You Need
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-015@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261220T090000
+DTEND:20261220T120000
+SUMMARY:Back-of-the-Envelope: Grover's Search
+DESCRIPTION:Week 15 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2024-09-13-grovers-search.md\nPublished: 2024-09-13\nLive: h
+ ttps://juleshenry.github.io/blog/2024/09/13/grovers-search\nHN submit: htt
+ ps://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and
+  lede: one claim\, no throat-clearing\n• Typos\, grammar\, hyphenation\,
+  consistent spelling\n• Math: KaTeX/MathJax renders\, no broken $ fences
+ \n• Figures: files exist\, captions match\, no empty alts\n• Links: pe
+ rmalinks\, papers\, GitHub — none dead\n• Code fences: language tags\,
+  no truncated snippets\n• Front matter: title\, date\, categories still 
+ true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Back-of-the-Env
+ elope: Grover's Search\n• URL: the live permalink above\, not the GitHub
+  markdown\n• One submit. Log title\, URL\, date.\n• Skip only if the p
+ ost is not ready\; do not substitute another.
+LOCATION:_posts/2024-09-13-grovers-search.md
+URL:https://juleshenry.github.io/blog/2024/09/13/grovers-search
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Grover's Search
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Grover's Search
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-016@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20261227T090000
+DTEND:20261227T120000
+SUMMARY:The Eversion of the Sphere
+DESCRIPTION:Week 16 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2024-09-27-the-eversion-of-the-sphere.md\nPublished: 2024-09
+ -27\nLive: https://juleshenry.github.io/blog/2024/09/27/the-eversion-of-th
+ e-sphere\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  
+ Copy-edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\,
+  grammar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax rend
+ ers\, no broken $ fences\n• Figures: files exist\, captions match\, no e
+ mpty alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code
+  fences: language tags\, no truncated snippets\n• Front matter: title\, 
+ date\, categories still true\n• Commit\n\n11:30–12:00  Hacker News\n
+ • Title: The Eversion of the Sphere\n• URL: the live permalink above\,
+  not the GitHub markdown\n• One submit. Log title\, URL\, date.\n• Ski
+ p only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2024-09-27-the-eversion-of-the-sphere.md
+URL:https://juleshenry.github.io/blog/2024/09/27/the-eversion-of-the-sphere
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:The Eversion of the Sphere
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:The Eversion of the Sphere
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-017@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270103T090000
+DTEND:20270103T120000
+SUMMARY:Book Review: The Intelligent Investor
+DESCRIPTION:Week 17 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2024-12-08-the-intelligent-investor.md\nPublished: 2024-12-0
+ 8\nLive: https://juleshenry.github.io/blog/2024/12/08/the-intelligent-inve
+ stor\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy
+ -edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\, gra
+ mmar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\
+ , no broken $ fences\n• Figures: files exist\, captions match\, no empty
+  alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code fen
+ ces: language tags\, no truncated snippets\n• Front matter: title\, date
+ \, categories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Ti
+ tle: Book Review: The Intelligent Investor\n• URL: the live permalink ab
+ ove\, not the GitHub markdown\n• One submit. Log title\, URL\, date.\n
+ • Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2024-12-08-the-intelligent-investor.md
+URL:https://juleshenry.github.io/blog/2024/12/08/the-intelligent-investor
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: The Intelligent Investor
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Book Review: The Intelligent Investor
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-018@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270110T090000
+DTEND:20270110T120000
+SUMMARY:Vakyume: A Vacuum Theory PDF-to-C++ Pipeline
+DESCRIPTION:Week 18 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-02-18-vakyume.md\nPublished: 2025-02-18\nLive: https://
+ juleshenry.github.io/blog/2025/02/18/vakyume\nHN submit: https://news.ycom
+ binator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and lede: one cla
+ im\, no throat-clearing\n• Typos\, grammar\, hyphenation\, consistent sp
+ elling\n• Math: KaTeX/MathJax renders\, no broken $ fences\n• Figures:
+  files exist\, captions match\, no empty alts\n• Links: permalinks\, pap
+ ers\, GitHub — none dead\n• Code fences: language tags\, no truncated 
+ snippets\n• Front matter: title\, date\, categories still true\n• Comm
+ it\n\n11:30–12:00  Hacker News\n• Title: Vakyume: A Vacuum Theory PDF-
+ to-C++ Pipeline\n• URL: the live permalink above\, not the GitHub markdo
+ wn\n• One submit. Log title\, URL\, date.\n• Skip only if the post is 
+ not ready\; do not substitute another.
+LOCATION:_posts/2025-02-18-vakyume.md
+URL:https://juleshenry.github.io/blog/2025/02/18/vakyume
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Vakyume: A Vacuum Theory PDF-to-C++ Pipeline
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Vakyume: A Vacuum Theory PDF-to-C++ Pipeline
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-019@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270117T090000
+DTEND:20270117T120000
+SUMMARY:ML Smörgåsbord 1: AlexNet Architecture
+DESCRIPTION:Week 19 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-03-14-ML-Series-Part-1-AlexNet.md\nPublished: 2025-03-1
+ 4\nLive: https://juleshenry.github.io/blog/2025/03/14/ML-Series-Part-1-Ale
+ xNet\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy
+ -edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\, gra
+ mmar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\
+ , no broken $ fences\n• Figures: files exist\, captions match\, no empty
+  alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code fen
+ ces: language tags\, no truncated snippets\n• Front matter: title\, date
+ \, categories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Ti
+ tle: ML Smörgåsbord 1: AlexNet Architecture\n• URL: the live permalink
+  above\, not the GitHub markdown\n• One submit. Log title\, URL\, date.\
+ n• Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2025-03-14-ML-Series-Part-1-AlexNet.md
+URL:https://juleshenry.github.io/blog/2025/03/14/ML-Series-Part-1-AlexNet
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 1: AlexNet Architecture
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 1: AlexNet Architecture
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-020@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270124T090000
+DTEND:20270124T120000
+SUMMARY:Yes\, NP=P
+DESCRIPTION:Week 20 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-03-20-np=p.md\nPublished: 2025-03-20\nLive: https://jul
+ eshenry.github.io/blog/2025/03/20/np=p\nHN submit: https://news.ycombinato
+ r.com/submit\n\n9:00–11:30  Copy-edit\n• Title and lede: one claim\, n
+ o throat-clearing\n• Typos\, grammar\, hyphenation\, consistent spelling
+ \n• Math: KaTeX/MathJax renders\, no broken $ fences\n• Figures: files
+  exist\, captions match\, no empty alts\n• Links: permalinks\, papers\, 
+ GitHub — none dead\n• Code fences: language tags\, no truncated snippe
+ ts\n• Front matter: title\, date\, categories still true\n• Commit\n\n
+ 11:30–12:00  Hacker News\n• Title: Yes\, NP=P\n• URL: the live perma
+ link above\, not the GitHub markdown\n• One submit. Log title\, URL\, da
+ te.\n• Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2025-03-20-np=p.md
+URL:https://juleshenry.github.io/blog/2025/03/20/np=p
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Yes\, NP=P
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Yes\, NP=P
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-021@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270131T090000
+DTEND:20270131T120000
+SUMMARY:ML Smörgåsbord 2: Recurrent Memory and LSTMs
+DESCRIPTION:Week 21 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-03-21-ML-Series-Part-2-RNNs.md\nPublished: 2025-03-21\n
+ Live: https://juleshenry.github.io/blog/2025/03/21/ML-Series-Part-2-RNNs\n
+ HN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\
+ n• Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\,
+  hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no b
+ roken $ fences\n• Figures: files exist\, captions match\, no empty alts\
+ n• Links: permalinks\, papers\, GitHub — none dead\n• Code fences: l
+ anguage tags\, no truncated snippets\n• Front matter: title\, date\, cat
+ egories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: M
+ L Smörgåsbord 2: Recurrent Memory and LSTMs\n• URL: the live permalink
+  above\, not the GitHub markdown\n• One submit. Log title\, URL\, date.\
+ n• Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2025-03-21-ML-Series-Part-2-RNNs.md
+URL:https://juleshenry.github.io/blog/2025/03/21/ML-Series-Part-2-RNNs
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 2: Recurrent Memory and LSTMs
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 2: Recurrent Memory and LSTMs
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-022@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270207T090000
+DTEND:20270207T120000
+SUMMARY:ML Smörgåsbord 3: Spatial Attention
+DESCRIPTION:Week 22 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-04-28-ML-Series-Part-3-VQA.md\nPublished: 2025-04-28\nL
+ ive: https://juleshenry.github.io/blog/2025/04/28/ML-Series-Part-3-VQA\nHN
+  submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n
+ • Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\, 
+ hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no br
+ oken $ fences\n• Figures: files exist\, captions match\, no empty alts\n
+ • Links: permalinks\, papers\, GitHub — none dead\n• Code fences: la
+ nguage tags\, no truncated snippets\n• Front matter: title\, date\, cate
+ gories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: ML
+  Smörgåsbord 3: Spatial Attention\n• URL: the live permalink above\, n
+ ot the GitHub markdown\n• One submit. Log title\, URL\, date.\n• Skip 
+ only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2025-04-28-ML-Series-Part-3-VQA.md
+URL:https://juleshenry.github.io/blog/2025/04/28/ML-Series-Part-3-VQA
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 3: Spatial Attention
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 3: Spatial Attention
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-023@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270214T090000
+DTEND:20270214T120000
+SUMMARY:ML Smörgåsbord 4: Transformers and BERT
+DESCRIPTION:Week 23 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-05-04-ML-Series-Part-4-BERT.md\nPublished: 2025-05-04\n
+ Live: https://juleshenry.github.io/blog/2025/05/04/ML-Series-Part-4-BERT\n
+ HN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\
+ n• Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\,
+  hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no b
+ roken $ fences\n• Figures: files exist\, captions match\, no empty alts\
+ n• Links: permalinks\, papers\, GitHub — none dead\n• Code fences: l
+ anguage tags\, no truncated snippets\n• Front matter: title\, date\, cat
+ egories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: M
+ L Smörgåsbord 4: Transformers and BERT\n• URL: the live permalink abov
+ e\, not the GitHub markdown\n• One submit. Log title\, URL\, date.\n• 
+ Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2025-05-04-ML-Series-Part-4-BERT.md
+URL:https://juleshenry.github.io/blog/2025/05/04/ML-Series-Part-4-BERT
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 4: Transformers and BERT
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 4: Transformers and BERT
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-024@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270221T090000
+DTEND:20270221T120000
+SUMMARY:Back-of-the-Envelope: Primitive Sets
+DESCRIPTION:Week 24 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-06-08-Back-of-the-Envelope-Primitive-Sets.md\nPublished
+ : 2025-06-08\nLive: https://juleshenry.github.io/blog/2025/06/08/Back-of-t
+ he-Envelope-Primitive-Sets\nHN submit: https://news.ycombinator.com/submit
+ \n\n9:00–11:30  Copy-edit\n• Title and lede: one claim\, no throat-cle
+ aring\n• Typos\, grammar\, hyphenation\, consistent spelling\n• Math: 
+ KaTeX/MathJax renders\, no broken $ fences\n• Figures: files exist\, cap
+ tions match\, no empty alts\n• Links: permalinks\, papers\, GitHub — n
+ one dead\n• Code fences: language tags\, no truncated snippets\n• Fron
+ t matter: title\, date\, categories still true\n• Commit\n\n11:30–12:0
+ 0  Hacker News\n• Title: Back-of-the-Envelope: Primitive Sets\n• URL: 
+ the live permalink above\, not the GitHub markdown\n• One submit. Log ti
+ tle\, URL\, date.\n• Skip only if the post is not ready\; do not substit
+ ute another.
+LOCATION:_posts/2025-06-08-Back-of-the-Envelope-Primitive-Sets.md
+URL:https://juleshenry.github.io/blog/2025/06/08/Back-of-the-Envelope-Primi
+ tive-Sets
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Primitive Sets
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Back-of-the-Envelope: Primitive Sets
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-025@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270228T090000
+DTEND:20270228T120000
+SUMMARY:Deconstructing the Twitter Algorithm
+DESCRIPTION:Week 25 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-06-08-Deep-Dive-Into-the-Twitter-Algorithm.md\nPublishe
+ d: 2025-06-08\nLive: https://juleshenry.github.io/blog/2025/06/08/Deep-Div
+ e-Into-the-Twitter-Algorithm\nHN submit: https://news.ycombinator.com/subm
+ it\n\n9:00–11:30  Copy-edit\n• Title and lede: one claim\, no throat-c
+ learing\n• Typos\, grammar\, hyphenation\, consistent spelling\n• Math
+ : KaTeX/MathJax renders\, no broken $ fences\n• Figures: files exist\, c
+ aptions match\, no empty alts\n• Links: permalinks\, papers\, GitHub —
+  none dead\n• Code fences: language tags\, no truncated snippets\n• Fr
+ ont matter: title\, date\, categories still true\n• Commit\n\n11:30–12
+ :00  Hacker News\n• Title: Deconstructing the Twitter Algorithm\n• URL
+ : the live permalink above\, not the GitHub markdown\n• One submit. Log 
+ title\, URL\, date.\n• Skip only if the post is not ready\; do not subst
+ itute another.
+LOCATION:_posts/2025-06-08-Deep-Dive-Into-the-Twitter-Algorithm.md
+URL:https://juleshenry.github.io/blog/2025/06/08/Deep-Dive-Into-the-Twitter
+ -Algorithm
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deconstructing the Twitter Algorithm
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Deconstructing the Twitter Algorithm
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-026@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270307T090000
+DTEND:20270307T120000
+SUMMARY:Shtetl Length
+DESCRIPTION:Week 26 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-06-21-Shtetl-Length.md\nPublished: 2025-06-21\nLive: ht
+ tps://juleshenry.github.io/blog/2025/06/21/Shtetl-Length\nHN submit: https
+ ://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and l
+ ede: one claim\, no throat-clearing\n• Typos\, grammar\, hyphenation\, c
+ onsistent spelling\n• Math: KaTeX/MathJax renders\, no broken $ fences\n
+ • Figures: files exist\, captions match\, no empty alts\n• Links: perm
+ alinks\, papers\, GitHub — none dead\n• Code fences: language tags\, n
+ o truncated snippets\n• Front matter: title\, date\, categories still tr
+ ue\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Shtetl Length\n
+ • URL: the live permalink above\, not the GitHub markdown\n• One submi
+ t. Log title\, URL\, date.\n• Skip only if the post is not ready\; do no
+ t substitute another.
+LOCATION:_posts/2025-06-21-Shtetl-Length.md
+URL:https://juleshenry.github.io/blog/2025/06/21/Shtetl-Length
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Shtetl Length
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Shtetl Length
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-027@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270314T090000
+DTEND:20270314T120000
+SUMMARY:Ráfaga: Log-Mean Reversion of VIX
+DESCRIPTION:Week 27 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-08-09-rafaga.md\nPublished: 2025-08-09\nLive: https://j
+ uleshenry.github.io/blog/2025/08/09/rafaga\nHN submit: https://news.ycombi
+ nator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and lede: one claim
+ \, no throat-clearing\n• Typos\, grammar\, hyphenation\, consistent spel
+ ling\n• Math: KaTeX/MathJax renders\, no broken $ fences\n• Figures: f
+ iles exist\, captions match\, no empty alts\n• Links: permalinks\, paper
+ s\, GitHub — none dead\n• Code fences: language tags\, no truncated sn
+ ippets\n• Front matter: title\, date\, categories still true\n• Commit
+ \n\n11:30–12:00  Hacker News\n• Title: Ráfaga: Log-Mean Reversion of 
+ VIX\n• URL: the live permalink above\, not the GitHub markdown\n• One 
+ submit. Log title\, URL\, date.\n• Skip only if the post is not ready\; 
+ do not substitute another.
+LOCATION:_posts/2025-08-09-rafaga.md
+URL:https://juleshenry.github.io/blog/2025/08/09/rafaga
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Ráfaga: Log-Mean Reversion of VIX
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Ráfaga: Log-Mean Reversion of VIX
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-028@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270321T090000
+DTEND:20270321T120000
+SUMMARY:Tatuagem: Stamp Text Across Your Entire Codebase
+DESCRIPTION:Week 28 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-09-10-Tatuagem.md\nPublished: 2025-09-10\nLive: https:/
+ /juleshenry.github.io/blog/2025/09/10/Tatuagem\nHN submit: https://news.yc
+ ombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and lede: one c
+ laim\, no throat-clearing\n• Typos\, grammar\, hyphenation\, consistent 
+ spelling\n• Math: KaTeX/MathJax renders\, no broken $ fences\n• Figure
+ s: files exist\, captions match\, no empty alts\n• Links: permalinks\, p
+ apers\, GitHub — none dead\n• Code fences: language tags\, no truncate
+ d snippets\n• Front matter: title\, date\, categories still true\n• Co
+ mmit\n\n11:30–12:00  Hacker News\n• Title: Tatuagem: Stamp Text Across
+  Your Entire Codebase\n• URL: the live permalink above\, not the GitHub 
+ markdown\n• One submit. Log title\, URL\, date.\n• Skip only if the po
+ st is not ready\; do not substitute another.
+LOCATION:_posts/2025-09-10-Tatuagem.md
+URL:https://juleshenry.github.io/blog/2025/09/10/Tatuagem
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tatuagem: Stamp Text Across Your Entire Codebase
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tatuagem: Stamp Text Across Your Entire Codebase
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-029@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270328T090000
+DTEND:20270328T120000
+SUMMARY:ML Smörgåsbord 5: Information Geometry of RAG
+DESCRIPTION:Week 29 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-10-11-ML-Series-Part-5-RAG.md\nPublished: 2025-10-11\nL
+ ive: https://juleshenry.github.io/blog/2025/10/11/ML-Series-Part-5-RAG\nHN
+  submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n
+ • Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\, 
+ hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no br
+ oken $ fences\n• Figures: files exist\, captions match\, no empty alts\n
+ • Links: permalinks\, papers\, GitHub — none dead\n• Code fences: la
+ nguage tags\, no truncated snippets\n• Front matter: title\, date\, cate
+ gories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: ML
+  Smörgåsbord 5: Information Geometry of RAG\n• URL: the live permalink
+  above\, not the GitHub markdown\n• One submit. Log title\, URL\, date.\
+ n• Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2025-10-11-ML-Series-Part-5-RAG.md
+URL:https://juleshenry.github.io/blog/2025/10/11/ML-Series-Part-5-RAG
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 5: Information Geometry of RAG
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 5: Information Geometry of RAG
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-030@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270404T090000
+DTEND:20270404T120000
+SUMMARY:ML Smörgåsbord 6: Neuro-Symbolic AI
+DESCRIPTION:Week 30 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-11-18-ML-Series-Part-6-KG-LLM.md\nPublished: 2025-11-18
+ \nLive: https://juleshenry.github.io/blog/2025/11/18/ML-Series-Part-6-KG-L
+ LM\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-e
+ dit\n• Title and lede: one claim\, no throat-clearing\n• Typos\, gramm
+ ar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\, 
+ no broken $ fences\n• Figures: files exist\, captions match\, no empty a
+ lts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code fence
+ s: language tags\, no truncated snippets\n• Front matter: title\, date\,
+  categories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Titl
+ e: ML Smörgåsbord 6: Neuro-Symbolic AI\n• URL: the live permalink abov
+ e\, not the GitHub markdown\n• One submit. Log title\, URL\, date.\n• 
+ Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2025-11-18-ML-Series-Part-6-KG-LLM.md
+URL:https://juleshenry.github.io/blog/2025/11/18/ML-Series-Part-6-KG-LLM
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 6: Neuro-Symbolic AI
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ML Smörgåsbord 6: Neuro-Symbolic AI
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-031@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270411T090000
+DTEND:20270411T120000
+SUMMARY:On Multiplication
+DESCRIPTION:Week 31 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2025-12-19-On-Multiplication.md\nPublished: 2025-12-19\nLive
+ : https://juleshenry.github.io/blog/2025/12/19/On-Multiplication\nHN submi
+ t: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Tit
+ le and lede: one claim\, no throat-clearing\n• Typos\, grammar\, hyphena
+ tion\, consistent spelling\n• Math: KaTeX/MathJax renders\, no broken $ 
+ fences\n• Figures: files exist\, captions match\, no empty alts\n• Lin
+ ks: permalinks\, papers\, GitHub — none dead\n• Code fences: language 
+ tags\, no truncated snippets\n• Front matter: title\, date\, categories 
+ still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: On Multip
+ lication\n• URL: the live permalink above\, not the GitHub markdown\n•
+  One submit. Log title\, URL\, date.\n• Skip only if the post is not rea
+ dy\; do not substitute another.
+LOCATION:_posts/2025-12-19-On-Multiplication.md
+URL:https://juleshenry.github.io/blog/2025/12/19/On-Multiplication
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:On Multiplication
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:On Multiplication
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-032@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270418T090000
+DTEND:20270418T120000
+SUMMARY:Wasmatsuba: WASM Karatsuba vs BigInt
+DESCRIPTION:Week 32 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-01-10-Wasmatsuba\,-a-WASM-Karatsuba-Saga.md\nPublished:
+  2026-01-10\nLive: https://juleshenry.github.io/blog/2026/01/10/Wasmatsuba
+ \,-a-WASM-Karatsuba-Saga\nHN submit: https://news.ycombinator.com/submit\n
+ \n9:00–11:30  Copy-edit\n• Title and lede: one claim\, no throat-clear
+ ing\n• Typos\, grammar\, hyphenation\, consistent spelling\n• Math: Ka
+ TeX/MathJax renders\, no broken $ fences\n• Figures: files exist\, capti
+ ons match\, no empty alts\n• Links: permalinks\, papers\, GitHub — non
+ e dead\n• Code fences: language tags\, no truncated snippets\n• Front 
+ matter: title\, date\, categories still true\n• Commit\n\n11:30–12:00 
+  Hacker News\n• Title: Wasmatsuba: WASM Karatsuba vs BigInt\n• URL: th
+ e live permalink above\, not the GitHub markdown\n• One submit. Log titl
+ e\, URL\, date.\n• Skip only if the post is not ready\; do not substitut
+ e another.
+LOCATION:_posts/2026-01-10-Wasmatsuba\,-a-WASM-Karatsuba-Saga.md
+URL:https://juleshenry.github.io/blog/2026/01/10/Wasmatsuba,-a-WASM-Karatsu
+ ba-Saga
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Wasmatsuba: WASM Karatsuba vs BigInt
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Wasmatsuba: WASM Karatsuba vs BigInt
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-033@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270425T090000
+DTEND:20270425T120000
+SUMMARY:Announcing Three.js Support
+DESCRIPTION:Week 33 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-01-19-announcing-threejs-support.md\nPublished: 2026-01
+ -19\nLive: https://juleshenry.github.io/blog/2026/01/19/announcing-threejs
+ -support\nHN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  
+ Copy-edit\n• Title and lede: one claim\, no throat-clearing\n• Typos\,
+  grammar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJax rend
+ ers\, no broken $ fences\n• Figures: files exist\, captions match\, no e
+ mpty alts\n• Links: permalinks\, papers\, GitHub — none dead\n• Code
+  fences: language tags\, no truncated snippets\n• Front matter: title\, 
+ date\, categories still true\n• Commit\n\n11:30–12:00  Hacker News\n
+ • Title: Announcing Three.js Support\n• URL: the live permalink above\
+ , not the GitHub markdown\n• One submit. Log title\, URL\, date.\n• Sk
+ ip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2026-01-19-announcing-threejs-support.md
+URL:https://juleshenry.github.io/blog/2026/01/19/announcing-threejs-support
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Announcing Three.js Support
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Announcing Three.js Support
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-034@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270502T090000
+DTEND:20270502T120000
+SUMMARY:한글 낙서: Hangul Graffiti
+DESCRIPTION:Week 34 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-02-09-Hangul-Graffiti.md\nPublished: 2026-02-09\nLive: 
+ https://juleshenry.github.io/blog/2026/02/09/Hangul-Graffiti\nHN submit: h
+ ttps://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title a
+ nd lede: one claim\, no throat-clearing\n• Typos\, grammar\, hyphenation
+ \, consistent spelling\n• Math: KaTeX/MathJax renders\, no broken $ fenc
+ es\n• Figures: files exist\, captions match\, no empty alts\n• Links: 
+ permalinks\, papers\, GitHub — none dead\n• Code fences: language tags
+ \, no truncated snippets\n• Front matter: title\, date\, categories stil
+ l true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: 한글 낙서
+ : Hangul Graffiti\n• URL: the live permalink above\, not the GitHub mark
+ down\n• One submit. Log title\, URL\, date.\n• Skip only if the post i
+ s not ready\; do not substitute another.
+LOCATION:_posts/2026-02-09-Hangul-Graffiti.md
+URL:https://juleshenry.github.io/blog/2026/02/09/Hangul-Graffiti
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:한글 낙서: Hangul Graffiti
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:한글 낙서: Hangul Graffiti
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-035@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270509T090000
+DTEND:20270509T120000
+SUMMARY:February 14: Perfect Phase Coherence
+DESCRIPTION:Week 35 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-02-14-happy-valentines-day.md\nPublished: 2026-02-14\nL
+ ive: https://juleshenry.github.io/blog/2026/02/14/happy-valentines-day\nHN
+  submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n
+ • Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\, 
+ hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no br
+ oken $ fences\n• Figures: files exist\, captions match\, no empty alts\n
+ • Links: permalinks\, papers\, GitHub — none dead\n• Code fences: la
+ nguage tags\, no truncated snippets\n• Front matter: title\, date\, cate
+ gories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Fe
+ bruary 14: Perfect Phase Coherence\n• URL: the live permalink above\, no
+ t the GitHub markdown\n• One submit. Log title\, URL\, date.\n• Skip o
+ nly if the post is not ready\; do not substitute another.
+LOCATION:_posts/2026-02-14-happy-valentines-day.md
+URL:https://juleshenry.github.io/blog/2026/02/14/happy-valentines-day
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:February 14: Perfect Phase Coherence
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:February 14: Perfect Phase Coherence
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-036@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270516T090000
+DTEND:20270516T120000
+SUMMARY:Sucker Punch Nash Equilibrium
+DESCRIPTION:Week 36 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-03-04-Sucker-Punch-Nash-Equilibrium.md\nPublished: 2026
+ -03-04\nLive: https://juleshenry.github.io/blog/2026/03/04/Sucker-Punch-Na
+ sh-Equilibrium\nHN submit: https://news.ycombinator.com/submit\n\n9:00–1
+ 1:30  Copy-edit\n• Title and lede: one claim\, no throat-clearing\n• T
+ ypos\, grammar\, hyphenation\, consistent spelling\n• Math: KaTeX/MathJa
+ x renders\, no broken $ fences\n• Figures: files exist\, captions match\
+ , no empty alts\n• Links: permalinks\, papers\, GitHub — none dead\n
+ • Code fences: language tags\, no truncated snippets\n• Front matter: 
+ title\, date\, categories still true\n• Commit\n\n11:30–12:00  Hacker 
+ News\n• Title: Sucker Punch Nash Equilibrium\n• URL: the live permalin
+ k above\, not the GitHub markdown\n• One submit. Log title\, URL\, date.
+ \n• Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2026-03-04-Sucker-Punch-Nash-Equilibrium.md
+URL:https://juleshenry.github.io/blog/2026/03/04/Sucker-Punch-Nash-Equilibr
+ ium
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Sucker Punch Nash Equilibrium
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Sucker Punch Nash Equilibrium
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-037@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270523T090000
+DTEND:20270523T120000
+SUMMARY:Quantum Plankton Under Compression
+DESCRIPTION:Week 37 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-03-07-Quantum-Plankton-ML.md\nPublished: 2026-03-07\nLi
+ ve: https://juleshenry.github.io/blog/2026/03/07/Quantum-Plankton-ML\nHN s
+ ubmit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n•
+  Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\, hyp
+ henation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no broke
+ n $ fences\n• Figures: files exist\, captions match\, no empty alts\n•
+  Links: permalinks\, papers\, GitHub — none dead\n• Code fences: langu
+ age tags\, no truncated snippets\n• Front matter: title\, date\, categor
+ ies still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Quant
+ um Plankton Under Compression\n• URL: the live permalink above\, not the
+  GitHub markdown\n• One submit. Log title\, URL\, date.\n• Skip only i
+ f the post is not ready\; do not substitute another.
+LOCATION:_posts/2026-03-07-Quantum-Plankton-ML.md
+URL:https://juleshenry.github.io/blog/2026/03/07/Quantum-Plankton-ML
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Quantum Plankton Under Compression
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Quantum Plankton Under Compression
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-038@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270530T090000
+DTEND:20270530T120000
+SUMMARY:Language Notes Repos
+DESCRIPTION:Week 38 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-03-09-notes-repos.md\nPublished: 2026-03-09\nLive: http
+ s://juleshenry.github.io/blog/2026/03/09/notes-repos\nHN submit: https://n
+ ews.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and lede:
+  one claim\, no throat-clearing\n• Typos\, grammar\, hyphenation\, consi
+ stent spelling\n• Math: KaTeX/MathJax renders\, no broken $ fences\n• 
+ Figures: files exist\, captions match\, no empty alts\n• Links: permalin
+ ks\, papers\, GitHub — none dead\n• Code fences: language tags\, no tr
+ uncated snippets\n• Front matter: title\, date\, categories still true\n
+ • Commit\n\n11:30–12:00  Hacker News\n• Title: Language Notes Repos\
+ n• URL: the live permalink above\, not the GitHub markdown\n• One subm
+ it. Log title\, URL\, date.\n• Skip only if the post is not ready\; do n
+ ot substitute another.
+LOCATION:_posts/2026-03-09-notes-repos.md
+URL:https://juleshenry.github.io/blog/2026/03/09/notes-repos
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Language Notes Repos
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Language Notes Repos
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-039@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270606T090000
+DTEND:20270606T120000
+SUMMARY:ZIT: Zooplankton Image Tool
+DESCRIPTION:Week 39 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-03-16-ZIT.md\nPublished: 2026-03-16\nLive: https://jule
+ shenry.github.io/blog/2026/03/16/ZIT\nHN submit: https://news.ycombinator.
+ com/submit\n\n9:00–11:30  Copy-edit\n• Title and lede: one claim\, no 
+ throat-clearing\n• Typos\, grammar\, hyphenation\, consistent spelling\n
+ • Math: KaTeX/MathJax renders\, no broken $ fences\n• Figures: files e
+ xist\, captions match\, no empty alts\n• Links: permalinks\, papers\, Gi
+ tHub — none dead\n• Code fences: language tags\, no truncated snippets
+ \n• Front matter: title\, date\, categories still true\n• Commit\n\n11
+ :30–12:00  Hacker News\n• Title: ZIT: Zooplankton Image Tool\n• URL:
+  the live permalink above\, not the GitHub markdown\n• One submit. Log t
+ itle\, URL\, date.\n• Skip only if the post is not ready\; do not substi
+ tute another.
+LOCATION:_posts/2026-03-16-ZIT.md
+URL:https://juleshenry.github.io/blog/2026/03/16/ZIT
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ZIT: Zooplankton Image Tool
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:ZIT: Zooplankton Image Tool
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-040@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270613T090000
+DTEND:20270613T120000
+SUMMARY:SuperWand: Magic Wand for Image Retheming
+DESCRIPTION:Week 40 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-03-23-SuperWand.md\nPublished: 2026-03-23\nLive: https:
+ //juleshenry.github.io/blog/2026/03/23/SuperWand\nHN submit: https://news.
+ ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and lede: one
+  claim\, no throat-clearing\n• Typos\, grammar\, hyphenation\, consisten
+ t spelling\n• Math: KaTeX/MathJax renders\, no broken $ fences\n• Figu
+ res: files exist\, captions match\, no empty alts\n• Links: permalinks\,
+  papers\, GitHub — none dead\n• Code fences: language tags\, no trunca
+ ted snippets\n• Front matter: title\, date\, categories still true\n• 
+ Commit\n\n11:30–12:00  Hacker News\n• Title: SuperWand: Magic Wand for
+  Image Retheming\n• URL: the live permalink above\, not the GitHub markd
+ own\n• One submit. Log title\, URL\, date.\n• Skip only if the post is
+  not ready\; do not substitute another.
+LOCATION:_posts/2026-03-23-SuperWand.md
+URL:https://juleshenry.github.io/blog/2026/03/23/SuperWand
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:SuperWand: Magic Wand for Image Retheming
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:SuperWand: Magic Wand for Image Retheming
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-041@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270620T090000
+DTEND:20270620T120000
+SUMMARY:Mr. Worldwide: Hello in 80 Languages as a GIF
+DESCRIPTION:Week 41 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-03-30-Mr-Worldwide.md\nPublished: 2026-03-30\nLive: htt
+ ps://juleshenry.github.io/blog/2026/03/30/Mr-Worldwide\nHN submit: https:/
+ /news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and led
+ e: one claim\, no throat-clearing\n• Typos\, grammar\, hyphenation\, con
+ sistent spelling\n• Math: KaTeX/MathJax renders\, no broken $ fences\n
+ • Figures: files exist\, captions match\, no empty alts\n• Links: perm
+ alinks\, papers\, GitHub — none dead\n• Code fences: language tags\, n
+ o truncated snippets\n• Front matter: title\, date\, categories still tr
+ ue\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Mr. Worldwide: He
+ llo in 80 Languages as a GIF\n• URL: the live permalink above\, not the 
+ GitHub markdown\n• One submit. Log title\, URL\, date.\n• Skip only if
+  the post is not ready\; do not substitute another.
+LOCATION:_posts/2026-03-30-Mr-Worldwide.md
+URL:https://juleshenry.github.io/blog/2026/03/30/Mr-Worldwide
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Mr. Worldwide: Hello in 80 Languages as a GIF
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Mr. Worldwide: Hello in 80 Languages as a GIF
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-042@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270627T090000
+DTEND:20270627T120000
+SUMMARY:README Rosetta: Open Source in Every Language
+DESCRIPTION:Week 42 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-04-06-README-Rosetta.md\nPublished: 2026-04-06\nLive: h
+ ttps://juleshenry.github.io/blog/2026/04/06/README-Rosetta\nHN submit: htt
+ ps://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and
+  lede: one claim\, no throat-clearing\n• Typos\, grammar\, hyphenation\,
+  consistent spelling\n• Math: KaTeX/MathJax renders\, no broken $ fences
+ \n• Figures: files exist\, captions match\, no empty alts\n• Links: pe
+ rmalinks\, papers\, GitHub — none dead\n• Code fences: language tags\,
+  no truncated snippets\n• Front matter: title\, date\, categories still 
+ true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: README Rosetta:
+  Open Source in Every Language\n• URL: the live permalink above\, not th
+ e GitHub markdown\n• One submit. Log title\, URL\, date.\n• Skip only 
+ if the post is not ready\; do not substitute another.
+LOCATION:_posts/2026-04-06-README-Rosetta.md
+URL:https://juleshenry.github.io/blog/2026/04/06/README-Rosetta
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:README Rosetta: Open Source in Every Language
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:README Rosetta: Open Source in Every Language
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-043@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270704T090000
+DTEND:20270704T120000
+SUMMARY:git-goblin: 195+ Shortcuts and a Pure Bash TUI
+DESCRIPTION:Week 43 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-04-13-git-goblin.md\nPublished: 2026-04-13\nLive: https
+ ://juleshenry.github.io/blog/2026/04/13/git-goblin\nHN submit: https://new
+ s.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and lede: o
+ ne claim\, no throat-clearing\n• Typos\, grammar\, hyphenation\, consist
+ ent spelling\n• Math: KaTeX/MathJax renders\, no broken $ fences\n• Fi
+ gures: files exist\, captions match\, no empty alts\n• Links: permalinks
+ \, papers\, GitHub — none dead\n• Code fences: language tags\, no trun
+ cated snippets\n• Front matter: title\, date\, categories still true\n
+ • Commit\n\n11:30–12:00  Hacker News\n• Title: git-goblin: 195+ Shor
+ tcuts and a Pure Bash TUI\n• URL: the live permalink above\, not the Git
+ Hub markdown\n• One submit. Log title\, URL\, date.\n• Skip only if th
+ e post is not ready\; do not substitute another.
+LOCATION:_posts/2026-04-13-git-goblin.md
+URL:https://juleshenry.github.io/blog/2026/04/13/git-goblin
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:git-goblin: 195+ Shortcuts and a Pure Bash TUI
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:git-goblin: 195+ Shortcuts and a Pure Bash TUI
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-044@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270711T090000
+DTEND:20270711T120000
+SUMMARY:The Swiss-Mexican Auction: Combinatorial Bidding
+DESCRIPTION:Week 44 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-04-20-Swiss-Mexican-Auction.md\nPublished: 2026-04-20\n
+ Live: https://juleshenry.github.io/blog/2026/04/20/Swiss-Mexican-Auction\n
+ HN submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\
+ n• Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\,
+  hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no b
+ roken $ fences\n• Figures: files exist\, captions match\, no empty alts\
+ n• Links: permalinks\, papers\, GitHub — none dead\n• Code fences: l
+ anguage tags\, no truncated snippets\n• Front matter: title\, date\, cat
+ egories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: T
+ he Swiss-Mexican Auction: Combinatorial Bidding\n• URL: the live permali
+ nk above\, not the GitHub markdown\n• One submit. Log title\, URL\, date
+ .\n• Skip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2026-04-20-Swiss-Mexican-Auction.md
+URL:https://juleshenry.github.io/blog/2026/04/20/Swiss-Mexican-Auction
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:The Swiss-Mexican Auction: Combinatorial Bidding
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:The Swiss-Mexican Auction: Combinatorial Bidding
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-045@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270718T090000
+DTEND:20270718T120000
+SUMMARY:Hacker de Teclado: Acoustic Side-Channel Attack
+DESCRIPTION:Week 45 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-04-27-Hacker-de-Teclado.md\nPublished: 2026-04-27\nLive
+ : https://juleshenry.github.io/blog/2026/04/27/Hacker-de-Teclado\nHN submi
+ t: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Tit
+ le and lede: one claim\, no throat-clearing\n• Typos\, grammar\, hyphena
+ tion\, consistent spelling\n• Math: KaTeX/MathJax renders\, no broken $ 
+ fences\n• Figures: files exist\, captions match\, no empty alts\n• Lin
+ ks: permalinks\, papers\, GitHub — none dead\n• Code fences: language 
+ tags\, no truncated snippets\n• Front matter: title\, date\, categories 
+ still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Hacker de
+  Teclado: Acoustic Side-Channel Attack\n• URL: the live permalink above\
+ , not the GitHub markdown\n• One submit. Log title\, URL\, date.\n• Sk
+ ip only if the post is not ready\; do not substitute another.
+LOCATION:_posts/2026-04-27-Hacker-de-Teclado.md
+URL:https://juleshenry.github.io/blog/2026/04/27/Hacker-de-Teclado
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Hacker de Teclado: Acoustic Side-Channel Attack
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Hacker de Teclado: Acoustic Side-Channel Attack
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-046@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270725T090000
+DTEND:20270725T120000
+SUMMARY:touch_keeper: Mass-Personalized New Year's Texts
+DESCRIPTION:Week 46 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-05-04-touch-keeper.md\nPublished: 2026-05-04\nLive: htt
+ ps://juleshenry.github.io/blog/2026/05/04/touch-keeper\nHN submit: https:/
+ /news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n• Title and led
+ e: one claim\, no throat-clearing\n• Typos\, grammar\, hyphenation\, con
+ sistent spelling\n• Math: KaTeX/MathJax renders\, no broken $ fences\n
+ • Figures: files exist\, captions match\, no empty alts\n• Links: perm
+ alinks\, papers\, GitHub — none dead\n• Code fences: language tags\, n
+ o truncated snippets\n• Front matter: title\, date\, categories still tr
+ ue\n• Commit\n\n11:30–12:00  Hacker News\n• Title: touch_keeper: Mas
+ s-Personalized New Year's Texts\n• URL: the live permalink above\, not t
+ he GitHub markdown\n• One submit. Log title\, URL\, date.\n• Skip only
+  if the post is not ready\; do not substitute another.
+LOCATION:_posts/2026-05-04-touch-keeper.md
+URL:https://juleshenry.github.io/blog/2026/05/04/touch-keeper
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:touch_keeper: Mass-Personalized New Year's Texts
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:touch_keeper: Mass-Personalized New Year's Texts
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-047@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270801T090000
+DTEND:20270801T120000
+SUMMARY:Circling the Sphere
+DESCRIPTION:Week 47 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-08-17-circling-the-sphere.md\nPublished: 2026-08-17\nLi
+ ve: https://juleshenry.github.io/blog/2026/08/17/circling-the-sphere\nHN s
+ ubmit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n•
+  Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\, hyp
+ henation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no broke
+ n $ fences\n• Figures: files exist\, captions match\, no empty alts\n•
+  Links: permalinks\, papers\, GitHub — none dead\n• Code fences: langu
+ age tags\, no truncated snippets\n• Front matter: title\, date\, categor
+ ies still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Circl
+ ing the Sphere\n• URL: the live permalink above\, not the GitHub markdow
+ n\n• One submit. Log title\, URL\, date.\n• Skip only if the post is n
+ ot ready\; do not substitute another.
+LOCATION:_posts/2026-08-17-circling-the-sphere.md
+URL:https://juleshenry.github.io/blog/2026/08/17/circling-the-sphere
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Circling the Sphere
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Circling the Sphere
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:copyedit-hn-048@juleshenry
+DTSTAMP:20260911T135329Z
+DTSTART:20270808T090000
+DTEND:20270808T120000
+SUMMARY:Abel–Ruffini Theorem
+DESCRIPTION:Week 48 of 48. Oldest → newest. This week: this post only.\n\
+ nFile: _posts/2026-08-22-Abel-Ruffini-Theorem.md\nPublished: 2026-08-22\nL
+ ive: https://juleshenry.github.io/blog/2026/08/22/Abel-Ruffini-Theorem\nHN
+  submit: https://news.ycombinator.com/submit\n\n9:00–11:30  Copy-edit\n
+ • Title and lede: one claim\, no throat-clearing\n• Typos\, grammar\, 
+ hyphenation\, consistent spelling\n• Math: KaTeX/MathJax renders\, no br
+ oken $ fences\n• Figures: files exist\, captions match\, no empty alts\n
+ • Links: permalinks\, papers\, GitHub — none dead\n• Code fences: la
+ nguage tags\, no truncated snippets\n• Front matter: title\, date\, cate
+ gories still true\n• Commit\n\n11:30–12:00  Hacker News\n• Title: Ab
+ el–Ruffini Theorem\n• URL: the live permalink above\, not the GitHub m
+ arkdown\n• One submit. Log title\, URL\, date.\n• Skip only if the pos
+ t is not ready\; do not substitute another.
+LOCATION:_posts/2026-08-22-Abel-Ruffini-Theorem.md
+URL:https://juleshenry.github.io/blog/2026/08/22/Abel-Ruffini-Theorem
+CATEGORIES:BLOG,HACKERNEWS
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Abel–Ruffini Theorem
+TRIGGER:-PT13H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Abel–Ruffini Theorem
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+END:VCALENDAR

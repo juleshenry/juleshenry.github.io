@@ -1,0 +1,10 @@
+name: Julian Henry — polyglot / software engineer / author
+# Public CV PDF (no phone/email) — generated from private jhenry_cv repo
+resume_url: /assets/Julian-Henry-CV.pdf
+markdown: kramdown
+permalink: /blog/:year/:month/:day/:title
+future: true
+kramdown:
+  input: GFM
+  math_engine: mathjax
+  syntax_highlighter: rouge

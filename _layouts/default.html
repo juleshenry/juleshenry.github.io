@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ page.title }}</title>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Julian Henry — polyglot / software engineer / author. Writing about ML, quantum computing, systems programming, linguistics, and more.">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="Julian Henry — polyglot / software engineer / author.">
+    <meta property="og:image" content="https://juleshenry.github.io/blog/favicon.ico">
+    <meta property="og:url" content="https://juleshenry.github.io{{ page.url }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ page.title }}">
+    <meta name="twitter:description" content="Julian Henry — polyglot / software engineer / author.">
+    <meta name="twitter:image" content="https://juleshenry.github.io/blog/favicon.ico">
+
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print">
+    <link rel="icon" type="image/x-icon" href="/blog/favicon.ico">
+    {% if page.mathjax %}
+    <!-- MathJax Configuration -->
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      chtml: {
+        matchFontHeight: false
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        renderActions: {
+          addMenu: []
+        }
+      }
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    {% endif %}
+  </head>
+
+
+  <body>
+  <div id="arxiv-logo" title="Eclectic Genius"></div>
+  <div id="container">
+  <div class="inner">
+
+        <header>
+          <h1><a href="/">Julian Henry</a></h1>
+          <h2>polyglot / software engineer / author</h2>
+          <nav>
+            <ul>
+              <li><a href="/about">About</a></li>
+              <li><a href="/selected-works">Selected Works</a></li>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="{{ site.resume_url | default: '/resume' }}">Resume</a></li>
+            </ul>
+          </nav>
+        </header>
+<section id="main_content">
+  {{ content }}
+</section>
+  
+
+</div>
+</div>
+  
+  <!-- Active nav state -->
+  <script>
+    (function() {
+      var path = window.location.pathname.replace(/\/$/, '');
+      document.querySelectorAll('nav a').forEach(function(a) {
+        var href = a.getAttribute('href').replace(/\/$/, '');
+        if (href && path.startsWith(href)) a.classList.add('active');
+      });
+    })();
+  </script>
+
+  <!-- Cyberpunk Background -->
+  <script src="/javascripts/main.js"></script>
+
+  <!-- Pixel Rain: hacker glitter blast on headers -->
+  <script src="/javascripts/pixel-rain.js"></script>
+
+  <!-- Mermaid.js - render ```mermaid code blocks as diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'default',
+      securityLevel: 'loose',
+      flowchart: { useMaxWidth: true, htmlLabels: true }
+    });
+    // Find all <pre><code class="language-mermaid"> blocks and render them
+    const codeBlocks = document.querySelectorAll('code.language-mermaid');
+    for (let i = 0; i < codeBlocks.length; i++) {
+      const code = codeBlocks[i];
+      const pre = code.parentElement;
+      const container = document.createElement('div');
+      container.className = 'mermaid';
+      container.textContent = code.textContent;
+      pre.parentNode.replaceChild(container, pre);
+    }
+    await mermaid.run();
+  </script>
+
+  <!-- Three.js - load at end of body for better performance -->
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.module.js';
+    window.THREE = THREE;
+  </script>
+  </body>
+
+</html>
