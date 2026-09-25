@@ -67,7 +67,7 @@ def load_categories() -> tuple[list[tuple[str, str]], dict[str, str]]:
     current: str | None = None
     for line in CATEGORIES_FILE.read_text(encoding="utf-8").splitlines():
         line = line.strip()
-        if not line or line.startswith("#"):
+        if not line:
             continue
         if line.startswith("## "):
             body = line[3:].strip()
@@ -77,6 +77,9 @@ def load_categories() -> tuple[list[tuple[str, str]], dict[str, str]]:
                 title, emoji = body, "⭐"
             current = title
             order.append((title, emoji))
+            continue
+        # plain # comments (not ## section headers)
+        if line.startswith("#"):
             continue
         if current is None:
             continue
