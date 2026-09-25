@@ -10,9 +10,9 @@ mathjax: true
 
 In May 2024 I asked a small language model, running locally, to talk me through Smale's theorem that any two immersions of $S^2$ in $\mathbb{R}^3$ are regularly homotopic. The transcript is [Sphere Eversion Phi3 Notes I](https://honghaptang.github.io/blog/2024/05/22/sphere-eversion-phi3-notes-I). The questions were the right questions. The proofs were not: a linear interpolation was offered as a regular homotopy, the hairy-ball theorem was credited to Smale, and $S^2\times[0,1]$ was described as a solid ball.
 
-In September I wrote a straight exposition, [The Eversion of the Sphere](/blog/2024/09/27/the-eversion-of-the-sphere). It had the theorem right and the pictures wrong. The interactive "eversion" flattened $z$ through zero --- exactly the crease the text forbade --- and the "Morin surface" was an unnamed polynomial that did not match any formula on the page.
+In September 2024 I wrote a straight exposition under the title *The Eversion of the Sphere*. It had the theorem right and the pictures wrong. The interactive "eversion" flattened $z$ through zero --- exactly the crease the text forbade --- and the "Morin surface" was an unnamed polynomial that did not match any formula on the page. That draft is folded into this page; the old URL redirects here.
 
-This post is the two of them talking. The student is the transcript. The teacher is the theorem, at the level of a motivated undergraduate who has partial derivatives, the chain rule, and the rank of a matrix. Every canvas is a displayed equation with a slider.
+This post is the two of them talking. The student is the Phi-3 transcript. The teacher is the theorem, at the level of a motivated undergraduate who has partial derivatives, the chain rule, and the rank of a matrix. Every canvas is a displayed equation with a slider.
 
 The still below is a genuine eversion (Morin's halfway model). We will not pretend to reproduce that movie with a one-line formula. We will write the formulae we *can* write, and refuse to draw a crease and call it an eversion.
 
@@ -1104,4 +1104,4 @@ Calculus gives the language: charts, $J&#95;{f}$, $\mathbf{f}&#95;{u}\times\math
 
 The first post asked. The second post answered, and then drew the forbidden crease. This one circles the sphere until the picture and the equation are the same object.
 
-**Further reading.** S. Smale, *A classification of immersions of the two-sphere*, Trans. Amer. Math. Soc. 90 (1958). A. Bednorz and W. Bednorz, [arXiv:1711.10466](https://arxiv.org/abs/1711.10466). S. Levy, D. Maxwell, T. Munzner, *Outside In*, Geometry Center, 1994. Guillemin--Pollack, *Differential Topology*. The two parents of this page: [Phi-3 notes](https://honghaptang.github.io/blog/2024/05/22/sphere-eversion-phi3-notes-I), [The Eversion of the Sphere](/blog/2024/09/27/the-eversion-of-the-sphere).
+**Further reading.** S. Smale, *A classification of immersions of the two-sphere*, Trans. Amer. Math. Soc. 90 (1958). A. Bednorz and W. Bednorz, [arXiv:1711.10466](https://arxiv.org/abs/1711.10466). S. Levy, D. Maxwell, T. Munzner, *Outside In*, Geometry Center, 1994. Guillemin--Pollack, *Differential Topology*. The raw parent transcript: [Phi-3 notes](https://honghaptang.github.io/blog/2024/05/22/sphere-eversion-phi3-notes-I).
