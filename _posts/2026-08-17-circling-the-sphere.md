@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Circling the Sphere"
+title: "Back-of-the-Envelope: Sphere Eversion"
 date: 2026-08-17
 categories: differential topology
 mathjax: true

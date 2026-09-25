@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Abel–Ruffini Theorem"
+title: "Back-of-the-Envelope: Abel–Ruffini Theorem"
 date: 2026-08-22
 categories: algebra
 mathjax: true
