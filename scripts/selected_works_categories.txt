@@ -18,7 +18,6 @@ tatuagem
 superwand
 mr.worldwide
 physical-menu-to-website
-polyglot-poster
 
 ## Developer Tools | 🛠
 ghee
@@ -27,3 +26,4 @@ touchkeeper
 
 ## Language & Linguistics | 🌍
 vulgultra
+polyglot-poster
