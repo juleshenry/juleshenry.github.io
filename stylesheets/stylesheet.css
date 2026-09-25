@@ -604,26 +604,36 @@ section#main_content h3.banner-reveal {
   margin-bottom: 16px;
 }
 
-.works-section-title {
+.works-section-title,
+section#main_content h2.works-section-title {
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--text);
   margin: 0 0 8px;
-  padding: 5px 10px 5px 10px;
-  border-left: 3px solid var(--accent-2);
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 6px;
-  box-shadow: 0 1px 6px rgba(94, 92, 230, 0.06);
-  display: inline-flex;
+  padding: 5px 10px;
+  border: 0;
+  border-left: 3px solid var(--accent);
+  background: rgba(255, 167, 204, 0.06);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-radius: 0 6px 6px 0;
+  box-shadow: none;
+  display: flex;
   align-items: center;
   gap: 6px;
+  max-width: 100%;
   text-transform: lowercase;
 }
 
 .works-section-title span {
   font-size: 0.95rem;
+}
+
+section#main_content h2.works-section-title::before,
+section#main_content h2.works-section-title::after {
+  content: none;
+  display: none;
+  margin: 0;
 }
 
 .works-grid,
@@ -694,13 +704,26 @@ section#main_content h3.banner-reveal {
   margin: 0;
 }
 
-.work-card-title {
+.work-card-title,
+section#main_content h3.work-card-title {
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--text);
   line-height: 1.2;
   margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
   text-transform: lowercase;
+}
+
+section#main_content h3.work-card-title::before,
+section#main_content h3.work-card-title::after {
+  content: none;
+  display: none;
+  margin: 0;
 }
 
 .work-card-title a {
@@ -1616,10 +1639,17 @@ button:focus-visible {
     font-size: 1.55rem;
   }
 
-  body.page-post section#main_content > h1 {
+  body.page-post #arxiv-logo,
+  body.page-works #arxiv-logo {
+    display: none;
+  }
+
+  body.page-post section#main_content > h1,
+  body.page-works section#main_content > h1 {
     font-size: clamp(1.45rem, 6.4vw, 2.1rem);
     line-height: 1.22;
     text-wrap: balance;
+    overflow-wrap: anywhere;
     margin-bottom: 0.35em;
   }
 
@@ -1636,12 +1666,13 @@ button:focus-visible {
     margin-bottom: 0.55em;
   }
 
-  section#main_content h2,
-  section#main_content h3 {
+  body.page-post section#main_content h2,
+  body.page-post section#main_content h3 {
     margin-top: 1.6em;
     padding: 0.5em 0.65em;
     line-height: 1.3;
     overflow-wrap: anywhere;
+    scroll-margin-top: 12px;
   }
 
   body.page-post section#main_content h2 {
@@ -1652,8 +1683,8 @@ button:focus-visible {
     font-size: 1.05rem;
   }
 
-  section#main_content h2::before,
-  section#main_content h3::before {
+  body.page-post section#main_content h2::before,
+  body.page-post section#main_content h3::before {
     margin-right: 0.4em;
   }
 
@@ -1687,16 +1718,14 @@ button:focus-visible {
     max-width: 100%;
   }
 
-  .post pre,
-  pre {
+  .post pre {
     font-size: 0.82rem;
     line-height: 1.5;
     padding: 0.9em 0.95em;
     -webkit-overflow-scrolling: touch;
   }
 
-  .post code,
-  code {
+  .post code {
     font-size: 0.88em;
   }
 
@@ -1704,22 +1733,55 @@ button:focus-visible {
     font-size: 0.82rem;
   }
 
-  body.page-post header {
+  body.page-post header,
+  body.page-works header {
     padding: 16px 12px 12px;
     margin-bottom: 18px;
     gap: 4px;
   }
 
-  body.page-post header h1 {
+  body.page-post header h1,
+  body.page-works header h1 {
     font-size: 1.55rem;
   }
 
-  body.page-post header h2 {
+  body.page-post header h2,
+  body.page-works header h2 {
     display: none;
   }
 
-  body.page-post nav {
+  body.page-post nav,
+  body.page-works nav {
     margin-top: 8px;
+  }
+
+  body.page-works .works-intro {
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: none;
+    margin-bottom: 1.15em;
+  }
+
+  body.page-works .works-stats {
+    gap: 20px;
+    margin-bottom: 22px;
+  }
+
+  body.page-works .works-section-title,
+  body.page-works section#main_content h2.works-section-title {
+    font-size: 0.95rem;
+    line-height: 1.3;
+    padding: 0.45em 0.6em;
+    margin: 0 0 10px;
+    overflow-wrap: anywhere;
+  }
+
+  body.page-works .works-rail,
+  body.page-works .works-grid {
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 
@@ -1760,7 +1822,8 @@ button:focus-visible {
     font-size: inherit;
   }
 
-  body.page-post {
+  body.page-post,
+  body.page-works {
     font-size: 1rem;
   }
 
@@ -1768,44 +1831,78 @@ button:focus-visible {
     font-size: 1.05rem;
   }
 
-  body.page-post #container {
+  body.page-post #container,
+  body.page-works #container {
     padding: 10px 4px 24px;
     padding-left: max(4px, env(safe-area-inset-left));
     padding-right: max(4px, env(safe-area-inset-right));
   }
 
-  body.page-post .inner {
+  body.page-post .inner,
+  body.page-works .inner {
     padding: 16px 12px 22px;
   }
 
-  body.page-post header {
+  body.page-post header,
+  body.page-works header {
     padding: 12px 8px 10px;
     margin-bottom: 14px;
   }
 
-  body.page-post header h1 {
+  body.page-post header h1,
+  body.page-works header h1 {
     font-size: 1.35rem;
   }
 
-  body.page-post nav ul {
+  body.page-post nav ul,
+  body.page-works nav ul {
     gap: 6px;
   }
 
-  body.page-post nav ul li a {
+  body.page-post nav ul li a,
+  body.page-works nav ul li a {
     min-height: 36px;
     padding: 6px 10px;
     font-size: 0.78rem;
   }
 
-  body.page-post #arxiv-logo {
-    width: 28px;
-    height: 28px;
-    top: 6px;
-    left: 6px;
+  body.page-post #arxiv-logo,
+  body.page-works #arxiv-logo {
+    display: none;
   }
 
-  body.page-post section#main_content > h1 {
+  body.page-post section#main_content > h1,
+  body.page-works section#main_content > h1 {
     font-size: clamp(1.35rem, 7vw, 1.7rem);
+  }
+
+  body.page-works .works-intro {
+    font-size: 1.02rem;
+    line-height: 1.65;
+  }
+
+  body.page-works .work-card {
+    flex-basis: min(220px, 82vw);
+    max-width: 240px;
+    padding: 11px 12px 12px;
+  }
+
+  body.page-works .work-card-title,
+  body.page-works section#main_content h3.work-card-title {
+    font-size: 0.9rem;
+  }
+
+  body.page-works .work-card-desc {
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+
+  body.page-works .works-rail,
+  body.page-works .works-grid {
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .post h1 {

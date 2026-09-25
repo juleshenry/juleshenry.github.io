@@ -55,7 +55,7 @@
   </head>
 
 
-  <body{% if page.layout == 'post' %} class="page-post"{% endif %}>
+  <body{% if page.layout == 'post' %} class="page-post"{% elsif page.url contains 'selected-works' %} class="page-works"{% endif %}>
   <div id="arxiv-logo" title="Eclectic Genius"></div>
   <div id="container">
   <div class="inner">
