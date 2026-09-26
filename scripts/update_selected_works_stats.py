@@ -166,9 +166,10 @@ def render_card(repo: dict) -> str:
 
 def render_section(title: str, emoji: str, repos: list[dict]) -> str:
     cards = "\n\n".join(render_card(r) for r in repos)
+    n = len(repos)
     return f"""<div class="works-section">
   <h2 class="works-section-title"><span>{emoji}</span> {html.escape(title)}</h2>
-  <ul class="works-rail">
+  <ul class="works-rail" data-count="{n}">
 
 {cards}
 
@@ -223,6 +224,9 @@ title: Selected Works - Julian Henry — polyglot / software engineer / author
   category, star-sorted within each rail (notes, the blog, and blacklisted one-offs omitted).
 </p>
 
+<!-- AUTO-GENERATED: scripts/update_selected_works_stats.py — edit blacklist/categories, not cards -->
+{body}
+
 <div class="works-stats">
   <div class="stat">
     <span class="stat-number">{n_repos}</span>
@@ -237,9 +241,6 @@ title: Selected Works - Julian Henry — polyglot / software engineer / author
     <span class="stat-label">Stars</span>
   </div>
 </div>
-
-<!-- AUTO-GENERATED: scripts/update_selected_works_stats.py — edit blacklist/categories, not cards -->
-{body}
 """
 
 
