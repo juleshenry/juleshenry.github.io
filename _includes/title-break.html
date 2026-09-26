@@ -1,0 +1,7 @@
+{% if include.title contains ':' %}
+{% assign kicker = include.title | split: ':' | first | strip %}
+<span class="title-kicker">{{ kicker }}:</span>
+<span class="title-rest">{{ include.title | remove_first: kicker | remove_first: ':' | strip }}</span>
+{% else %}
+{{ include.title }}
+{% endif %}

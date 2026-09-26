@@ -833,7 +833,7 @@ ul.posts li:hover {
   border-bottom-color: var(--accent);
 }
 
-ul.posts li span {
+ul.posts li > span {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   color: var(--accent);
@@ -841,7 +841,7 @@ ul.posts li span {
   flex: 0 0 auto;
 }
 
-ul.posts li span::after {
+ul.posts li > span::after {
   content: '\00a0\00bb';
   color: var(--muted);
 }
@@ -853,6 +853,13 @@ ul.posts li a {
   text-transform: lowercase;
   min-width: 0;
   flex: 1 1 auto;
+}
+
+ul.posts li a .title-kicker,
+ul.posts li a .title-rest,
+section#main_content > h1 .title-kicker,
+section#main_content > h1 .title-rest {
+  display: inline;
 }
 
 ul.posts li a:hover {
@@ -1182,7 +1189,7 @@ section#main_content table mjx-container {
     gap: 0.55rem 0.75rem;
   }
 
-  ul.posts li span {
+  ul.posts li > span {
     min-width: 6.4rem;
     flex: 0 0 6.4rem;
     font-size: 0.75rem;
@@ -1247,7 +1254,7 @@ section#main_content table mjx-container {
     padding: 0.7rem 0;
   }
 
-  ul.posts li span {
+  ul.posts li > span {
     min-width: 5.9rem;
     flex-basis: 5.9rem;
     font-size: 0.7rem;
@@ -1626,7 +1633,7 @@ ul.posts li a {
     gap: 0.55rem 0.8rem;
   }
 
-  ul.posts li span {
+  ul.posts li > span {
     min-width: 6.4rem;
     flex: 0 0 6.4rem;
     font-size: 0.75rem;
@@ -1638,6 +1645,22 @@ ul.posts li a {
     font-size: 0.95rem;
     line-height: 1.35;
     overflow-wrap: anywhere;
+  }
+
+  ul.posts li a:has(.title-kicker),
+  body.page-post section#main_content > h1:has(.title-kicker) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.12em;
+    text-wrap: unset;
+  }
+
+  ul.posts li a .title-kicker,
+  ul.posts li a .title-rest,
+  body.page-post section#main_content > h1 .title-kicker,
+  body.page-post section#main_content > h1 .title-rest {
+    display: block;
   }
 }
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "README Rosetta: Open Source in Every Language"
+title: "README Rosetta: docs in every language"
 date: 2026-04-06
 ---
 
