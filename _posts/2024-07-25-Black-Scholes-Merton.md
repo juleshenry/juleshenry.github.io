@@ -6,20 +6,22 @@ categories: wealth
 mathjax: true
 ---
 
-Is it optional to know what an option is? No.
+Is it optional to know what an "option" is? No!
 
-This note takes someone who can do calculus, differential equations, and a stats course, and builds the Black–Scholes–Merton formula in seven stages. No finance and no stochastic calculus are assumed; both are built. We take the stages in order.
+Many people have heard of this financial instrument but don't know how it's priced. If you can do calculus, differential equations, and remember a stats course, this note builds that price from scratch, in seven stages, taken in order.
+
+Stages 1 through 4 use nothing but algebra, calculus, and the Central Limit Theorem — every step is proved on the page. Stages 5 through 7 bring in stochastic calculus: Itô's lemma and Girsanov's theorem are motivated by discrete examples and finite trees, not proved in full generality. Where an argument is a heuristic rather than a proof, it is flagged as one.
 
 <div class="note">
 <p><strong>Roadmap</strong></p>
 <ol>
-<li><strong>What is an option?</strong> A rain check: the right to buy at a strike. Payoff at expiry is arithmetic. Today's premium is the question.</li>
+<li>An option is the right to buy at a strike. Payoff at expiry is arithmetic. Today's premium is the question.</li>
 <li><strong>Martingales, Wiener, stocks.</strong> A Wiener process (Brownian motion) is the noise. A martingale is a fair game. A stock is the ODE $dS=\mu S\,dt$ plus that noise, scaled by $S$ so the price stays positive.</li>
 <li><strong>Lognormal properties.</strong> Multiplicative returns add in log space; the CLT makes $\ln S_T$ Gaussian. Density, Jacobian, median versus mean, $\mathbb{E}[e^{aZ}]=e^{a^2/2}$.</li>
 <li><strong>A simple calculus argument.</strong> Given that lognormal, completing the square turns $\mathbb{E}[(S_T-K)^+]$ into two $\Phi$'s, in parameters $(m,s)$. Then each assumption is perturbed: what morphs the formula, and what breaks it.</li>
-<li><strong>A detour to Japan.</strong> The chain rule throws $(dx)^2$ away. For Wiener that term is the same size as $dt$, so Itô keeps it. Quadratic variation, Taylor in two variables, $d(W^2)=2W\,dW+dt$.</li>
-<li><strong>Derive from stochastic calculus.</strong> Itô on $\ln S$ produces the lognormal with $m=\ln S+(\mu-\tfrac12\sigma^2)\tau$. Replication (a two-leaf tree) and Girsanov replace $\mu$ by $r$. Plug in: the rain check is $10.45$. The PDE is the same Gaussian, as heat.</li>
-<li><strong>Change of numeraire.</strong> $\Phi(d_2)$ is exercise probability in dollars. $\Phi(d_1)$ is exercise probability in shares. One more Girsanov, tilt $-\sigma$.</li>
+<li><strong>A detour to Japan.</strong> The chain rule throws $(dx)^2$ away. For Wiener that term is the same size as $dt$, so Itô keeps it. Quadratic variation, Taylor in two variables, $d(W^2)=2W\,dW+dt$, shown by hand on one path — not a general proof.</li>
+<li><strong>Apply stochastic calculus.</strong> Itô on $\ln S$ produces the lognormal with $m=\ln S+(\mu-\tfrac12\sigma^2)\tau$. A two-leaf tree motivates replacing $\mu$ by $r$; Girsanov is asserted by analogy to that tree, not derived. Plug in: the rain check is $10.45$. The PDE is the same Gaussian, as heat.</li>
+<li><strong>Change of numeraire.</strong> $\Phi(d_2)$ is exercise probability in dollars. $\Phi(d_1)$ is exercise probability in shares. One more Girsanov tilt, $-\sigma$, applied the same asserted way.</li>
 </ol>
 </div>
 
