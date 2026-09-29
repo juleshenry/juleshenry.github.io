@@ -218,11 +218,6 @@ title: Selected Works - Julian Henry — polyglot / software engineer / author
 ---
 
 <h1>Selected Works</h1>
-<p class="works-intro">
-  Open-source projects spanning scientific computing, developer tools, image processing,
-  language learning, and creative coding. Pulled from public GitHub repos, grouped by
-  category, star-sorted within each rail (notes, the blog, and blacklisted one-offs omitted).
-</p>
 
 <!-- AUTO-GENERATED: scripts/update_selected_works_stats.py — edit blacklist/categories, not cards -->
 {body}
