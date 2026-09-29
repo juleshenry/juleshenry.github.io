@@ -1053,6 +1053,32 @@ section#main_content table mjx-container {
 }
 
 /* ── About / CV ── */
+.about-photo {
+  display: block;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-accent);
+  box-shadow: var(--shadow-hover);
+}
+
+.about-lede {
+  max-width: 640px;
+  margin: 0 auto 20px;
+  font-size: 1.05rem;
+  color: var(--text);
+  line-height: 1.8;
+}
+
+.about-sub {
+  max-width: 640px;
+  margin: 0 auto 40px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
 .about-actions {
   display: flex;
   justify-content: center;
@@ -1302,6 +1328,12 @@ section#main_content table mjx-container {
   blockquote {
     padding: 8px 12px;
     margin: 8px 0 14px;
+  }
+
+  .about-photo {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
   }
 
   .about-actions {
