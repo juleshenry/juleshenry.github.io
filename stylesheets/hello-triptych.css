@@ -1,0 +1,23 @@
+.hello-triptych {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.hello-panel img {
+  width: 100%;
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .hello-triptych {
+    grid-template-columns: 1fr;
+  }
+
+  .hello-panel--side {
+    display: none;
+  }
+}
