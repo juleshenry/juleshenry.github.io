@@ -8,9 +8,9 @@ date: 2026-03-23
 
 SuperWand takes an image, identifies its dominant color regions using KMeans clustering, and replaces those colors with any of 18 curated aesthetic themes -- Vaporwave, Cyberpunk, Tropical, Arctic, and so on -- or with a palette stolen from another photo. It is a magic wand for recoloring. Point it at a posterized Charizard, pick "Midnight," and out comes a moonlit dragon.
 
-![Every theme, one Charizard](https://github.com/juleshenry/superwand/blob/main/examples/demos/charizard_themes.gif?raw=1)
+![Every theme, one Charizard](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/charizard_themes.gif)
 
-The project is on [PyPI](https://pypi.org/project/superwand/) (v0.3.0) and [GitHub](https://github.com/juleshenry/superwand). Licensed under MIT.
+The project is on [PyPI](https://pypi.org/project/superwand/) (v0.3.1) and [GitHub](https://github.com/juleshenry/superwand). Licensed under MIT.
 
 *Updated September 2026:* v0.3.0 adds palette transfer, luminance matching, theme-cycle GIFs, a Python API, a much better CSS rethemer and a 25-33x faster gradient engine. `pip install -U superwand`.
 
@@ -26,7 +26,7 @@ Each pixel gets a label: region 0, region 1, region 2, region 3, ordered from la
 
 The choice of `k` is the main creative knob. On flat vector art, each step up peels off another layer of detail:
 
-![k sweep](https://github.com/juleshenry/superwand/blob/main/examples/demos/k_sweep.png?raw=1)
+![k sweep](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/k_sweep.png)
 
 ### 2. Theme Injection
 
@@ -47,11 +47,11 @@ There are two ways to pair regions with colors:
 - **`order`** (the default for themes): the largest region gets the theme's first color, the second largest the second color, and so on. It is blunt, and often that is the point -- a bright sky can turn midnight navy.
 - **`luminance`**: regions and theme colors are both sorted by brightness, and the darkest region gets the darkest color. This preserves the image's light and shadow structure, so a silhouetted skyline stays a silhouette.
 
-![Order vs luminance matching](https://github.com/juleshenry/superwand/blob/main/examples/demos/match_modes.png?raw=1)
+![Order vs luminance matching](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/match_modes.png)
 
 Either way, the result is a recolored image that preserves the original structure (edges, shapes, textures) but wears an entirely different color palette.
 
-![Charizard Themed Examples](https://github.com/juleshenry/superwand/blob/main/examples/charizards/Cyberpunk_charizard.png?raw=1)
+![Charizard Themed Examples](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/charizards/Cyberpunk_charizard.png)
 
 ### 3. Gradient Application
 
@@ -65,15 +65,15 @@ When a theme is applied, each region's gradient runs from its theme color to the
 
 Each gradient has a polarity parameter that controls where the 50/50 blend lands. Every pixel's position along the gradient, `t` in [0, 1], is raised to the power `p = log(0.5) / log(polarity)`, which puts the midpoint exactly at `t = polarity`. Low polarity reaches the end color early; high polarity holds on to the start color:
 
-![Polarity sweep](https://github.com/juleshenry/superwand/blob/main/examples/demos/polarity_sweep.png?raw=1)
+![Polarity sweep](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/polarity_sweep.png)
 
-![Gradient Examples](https://github.com/juleshenry/superwand/blob/main/examples/charizards/gradient_radial_charizard.png?raw=1)
+![Gradient Examples](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/charizards/gradient_radial_charizard.png)
 
 ## Palette Transfer
 
 Eighteen themes is a lot, but the best palettes are already out there in photographs. `-palette-from` runs the same KMeans region finder on a reference image, takes its `k` cluster centers as a custom theme and applies it with luminance matching. Here a flat vector illustration borrows the palette of a mantis shrimp, and then of plankton from Austin's Lady Bird Lake:
 
-![Palette transfer](https://github.com/juleshenry/superwand/blob/main/examples/demos/palette_transfer.png?raw=1)
+![Palette transfer](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/palette_transfer.png)
 
 ```bash
 superwand rocket.jpeg -palette-from mantis_shrimp.jpeg -k 6
@@ -89,12 +89,12 @@ The CLI is fine for scripting, but the real fun is the Studio -- a Flask-based w
 - Toggle morphological flood-fill (uses SciPy's binary closing then dilation to fill holes and grow each region's mask)
 - See the result instantly as a live preview
 
-![Studio Preview](https://github.com/juleshenry/superwand/blob/main/examples/studio-preview.png?raw=1)
+![Studio Preview](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/studio-preview.png)
 
 The Studio also handles CSS retheming, and so does a standalone `css-retheme` command. SuperWand finds every color value in the stylesheet's declarations -- `#rgb`, `#rrggbb`, 4- and 8-digit hex with alpha, `rgb()` and `rgba()` -- clusters them with KMeans, and maps the most-used cluster to the theme's first color, the next to the second, and so on. Selectors like `#header`, comments, indentation and alpha channels are left alone. The before/after is surprisingly dramatic:
 
-![CSS Before](https://github.com/juleshenry/superwand/blob/main/examples/css/before.png?raw=1)
-![CSS After Tropical](https://github.com/juleshenry/superwand/blob/main/examples/css/after_tropical.png?raw=1)
+![CSS Before](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/css/before.png)
+![CSS After Tropical](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/css/after_tropical.png)
 
 ## CLI Usage
 
