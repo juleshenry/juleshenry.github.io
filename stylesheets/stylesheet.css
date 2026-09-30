@@ -840,6 +840,22 @@ section#main_content > h1:has(.title-kicker) {
   text-wrap: balance;
 }
 
+body.page-post section#main_content > h1,
+body.page-post section#main_content > .meta,
+body.page-post section#main_content > .book-meta,
+body.page-post .post > p:first-child:has(> em:first-child):has(> strong) {
+  text-align: center;
+}
+
+body.page-post .post > p:first-child:has(> em:first-child):has(> strong) {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.page-post section#main_content > h1:has(.title-kicker) {
+  align-items: center;
+}
+
 section#main_content > h1 .title-kicker {
   font-size: 0.8rem;
   letter-spacing: 0.1em;
