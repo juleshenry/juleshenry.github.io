@@ -74,25 +74,39 @@ Wiener itself is a martingale: $\mathbb{E}[W_T\mid W_t]=W_t$, because the remain
 # 2. The lognormal, against the normal
 {: #2-the-lognormal-against-the-normal}
 
-A stock is a product of returns, not a sum of dollars. Over a day the price multiplies by a gross return $1+R_i>0$. Over $N$ days
+## Recall the normal
+
+A random variable $X$ is **normal** with mean $\mu$ and standard deviation $\sigma$, written $X\sim\mathcal{N}(\mu,\sigma^2)$, when its density is
 
 $$
-S_T \;=\; S \prod_{i=1}^{N}(1+R_i), \qquad \ln S_T \;=\; \ln S + \sum_{i=1}^{N}\ln(1+R_i).
+\varphi_{\mu,\sigma}(x) \;=\; \frac{1}{\sigma\sqrt{2\pi}}\exp\Bigl(-\frac12\Bigl(\frac{x-\mu}{\sigma}\Bigr)^2\Bigr), \qquad x\in\mathbb{R}.
 $$
 
-The logs **add**. If the daily log-returns are independent with finite mean and variance, the CLT says their sum is approximately Gaussian. Therefore $\ln S_T\sim\mathcal{N}(m,s^2)$ for some $m,s$, and
+The **standard normal** $Z\sim\mathcal{N}(0,1)$ has density $\varphi(z)=\frac{1}{\sqrt{2\pi}}e^{-z^2/2}$ and cdf
 
 $$
-S_T \;=\; e^{Y}, \qquad Y\sim\mathcal{N}(m,s^2).
+\Phi(x) \;=\; P(Z\le x) \;=\; \int_{-\infty}^{x}\varphi(z)\,dz.
 $$
 
-A positive random variable whose logarithm is Gaussian is **lognormal**. The normal is what the CLT gives you for a *sum* of many small independent pieces. The lognormal is what it gives you for a *product* of many small independent positive pieces. Prices compound, so prices are products.
+Every normal is a shifted, stretched standard one: $X=\mu+\sigma Z$, so $P(X\le x)=\Phi\bigl((x-\mu)/\sigma\bigr)$. The bell is symmetric about $\mu$, so $\Phi(-x)=1-\Phi(x)$, and the mode, median and mean all sit at $\mu$.
 
-![A Gaussian for the price spills below zero; a lognormal cannot](/blog/assets/2024/bsm/normal-vs-lognormal.png)
+![Φ as area under the standard bell curve](/blog/assets/2024/bsm/phi-areas.png)
 
-## Mean, median, mode
+## Its lognormal counterpart
 
-Write $Y=m+sZ$ with $Z\sim\mathcal{N}(0,1)$. The **median** of $S_T$ is $e^{m}$, because $e^x$ is increasing and the median of $Y$ is $m$. The **mean** is not $e^{m}$: $x\mapsto e^{x}$ is convex, so Jensen gives $\mathbb{E}[e^Y]>e^{\mathbb{E}[Y]}$. The exact gap is the moment-generating function of a standard normal. Completing the square:
+Exponentiate: $Y=e^{X}$. Read backwards, $Y$ is **lognormal** when its logarithm is normal,
+
+$$
+\ln Y \;\sim\; \mathcal{N}(\mu,\sigma^2).
+$$
+
+Careful with the letters: $\mu$ and $\sigma$ are the mean and standard deviation of $\ln Y$, not of $Y$. Every property of $Y$ is inherited from $X$ by pushing it through $e^x$.
+
+**Support.** $e^x>0$, so $Y>0$. The normal lives on $(-\infty,\infty)$; the lognormal on $(0,\infty)$.
+
+**Median.** $e^x$ is increasing, so it preserves order, and order statistics come along for free. The median of $X$ is $\mu$, so the median of $Y$ is $e^{\mu}$.
+
+**Mean.** Not $e^{\mu}$. The curve $e^x$ bends upward: a swing of $+\sigma$ in $X$ multiplies $Y$ by $e^{\sigma}$, a swing of $-\sigma$ only by $e^{-\sigma}$, and $e^{\sigma}-1>1-e^{-\sigma}$. Symmetric swings in $X$ become lopsided swings in $Y$, and the average is dragged up. By exactly how much is the moment-generating function of $Z$. Completing the square,
 
 $$
 \mathbb{E}[e^{aZ}]
@@ -102,29 +116,31 @@ $$
 e^{a^2/2},
 $$
 
-because $az-z^2/2=-\tfrac12(z-a)^2+a^2/2$, and what remains is a normal density with mean $a$. Hence
+because $az-z^2/2=-\tfrac12(z-a)^2+a^2/2$, and what remains is a normal density with mean $a$, which integrates to $1$. With $Y=e^{\mu}e^{\sigma Z}$ and $a=\sigma$,
 
 $$
-\mathbb{E}[S_T] \;=\; e^{m+s^2/2}.
+\mathbb{E}[Y] \;=\; e^{\mu+\sigma^2/2}.
 $$
 
-The density of $S_T$ follows from $y=\ln x$, $dy=dx/x$:
+**Variance.** The same trick with $a=2\sigma$ gives $\mathbb{E}[Y^2]=e^{2\mu+2\sigma^2}$, so $\mathrm{Var}(Y)=\mathbb{E}[Y^2]-\mathbb{E}[Y]^2=(e^{\sigma^2}-1)\,e^{2\mu+\sigma^2}$.
+
+**cdf.** $P(Y\le y)=P(X\le\ln y)=\Phi\bigl((\ln y-\mu)/\sigma\bigr)$. Gaussian, in log-coordinates.
+
+**Density.** Differentiate the cdf, or substitute $x=\ln y$, $dx=dy/y$, into $\varphi_{\mu,\sigma}$:
 
 $$
-f_{S_T}(x) \;=\; \frac{1}{s\, x\sqrt{2\pi}}\exp\Bigl(-\frac12\Bigl(\frac{\ln x-m}{s}\Bigr)^2\Bigr), \qquad x>0.
+f_Y(y) \;=\; \frac{1}{\sigma\, y\sqrt{2\pi}}\exp\Bigl(-\frac12\Bigl(\frac{\ln y-\mu}{\sigma}\Bigr)^2\Bigr), \qquad y>0.
 $$
 
-The extra $1/x$ is the Jacobian. It tilts the peak to the left: setting the derivative of $\ln f$ to zero gives the **mode** $e^{m-s^2}$. So for a lognormal the three centers separate, in a fixed order,
+**Mode.** The extra $1/y$ is the Jacobian, and it tilts the peak to the left. Setting the derivative of $\ln f_Y$ to zero gives $e^{\mu-\sigma^2}$.
+
+So where the normal's three centers coincide, the lognormal's separate, in a fixed order:
 
 $$
-\text{mode } e^{m-s^2} \;<\; \text{median } e^{m} \;<\; \text{mean } e^{m+s^2/2},
+\text{mode } e^{\mu-\sigma^2} \;<\; \text{median } e^{\mu} \;<\; \text{mean } e^{\mu+\sigma^2/2}.
 $$
 
-where for a normal all three coincide. Picture: $S=100$, $s=0.20$, $m=\ln 100+0.03$. Mode $\approx 99.0$, median $\approx 103.0$, mean $\approx 105.1$. The most likely neighbourhood is just under $100$; the typical path ends near $103$; the average is pulled up to $105$ by the right tail. That $e^{s^2/2}$ is Itô's correction, first as an MGF. §3 recovers it from Taylor.
-
-The cdf is Gaussian in log-coordinates: $P(S_T\le K)=\Phi\bigl((\ln K-m)/s\bigr)$, where $\Phi(x)=P(Z\le x)$ for $Z\sim\mathcal{N}(0,1)$, and $\Phi(-x)=1-\Phi(x)$.
-
-![Φ as area under the standard bell curve](/blog/assets/2024/bsm/phi-areas.png)
+Picture: $\sigma=0.20$, $\mu=\ln 100+0.03$. Mode $\approx 99.0$, median $\approx 103.0$, mean $\approx 105.1$, standard deviation $\approx 21.2$. The most likely neighbourhood is just under $100$; the typical draw lands near $103$; the average is pulled up to $105$ by the right tail. That $e^{\sigma^2/2}$ is Itô's correction, first as an MGF. §3 recovers it from Taylor.
 
 ## Side by side
 
@@ -132,25 +148,43 @@ The cdf is Gaussian in log-coordinates: $P(S_T\le K)=\Phi\bigl((\ln K-m)/s\bigr)
   <thead>
     <tr>
       <th></th>
-      <th>Normal \(X\sim\mathcal{N}(m,s^2)\)</th>
-      <th>Lognormal \(S=e^{X}\)</th>
+      <th>Normal \(X\sim\mathcal{N}(\mu,\sigma^2)\)</th>
+      <th>Lognormal \(Y=e^{X}\)</th>
     </tr>
   </thead>
   <tbody>
     <tr><td>arises from</td><td>sum of many small pieces</td><td>product of many small positive pieces</td></tr>
     <tr><td>support</td><td>\((-\infty,\infty)\)</td><td>\((0,\infty)\)</td></tr>
     <tr><td>shape</td><td>symmetric</td><td>right-skewed, long upper tail</td></tr>
-    <tr><td>mode / median / mean</td><td>\(m\) / \(m\) / \(m\)</td><td>\(e^{m-s^2}\) / \(e^{m}\) / \(e^{m+s^2/2}\)</td></tr>
-    <tr><td>variance</td><td>\(s^2\)</td><td>\((e^{s^2}-1)\,e^{2m+s^2}\)</td></tr>
+    <tr><td>mode / median / mean</td><td>\(\mu\) / \(\mu\) / \(\mu\)</td><td>\(e^{\mu-\sigma^2}\) / \(e^{\mu}\) / \(e^{\mu+\sigma^2/2}\)</td></tr>
+    <tr><td>variance</td><td>\(\sigma^2\)</td><td>\((e^{\sigma^2}-1)\,e^{2\mu+\sigma^2}\)</td></tr>
     <tr><td>closed under</td><td>adding independent copies</td><td>multiplying independent copies</td></tr>
-    <tr><td>scale a price by \(c\)</td><td>scales both \(m\) and \(s\) by \(c\)</td><td>shifts \(m\) by \(\ln c\), keeps \(s\)</td></tr>
-    <tr><td>cdf</td><td>\(\Phi\bigl((x-m)/s\bigr)\)</td><td>\(\Phi\bigl((\ln x-m)/s\bigr)\)</td></tr>
+    <tr><td>scale by \(c>0\)</td><td>scales both \(\mu\) and \(\sigma\) by \(c\)</td><td>shifts \(\mu\) by \(\ln c\), keeps \(\sigma\)</td></tr>
+    <tr><td>cdf</td><td>\(\Phi\bigl((x-\mu)/\sigma\bigr)\)</td><td>\(\Phi\bigl((\ln y-\mu)/\sigma\bigr)\)</td></tr>
   </tbody>
 </table>
 
-Two objections to a normal for the *price* are gone. $S_T>0$ always. And a $\$10$ stock and a $\$1000$ stock can share the same $s$, because $s$ measures *percentage* spread: scaling the price by $c$ just adds $\ln c$ to $m$. A normal with a fixed $s$ would give both stocks the same *dollar* spread, which no one believes.
+## Why a price is lognormal
 
-For the $s=0.20$ example above, the lognormal has standard deviation about $21.2$. The formula in §3 will need only $(m,s)$ and the cdf. We treat them as given until §3 produces them from the stock.
+A stock is a product of returns, not a sum of dollars. Over a day the price multiplies by a gross return $1+R_i>0$. Over $N$ days
+
+$$
+S_T \;=\; S \prod_{i=1}^{N}(1+R_i), \qquad \ln S_T \;=\; \ln S + \sum_{i=1}^{N}\ln(1+R_i).
+$$
+
+The logs **add**. If the daily log-returns are independent with finite mean and variance, the CLT says their sum is approximately normal. So $\ln S_T$ is normal, and $S_T$ is lognormal. The normal is what the CLT gives you for a *sum* of many small independent pieces; the lognormal is what it gives you for a *product* of many small independent positive pieces. Prices compound, so prices are products.
+
+![A Gaussian for the price spills below zero; a lognormal cannot](/blog/assets/2024/bsm/normal-vs-lognormal.png)
+
+Two objections to a normal for the *price* are gone. $S_T>0$ always. And a $\$10$ stock and a $\$1000$ stock can share the same $\sigma$, because $\sigma$ measures *percentage* spread: scaling the price by $c$ just adds $\ln c$ to $\mu$. A normal with a fixed $\sigma$ would give both stocks the same *dollar* spread, which no one believes.
+
+**A change of letters.** In §3, $\mu$ and $\sigma$ become the stock's drift and volatility, and the log-price turns out normal with parameters *built from* them but not equal to them. To keep the two apart, write the log-price's parameters as $(m,s)$:
+
+$$
+\ln S_T \;\sim\; \mathcal{N}(m,s^2),
+$$
+
+and read every fact above with $\mu\to m$, $\sigma\to s$. The mean is $e^{m+s^2/2}$, and $P(S_T\le K)=\Phi\bigl((\ln K-m)/s\bigr)$. The formula in §3 needs nothing else.
 
 ---
 
@@ -255,7 +289,7 @@ The $\tfrac12\sigma^2$ that left the log-drift is the $e^{s^2/2}$ from the MGF. 
 
 ## The call as an integral
 
-Now forget where $(m,s)$ came from. Assume only $Y=\ln S_T\sim\mathcal{N}(m,s^2)$. Split the payoff on $\{S_T>K\}$:
+Now forget where $(m,s)$ came from. Assume only $\ln S_T\sim\mathcal{N}(m,s^2)$. Split the payoff on $\{S_T>K\}$:
 
 $$
 \mathbb{E}[(S_T-K)^+]
@@ -268,7 +302,7 @@ The second term is the Gaussian tail:
 $$
 P(S_T>K)
 \;=\;
-P(Y>\ln K)
+P(\ln S_T>\ln K)
 \;=\;
 \Phi\Bigl(\frac{-\ln K+m}{s}\Bigr).
 $$
