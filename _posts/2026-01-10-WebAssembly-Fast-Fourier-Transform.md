@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "FFM WASM: Why Only Fourier Beats V8's BigInt"
+title: "WebAssembly Fast Fourier Transform"
 date: 2026-01-10
 mathjax: true
 ---
@@ -9,16 +9,16 @@ mathjax: true
 
 A while back I wrote a [lengthy treatise on multiplication algorithms](/blog/2025/12/19/On-Multiplication), covering the whole arc from schoolbook to Karatsuba to Schönhage-Strassen to the galactic Harvey-Hoeven result. Theory is gorgeous. Theory is also cheap. So I asked a concrete question: can hand-built WebAssembly multiply big integers faster than the JavaScript engine's own `BigInt`?
 
-The answer is yes. But only one kind of WASM multiplier can do it: **FFM WASM**, a fast Fourier multiplication running in WASM's SIMD floating point. It beats V8's native `BigInt` multiply at every size I tested from 16 kbit to 33.5 Mbit, by 1.2–4.5× in kernel time and up to 2.9× including conversion to and from `BigInt`.
+The answer is yes. But only one kind of WASM multiplier can do it: a **WebAssembly Fast Fourier Transform** (WASM FFT) multiply, running in WASM's SIMD floating point. It beats V8's native `BigInt` multiply at every size I tested from 16 kbit to 33.5 Mbit, by 1.2–4.5× in kernel time and up to 2.9× including conversion to and from `BigInt`.
 
-This post is about why *only* FFM WASM can do it. The argument runs through my earlier project, Wasmatsuba: a hand-written WAT Karatsuba that lost to V8 badly. That work is not lost. It is where the argument starts. It proved the Karatsuba curve bends exactly as the textbook says, then showed that bending is not enough. It also turned up a bug and two benchmarking mistakes that I would never have found otherwise.
+This post is about why *only* the WASM FFT can do it. The argument runs through my earlier project, Wasmatsuba: a hand-written WAT Karatsuba that lost to V8 badly. That work is not lost. It is where the argument starts. It proved the Karatsuba curve bends exactly as the textbook says, then showed that bending is not enough. It also turned up a bug and two benchmarking mistakes that I would never have found otherwise.
 
 The plan:
 
 1. Meet the opponent: what V8 actually does when you write `a * b`.
 2. Wasmatsuba: schoolbook and Karatsuba in hand-written WAT, and what they proved.
 3. The Karatsuba ceiling: why no Karatsuba in WASM can ever overtake V8.
-4. FFM WASM: the multiplier that does.
+4. WASM FFT: the multiplier that does.
 5. The numbers, and the fine print.
 
 ## 1. The Opponent
@@ -232,9 +232,9 @@ Above 2,048 limbs it gets worse. V8 switches to its FFT (exponent 1.18) while WA
 
 So here is the argument in one line. **Same algorithm, narrower digits: you lose by a constant forever. To win you need a lower exponent than V8's best, with better constants.** In WASM that means an FFT. And it has to be an FFT that does its heavy lifting somewhere WASM is *not* handicapped.
 
-## 4. FFM WASM
+## 4. WASM FFT
 
-That somewhere is floating point. WASM's `f64x2` SIMD does two double-precision operations per instruction, with no digit-width penalty against native code. FFM WASM is a double-precision complex FFT multiply that lives entirely there, in five steps, all SIMD on split real/imaginary arrays:
+That somewhere is floating point. WASM's `f64x2` SIMD does two double-precision operations per instruction, with no digit-width penalty against native code. The WASM FFT is a double-precision complex FFT multiply that lives entirely there, in five steps, all SIMD on split real/imaginary arrays:
 
 1. **Balanced digits.** Cut each operand into $b$-bit digits in $[-2^{b-1}, 2^{b-1})$, with $b$ as large as $2b + \log_2 N \le 56$ allows (15–20 bits).
 2. **One forward transform for both operands.** Pack $z = a + i\,b$ and run a radix-4 DIF FFT of size $N$, depth-first until a sub-transform fits in L1 (4,096 points). Each radix-4 group loads one twiddle and derives the rest: $w_{j+q} = -i\,w_j$, $w_2 = w_1^2$.
@@ -242,7 +242,7 @@ That somewhere is floating point. WASM's `f64x2` SIMD does two double-precision 
 4. **Half-size inverse.** The product spectrum is Hermitian, so it folds in place into a size-$N/2$ complex spectrum and inverts to give two real coefficients per complex output. Transform work drops from $2N$ to $1.5N$.
 5. **Round, carry, verify.** Accept only if the max rounding error is below 0.375 and the residues mod $2^{32}-1$ and $2^{31}-1$ match. Otherwise retry with $b-1$. A single wrong coefficient changes the result by $\pm 2^{bk}$, which is never $0 \bmod 2^{32}-1$, so it is always caught.
 
-`mul_auto` uses the rebuilt Karatsuba below 216 limbs and FFM WASM from there up.
+`mul_auto` uses the rebuilt Karatsuba below 216 limbs and the WASM FFT from there up.
 
 ### Why balanced digits matter
 
@@ -263,7 +263,7 @@ The gap grows with size: 53× at 1K limbs, about 160× at 16K, 1,280× at 1M. Mo
 
 At 1M limbs (33.5 Mbit), where V8 takes 304 ms:
 
-| Step | FFM WASM (ms) | vs V8 |
+| Step | WASM FFT (ms) | vs V8 |
 | --- | --- | --- |
 | Radix-2, bit-reversal-free, depth-first; budget 50 | 206 | 1.5× |
 | Budget 56 with balanced digits | 114 | 2.7× |
@@ -278,7 +278,7 @@ Radix-4 was a step backwards on its own. It only paid off once the rounding and 
 
 Node 26.5 / V8 14.6 on an Apple M1 Pro. Speedup is V8 time ÷ WASM time; higher is better. "End-to-end" includes converting from `BigInt` into WASM memory and back.
 
-| Size | FFM WASM kernel | FFM WASM end-to-end | Wasmatsuba Karatsuba (fixed) |
+| Size | WASM FFT kernel | WASM FFT end-to-end | Wasmatsuba Karatsuba (fixed) |
 | --- | --- | --- | --- |
 | 2 kbit | 0.68× | 0.19× | 0.22× |
 | 8 kbit | 0.84× | 0.38× | 0.19× |
@@ -290,9 +290,13 @@ Node 26.5 / V8 14.6 on an Apple M1 Pro. Speedup is V8 time ÷ WASM time; higher 
 | 8 Mbit | 4.49× | 2.89× | — |
 | 32 Mbit | 4.16× | 2.93× | — |
 
-The kernel column is `mul_auto`, so at 2 kbit (64 limbs) it is really the rebuilt Karatsuba. The switch to FFM WASM happens at 216 limbs, about 7 kbit.
+The kernel column is `mul_auto`, so at 2 kbit (64 limbs) it is really the rebuilt Karatsuba. The switch to the WASM FFT happens at 216 limbs, about 7 kbit.
 
-The scaling tells the whole story. From 128 kbit to 33 Mbit the fitted exponents are **V8 1.18, WASM Karatsuba 1.59, FFM WASM 1.08**. Karatsuba runs parallel to V8's Karatsuba and then falls away from V8's FFT. Only FFM WASM bends below V8. At 33.5 Mbit, Karatsuba is 98× slower than FFM WASM.
+{% include wasm-fft-vs-v8.svg %}
+
+Measured time per multiply, log-log. The FFT line is the pure FFT kernel, so it loses below 16 kbit, where `mul_auto` uses Karatsuba instead. Hover a point for its value.
+
+The scaling tells the whole story. From 128 kbit to 33 Mbit the fitted exponents are **V8 1.18, WASM Karatsuba 1.59, WASM FFT 1.08**. Karatsuba runs parallel to V8's Karatsuba and then falls away from V8's FFT. Only the WASM FFT bends below V8. At 33.5 Mbit, Karatsuba is 98× slower than the WASM FFT.
 
 **Correctness.** All 1,336 test products matched V8 exactly, up to 1M limbs. The tests cover every size from 1 to 80 limbs; $2^p-1$, $2^p$, $2^p+1$ and $1.37 \cdot 2^p$ for $p = 7$ to $16$; and 262,144, 777,777 and 1,048,576 limbs, with random and all-ones operands. Adversarial inputs, with every balanced digit maximal and the same sign, blow the rounding budget on the first try. The residue check caught every one, and each came out exact after one retry, or two at 1M limbs (458 ms).
 
@@ -305,7 +309,7 @@ The scaling tells the whole story. From 128 kbit to 33 Mbit the fitted exponents
 - End-to-end only pays off from about 1,024 limbs, because the hex round trip costs about half the multiply.
 - Exactness rests on verification plus the residue check, not a proof. Cancelling multi-coefficient errors are not ruled out, though none were observed.
 - Adversarial inputs cost one retry (~2.2×), and two at 1M limbs, which makes that case 1.5× slower than V8.
-- FFM WASM needs about $5N$ doubles (~170 MB at 1M limbs). wasm32's 4 GB address space caps operands near 20M limbs.
+- The WASM FFT needs about $5N$ doubles (~170 MB at 1M limbs). wasm32's 4 GB address space caps operands near 20M limbs.
 
 Next steps: `wide-arithmetic` 64-bit digits once engines ship it, mixed-radix or truncated FFTs to remove the sawtooth, Toom-3 for 128–400 limbs, worker threads for large transforms, and an NTT for proof-level exactness.
 
@@ -319,7 +323,7 @@ node test-bigint.js              # Node benchmark vs JS BigInt
 python3 -m http.server 8000      # then open /test-bigint.html or /graph.html
 ```
 
-FFM WASM and the research harness (`research/src/bigmul.c`, 654 lines of C, compiled to a 21 KB module):
+The WASM FFT and the research harness (`research/src/bigmul.c`, 654 lines of C, compiled to a 21 KB module):
 
 ```bash
 cd research
