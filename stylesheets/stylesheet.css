@@ -537,10 +537,6 @@ section#main_content h3.banner-reveal {
   margin: 0 auto;
 }
 
-.blurb img {
-  margin: 12px 0 8px;
-}
-
 /* ── Selected Works (2-up tiles) ── */
 .works-stats {
   display: flex;
@@ -1053,7 +1049,7 @@ section#main_content table mjx-container {
 }
 
 /* ── About / CV ── */
-.about-photo {
+#container .inner .about-photo {
   display: block;
   width: 160px;
   height: 160px;
