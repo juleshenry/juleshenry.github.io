@@ -1,8 +1,9 @@
 # Repo names (not owner/name) excluded from Selected Works.
 # Also auto-excluded: anything matching *_notes / *-notes
 #
-# Blog
+# Blog / profile README
 juleshenry.github.io
+juleshenry
 
 # Scratchpads / one-offs
 -shtetltleths-

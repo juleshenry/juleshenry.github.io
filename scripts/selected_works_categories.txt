@@ -9,7 +9,6 @@
 quantum-plankton-ml
 zooplankton-image-tool
 vakyume
-equation_permute
 rafaga
 intersekt
 
@@ -17,7 +16,6 @@ intersekt
 tatuagem
 superwand
 mr.worldwide
-physical-menu-to-website
 
 ## Developer Tools | 🛠
 ghee
