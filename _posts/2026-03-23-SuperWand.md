@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SuperWand: image retheming"
+title: "SuperWand: Image Retheming"
 date: 2026-03-23
 ---
 

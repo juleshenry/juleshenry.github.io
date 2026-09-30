@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Mr. Worldwide: multilingual GIFs"
+title: "Mr. Worldwide: Multilingual GIFs"
 date: 2026-03-30
 categories: python gif polyglot
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Back-of-the-Envelope: Attention is All You Need"
+title: "Back-of-the-Envelope: Attention Is All You Need"
 date: 2024-09-03
 categories: machine-learning
 mathjax: true
