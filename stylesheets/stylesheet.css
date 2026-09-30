@@ -1051,8 +1051,8 @@ section#main_content table mjx-container {
 /* ── About / CV ── */
 #container .inner .about-photo {
   display: block;
-  width: 160px;
-  height: 160px;
+  width: 220px;
+  height: 220px;
   margin: 0 auto 28px;
   border-radius: 50%;
   object-fit: cover;
@@ -1320,8 +1320,8 @@ section#main_content table mjx-container {
   }
 
   .about-photo {
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     margin-bottom: 20px;
   }
 
