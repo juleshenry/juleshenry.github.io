@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-	--bg: #0a0a0a;
-	--bg-alt: #121212;
-	--card: rgba(18, 18, 18, 0.75);
+	--bg: #000000;
+	--bg-alt: #0a0a0a;
+	--card: rgba(8, 8, 8, 0.8);
 	--border: rgba(255, 255, 255, 0.1);
-	--border-accent: rgba(255, 167, 204, 0.3);
+	--border-accent: rgba(77, 163, 255, 0.3);
 	--text: #e0e0e0;
 	--muted: #a0a0a0;
-	--accent: #FFA7CC; /* Favicon Pink */
-	--accent-2: #00FFFF; /* Favicon Cyan/Blue */
+	--accent: #4DA3FF; /* Blue */
+	--accent-2: #A8D1FF; /* Light blue */
 	--accent-3: #ffffff;
 	--shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.4);
-	--shadow-hover: 0 0 20px rgba(255, 167, 204, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
+	--shadow-hover: 0 0 20px rgba(77, 163, 255, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
 	--font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 }
 
@@ -38,7 +38,7 @@ a {
 
 a:hover {
 	color: var(--accent-2);
-	text-shadow: 0 0 8px rgba(255, 77, 77, 0.4);
+	text-shadow: 0 0 8px rgba(77, 163, 255, 0.4);
 }
 
 p,

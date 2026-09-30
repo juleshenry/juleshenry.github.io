@@ -62,18 +62,18 @@ table {
 
 
 :root {
-  --bg: #0a0a0a;
-  --bg-alt: #121212;
-  --card: rgba(18, 18, 18, 0.75);
+  --bg: #000000;
+  --bg-alt: #0a0a0a;
+  --card: rgba(8, 8, 8, 0.8);
   --border: rgba(255, 255, 255, 0.1);
-  --border-accent: rgba(255, 167, 204, 0.3);
+  --border-accent: rgba(77, 163, 255, 0.3);
   --text: #e0e0e0;
   --muted: #a0a0a0;
-  --accent: #FFA7CC;
-  --accent-2: #00FFFF;
+  --accent: #4DA3FF;
+  --accent-2: #A8D1FF;
   --accent-3: #ffffff;
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.4);
-  --shadow-hover: 0 0 20px rgba(255, 167, 204, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 0 20px rgba(77, 163, 255, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
   --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 }
 
@@ -100,7 +100,7 @@ a {
 
 a:hover {
   color: var(--accent-2);
-  text-shadow: 0 0 8px rgba(255, 77, 77, 0.4);
+  text-shadow: 0 0 8px rgba(77, 163, 255, 0.4);
 }
 
 #container {
@@ -166,7 +166,7 @@ nav ul li a {
   align-items: center;
   padding: 7px 20px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 167, 204, 0.25);
+  border: 1px solid rgba(77, 163, 255, 0.25);
   border-radius: 3px;
   font-size: 0.9rem;
   font-weight: 500;
@@ -180,11 +180,11 @@ nav ul li a {
 
 nav ul li a:hover,
 nav ul li a.active {
-  background: rgba(255, 167, 204, 0.1);
+  background: rgba(77, 163, 255, 0.1);
   border-color: var(--accent);
   color: var(--accent);
-  text-shadow: 0 0 10px rgba(255, 167, 204, 0.4);
-  box-shadow: 0 0 10px rgba(255, 167, 204, 0.12);
+  text-shadow: 0 0 10px rgba(77, 163, 255, 0.4);
+  box-shadow: 0 0 10px rgba(77, 163, 255, 0.12);
   transform: none;
   opacity: 1;
 }
@@ -201,8 +201,8 @@ header h1 {
   text-shadow:
     0 1px 0 rgba(255, 255, 255, 0.15),
     0 -1px 0 rgba(0, 0, 0, 0.8),
-    0 0 20px rgba(255, 167, 204, 0.35),
-    0 0 60px rgba(255, 167, 204, 0.1);
+    0 0 20px rgba(77, 163, 255, 0.35),
+    0 0 60px rgba(77, 163, 255, 0.1);
   transition: text-shadow 0.3s ease;
 }
 
@@ -210,8 +210,8 @@ header h1:hover {
   text-shadow:
     0 1px 0 rgba(255, 255, 255, 0.2),
     0 -1px 0 rgba(0, 0, 0, 0.8),
-    0 0 30px rgba(0, 255, 255, 0.5),
-    0 0 80px rgba(0, 255, 255, 0.15);
+    0 0 30px rgba(77, 163, 255, 0.5),
+    0 0 80px rgba(77, 163, 255, 0.15);
 }
 
 header h1 a {
@@ -388,7 +388,7 @@ nav ul li a {
   align-items: center;
   padding: 7px 20px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 167, 204, 0.25);
+  border: 1px solid rgba(77, 163, 255, 0.25);
   border-radius: 3px;
   font-size: 0.9rem;
   font-weight: 500;
@@ -402,11 +402,11 @@ nav ul li a {
 
 nav ul li a:hover,
 nav ul li a.active {
-  background: rgba(255, 167, 204, 0.1);
+  background: rgba(77, 163, 255, 0.1);
   border-color: var(--accent);
   color: var(--accent);
-  text-shadow: 0 0 10px rgba(255, 167, 204, 0.4);
-  box-shadow: 0 0 10px rgba(255, 167, 204, 0.12);
+  text-shadow: 0 0 10px rgba(77, 163, 255, 0.4);
+  box-shadow: 0 0 10px rgba(77, 163, 255, 0.12);
   transform: none;
   opacity: 1;
 }
@@ -582,7 +582,7 @@ section#main_content h2.works-section-title {
   padding: 5px 10px;
   border: 0;
   border-left: 3px solid var(--accent);
-  background: rgba(255, 167, 204, 0.06);
+  background: rgba(77, 163, 255, 0.06);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border-radius: 0 6px 6px 0;
@@ -724,9 +724,9 @@ section#main_content h3.work-card-title::after {
   font-weight: 500;
   padding: 1px 6px;
   border-radius: 2px;
-  background: rgba(255, 167, 204, 0.07);
+  background: rgba(77, 163, 255, 0.07);
   color: var(--muted);
-  border: 1px solid rgba(255, 167, 204, 0.2);
+  border: 1px solid rgba(77, 163, 255, 0.2);
   white-space: nowrap;
   max-width: 70%;
   overflow: hidden;
@@ -803,7 +803,6 @@ ul.posts li a {
   color: var(--text);
   font-weight: 500;
   font-size: 1.1rem;
-  text-transform: lowercase;
   min-width: 0;
   flex: 1 1 auto;
 }
@@ -824,12 +823,11 @@ section#main_content > h1:has(.title-kicker) {
 .title-kicker {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   line-height: 1.4;
   text-transform: uppercase;
   color: var(--accent);
-  opacity: 0.85;
 }
 
 .title-kicker > span {
@@ -840,6 +838,11 @@ section#main_content > h1:has(.title-kicker) {
   text-wrap: balance;
 }
 
+ul.posts li a:hover .title-kicker {
+  color: var(--accent-2);
+}
+
+/* ── Post title block: eyebrow / title / date / volume nav ── */
 body.page-post section#main_content > h1,
 body.page-post section#main_content > .meta,
 body.page-post section#main_content > .book-meta,
@@ -847,27 +850,60 @@ body.page-post .post > p:first-child:has(> em:first-child):has(> strong) {
   text-align: center;
 }
 
-body.page-post .post > p:first-child:has(> em:first-child):has(> strong) {
-  margin-left: auto;
-  margin-right: auto;
+body.page-post section#main_content > h1 {
+  text-transform: none;
+  font-size: clamp(1.8rem, 3.8vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 0.5em;
 }
 
 body.page-post section#main_content > h1:has(.title-kicker) {
   align-items: center;
+  gap: 0.7em;
 }
 
-section#main_content > h1 .title-kicker {
+body.page-post section#main_content > h1 .title-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+}
+
+body.page-post section#main_content > .meta {
+  color: var(--muted);
   font-size: 0.8rem;
-  letter-spacing: 0.1em;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 1.6em;
 }
 
-section#main_content > h1 .title-rest {
-  font-size: clamp(1.9rem, 4.2vw, 2.6rem);
-  line-height: 1.12;
+/* Volume nav: the series name is already in the eyebrow, so hide the label */
+body.page-post .post > p:first-child:has(> em:first-child):has(> strong) {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 auto 2.5em;
+  padding-bottom: 1.6em;
+  border-bottom: 1px solid var(--border);
+  max-width: none;
 }
 
-ul.posts li a:hover .title-kicker {
-  color: var(--accent-2);
+body.page-post .post > p:first-child:has(> em:first-child):has(> strong) > em:first-child {
+  display: none;
+}
+
+body.page-post .post > p:first-child:has(> em:first-child):has(> strong) > a {
+  font-weight: 500;
+  margin: 0 0.35em;
+}
+
+body.page-post .post > p:first-child:has(> em:first-child):has(> strong) > strong {
+  color: var(--text);
+  margin: 0 0.35em;
+  padding-bottom: 2px;
+  border-bottom: 2px solid var(--accent);
 }
 
 ul.posts li a:hover {
@@ -940,7 +976,7 @@ th {
   text-align: left;
   font-weight: 600;
   color: var(--accent-3);
-  background: rgba(255, 167, 204, 0.14);
+  background: rgba(77, 163, 255, 0.14);
 }
 
 td {
@@ -1035,13 +1071,13 @@ section#main_content .warn {
 }
 .post .note,
 section#main_content .note {
-  border-left: 3px solid #FFA7CC;
-  background: rgba(255, 167, 204, 0.07);
+  border-left: 3px solid #4DA3FF;
+  background: rgba(77, 163, 255, 0.07);
 }
 .post .warn,
 section#main_content .warn {
-  border-left: 3px solid #00FFFF;
-  background: rgba(0, 255, 255, 0.05);
+  border-left: 3px solid #A8D1FF;
+  background: rgba(77, 163, 255, 0.05);
 }
 .post .note > p:first-child,
 .post .warn > p:first-child,
@@ -1089,7 +1125,7 @@ section#main_content table td {
 section#main_content table th,
 .post table thead th,
 section#main_content table thead th {
-  background: rgba(255, 167, 204, 0.14);
+  background: rgba(77, 163, 255, 0.14);
   color: var(--accent-3);
 }
 
@@ -1144,7 +1180,7 @@ section#main_content table mjx-container {
 .about-btn:hover {
   color: var(--accent-2);
   border-color: var(--accent-2);
-  text-shadow: 0 0 8px rgba(0, 255, 255, 0.35);
+  text-shadow: 0 0 8px rgba(77, 163, 255, 0.35);
 }
 
 .about-btn-primary {
@@ -1548,7 +1584,7 @@ section#main_content h2,
 section#main_content h3 {
   padding: 0.65em 0.8em;
   margin: 2em 0 1em;
-  background: rgba(255, 167, 204, 0.06);
+  background: rgba(77, 163, 255, 0.06);
   border: 0;
   border-left: 3px solid var(--accent);
   border-radius: 0 6px 6px 0;
@@ -1681,9 +1717,6 @@ ul.posts li a {
     font-size: 0.68rem;
   }
 
-  section#main_content > h1 .title-rest {
-    font-size: inherit;
-  }
 }
 
 a:focus-visible,
