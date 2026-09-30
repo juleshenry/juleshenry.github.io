@@ -773,36 +773,31 @@ ul.posts {
 }
 
 ul.posts li {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-  transition: all 0.2s ease;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color 0.2s ease;
   display: flex;
-  align-items: center;
-  gap: 15px;
+  align-items: baseline;
+  gap: 24px;
 }
 
 ul.posts li:hover {
-  padding-left: 10px;
-  border-bottom-color: var(--accent);
+  border-bottom-color: rgba(77, 163, 255, 0.4);
 }
 
 ul.posts li > span {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--muted);
-  min-width: 120px;
+  font-size: 0.78rem;
+  color: #7a7a7a;
+  min-width: 100px;
   flex: 0 0 auto;
 }
 
-ul.posts li > span::after {
-  content: '\00a0\00bb';
-  color: var(--muted);
-}
-
 ul.posts li a {
-  color: var(--text);
+  color: #e6e6e6;
   font-weight: 500;
-  font-size: 1.1rem;
+  font-size: 1.08rem;
+  line-height: 1.35;
   min-width: 0;
   flex: 1 1 auto;
 }
@@ -838,8 +833,17 @@ section#main_content > h1:has(.title-kicker) {
   text-wrap: balance;
 }
 
+/* In the index the series line is quiet metadata, matching the date */
+ul.posts li a .title-kicker {
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #7a7a7a;
+}
+
 ul.posts li a:hover .title-kicker {
-  color: var(--accent-2);
+  color: var(--accent);
 }
 
 /* ── Post title block: eyebrow / title / date / volume nav ── */
@@ -871,7 +875,7 @@ body.page-post section#main_content > h1 .title-kicker {
 }
 
 body.page-post section#main_content > .meta {
-  color: var(--muted);
+  color: #7a7a7a;
   font-size: 0.8rem;
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -1752,7 +1756,7 @@ ul.posts li a {
   }
 
   ul.posts li a .title-kicker {
-    font-size: 0.62rem;
+    font-size: 0.7rem;
   }
 
   section#main_content > h1 .title-kicker {

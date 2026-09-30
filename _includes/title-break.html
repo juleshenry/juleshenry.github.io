@@ -1,18 +1,20 @@
 {%- comment -%}
   Splits long series titles into a small eyebrow line and a main title.
+  The "Back-of-the-Envelope:" series prefix is dropped first.
   "Back-of-the-Envelope: Sphere Eversion, Vol. VI: Seeing the Eversion"
-    eyebrow: Back-of-the-Envelope · Sphere Eversion · Vol. VI
+    eyebrow: Sphere Eversion · Vol. VI
     main:    Seeing the Eversion
   Titles with one colon split only when the prefix is a series name or
   carries a volume number; everything else renders unchanged.
 {%- endcomment -%}
-{%- assign parts = include.title | split: ':' -%}
+{%- assign title = include.title | remove_first: 'Back-of-the-Envelope:' | strip -%}
+{%- assign parts = title | split: ':' -%}
 {%- assign head = parts | first | strip -%}
 {%- assign split_title = false -%}
 {%- if parts.size >= 3 or head contains 'Vol.' -%}
   {%- assign split_title = true -%}
 {%- else -%}
-  {%- assign series = "Back-of-the-Envelope|Book Review|Undergraduate Thesis|ML Smörgåsbord" | split: '|' -%}
+  {%- assign series = "Book Review|Undergraduate Thesis|ML Smörgåsbord" | split: '|' -%}
   {%- for s in series -%}
     {%- if head contains s -%}{%- assign split_title = true -%}{%- endif -%}
   {%- endfor -%}
@@ -28,5 +30,5 @@
   {%- endfor -%}
 <span class="title-kicker">{{ eyebrow }}</span><span class="title-rest">{{ main }}</span>
 {%- else -%}
-{{ include.title }}
+{{ title }}
 {%- endif -%}
