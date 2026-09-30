@@ -5,262 +5,103 @@ date: 2026-03-07
 mathjax: true
 ---
 
-I spent the better part of a month teaching a quantum computer to classify microscopic lake creatures after crushing each image into a `4x4` grayscale grid. The full seven‑phase investigation shows how a compressed quantum model behaves, how it compares to a parameter‑matched classical baseline, and how circuit structure maps to learning dynamics. This post combines the core results with the lessons I learned along the way—what held up, what didn’t, and where this research might go next.
+*Revised September 30, 2026. The original version of this post reported that a quantum neural network beat a parameter-matched classical model on 20 of 25 plankton classification tasks. That result came from an undertrained baseline, and it does not survive a fair re-run. This version replaces it with the re-run, explains why the quantum model could never have had an advantage, and estimates what it would take for a model of this kind to match a CNN.*
 
----
+In early 2026 I spent about a month teaching a simulated quantum computer to tell apart microscopic lake creatures. The images come from the Eawag zooplankton dataset behind *Deep Learning Classification of Lake Zooplankton* (Kyathanahally et al., 2021), where an ensemble of CNNs reaches 98% accuracy across 35 classes. My quantum model could not see what those CNNs see. Each image is resized to a 4×4 grayscale grid, and each of the 16 pixels is written into one qubit as a rotation angle, $R_y(\pi x_i)$. A seventeenth qubit collects the answer. The figure below shows what that costs. The top row is the microscope image, the middle row is the 28×28 input a small CNN receives, and the bottom row is everything the quantum circuit ever gets to look at.
 
-## The Keyhole Problem: Input Compression Shapes Everything
+<img src="/blog/assets/2026/quantum-plankton/what_the_models_see.png" alt="Eight plankton taxa shown as original images, as 28x28 CNN inputs, and as the 4x4 inputs encoded into the 16-qubit circuit" style="max-width:100%;">
 
-Quantum machine learning is often presented through glossy benchmarks and broad claims, but nearly all of those results ride on the same hidden assumption: you can feed the circuit enough information for it to learn something real.
+The original experiment ran in seven phases: reproducing a published quantum MNIST notebook, building a binary plankton classifier, tuning it with nested cross-validation, comparing it against classical baselines on 25 pairs of species, scaling up to 16 classes, drawing saliency maps, and measuring the circuit's expressibility and entanglement. The whole pipeline ran in TensorFlow Quantum inside an x86 Docker container, emulated on an M1 laptop with deliberate sleeps between epochs to keep the machine from overheating. A full run took about twenty hours. The headline result was Phase 4: across 25 species pairs, the quantum network beat a 55-parameter classical network by 6.2 percentage points on average, winning 20 of 25 pairs, with a Wilcoxon p-value of 0.0007.
 
-In this project, you can’t. The `4x4` encoding exists because simulating 17 qubits on a classical machine is already expensive. The bottleneck is not theoretical capacity; it is simulation. A 16‑pixel input is a keyhole that narrows every inference you draw. That keyhole shapes the entire story.
+## Where the result came from
 
-The core question becomes: if you force both quantum and classical models into the same brutal information bottleneck, what happens?
+The number that should have stopped me was the classical baseline's accuracy. Averaged over the 25 pairs, the "fair" classical network scored 59.4%. Always guessing the more common species in each pair scores 58.8%. A network with 55 weights and 16 inputs should do much better than that on a binary task, so the baseline had barely learned anything. The reason is the training budget. Each fold trained on about 160 images for 20 epochs in batches of 32, which is at most 100 gradient steps at Adam's default learning rate of 0.001, with early stopping after three epochs without improvement. That is not enough for a small network starting from random weights. The quantum model was on the same schedule, but its accuracy was higher, and on 6 of the 25 pairs it was exactly the majority rate: it had learned to always answer with the larger class. A contest between a model that never learned and a model that learned to guess is not a comparison of anything.
 
----
+The baseline was not parameter-matched either. The quantum circuit alternates three blocks of 16 $XX$ and 16 $ZZ$ couplings between each data qubit and the readout qubit with two blocks of 16 $R_x$ and 16 $R_y$ single-qubit rotations. That is $3 \times 32 + 2 \times 32 = 160$ trainable angles, about three times the classical network's 55.
 
-## From MNIST Reproduction to Plankton Classification
+The pattern is well documented. Bowles, Ahmed and Schuld ran a large benchmark of published quantum classifiers in 2024 and found that properly tuned classical models outperformed them nearly across the board, and that removing the entanglement from the quantum models often did not hurt them. A comparison where the quantum model wins against a weak baseline is the usual failure mode of this literature, and my experiment was an instance of it.
 
-The repository progresses in phases, moving from reproduction to controlled comparison and then to interpretability and circuit‑level analysis.
+## The circuit is classically easy
 
-### Phase 1: MNIST Reproduction
+There is a deeper problem, and it also explains why the original pipeline was so slow for no good reason. Every two-qubit gate in the circuit connects a data qubit to the same readout qubit $r$. Within one block, the gates $\exp(-i\tfrac{\pi s_i}{2} X_i X_r)$ therefore all commute, because they share the factor $X_r$ and act on different data qubits. Write $X_r = P_+ - P_-$, where $P_\pm$ project the readout onto the eigenstates of $X_r$. The whole block becomes
 
-Recreate a published quantum MNIST demo to validate the stack.
+$$
+U_{XX} \;=\; P_+ \otimes \bigotimes_{i=1}^{16} e^{-i\frac{\pi s_i}{2} X_i} \;+\; P_- \otimes \bigotimes_{i=1}^{16} e^{+i\frac{\pi s_i}{2} X_i},
+$$
 
-### Phase 2: Binary Quantum Classification
+and the same holds for the $ZZ$ blocks with $Z_r$. Each branch is a product of single-qubit rotations. So a block turns one product state (a readout state times 16 independent qubit states) into a sum of two product states, and the rotation layers keep products as products. The encoded image starts as a product state, and the circuit has six entangling blocks, so the final 17-qubit state is always a sum of at most $2^6 = 64$ product states. The measured value is then
 
-Plankton images are downsampled to `4x4`, flattened to 16 features, and angle‑encoded via \(Ry(\pi x_i)\) rotations. A TensorFlow Quantum pipeline trains a binary classifier on plankton pairs using 5‑fold stratified cross‑validation with bootstrap confidence intervals.
+$$
+\langle Z_r \rangle \;=\; \sum_{m,k=1}^{64} \langle \rho_m | Z | \rho_k \rangle \prod_{i=1}^{16} \langle \phi_{m,i} | \phi_{k,i} \rangle,
+$$
 
-The initial result: **38.44% mean accuracy**, with a 95% CI of \([35.49\%, 42.50\%]\). On a binary task. That is worse than a coin flip.
+which is $64^2$ products of 16 overlaps between two-dimensional vectors. The cost grows linearly with the number of qubits, not exponentially. I wrote this simulator in about a hundred lines of JAX and checked it against Google's cirq running the original circuit; they agree to within $10^{-4}$. It runs natively on the M1, needs no Docker and no thermal sleeps, and trains a model in seconds.
 
-That wasn’t a failure of quantum circuits; it was a failure of configuration. The defaults were wrong.
+That is the end of any hope for quantum advantage from this architecture. A model a laptop can evaluate exactly in linear time cannot do anything a laptop cannot do. It is a particular family of functions of 16 numbers, and the only question is whether it is a good family. Recent theory makes the same point more generally: Cerezo and collaborators showed in 2025 that the circuits which avoid barren plateaus, the vanishing gradients that make large circuits untrainable, tend to be exactly the ones that are classically simulable.
 
-### Phase 3: Hyperparameter Optimization
+## A fair re-run
 
-Nested cross‑validation tuned the configuration. The best model used:
+With a fast simulator, a fair comparison is cheap. I re-ran Phase 4 with the same 25 pairs, the same 4×4 inputs, the same folds and seeds, and the same 200-image training cap, three times over with different shuffles. The quantum network and the small classical network were each trained twice: once under the original schedule, and once with an equal tuning budget of three learning rates, up to 150 epochs and more patient early stopping, choosing the learning rate on validation data only. Two standard classical models joined them, a logistic regression and a support vector machine with an RBF kernel, both tuned by cross-validation inside each training fold.
 
-- **Angle encoding**
-- **One PQC layer**
-- **Learning rate 0.01**
-- **Batch size 16**
-- **Hinge loss**
+| Model (4×4 input unless noted) | Trainable parameters | Mean accuracy over 25 pairs |
+| :--- | ---: | ---: |
+| Always guess the larger class | 0 | 58.8% |
+| Small classical network, original schedule | 55 | 59.7% |
+| Quantum network, original schedule | 160 | 66.3% |
+| Quantum network, tuned | 160 | 70.1% |
+| Small classical network, tuned | 55 | 78.8% |
+| Logistic regression | 17 | 79.9% |
+| RBF support vector machine | n/a | 86.1% |
+| CNN on 28×28 input (Phase 4) | 121,345 | 90.6% |
 
-Under this setup, the QNN surpassed **60%** on multiple pairs, and hit **95.3%** on diaphanosoma vs diatom_chain. Same architecture. Same data. Different choices. Bad results did not mean the approach was dead—only that it wasn’t tuned yet.
+Under the original schedule, the old result reappears: the quantum network beats the undertrained classical network by 6.6 points and wins 21 of 25 pairs, almost exactly the original result. Give both the same tuning budget and the order reverses. Tuning adds 19 points to the classical network and 4 to the quantum one, and the tuned classical network wins on 24 of the 25 pairs, by 8.7 points on average (Wilcoxon $p = 4 \times 10^{-7}$). Logistic regression, with 17 parameters, beats the quantum network on 24 pairs and ties it on the 25th, where both sit exactly at the majority rate. The SVM beats it on all 25, by 15.9 points on average. Across the 375 test folds, the tuned quantum network answered every test image with the same class in 34% of them. The SVM never did. The quantum network's best showing was eudiaptomus against uroglena, where it reached 98.0%, ahead of the tuned classical network but still behind logistic regression and the SVM.
 
-### Phase 4: Classical Comparison
+<img src="/blog/assets/2026/quantum-plankton/pair_accuracy.png" alt="Per-pair test accuracy of the tuned QNN, logistic regression and RBF SVM, with the majority-class rate marked for each of 25 plankton pairs" style="max-width:100%;">
 
-This is the scientific center. Instead of comparing against modern CNNs (which would be absurd at `4x4`), the QNN is matched against a classical model with the same compressed inputs and similar parameter budgets. We tested 25 binary plankton pairs, equalized sample counts, and used per‑pair metrics plus aggregate inference.
+One objection is that the tuning itself was noisy, because the learning rate was chosen on only about 40 validation images. On one pair, bosmina against brachionus, the untuned quantum network actually beat the tuned one. To rule this out I gave the quantum network an unfair advantage: for every fold, keep whichever of its two versions scored higher on the test set. Even this oracle loses to logistic regression by 9.1 points and to the SVM by 15.2 points on average, and it wins none of the 25 pairs against the SVM.
 
-Aggregate results across pairs:
+The same run explains two other results from the original post. The Phase 5 multi-class experiment, which used a properly swept classical baseline, already showed the classical network ahead at every class count from three up. And the Phase 7 expressibility measurement, which reported a KL divergence of exactly 0.0000 at every circuit depth, was an artifact. For 17 qubits, the fidelity between two random states is almost always close to $2^{-17} \approx 7.6 \times 10^{-6}$. With 75 histogram bins on $[0,1]$, both the circuit's distribution and the reference distribution land entirely in the first bin, so their divergence is zero whatever the circuit does.
 
-- **Mean delta (QNN − classical): +6.23%**
-- **Cohen’s d: 0.705**
-- **Wilcoxon p: 0.0007**
-- **QNN wins: 20 / 25**
+## What would parity with a CNN take?
 
-Under the compression regime, the QNN was competitive and often slightly better.
+The 28×28 CNN from Phase 4 averaged 90.6% on these pairs. For a quantum model to match it, the first requirement is information, not quantum hardware. At 4×4 the best classical model I tried, the SVM, averages 86.1%, so no model of any kind reaches the CNN from 16 pixels. The resolution sweep below trains the same tuned logistic regression and SVM on larger images:
 
-### Phase 5: Multi‑Class Scaling
+| Input | Pixels | Logistic regression | RBF SVM |
+| :--- | ---: | ---: | ---: |
+| 4×4 | 16 | 79.9% | 86.2% |
+| 6×6 | 36 | 85.0% | 88.5% |
+| 8×8 | 64 | 86.3% | 89.0% |
+| 12×12 | 144 | 86.7% | 89.7% |
+| 16×16 | 256 | 86.8% | 89.5% |
+| 28×28 | 784 | 87.0% | 89.1% |
 
-Both models degrade as the number of categories increases. The QNN edges ahead at \(k = 2\), but the classical model overtakes by \(k = 5\). The crossover happens around \(k = 3\). This is the most honest outcome: the circuit’s advantage appears only in narrow, low‑class regimes under severe compression.
+Accuracy climbs quickly up to 12×12 and then stops. The SVM comes within a point of the CNN at 144 pixels and never catches it, even with all 784. With 200 training images, a generic model runs out of improvement before the CNN does, because the CNN builds in an assumption that nearby pixels belong together, and that assumption is worth more than extra resolution. Parity therefore needs two things: roughly 150 pixels of input, which with one pixel per qubit means roughly 150 data qubits, and an architecture with the same kind of locality bias. The quantum architectures designed to have that bias, quantum convolutional networks, were shown in 2024 to be effectively classically simulable on the standard benchmarks (Bermejo et al.), which is not encouraging.
 
-### Phases 6–7: Saliency, Expressibility, Entanglement
+The second requirement is that the circuit be worth running on quantum hardware at all, which means it must be hard to simulate classically. The architecture here fails that test at any size, so it never reaches parity in any meaningful sense: scaled up, it becomes a fast classical model with an unusual structure. A circuit that is genuinely hard to simulate needs entangling gates between data qubits, and about 150 qubits with ten or so entangling layers, plus the swaps needed to route them on a real chip, comes to roughly 3,000 two-qubit gates. If each gate fails with probability $\varepsilon$, the useful signal survives with probability roughly $(1-\varepsilon)^G$ for $G$ gates, and the number of repetitions needed to read it grows as the inverse square of that. With $G \approx 3{,}000$ and IBM's best current error per layered gate of about $2 \times 10^{-3}$, the surviving signal is about $e^{-6}$, and an output that would need a thousand shots on a perfect machine needs over a hundred million. To keep half the signal, $\varepsilon$ has to fall to about $2 \times 10^{-4}$, which in practice means error-corrected logical qubits. IBM's roadmap puts its first machine of that kind, Starling, at about 200 logical qubits and 100 million gates in 2029, and Blue Jay at about 2,000 logical qubits after 2033.
 
-- **Saliency maps** show the QNN attends to localized morphology even at `4x4`.
-- **Expressibility and entanglement** increase with depth, but deeper circuits overfit the tiny input. One layer was the right inductive bias.
+The third requirement is training, and it is the hardest. A quantum circuit has no backpropagation. The standard way to get a gradient, the parameter-shift rule, runs the circuit twice per parameter, so one gradient for one image costs $2P$ circuit executions, each repeated for a thousand or more measurement shots. For a model with a few thousand parameters trained on a few thousand images for tens of epochs, that is on the order of $10^{13}$ shots. At IBM Nighthawk's advertised rate of about 100,000 circuits per second, that is years of machine time, and error-corrected machines will run their logical operations far more slowly than today's physical ones.
 
----
+My prediction is therefore that a quantum classifier reaches CNN parity on these pairs no earlier than the early 2030s, needs on the order of 150 to 200 logical qubits and a convolution-like architecture to do it, and even then does so by being a large and expensive function approximator rather than by exploiting anything quantum. Parity is the best case. The images are ordinary classical data with no quantum structure for a quantum model to exploit, and the theory of learning from classical data (Huang et al., 2021) gives little reason to expect an advantage. A CNN that trains in a minute on a laptop will remain the practical choice.
 
-## A Calculus Student’s Guide to PQC (via Grover’s Search)
+## What the laptop was good for
 
-To understand how a "Quantum Neural Network" works, you first need to understand **Grover’s Search**.
+In one sense, attempting quantum machine learning on a 16 GB laptop was foolhardy. A dense simulation of $n$ qubits stores $2^n$ complex amplitudes, and at 16 bytes each, 16 GB runs out at about 30 qubits. Twenty hours of emulated TensorFlow Quantum made the project feel like it was pushing against that limit. It was not. This circuit needed a few kilobytes, and the real limits were an emulation layer that should not have been there and a baseline that was never trained.
 
-### The Primer: Grover’s as Geometric Rotation
+What the laptop is good for is building the method, and the method is what carries over to larger machines: an exact simulator validated against a reference implementation, classical baselines given the same tuning budget as the quantum model, the majority-class rate reported next to every accuracy, pairs rather than folds as the unit of statistical comparison, and a check of whether the circuit is classically simulable before any claim about it is made.
 
-In calculus, you’re used to functions \(f(x)\) that map numbers to numbers. In quantum, we map **vectors to vectors**.
+The obvious next step is to take a trained circuit to real hardware, and in 2026 that is easy to do. IBM's free Open Plan gives up to 10 minutes of processor time every 28 days on 156-qubit Heron and 120-qubit Nighthawk chips, with a one-time promotion of 180 more minutes this year. Amazon Braket charges 30 cents per task plus a per-shot fee that ranges from about 0.04 cents on Rigetti to 8 cents on IonQ Forte. Training on hardware is out of reach: with 160 parameters, one pass over 160 training images needs about 50,000 circuit executions, each repeated for hundreds of shots. Inference is not: train the circuit exactly on the laptop, then send the 200 or so test images of a pair to an IBM processor and measure how much accuracy hardware noise costs. There is an extra complication. Every data qubit talks to one readout qubit, and no real chip is wired as a star, so the compiler has to insert swap gates that add depth and noise. D-Wave's annealers are a different kind of machine that solves optimisation problems rather than running circuits, so this model cannot run there. The closest D-Wave experiment would train a support vector machine written as an optimisation problem, which Willsch and colleagues did in 2020.
 
-Imagine a 16-dimensional space (for our `4x4` grid). Every possible image is a unit vector in this space. Grover’s Algorithm is a **fixed sequence of rotations**. You start with a "uniform" vector (pointing equally toward all possibilities) and you apply a "Reflection" and a "Rotation."
+None of that would change the conclusion above, because a hardware run of a classically simulable circuit can only add noise to an answer a laptop computes exactly. The experiment worth running on quantum hardware is a different one: a circuit that is provably hard to simulate, benchmarked against classical baselines tuned as carefully as the ones here. I no longer expect that experiment to favour the quantum model on images of plankton. But it is the right experiment, and the laptop is where to build the machinery for it.
 
-- **The Oracle:** Flips the sign of the "correct" vector (Reflection).
-- **The Diffusion:** Rotates the entire state toward that flipped vector.
+The code, including the Phase 8 simulator, benchmark and figures, is on [GitHub](https://github.com/juleshenry/quantum-plankton-ml).
 
-After \(\approx \sqrt{N}\) steps, the vector points almost perfectly at the marked item. **Grover’s is a hard‑coded geometric search.** It’s like a compass that is pre‑programmed to find North.
+### References
 
-### From Grover to PQC: The Learnable Compass
-
-A **Parametric Quantum Circuit (PQC)** is Grover’s Search with adjustable rotation angles. Instead of a fixed compass, you have knobs \(\theta_1, \theta_2, \ldots, \theta_n\) that change the circuit’s behavior.
-
-We define a function \(f(\theta)\) where the output is the **expectation value** after many measurements:
-
-\[
-f(\theta) = \langle \psi | U(\theta)^\dagger M U(\theta) | \psi \rangle
-\]
-
-For a calculus student, this is just a **composite multivariable function**:
-
-1. **Input:** 16 pixel intensities (initial rotations).
-2. **Layers:** A series of rotation matrices \(R(\theta_i)\).
-3. **Output:** A scalar between \(-1\) and \(1\).
-
-Our goal is to find the \(\theta\) that minimizes a loss function \(L(f(\theta))\). For that, we need the gradient \(\nabla f\).
-
-### The Parameter‑Shift Rule: Quantum Calculus
-
-You can’t directly inspect the middle of a quantum circuit without collapsing the state. Instead, you use the **parameter‑shift rule**. For many gates, the derivative of the expectation value is exactly:
-
-\[
-\frac{\partial f}{\partial \theta_i} = \frac{1}{2} \left( f\left(\theta_i + \frac{\pi}{2}\right) - f\left(\theta_i - \frac{\pi}{2}\right) \right)
-\]
-
-This looks like the difference quotient you learned in calculus, except it’s not an approximation. It’s exact. Run the circuit twice—shifted forward and backward—and you get the precise slope. That is how the QNN learns.
-
-### Mapping the Math to the Source Code
-
-If you look at `phase2/binary_quantum_classifier.py`, you can see exactly where the calculus meets the qubits.
-
-1. **The Knobs (`sympy.Symbol`)**
-
-```python
-symbol = sympy.Symbol(prefix + "-" + str(i))
-circuit.append(gate(qubit, self.readout) ** symbol)
-```
-
-These symbols are the \(\theta\) variables. They define the degrees of freedom that the optimizer twists to minimize error.
-
-2. **The Geometric Transformation (`XX`, `ZZ`, `RX`, `RY`)**
-
-The `create_quantum_model` function defines the structure of the circuit using entangling gates (`XX`, `ZZ`) and rotation gates (`RX`, `RY`). Together they form a trainable landscape the model walks through during optimization.
-
-3. **The Readout Preparation (`X -> H`)**
-
-```python
-circuit.append(cirq.X(readout))
-circuit.append(cirq.H(readout))
-```
-
-This prepares the readout qubit in a specific state. A final `H` at the end turns phase information into a measurable probability.
-
-4. **The Bridge (`tfq.layers.PQC`)**
-
-```python
-tfq.layers.PQC(model_circuit, model_readout)
-```
-
-This layer implements the parameter‑shift rule under the hood. When the optimizer asks for gradients, TFQ runs shifted circuits, computes exact derivatives, and passes them back into the classical training loop.
-
----
-
-## How the Quantum Model Is Built
-
-At the architectural level, the classifier is intentionally simple but scientifically motivated.
-
-1. **Classical preprocessing**
-   - Start from `16x16` grayscale plankton images.
-   - Downsample to `4x4`.
-   - Apply min–max normalization.
-   - Flatten to a 16‑dimensional feature vector.
-
-2. **Angle encoding and entanglement**
-   - Encode each normalized pixel intensity \(x_i\) as an \(Ry(\pi x_i)\) rotation.
-   - Use a linear chain of `CZ` gates to capture spatial correlations.
-   - Add parameterized `XX`, `ZZ`, and `YY` interactions tying data qubits to a readout qubit.
-
-3. **Readout and loss**
-   - Measure the readout qubit in the \(Z\) basis and interpret the expectation value as a continuous score.
-   - Optimize with hinge loss, which matches the \([-1, 1]\) output range and works naturally with binary labels.
-
-This structure runs on a classical simulator in TensorFlow Quantum. The later expressibility and entanglement analyses use the same production circuit so the performance numbers and circuit metrics align.
-
----
-
-## Statistical Design, Power, and Reproducibility
-
-The project treats experimental design as part of the experiment.
-
-### Cross‑Validation and Sampling
-
-- **Phases 2, 4, 6** use stratified 5‑fold cross‑validation with bootstrap 95% confidence intervals.
-- **Phases 3, 5** use nested cross‑validation (5 outer, 3 inner folds).
-- The `Q_SAMPLES` parameter enforces equalized sample budgets across models.
-
-Majority‑class and random baselines are reported so every accuracy number has a meaningful reference.
-
-### Statistical Testing and Power Analysis
-
-Per‑pair tests are underpowered at \(n = 5\) folds, so the primary inference aggregates across the 25 class pairs. A dedicated `utils/power_analysis.py` script explores power for the Wilcoxon signed‑rank test at the observed effect size (\(d \approx 0.65\)), showing the design reaches about **88% power** with 25 pairs.
-
-### Reproducibility Infrastructure
-
-Reproducibility is supported by deterministic file ordering, consistent seeding, pinned dependencies in the `Dockerfile`, and an 82‑test verification suite that runs at build time.
-
----
-
-## Why Deeper Was Worse
-
-I expected deeper circuits to help. The expressibility analysis showed more depth increased entanglement and expanded the reachable state space. But on 16 features, that capacity was wasted; it fitted noise. One layer, 32 parameters, was already generous. The circuit should match the information content, not your ambition.
-
----
-
-## The Statistics Nearly Killed the Story
-
-Most quantum ML papers report a single split and claim advantage. This project did the opposite: validation, power analysis, baseline comparisons, and per‑pair statistical reporting.
-
-The per‑pair Wilcoxon tests were underpowered with 5 folds; the minimum achievable p‑value is 0.0625. If you only looked at per‑pair stats, you would conclude no difference.
-
-The correct inference treats pairs as replication units. That is where the signal appears. It’s a cautionary lesson: the design is the experiment.
-
----
-
-## Practical Reality: TFQ Only Works in Docker
-
-TensorFlow Quantum depends on a fragile constellation of pinned versions (`tensorflow==2.7.0`, `cirq==0.13.1`, `sympy==1.8`, `numpy==1.21.6`). It does not install cleanly on modern machines without Docker. On Apple Silicon it runs under AMD64 emulation and needs thermal pacing to survive long runs.
-
-So reproducibility lives in the Dockerfile, not the README. The image runs an 82‑test suite at build time. If the tests fail, the image doesn’t build. That is the only reproducibility that matters.
-
----
-
-## What the Project Actually Tells Us
-
-This is **not** quantum advantage. The comparison is against a deliberately hobbled classical model under severe compression. A ResNet at full resolution would obliterate both.
-
-What it *does* show is how parameterized quantum circuits behave under extreme information bottlenecks:
-
-- They can extract structure when tuned carefully.
-- They compete in low‑class regimes under compression.
-- Their inductive bias changes with depth, and over‑capacity appears quickly.
-- They are interpretable via standard gradient tools.
-
-That is scientifically useful, even if it is not headline‑worthy.
-
----
-
-## Where This Goes Next
-
-### Hardware Changes the Game
-
-On real quantum hardware, 17 qubits is trivial. With 64 or 128 qubits, you can encode real spatial structure. The keyhole widens. The central question becomes: does the QNN advantage at \(k=2\) persist when compression is relaxed?
-
-### Better Circuit Design
-
-The circuits here are first drafts. Quantum conv nets, data re‑uploading, attention‑like entanglement, and deeper inductive biases are all open directions. The design space is huge and barely explored.
-
-### Generative Quantum Models
-
-Discriminative classification is only one angle. Quantum generative models could synthesize new examples for rare species. That’s where quantum sampling could matter.
-
-### Hybrid Pipelines
-
-One promising path: use the quantum circuit as a feature extractor feeding a classical head. Let the quantum model do low‑dimensional feature interactions; let the classical model handle multi‑class scaling.
-
----
-
-## Closing
-
-I built a seven‑phase experimental pipeline, a power analysis framework, and a reproducible Docker stack to classify plankton at `4x4` resolution. The QNN won 20 of 25 binary comparisons. It lost the multi‑class scaling contest. It produced interpretable saliency maps. It ran on a noiseless simulator because hardware isn’t ready.
-
-Is this quantum advantage? No.
-Is it scientifically informative? Yes.
-
-The future of quantum ML is not a single paper. It’s slow, careful accumulation—circuit by circuit, dataset by dataset—until the hardware catches up and we find out what the exponential promise actually buys.
-
-I’m betting it buys something. But I’m keeping my classical baselines close.
+- S. Kyathanahally et al., *Deep Learning Classification of Lake Zooplankton*, Frontiers in Microbiology (2021). [arXiv:2108.05258](https://arxiv.org/abs/2108.05258)
+- E. Farhi and H. Neven, *Classification with Quantum Neural Networks on Near Term Processors* (2018). [arXiv:1802.06002](https://arxiv.org/abs/1802.06002)
+- J. Bowles, S. Ahmed and M. Schuld, *Better than classical? The subtle art of benchmarking quantum machine learning models* (2024). [arXiv:2403.07059](https://arxiv.org/abs/2403.07059)
+- M. Cerezo et al., *Does provable absence of barren plateaus imply classical simulability?*, Nature Communications (2025). [arXiv:2312.09121](https://arxiv.org/abs/2312.09121)
+- P. Bermejo et al., *Quantum convolutional neural networks are (effectively) classically simulable* (2024). [arXiv:2408.12739](https://arxiv.org/abs/2408.12739)
+- H.-Y. Huang et al., *Power of data in quantum machine learning*, Nature Communications (2021). [arXiv:2011.01938](https://arxiv.org/abs/2011.01938)
+- D. Willsch et al., *Support vector machines on the D-Wave quantum annealer*, Computer Physics Communications (2020). [arXiv:1906.06283](https://arxiv.org/abs/1906.06283)
+- IBM Quantum, [plans overview](https://quantum.cloud.ibm.com/docs/en/guides/plans-overview) and [Nighthawk r2](https://www.ibm.com/quantum/blog/nighthawk-r2).
