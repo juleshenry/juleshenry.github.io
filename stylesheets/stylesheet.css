@@ -789,7 +789,7 @@ ul.posts li:hover {
 ul.posts li > span {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--accent);
+  color: var(--muted);
   min-width: 120px;
   flex: 0 0 auto;
 }
@@ -877,6 +877,20 @@ body.page-post section#main_content > .meta {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-bottom: 1.6em;
+}
+
+/* In-post headings sit below the page title and keep their authored case */
+body.page-post .post h1,
+body.page-post .post h2,
+body.page-post .post h3,
+body.page-post .post h4 {
+  text-transform: none;
+}
+
+body.page-post .post h1 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+  margin-top: 1.8em;
 }
 
 /* Volume nav: the series name is already in the eyebrow, so hide the label */
