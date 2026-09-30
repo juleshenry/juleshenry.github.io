@@ -1,1107 +1,475 @@
 ---
 layout: post
-title: "Back-of-the-Envelope: Sphere Eversion"
-date: 2026-08-17
+title: "Back-of-the-Envelope: Sphere Eversion, Vol. I: Open, Closed, Clopen"
+date: 2026-08-17 12:00:00
 categories: differential topology
 mathjax: true
 ---
 
-*A Socratic return to the two-sphere: the questions from a local Phi-3 session, answered so that the pictures are the equations.*
+*Sphere Eversion:* **Vol. I** · [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II) · [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III) · [Vol. IV](/blog/2026/08/17/circling-the-sphere-Vol-IV) · [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) · [Vol. VI](/blog/2026/08/17/circling-the-sphere-Vol-VI)
+
+{% include eversion-kit.html %}
+
+*A zero-to-hero guide to one theorem: a sphere can be turned inside out, smoothly, if it is allowed to pass through itself. We start with the definition of an open set.*
 
 In May 2024 I asked a small language model, running locally, to talk me through Smale's theorem that any two immersions of $S^2$ in $\mathbb{R}^3$ are regularly homotopic. The transcript is [Sphere Eversion Phi3 Notes I](https://honghaptang.github.io/blog/2024/05/22/sphere-eversion-phi3-notes-I). The questions were the right questions. The proofs were not: a linear interpolation was offered as a regular homotopy, the hairy-ball theorem was credited to Smale, and $S^2\times[0,1]$ was described as a solid ball.
 
-In September 2024 I wrote a straight exposition under the title *The Eversion of the Sphere*. It had the theorem right and the pictures wrong. The interactive "eversion" flattened $z$ through zero --- exactly the crease the text forbade --- and the "Morin surface" was an unnamed polynomial that did not match any formula on the page. That draft is folded into this page; the old URL redirects here.
+In September 2024 I wrote a straight exposition under the title *The Eversion of the Sphere*. It had the theorem right and the pictures wrong. The interactive "eversion" flattened $z$ through zero — exactly the crease the text forbade — and the "Morin surface" was an unnamed polynomial that did not match any formula on the page. That draft is folded into this series; the old URL redirects here.
 
-This post is the two of them talking. The student is the Phi-3 transcript. The teacher is the theorem, at the level of a motivated undergraduate who has partial derivatives, the chain rule, and the rank of a matrix. Every canvas is a displayed equation with a slider.
-
-The still below is a genuine eversion (Morin's halfway model). We will not pretend to reproduce that movie with a one-line formula. We will write the formulae we *can* write, and refuse to draw a crease and call it an eversion.
+This series is the two of them talking, rebuilt from the ground up. Whenever the Phi-3 transcript asked a good question, it appears as a boxed **Student** question, answered by the **Teacher**. Everything else is built from definitions. Every figure is an equation you can drag.
 
 <p style="text-align:center;">
   <img src="/blog/assets/2024/eversion/eversion.gif" alt="Sphere eversion through the Morin halfway model" style="max-width:100%;">
 </p>
 
-<style>
-  .cs-q, .cs-a { padding: 0.8em 1em; margin: 1.5em 0 0.6em; border-radius: 0 8px 8px 0; }
-  .cs-q { border-left: 3px solid #FFA7CC; background: rgba(255,167,204,0.07); }
-  .cs-a { border-left: 3px solid #00FFFF; background: rgba(0,255,255,0.05); }
-  .cs-q strong { color: #FFA7CC; }
-  .cs-a strong { color: #00FFFF; }
-  .cs-stage { width: 100%; margin: 1.4em 0 0.4em; border-radius: 8px; overflow: hidden; background: #0f172a; position: relative; touch-action: none; }
-  .cs-hud { position: absolute; z-index: 10; font-family: inherit; font-size: 12px; color: #94a3b8; pointer-events: none; }
-  .cs-hud-tl { top: 10px; left: 12px; }
-  .cs-hud-tr { top: 10px; right: 12px; text-align: right; }
-  .cs-ctrl { position: absolute; bottom: 8px; left: 10px; right: 10px; z-index: 10; text-align: center; color: #94a3b8; font-size: 13px; }
-  .cs-ctrl label { display: inline-block; margin: 2px 8px; }
-  .cs-ctrl input[type="range"] { width: 42%; vertical-align: middle; }
-  .cs-ctrl select { background: #1e293b; color: #e2e8f0; border: 1px solid #475569; border-radius: 4px; padding: 2px 6px; font-family: inherit; font-size: 12px; }
-  .cs-cap { color: #94a3b8; font-size: 0.92em; margin: 0 0 1.8em; }
-  /* Override global table glass (white bg + light MathJax = invisible formulas). */
-  .cs-err {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95em;
-    margin: 1em 0 2em;
-    background: #141414 !important;
-    color: #e8e8e8;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .cs-err th, .cs-err td {
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    padding: 0.7em 0.9em;
-    vertical-align: top;
-    color: #e8e8e8 !important;
-    background: transparent !important;
-    font-weight: 400;
-  }
-  .cs-err thead th {
-    background: rgba(255, 167, 204, 0.14) !important;
-    color: #fafafa !important;
-    font-weight: 600;
-  }
-  .cs-err tbody tr:nth-child(even) td {
-    background: rgba(255, 255, 255, 0.04) !important;
-  }
-  .cs-err mjx-container {
-    color: #f5f5f5 !important;
-  }
-  .cs-chain {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.35rem 0.25rem;
-    margin: 1.4em 0;
-    padding: 1em 0.75em;
-    background: #0f172a;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-  }
-  .cs-chain-node {
-    background: #1e293b;
-    border: 1px solid #64748b;
-    border-radius: 6px;
-    padding: 0.55em 0.75em;
-    color: #e2e8f0;
-    font-weight: 400;
-    line-height: 1.45;
-    text-align: center;
-  }
-  .cs-chain-node mjx-container {
-    color: #e2e8f0 !important;
-  }
-  .cs-chain-arrow {
-    color: #94a3b8;
-    font-size: 1.1em;
-    padding: 0 0.15em;
-    user-select: none;
-  }
-  .cs-toc {
-    margin: 1.6em 0 2em;
-    padding: 1em 1.2em;
-    background: rgba(18, 18, 18, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-  }
-  .cs-toc > strong {
-    display: block;
-    color: #e8e8e8;
-    margin-bottom: 0.55em;
-    font-weight: 600;
-  }
-  .cs-toc ol {
-    margin: 0;
-    padding-left: 1.3em;
-    color: #c4c4c4;
-  }
-  .cs-toc li {
-    margin: 0.28em 0;
-    line-height: 1.45;
-  }
-  .cs-toc a {
-    color: #FFA7CC;
-  }
-</style>
+The still above is a genuine eversion, passing through Morin's halfway model. By the end of [Vol. VI](/blog/2026/08/17/circling-the-sphere-Vol-VI) you will know exactly what it is a picture of, and why its existence was proved before anyone could draw it.
 
-<script>
-(function () {
-  window.CS = window.CS || {};
-  CS.ready = function (cb) {
-    var n = 0;
-    (function wait() {
-      if (typeof THREE !== 'undefined') { cb(window.THREE); return; }
-      if (++n > 300) return;
-      setTimeout(wait, 40);
-    })();
-  };
-  CS.mount = function (opts) {
-    CS.ready(function (THREE) {
-      var el = document.getElementById(opts.id);
-      if (!el || el.getAttribute('data-cs') === '1') return;
-      function boot() {
-        if (el.clientWidth < 16) { setTimeout(boot, 120); return; }
-        if (el.getAttribute('data-cs') === '1') return;
-        el.setAttribute('data-cs', '1');
-        var height = opts.height || 420;
-        var scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0f172a);
-        var camera;
-        if (opts.ortho) {
-          var halfW = opts.orthoHalf || 3.3;
-          var asp = el.clientWidth / height;
-          camera = new THREE.OrthographicCamera(-halfW, halfW, halfW / asp, -halfW / asp, 0.05, 80);
-        } else {
-          camera = new THREE.PerspectiveCamera(50, el.clientWidth / height, 0.05, 200);
-        }
-        var cam = opts.cam || [0, 0.35, 4.1];
-        camera.position.set(cam[0], cam[1], cam[2]);
-        var renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-        renderer.setSize(el.clientWidth, height);
-        el.appendChild(renderer.domElement);
-        var group = new THREE.Group();
-        scene.add(group);
-        if (!opts.noLights) {
-          scene.add(new THREE.AmbientLight(0xffffff, 0.42));
-          var d1 = new THREE.DirectionalLight(0xffffff, 0.9);
-          d1.position.set(5, 5, 6);
-          scene.add(d1);
-          var d2 = new THREE.DirectionalLight(0x818cf8, 0.35);
-          d2.position.set(-5, -2, -4);
-          scene.add(d2);
-        }
-        var rotX = opts.rotX || 0.28;
-        var rotY = opts.rotY || 0.45;
-        var dragging = false, lx = 0, ly = 0, visible = true;
-        function down(x, y) { dragging = true; lx = x; ly = y; }
-        function move(x, y) {
-          if (!dragging) return;
-          rotY += (x - lx) * 0.008;
-          rotX += (y - ly) * 0.008;
-          if (rotX > 1.35) rotX = 1.35;
-          if (rotX < -1.35) rotX = -1.35;
-          lx = x; ly = y;
-        }
-        function up() { dragging = false; }
-        el.addEventListener('mousedown', function (e) { down(e.clientX, e.clientY); });
-        window.addEventListener('mouseup', up);
-        window.addEventListener('mousemove', function (e) { move(e.clientX, e.clientY); });
-        el.addEventListener('touchstart', function (e) {
-          if (e.touches[0]) down(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: true });
-        el.addEventListener('touchend', up);
-        el.addEventListener('touchmove', function (e) {
-          if (e.touches[0]) move(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: true });
-        window.addEventListener('resize', function () {
-          var w = el.clientWidth;
-          if (w < 16) return;
-          if (camera.isOrthographicCamera) {
-            var hW = opts.orthoHalf || 3.3;
-            var a = w / height;
-            camera.left = -hW; camera.right = hW;
-            camera.top = hW / a; camera.bottom = -hW / a;
-          } else {
-            camera.aspect = w / height;
-          }
-          camera.updateProjectionMatrix();
-          renderer.setSize(w, height);
-        });
-        if (typeof IntersectionObserver !== 'undefined') {
-          var io = new IntersectionObserver(function (ents) {
-            visible = !!(ents[0] && ents[0].isIntersecting);
-          }, { threshold: 0.04 });
-          io.observe(el);
-        }
-        var api = { THREE: THREE, el: el, scene: scene, camera: camera, renderer: renderer, group: group };
-        var tick = opts.setup ? opts.setup(api) : null;
-        (function loop() {
-          requestAnimationFrame(loop);
-          if (!visible) return;
-          if (!opts.freeze && !opts.noSpin && !dragging) rotY += 0.0028;
-          if (!opts.freeze) group.rotation.set(rotX, rotY, 0);
-          if (tick) tick(api);
-          renderer.render(scene, camera);
-        })();
-      }
-      boot();
-    });
-  };
-})();
-</script>
-
----
-
+<table class="cs-err">
+  <thead><tr><th>Vol.</th><th>Topic</th><th>What it contributes to the proof</th></tr></thead>
+  <tbody>
+    <tr><td><strong>I</strong></td><td>Open, closed, clopen</td><td>Spaces, continuity, connectedness: the reason an integer that varies continuously cannot jump.</td></tr>
+    <tr><td><a href="/blog/2026/08/17/circling-the-sphere-Vol-II">II</a></td><td>Paths and homotopy</td><td>Homotopy, $\pi&#95;{1}(S^1)=\mathbb{Z}$, and $\pi&#95;{k}(S^n)=0$ for $k&lt;n$.</td></tr>
+    <tr><td><a href="/blog/2026/08/17/circling-the-sphere-Vol-III">III</a></td><td>Manifolds and immersions</td><td>Charts, the Jacobian, immersions, regular homotopy, and a homotopy that cheats.</td></tr>
+    <tr><td><a href="/blog/2026/08/17/circling-the-sphere-Vol-IV">IV</a></td><td>Curves in the plane</td><td>Turning number and Whitney–Graustein: why a circle cannot evert.</td></tr>
+    <tr><td><a href="/blog/2026/08/17/circling-the-sphere-Vol-V">V</a></td><td>Frames and Smale's theorem</td><td>Fibrations, $SO(3)\cong\mathbb{RP}^3$, the belt trick, and $\pi&#95;{2}(V&#95;{3,2})=0$.</td></tr>
+    <tr><td><a href="/blog/2026/08/17/circling-the-sphere-Vol-VI">VI</a></td><td>Seeing the eversion</td><td>Corrugations, a ruled formula for the halfway model, and how to tell you are halfway.</td></tr>
+  </tbody>
+</table>
 
 <div class="cs-toc">
 <strong>Contents</strong>
 <ol>
-  <li><a href="#the-two-sphere-locally-flat">the two-sphere, locally flat</a></li>
-  <li><a href="#immersions-and-the-matrix-that-must-not-drop-rank">immersions, and the matrix that must not drop rank</a></li>
-  <li><a href="#the-homotopy-that-is-not-regular">the homotopy that is not regular</a></li>
-  <li><a href="#circling-in-one-dimension-less">circling in one dimension less</a></li>
-  <li><a href="#the-gauss-map-is-not-the-obstruction">the gauss map is not the obstruction</a></li>
-  <li><a href="#why-the-obstruction-vanishes">why the obstruction vanishes</a></li>
-  <li><a href="#slack-that-does-not-crease">slack that does not crease</a></li>
-  <li><a href="#a-formula-that-actually-everts-a-band">a formula that actually everts a band</a></li>
-  <li><a href="#an-integral-that-must-cross-zero-and-one-that-must-not">an integral that must cross zero, and one that must not</a></li>
-  <li><a href="#what-the-model-got-wrong">what the model got wrong</a></li>
-  <li><a href="#the-arc">the arc</a></li>
+  <li><a href="#the-question">the question</a></li>
+  <li><a href="#open-balls-and-open-sets">open balls and open sets</a></li>
+  <li><a href="#topologies">topologies</a></li>
+  <li><a href="#clopen-sets-and-connectedness">clopen sets and connectedness</a></li>
+  <li><a href="#continuity">continuity</a></li>
+  <li><a href="#paths-and-path-connectedness">paths and path-connectedness</a></li>
+  <li><a href="#compactness-and-why-immersions-have-room">compactness, and why immersions have room</a></li>
+  <li><a href="#where-this-goes">where this goes</a></li>
 </ol>
 </div>
 
-# the two-sphere, locally flat
-{: #the-two-sphere-locally-flat}
+---
+
+# the question
+{: #the-question}
 <div class="cs-q">
-<strong>Student.</strong> What is a manifold? What is a differentiable manifold? Give an example. Then give differentiable coordinates on $S^2$ and take a derivative at $(1,0,0)$.
+<strong>Student.</strong> What does it even mean to turn a sphere inside out "smoothly"? Couldn't I just push the north pole through the south pole?
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> A manifold is a space that is Euclidean in the small. Formally, a smooth $n$-manifold is a Hausdorff space covered by charts $\varphi&#95;{\alpha}: U&#95;{\alpha}\to\mathbb{R}^n$ whose transition maps $\varphi&#95;{\beta}\circ\varphi&#95;{\alpha}^{-1}$ are $C^\infty$. You already know one: the surface of the Earth. No single paper map covers it, but an atlas does, and the overlap rules are smooth.
+<strong>Teacher.</strong> You could, and you would crease it. The theorem is about a <em>path</em> of surfaces, each of them smooth, from the round sphere to the round sphere with its inside facing out. Before we can say "path of surfaces" we need to say what it means for two surfaces to be <em>close</em>. That is what topology is for. We will need very little of it, but we need it exactly.
 </div>
 
-The **2-sphere** is the set of unit vectors,
+Here is the target, stated once in full so that every word can be earned later. Let $\iota(p)=p$ be the standard sphere and $\alpha(p)=-p$ its antipodal copy, whose inside faces out.
 
-$$S^2=\bigl\{(x,y,z)\in\mathbb{R}^3:x^2+y^2+z^2=1\bigr\}.$$
+<div class="ev-def"><strong>Theorem (Smale, 1958).</strong> The space $\operatorname{Imm}(S^2,\mathbb{R}^3)$ of immersions of the 2-sphere in 3-space is path-connected. In particular there is a path of immersions from $\iota$ to $\alpha$: a sphere eversion.</div>
 
-Spherical coordinates are a pair of charts (you need at least two: the azimuth $\varphi$ is not a global coordinate). On the complement of a meridian,
+"Immersion" is [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III). This volume is about the words *space* and *path-connected*.
 
-$$\mathbf{r}(\theta,\varphi)=\bigl(\sin\theta\cos\varphi,\;\sin\theta\sin\varphi,\;\cos\theta\bigr),\qquad \theta\in(0,\pi),\;\varphi\in(0,2\pi).$$
+---
 
-A **point** is not a function of $(\theta,\varphi)$. The model that answered you computed $\partial&#95;{\theta}(1,0,0)=\mathbf{0}$ and called it a day. The object that has derivatives is the chart:
+# open balls and open sets
+{: #open-balls-and-open-sets}
+Distance in $\mathbb{R}^n$ is $d(p,q)=\lVert p-q\rVert$. The **open ball** of radius $\varepsilon&gt;0$ about $p$ is
 
-$$
-\begin{aligned}
-\mathbf{r}_\theta&=(\cos\theta\cos\varphi,\;\cos\theta\sin\varphi,\;-\sin\theta),\\
-\mathbf{r}_\varphi&=(-\sin\theta\sin\varphi,\;\sin\theta\cos\varphi,\;0).
-\end{aligned}
-$$
+$$B(p,\varepsilon)=\{\,q\in\mathbb{R}^n:\ d(p,q)<\varepsilon\,\}.$$
 
-At $(1,0,0)$ one has $(\theta,\varphi)=(\pi/2,\,0)$, so
+<div class="ev-def"><strong>Definition (open set).</strong> $U\subseteq\mathbb{R}^n$ is <em>open</em> if every point of $U$ has some ball around it that stays inside $U$: for each $p\in U$ there is an $\varepsilon&gt;0$ with $B(p,\varepsilon)\subseteq U$.</div>
 
-$$\mathbf{r}_\theta=(0,0,-1),\qquad \mathbf{r}_\varphi=(0,1,0),\qquad \mathbf{r}_\theta\times\mathbf{r}_\varphi=(1,0,0)=\mathbf{r}.$$
+Open means *every point has room*. The open disk $\lbrace\lVert p\rVert&lt;1\rbrace$ is open: a point at distance $d&lt;1$ from the centre can use $\varepsilon=1-d$. The closed disk $\lbrace\lVert p\rVert\le 1\rbrace$ is not: a point on the edge belongs to the set, but every ball around it pokes outside.
 
-Those two vectors are a basis of the tangent plane $T&#95;{(1,0,0)}S^2$, the $yz$-plane. Drag the sliders; the cyan and pink arrows are exactly $\mathbf{r}&#95;{\theta}$ and $\mathbf{r}&#95;{\varphi}$.
+<div class="ev-def"><strong>Definition (closed set).</strong> $C$ is <em>closed</em> if its complement is open.</div>
 
-<div id="cs-charts" class="cs-stage" style="height:440px;">
-  <div class="cs-hud cs-hud-tl" id="cs-charts-eq">r, r_theta, r_phi</div>
-  <div class="cs-ctrl">
-    <label>theta <input type="range" id="cs-th" min="8" max="172" value="90"> <span id="cs-th-v">pi/2</span></label>
-    <label>phi <input type="range" id="cs-ph" min="0" max="628" value="0"> <span id="cs-ph-v">0</span></label>
+Equivalently, $C$ is closed when it contains every point it can get arbitrarily close to (its limit points). Closed is **not** the opposite of open. A set can be both, or neither. Try all three:
+
+<div class="mviz" id="ev-open" tabindex="0" aria-label="Open, closed and half-open disks, with epsilon balls">
+  <div class="mv-title" id="ev-open-title"></div>
+  <svg id="ev-open-svg" viewBox="0 0 640 320" role="img" aria-label="A disk in the plane and a draggable point with its largest safe ball">
+    <rect x="0" y="0" width="640" height="320" fill="#121212"/>
+    <path id="ev-open-fill" fill="#3987e5" fill-opacity="0.22"/>
+    <path id="ev-open-bd-in" fill="none" stroke="#3987e5" stroke-width="3"/>
+    <path id="ev-open-bd-out" fill="none" stroke="#3987e5" stroke-width="2" stroke-dasharray="5 6"/>
+    <circle id="ev-open-ball" fill="#c98500" fill-opacity="0.18" stroke="#c98500" stroke-width="2"/>
+    <circle id="ev-open-pt" r="7" fill="#f0f0f0" stroke="#121212" stroke-width="2" class="drag"/>
+    <text x="230" y="306" text-anchor="middle" font-size="13" style="fill:#c3c2b7">drag the white point anywhere, including onto the edge</text>
+    <g id="ev-open-verdict"></g>
+  </svg>
+  <div class="mv-detail" id="ev-open-detail"></div>
+  <div class="mv-controls">
+    <button type="button" data-m="open">open disk</button>
+    <button type="button" data-m="closed">closed disk</button>
+    <button type="button" data-m="half">half-open disk</button>
+    <button type="button" id="ev-open-edge">put point on the edge</button>
+    <span class="mv-key"><b style="background:#3987e5"></b>edge included<b style="background:repeating-linear-gradient(90deg,#3987e5 0 5px,transparent 5px 9px)"></b>edge excluded<b style="background:#c98500"></b>ball B(p, ε)</span>
   </div>
 </div>
-<p class="cs-cap">The sphere is the image of $\mathbf{r}$. Cyan is $\mathbf{r}&#95;{\theta}$, pink is $\mathbf{r}&#95;{\varphi}$, gold is their cross product. At the poles $\sin\theta=0$ and the <em>chart</em> is singular; the sphere is not. That distinction is the whole subject.</p>
-
-<script>
-CS.mount({
-  id: 'cs-charts',
-  height: 440,
-  cam: [0, 0.2, 3.6],
-  setup: function (api) {
-    var T = api.THREE;
-    var geo = new T.SphereGeometry(1, 48, 32);
-    api.group.add(new T.Mesh(geo, new T.MeshStandardMaterial({
-      color: 0x312e81, metalness: 0.2, roughness: 0.55, transparent: true, opacity: 0.35, side: T.DoubleSide
-    })));
-    api.group.add(new T.Mesh(geo, new T.MeshBasicMaterial({
-      color: 0xa5b4fc, wireframe: true, transparent: true, opacity: 0.18
-    })));
-    var pt = new T.Mesh(new T.SphereGeometry(0.045, 16, 16), new T.MeshStandardMaterial({ color: 0xfbbf24, emissive: 0xf59e0b, emissiveIntensity: 0.4 }));
-    api.group.add(pt);
-    var aTh = new T.ArrowHelper(new T.Vector3(0, 0, -1), new T.Vector3(1, 0, 0), 0.7, 0x22d3ee, 0.12, 0.08);
-    var aPh = new T.ArrowHelper(new T.Vector3(0, 1, 0), new T.Vector3(1, 0, 0), 0.7, 0xf472b6, 0.12, 0.08);
-    var aN  = new T.ArrowHelper(new T.Vector3(1, 0, 0), new T.Vector3(1, 0, 0), 0.55, 0xfbbf24, 0.1, 0.07);
-    api.group.add(aTh); api.group.add(aPh); api.group.add(aN);
-    var hud = document.getElementById('cs-charts-eq');
-    function sync() {
-      var th = parseFloat(document.getElementById('cs-th').value) * Math.PI / 180;
-      var ph = parseFloat(document.getElementById('cs-ph').value) / 100;
-      document.getElementById('cs-th-v').textContent = th.toFixed(2);
-      document.getElementById('cs-ph-v').textContent = ph.toFixed(2);
-      var sth = Math.sin(th), cth = Math.cos(th), sph = Math.sin(ph), cph = Math.cos(ph);
-      var p = new T.Vector3(sth * cph, sth * sph, cth);
-      var dth = new T.Vector3(cth * cph, cth * sph, -sth);
-      var dph = new T.Vector3(-sth * sph, sth * cph, 0);
-      var n = new T.Vector3().crossVectors(dth, dph);
-      var nlen = n.length();
-      pt.position.copy(p);
-      aTh.position.copy(p); aPh.position.copy(p); aN.position.copy(p);
-      if (dth.length() > 1e-8) aTh.setDirection(dth.clone().normalize());
-      if (dph.length() > 1e-8) aPh.setDirection(dph.clone().normalize());
-      if (nlen > 1e-8) aN.setDirection(n.clone().normalize());
-      aTh.setLength(0.65, 0.12, 0.08);
-      aPh.setLength(Math.min(0.65, 0.25 + 0.5 * sth), 0.12, 0.08);
-      aN.setLength(0.5, 0.1, 0.07);
-      if (hud) {
-        hud.innerHTML =
-          'r = (' + p.x.toFixed(2) + ', ' + p.y.toFixed(2) + ', ' + p.z.toFixed(2) + ')<br>' +
-          'r_theta x r_phi  =  sin(theta) r<br>' +
-          '|r_theta x r_phi| = ' + nlen.toFixed(3) + (nlen < 0.08 ? '   chart singular' : '');
-      }
-    }
-    document.getElementById('cs-th').addEventListener('input', sync);
-    document.getElementById('cs-ph').addEventListener('input', sync);
-    sync();
-    return null;
-  }
-});
-</script>
-
-<div class="cs-q">
-<strong>Student.</strong> Give a nonzero derivative --- a function that wraps around the sphere.
-</div>
-
-<div class="cs-a">
-<strong>Teacher.</strong> Take the equator as a curve $\gamma:[0,2\pi]\to S^2$,
-$$\gamma(t)=(\cos t,\;\sin t,\;0).$$
-Then $\gamma'(t)=(-\sin t,\;\cos t,\;0)\neq\mathbf{0}$. At $t=0$ this is $(0,1,0)$, which is $\mathbf{r}&#95;{\varphi}$ at $(1,0,0)$. The model wrote $\gamma(t)=(\sin(\pi t),0,\cos(\pi t))$ and claimed it was the equator with $\varphi$ fixed at $0$; that is a meridian, a semicircle from north pole to south, and at its midpoint the velocity is $(0,0,-\pi)$, not a trip around the equator. Wrapping around $S^2$ means the image of $\gamma$ is a closed loop that is not contractible in $S^2\setminus\{\text{two poles}\}$. We will need that loop.
-</div>
-
----
-
-# immersions, and the matrix that must not drop rank
-{: #immersions-and-the-matrix-that-must-not-drop-rank}
-<div class="cs-q">
-<strong>Student.</strong> What is an immersion? What is a Jacobian? What happens when the Jacobian determinant is zero, or switches sign?
-</div>
-
-<div class="cs-a">
-<strong>Teacher.</strong> For $f:\mathbb{R}^n\to\mathbb{R}^m$ the Jacobian is the $m\times n$ matrix of first partials --- rows are outputs, columns are inputs. The model wrote $n\times m$. An <strong>immersion</strong> $f:M\to N$ is a smooth map whose differential $df&#95;{p}:T&#95;{p}M\to T&#95;{f(p)}N$ is injective at every $p$. For $f:S^2\to\mathbb{R}^3$ that is the statement that the $3\times 2$ matrix
-$$
-J_f=\begin{pmatrix}
-\partial_u f_1 & \partial_v f_1 \\
-\partial_u f_2 & \partial_v f_2 \\
-\partial_u f_3 & \partial_v f_3
-\end{pmatrix}
-$$
-has rank $2$ everywhere, equivalently $\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}\neq\mathbf{0}$. There is no $2\times 2$ determinant to watch. The only vanishing that matters is that cross product.
-</div>
-
-A sign change of $\det J$ for a map $\mathbb{R}^n\to\mathbb{R}^n$ means the map reverses orientation. It does **not** mean a saddle: $f(x,y)=(e^x\cos y,\,e^x\sin y)$ has $\det J=e^{2x}>0$ everywhere (it is a local diffeomorphism, the complex exponential). At $(0,\pi/2)$ one has $\det J=1$, not $-1$, and there is no critical point. Vanishing of $\det J$ *does* mean the inverse-function theorem fails: the map is not a local diffeomorphism there.
-
-Self-intersection is allowed. A figure-eight $\gamma(t)=(\sin 2t,\,\sin t)$ is an immersion --- $\gamma'$ never vanishes --- and it crosses itself. An **embedding** is an injective immersion (proper, on noncompact manifolds). The standard sphere $\iota(p)=p$ is an embedding. Mid-eversion surfaces are immersions and not embeddings.
-
----
-
-# the homotopy that is not regular
-{: #the-homotopy-that-is-not-regular}
-<div class="cs-q">
-<strong>Student.</strong> Any two $C^2$ immersions of $S^2$ in $E^3$ are regularly homotopic. Here is a proof: $H(x,t)=(1-t)f&#95;{0}(x)+t f&#95;{1}(x)$. Also, what is $S^2\times[0,1]$?
-</div>
-
-<div class="cs-a">
-<strong>Teacher.</strong> $S^2\times[0,1]$ is a <em>thickened sphere</em>: a spherical shell, not the ball. Each point of $S^2$ grows an interval. A homotopy of maps $S^2\to\mathbb{R}^3$ is a single map
-$$F:S^2\times[0,1]\to\mathbb{R}^3.$$
-It is a <strong>regular homotopy</strong> when each slice $F(\,\cdot\,,t)$ is an immersion. Straight-line interpolation between immersions is a homotopy of smooth maps and almost never a regular homotopy. It routinely drops rank.
-</div>
-
-The sock-push is the interpolation from the identity to reflection through the equator,
-
-$$F_s(\theta,\varphi)=\bigl(\sin\theta\cos\varphi,\;\sin\theta\sin\varphi,\;(1-2s)\cos\theta\bigr).$$
-
-A short computation:
-
-$$
-\mathbf{F}_\theta\times\mathbf{F}_\varphi=\bigl((1-2s)\sin^2\theta\cos\varphi,\;(1-2s)\sin^2\theta\sin\varphi,\;\sin\theta\cos\theta\bigr),
-$$
-
-$$
-\bigl\|\mathbf{F}_\theta\times\mathbf{F}_\varphi\bigr\|=\lvert\sin\theta\rvert\sqrt{(1-2s)^2\sin^2\theta+\cos^2\theta}.
-$$
-
-At $s=\tfrac12$ this is $\lvert\sin\theta\cos\theta\rvert$, which is zero all along the equator. The image is a disk covered twice, with a fold on the boundary. That is a crease. Colour in the canvas is $\lVert\mathbf{F}&#95;{\theta}\times\mathbf{F}&#95;{\varphi}\rVert$: indigo is a healthy tangent plane, red is rank drop.
-
-<div id="cs-crease" class="cs-stage" style="height:460px;">
-  <div class="cs-hud cs-hud-tl" id="cs-crease-hud">min |F_theta x F_phi|</div>
-  <div class="cs-hud cs-hud-tr"><span style="color:#818cf8;">high rank</span><br><span style="color:#ef4444;">rank drop</span></div>
-  <div class="cs-ctrl">
-    <label>s <input type="range" id="cs-s" min="0" max="100" value="0"> <span id="cs-s-v">0.00</span></label>
-  </div>
-</div>
-<p class="cs-cap">$F&#95;{s}(\theta,\varphi)=(\sin\theta\cos\varphi,\,\sin\theta\sin\varphi,\,(1-2s)\cos\theta)$. This is <em>not</em> an eversion. At $s=1$ you have reflected the sphere through the $xy$-plane, and at $s=1/2$ you have left $\mathrm{Imm}(S^2,\mathbb{R}^3)$.</p>
-
-<script>
-CS.mount({
-  id: 'cs-crease',
-  height: 460,
-  cam: [0, 0.15, 3.7],
-  setup: function (api) {
-    var T = api.THREE;
-    var nTh = 56, nPh = 72;
-    var geo = new T.SphereGeometry(1, nPh, nTh);
-    var pos = geo.getAttribute('position');
-    var orig = new Float32Array(pos.array);
-    var col = new Float32Array(pos.count * 3);
-    geo.setAttribute('color', new T.BufferAttribute(col, 3));
-    var mat = new T.MeshStandardMaterial({
-      vertexColors: true, metalness: 0.15, roughness: 0.5,
-      side: T.DoubleSide, transparent: true, opacity: 0.92
-    });
-    api.group.add(new T.Mesh(geo, mat));
-    api.group.add(new T.Mesh(geo, new T.MeshBasicMaterial({
-      color: 0xe2e8f0, wireframe: true, transparent: true, opacity: 0.08
-    })));
-    var hud = document.getElementById('cs-crease-hud');
-    function jacColor(s, th, ph) {
-      var sth = Math.sin(th), cth = Math.cos(th);
-      var mag = Math.abs(sth) * Math.sqrt((1 - 2 * s) * (1 - 2 * s) * sth * sth + cth * cth);
-      var u = Math.max(0, Math.min(1, mag / 1.0));
-      return [0.85 * (1 - u) + 0.39 * u, 0.18 * (1 - u) + 0.4 * u, 0.27 * (1 - u) + 0.95 * u, mag];
-    }
-    function deform(s) {
-      var arr = pos.array;
-      var minJ = 1e9;
-      for (var i = 0; i < pos.count; i++) {
-        var x = orig[3 * i], y = orig[3 * i + 1], z = orig[3 * i + 2];
-        var th = Math.acos(Math.max(-1, Math.min(1, z)));
-        var ph = Math.atan2(y, x);
-        var sth = Math.sin(th), cth = Math.cos(th);
-        arr[3 * i]     = sth * Math.cos(ph);
-        arr[3 * i + 1] = sth * Math.sin(ph);
-        arr[3 * i + 2] = (1 - 2 * s) * cth;
-        var c = jacColor(s, th, ph);
-        col[3 * i] = c[0]; col[3 * i + 1] = c[1]; col[3 * i + 2] = c[2];
-        if (c[3] < minJ) minJ = c[3];
-      }
-      pos.needsUpdate = true;
-      geo.getAttribute('color').needsUpdate = true;
-      geo.computeVertexNormals();
-      if (hud) {
-        hud.innerHTML = 'min |F_theta x F_phi| = ' + minJ.toFixed(3) +
-          (minJ < 0.04 ? '<br>CREASE --- not an immersion' : '<br>immersion');
-      }
-    }
-    var sl = document.getElementById('cs-s');
-    sl.addEventListener('input', function () {
-      var s = parseFloat(this.value) / 100;
-      document.getElementById('cs-s-v').textContent = s.toFixed(2);
-      deform(s);
-    });
-    deform(0);
-    return null;
-  }
-});
-</script>
-
-An **eversion** is a regular homotopy from the inclusion $\iota(p)=p$ to the antipodal embedding $\alpha(p)=-p$. The map $\alpha$ reverses orientation of $\mathbb{R}^3$ ($\det D\alpha=(-1)^3=-1$), and the outward normal of the image sphere at $-p$ is $-p$, while the pushed tangent frame produces the opposite normal. Inside has become outside. $F&#95;{s}$ never reaches $\alpha$. It reaches a reflection, and it cheats.
-
----
-
-# circling in one dimension less
-{: #circling-in-one-dimension-less}
-<div class="cs-q">
-<strong>Student.</strong> Why can't we just push it through? And if a sphere can turn inside out, can a circle?
-</div>
-
-<div class="cs-a">
-<strong>Teacher.</strong> A circle cannot, not in the plane. That is the Whitney--Graustein theorem, and it is the reason eversion feels impossible.
-</div>
-
-An immersed closed curve $\gamma:S^1\to\mathbb{R}^2$ has a unit tangent $\mathbf{T}(t)=\gamma'(t)/\lVert\gamma'(t)\rVert\in S^1$. The **turning number** is how many times $\mathbf{T}$ wraps the unit circle,
-
-$$\tau(\gamma)=\frac{1}{2\pi}\bigl(\theta(2\pi)-\theta(0)\bigr)=\frac{1}{2\pi}\int_{S^1}d\theta,\qquad \mathbf{T}=(\cos\theta,\sin\theta).$$
-
-For $\gamma(t)=(\cos t,\sin t)$ one has $\mathbf{T}(t)=(-\sin t,\cos t)$ and $\tau=+1$. For the reflected parametrization $\bar\gamma(t)=(\cos t,-\sin t)$ one has $\tau=-1$. Turning number is an integer and varies continuously under regular homotopy, so it cannot jump. Therefore $\gamma$ and $\bar\gamma$ lie in different path-components of $\operatorname{Imm}(S^1,\mathbb{R}^2)$. The figure-eight $(\sin 2t,\,\sin t)$ has $\tau=0$.
-
-The yellow curve on the right is the **tangent indicatrix**, the path of $\mathbf{T}$ on $S^1$. Count windings. That integer is the obstruction.
-
-<div id="cs-turning" class="cs-stage" style="height:400px;">
-  <div class="cs-hud cs-hud-tl" id="cs-turn-hud">turning number</div>
-  <div class="cs-hud cs-hud-tr">left: gamma<br>right: T(S^1)</div>
-  <div class="cs-ctrl">
-    <label>curve
-      <select id="cs-turn-sel">
-        <option value="circle">circle, tau = +1</option>
-        <option value="reflected">reflected, tau = -1</option>
-        <option value="eight">figure-eight, tau = 0</option>
-      </select>
-    </label>
-  </div>
-</div>
-<p class="cs-cap">Left: $\gamma$ and $\mathbf{T}$. Right: the indicatrix. $\tau$ is the winding of the yellow curve, accumulated live as the gold point runs.</p>
-
-<script>
-CS.mount({
-  id: 'cs-turning',
-  height: 400,
-  ortho: true,
-  orthoHalf: 3.15,
-  freeze: true,
-  noLights: true,
-  noSpin: true,
-  cam: [0, 0, 6],
-  setup: function (api) {
-    var T = api.THREE;
-    var curves = {
-      circle: function (t) { return [Math.cos(t), Math.sin(t)]; },
-      reflected: function (t) { return [Math.cos(t), -Math.sin(t)]; },
-      eight: function (t) { return [Math.sin(2 * t) * 0.85, Math.sin(t) * 1.15]; }
-    };
-    var dcurves = {
-      circle: function (t) { return [-Math.sin(t), Math.cos(t)]; },
-      reflected: function (t) { return [-Math.sin(t), -Math.cos(t)]; },
-      eight: function (t) { return [1.7 * Math.cos(2 * t), 1.15 * Math.cos(t)]; }
-    };
-    var gCurve = new T.Group();
-    var gTan = new T.Group();
-    api.scene.add(gCurve);
-    api.scene.add(gTan);
-    var type = 'circle';
-    var phase = 0;
-    var hud = document.getElementById('cs-turn-hud');
-    function unit(d) {
-      var L = Math.hypot(d[0], d[1]) || 1;
-      return [d[0] / L, d[1] / L];
-    }
-    function ang(u) { return Math.atan2(u[1], u[0]); }
-    function unwrap(prev, a) {
-      var d = a - prev;
-      while (d > Math.PI) d -= 2 * Math.PI;
-      while (d < -Math.PI) d += 2 * Math.PI;
-      return prev + d;
-    }
-    function rebuild() {
-      while (gCurve.children.length) {
-        var c = gCurve.children[0];
-        if (c.geometry) c.geometry.dispose();
-        gCurve.remove(c);
-      }
-      while (gTan.children.length) {
-        var d = gTan.children[0];
-        if (d.geometry) d.geometry.dispose();
-        gTan.remove(d);
-      }
-      var N = 220, pts = [], tpts = [], ref = [];
-      var th0 = null, th = 0;
-      for (var i = 0; i <= N; i++) {
-        var t = (i / N) * 2 * Math.PI;
-        var p = curves[type](t);
-        var u = unit(dcurves[type](t));
-        pts.push(new T.Vector3(p[0] - 1.35, p[1], 0));
-        tpts.push(new T.Vector3(u[0] + 1.55, u[1], 0));
-        var a = ang(u);
-        if (th0 === null) { th0 = a; th = a; } else th = unwrap(th, a);
-      }
-      for (var j = 0; j <= 64; j++) {
-        var s = (j / 64) * 2 * Math.PI;
-        ref.push(new T.Vector3(Math.cos(s) + 1.55, Math.sin(s), 0));
-      }
-      gCurve.add(new T.Line(new T.BufferGeometry().setFromPoints(pts), new T.LineBasicMaterial({ color: 0x818cf8 })));
-      gTan.add(new T.Line(new T.BufferGeometry().setFromPoints(tpts), new T.LineBasicMaterial({ color: 0xfbbf24 })));
-      gTan.add(new T.Line(new T.BufferGeometry().setFromPoints(ref), new T.LineBasicMaterial({ color: 0x334155 })));
-      api._tauClosed = (th - th0) / (2 * Math.PI);
-    }
-    var dotG = new T.Mesh(new T.SphereGeometry(0.07, 12, 12), new T.MeshBasicMaterial({ color: 0xfbbf24 }));
-    var dotT = new T.Mesh(new T.SphereGeometry(0.07, 12, 12), new T.MeshBasicMaterial({ color: 0x22d3ee }));
-    api.scene.add(dotG); api.scene.add(dotT);
-    var arrow = new T.ArrowHelper(new T.Vector3(1, 0, 0), new T.Vector3(), 0.42, 0x22d3ee, 0.1, 0.07);
-    api.scene.add(arrow);
-    document.getElementById('cs-turn-sel').addEventListener('change', function () {
-      type = this.value; phase = 0; rebuild();
-    });
-    rebuild();
-    return function () {
-      phase += 0.018;
-      if (phase > 2 * Math.PI) phase -= 2 * Math.PI;
-      var p = curves[type](phase);
-      var u = unit(dcurves[type](phase));
-      dotG.position.set(p[0] - 1.35, p[1], 0);
-      dotT.position.set(u[0] + 1.55, u[1], 0);
-      arrow.position.copy(dotG.position);
-      arrow.setDirection(new T.Vector3(u[0], u[1], 0));
-      var acc = 0, prev = ang(unit(dcurves[type](0)));
-      var samples = 80;
-      var until = phase;
-      for (var i = 1; i <= samples; i++) {
-        var t = until * (i / samples);
-        var a = ang(unit(dcurves[type](t)));
-        var nxt = unwrap(prev, a);
-        acc += nxt - prev;
-        prev = nxt;
-      }
-      if (hud) {
-        hud.innerHTML = 'running Delta theta / 2pi = ' + (acc / (2 * Math.PI)).toFixed(2) +
-          '<br>closed tau = ' + api._tauClosed.toFixed(2);
-      }
-    };
-  }
-});
-</script>
-
-The surprise is dimensional. The turning number of a curve is an element of $\pi&#95;{1}(S^1)=\mathbb{Z}$. For a surface in $\mathbb{R}^3$ the analogous invariant lives in $\pi&#95;{2}(V&#95;{3,2})$, and that group is $0$. One extra dimension is enough room for the obstruction to die.
-
----
-
-# the gauss map is not the obstruction
-{: #the-gauss-map-is-not-the-obstruction}
-<div class="cs-q">
-<strong>Student.</strong> So what invariant do we actually compute? The model mentioned Jacobians staying positive, and also something called the hairy ball theorem of Smale.
-</div>
-
-<div class="cs-a">
-<strong>Teacher.</strong> The hairy ball theorem is Poincaré--Brouwer: $S^2$ admits no continuous nowhere-zero tangent vector field. Smale proved a classification of immersions. Different theorem, different decade. The Jacobian-sign story is a confusion with local diffeomorphisms of $\mathbb{R}^n$. What we do compute is a <em>tangential</em> invariant, and its coarsest shadow is the Gauss map.
-</div>
-
-Given an immersion $f$,
-
-$$\mathbf{n}_f=\frac{\mathbf{f}_u\times\mathbf{f}_v}{\lVert\mathbf{f}_u\times\mathbf{f}_v\rVert}:S^2\to S^2.$$
-
-The **degree** of a map $g:S^n\to S^n$ is the integer that records signed coverings of the target. For the inclusion, $\mathbf{n}&#95;{\iota}(p)=p$, so $\deg\mathbf{n}&#95;{\iota}=1$. Degree is a regular-homotopy invariant (an integer moving continuously cannot jump). Gauss--Bonnet supplies the same integer without Smale: $\deg\mathbf{n}=\tfrac12\chi(S^2)=1$. Every immersion $S^2\looparrowright\mathbb{R}^3$ has Gauss degree $1$. The everted sphere does too. Degree does not forbid eversion.
-
-The canvas is an ellipsoid, not a round sphere, so that $\mathbf{n}$ is not the identity. For
-
-$$\mathbf{f}(\theta,\varphi)=(a\sin\theta\cos\varphi,\;b\sin\theta\sin\varphi,\;c\cos\theta)$$
-
-the Gauss map is the normalization of $(x/a^2,\,y/b^2,\,z/c^2)$. It is still degree $1$: the yellow point on the right covers $S^2$ once as the gold point tours the ellipsoid.
-
-<div id="cs-gauss" class="cs-stage" style="height:440px;">
-  <div class="cs-hud cs-hud-tl">left: ellipsoid f<br>right: n_f(S^2)</div>
-  <div class="cs-hud cs-hud-tr" id="cs-gauss-hud">n</div>
-</div>
-<p class="cs-cap">$\mathbf{n}&#95;{f}=(\mathbf{f}&#95;{\theta}\times\mathbf{f}&#95;{\varphi})/\lVert\cdot\rVert$. Gold on the left is a point of the domain; cyan on the right is its unit normal. The image of $\mathbf{n}&#95;{f}$ is the whole target sphere, once.</p>
-
-<script>
-CS.mount({
-  id: 'cs-gauss',
-  height: 440,
-  cam: [0, 0.2, 5.4],
-  rotX: 0.2,
-  setup: function (api) {
-    var T = api.THREE;
-    var a = 1.15, b = 0.75, c = 0.55;
-    var ell = new T.SphereGeometry(1, 40, 28);
-    var pa = ell.getAttribute('position');
-    for (var i = 0; i < pa.count; i++) {
-      pa.array[3 * i]     *= a;
-      pa.array[3 * i + 1] *= b;
-      pa.array[3 * i + 2] *= c;
-    }
-    pa.needsUpdate = true;
-    ell.computeVertexNormals();
-    var left = new T.Group();
-    left.position.x = -1.55;
-    left.add(new T.Mesh(ell, new T.MeshStandardMaterial({
-      color: 0x6366f1, metalness: 0.25, roughness: 0.45, transparent: true, opacity: 0.72, side: T.DoubleSide
-    })));
-    left.add(new T.Mesh(ell, new T.MeshBasicMaterial({ color: 0xc4b5fd, wireframe: true, transparent: true, opacity: 0.12 })));
-    var sph = new T.Mesh(new T.SphereGeometry(1, 32, 24), new T.MeshStandardMaterial({
-      color: 0x1e293b, metalness: 0.2, roughness: 0.6, transparent: true, opacity: 0.35, side: T.DoubleSide
-    }));
-    var right = new T.Group();
-    right.position.x = 1.7;
-    right.add(sph);
-    right.add(new T.Mesh(sph.geometry, new T.MeshBasicMaterial({ color: 0x64748b, wireframe: true, transparent: true, opacity: 0.2 })));
-    api.group.add(left);
-    api.group.add(right);
-    var pL = new T.Mesh(new T.SphereGeometry(0.05, 12, 12), new T.MeshStandardMaterial({ color: 0xfbbf24, emissive: 0xf59e0b, emissiveIntensity: 0.35 }));
-    var pR = new T.Mesh(new T.SphereGeometry(0.06, 12, 12), new T.MeshStandardMaterial({ color: 0x22d3ee, emissive: 0x06b6d4, emissiveIntensity: 0.35 }));
-    left.add(pL); right.add(pR);
-    var arr = new T.ArrowHelper(new T.Vector3(1, 0, 0), new T.Vector3(), 0.55, 0x22d3ee, 0.1, 0.07);
-    left.add(arr);
-    var hud = document.getElementById('cs-gauss-hud');
-    var u = 0;
-    return function () {
-      u += 0.01;
-      var th = 0.55 + 0.85 * Math.sin(u * 0.37);
-      var ph = u * 0.7;
-      var sth = Math.sin(th), cth = Math.cos(th), sph = Math.sin(ph), cph = Math.cos(ph);
-      var p = new T.Vector3(a * sth * cph, b * sth * sph, c * cth);
-      var nx = p.x / (a * a), ny = p.y / (b * b), nz = p.z / (c * c);
-      var n = new T.Vector3(nx, ny, nz).normalize();
-      pL.position.copy(p);
-      arr.position.copy(p);
-      arr.setDirection(n);
-      pR.position.copy(n);
-      if (hud) {
-        hud.innerHTML = 'n = (' + n.x.toFixed(2) + ', ' + n.y.toFixed(2) + ', ' + n.z.toFixed(2) + ')';
-      }
-    };
-  }
-});
-</script>
-
-The finer invariant records the whole **2-frame** $(\mathbf{f}&#95;{u},\mathbf{f}&#95;{v})$, not just its normal. That pair lives in the Stiefel manifold
-
-$$V_{3,2}=\bigl\{(v_1,v_2)\in\mathbb{R}^3\times\mathbb{R}^3:v_1,v_2\text{ linearly independent}\bigr\}.$$
-
-Normalizing, $V&#95;{3,2}\simeq SO(3)$: a positively oriented orthonormal 2-frame completes uniquely to a rotation matrix. Each immersion $f$ gives a tangential map $T&#95;{f}:S^2\to V&#95;{3,2}$. Smale's invariant $\Omega(f,g)\in\pi&#95;{2}(V&#95;{3,2})$ is the homotopy class of the sphere you get by gluing $T&#95;{f}$ to $T&#95;{g}$ along a disk. Two immersions are regularly homotopic if and only if $\Omega(f,g)=0$.
-
----
-
-# why the obstruction vanishes
-{: #why-the-obstruction-vanishes}
-<div class="cs-q">
-<strong>Student.</strong> Prove the existence. Use Smale's 1958 paper. I can understand it.
-</div>
-
-<div class="cs-a">
-<strong>Teacher.</strong> The paper is <em>A classification of immersions of the two-sphere</em>, Trans. Amer. Math. Soc. <strong>90</strong> (1958). It does not use contact structures, Reeb foliations, or a "magic formula" of Thurston. Those are neighbouring subjects that the model dragged in. The argument is: regular homotopy classes of immersions $S^2\to\mathbb{R}^n$ are in bijection with $\pi&#95;{2}(V&#95;{n,2})$, and for $n=3$ that group is zero.
-</div>
-
-The computation, written so each symbol is a space you can name:
-
-1. $V&#95;{3,2}\simeq SO(3)$. An oriented orthonormal 2-frame in $\mathbb{R}^3$ is the first two columns of a rotation.
-2. $SO(3)\simeq\mathbb{RP}^3$. Unit quaternions are $S^3$. The map $q\mapsto$ (the rotation $v\mapsto qvq^{-1}$) identifies $q\sim -q$, so $SO(3)\simeq S^3/\{\pm 1\}=\mathbb{RP}^3$. This is the same double cover as the plate trick: a $2\pi$ rotation is a nontrivial loop, a $4\pi$ rotation is contractible.
-3. The covering $S^3\to\mathbb{RP}^3$ has discrete fibre $S^0=\{\pm 1\}$. The long exact sequence of a fibration collapses, in degree $2$, to $\pi&#95;{2}(\mathbb{RP}^3)\cong\pi&#95;{2}(S^3)$.
-4. $\pi&#95;{k}(S^n)=0$ for $k<n$. In particular $\pi&#95;{2}(S^3)=0$: a 2-sphere in a 3-sphere has room to shrink. (The same reason $\pi&#95;{1}(S^2)=0$.)
-
-Therefore
-
-$$\pi_2(V_{3,2})\cong\pi_2(SO(3))\cong\pi_2(\mathbb{RP}^3)\cong\pi_2(S^3)=0.$$
-
-So $\Omega(f,g)=0$ for every pair. In particular $\iota$ and $\alpha$ lie in the same path-component of $\operatorname{Imm}(S^2,\mathbb{R}^3)$.
-
-<div class="cs-chain" role="img" aria-label="Chain from Imm of S2 in R3 down to pi2 of S3 equals zero">
-  <span class="cs-chain-node">$\operatorname{Imm}(S^2,\mathbb{R}^3)$</span>
-  <span class="cs-chain-arrow">$\to$</span>
-  <span class="cs-chain-node">$T&#95;{f}\colon S^2\to V&#95;{3,2}$</span>
-  <span class="cs-chain-arrow">$\to$</span>
-  <span class="cs-chain-node">$\pi&#95;{2}(V&#95;{3,2})$</span>
-  <span class="cs-chain-arrow">$\to$</span>
-  <span class="cs-chain-node">$\pi&#95;{2}(SO(3))$</span>
-  <span class="cs-chain-arrow">$\to$</span>
-  <span class="cs-chain-node">$\pi&#95;{2}(\mathbb{RP}^3)$</span>
-  <span class="cs-chain-arrow">$\to$</span>
-  <span class="cs-chain-node">$\pi&#95;{2}(S^3)=0$</span>
-</div>
-
-This is an existence proof. It produces no picture. For $n=4$ the same machine gives $\pi&#95;{2}(V&#95;{4,2})\cong\mathbb{Z}$, so immersions $S^2\to\mathbb{R}^4$ have infinitely many regular homotopy classes, detected by the Euler class of the normal bundle (twice the algebraic self-intersection). The vanishing is special to codimension one in $\mathbb{R}^3$.
-
-A **fiber bundle** $E\to B$ with fibre $F$ is a space that is locally $B\times F$ but perhaps twisted globally (a cylinder versus a Möbius strip). Smale's technical work is to show that "immersions of a disk with given boundary data" is a fibration over the space of that boundary data, and that the fibre is weakly homotopy equivalent to a loop space of $V&#95;{n,2}$. That is why $\pi&#95;{0}$ of the fibre --- path-components of immersions with fixed boundary --- is $\pi&#95;{2}(V&#95;{n,2})$. You do not need the tower to believe the computation above; you need it to believe that the computation classifies immersions.
-
----
-
-# slack that does not crease
-{: #slack-that-does-not-crease}
-<div class="cs-q">
-<strong>Student.</strong> Explain Thurston's magic formula, the one that proves eversion.
-</div>
-
-<div class="cs-a">
-<strong>Teacher.</strong> There is no such formula, and Thurston did not prove existence --- Smale did. What Thurston gave, in the 1990s, is a <em>construction</em>: corrugate the surface so that it has slack, pass the ripples through one another, then iron the ripples out. The model invented a condition on $\det J(g&#95;{t})>0$. The actual local move is a normal oscillation.
-</div>
-
-$$
-\mathbf{f}_\varepsilon(\theta,\varphi)=\bigl(1+\varepsilon\sin\theta\sin(k\varphi)\bigr)\,\mathbf{r}(\theta,\varphi).
-$$
-
-The amplitude $\varepsilon\sin\theta$ dies at the poles, so the chart singularities of $\mathbf{r}$ stay chart singularities. For $\lvert\varepsilon\rvert<1$ the radial factor never vanishes, and a computation of $\mathbf{f}&#95;{\theta}\times\mathbf{f}&#95;{\varphi}$ shows the cross product stays a positive multiple of $\mathbf{r}$ plus a controlled ripple --- still nonzero. This is an immersion for every $\varepsilon$ in that range. It is **not** an eversion. It is the ingredient that makes an eversion possible: extra wiggles so that later, when you try to pass sheets through each other, you have room.
-
-The old post implemented "corrugation" and then multiplied $z$ by a factor passing through zero. That second step is $F&#95;{s}$ again. Here there is no second step. The heatmap is $\lVert\mathbf{f}&#95;{\theta}\times\mathbf{f}&#95;{\varphi}\rVert$; it should not go red.
-
-<div id="cs-corr" class="cs-stage" style="height:460px;">
-  <div class="cs-hud cs-hud-tl" id="cs-corr-hud">corrugation</div>
-  <div class="cs-hud cs-hud-tr"><span style="color:#818cf8;">outside</span> <span style="color:#f97316;">inside</span></div>
-  <div class="cs-ctrl">
-    <label>eps <input type="range" id="cs-eps" min="0" max="70" value="0"> <span id="cs-eps-v">0.00</span></label>
-    <label>k <input type="range" id="cs-k" min="2" max="10" value="4"> <span id="cs-k-v">4</span></label>
-  </div>
-</div>
-<p class="cs-cap">$\mathbf{f}&#95;{\varepsilon}=(1+\varepsilon\sin\theta\sin(k\varphi))\,\hat{\mathbf{r}}$. Indigo is the outside, orange the inside. Increase $\varepsilon$: petals, no fold. This is slack, not eversion.</p>
-
-<script>
-CS.mount({
-  id: 'cs-corr',
-  height: 460,
-  cam: [0, 0.2, 4.0],
-  setup: function (api) {
-    var T = api.THREE;
-    var geo = new T.SphereGeometry(1, 72, 48);
-    var pos = geo.getAttribute('position');
-    var orig = new Float32Array(pos.array);
-    var front = new T.MeshStandardMaterial({
-      color: 0x6366f1, metalness: 0.28, roughness: 0.48,
-      side: T.FrontSide, transparent: true, opacity: 0.88
-    });
-    var back = new T.MeshStandardMaterial({
-      color: 0xf97316, metalness: 0.28, roughness: 0.48,
-      side: T.BackSide, transparent: true, opacity: 0.88
-    });
-    api.group.add(new T.Mesh(geo, front));
-    api.group.add(new T.Mesh(geo, back));
-    api.group.add(new T.Mesh(geo, new T.MeshBasicMaterial({
-      color: 0xa5b4fc, wireframe: true, transparent: true, opacity: 0.1, side: T.DoubleSide
-    })));
-    var hud = document.getElementById('cs-corr-hud');
-    function apply() {
-      var eps = parseFloat(document.getElementById('cs-eps').value) / 100;
-      var k = parseInt(document.getElementById('cs-k').value, 10);
-      document.getElementById('cs-eps-v').textContent = eps.toFixed(2);
-      document.getElementById('cs-k-v').textContent = String(k);
-      var arr = pos.array;
-      var minR = 1e9;
-      for (var i = 0; i < pos.count; i++) {
-        var x = orig[3 * i], y = orig[3 * i + 1], z = orig[3 * i + 2];
-        var th = Math.acos(Math.max(-1, Math.min(1, z)));
-        var ph = Math.atan2(y, x);
-        var rho = 1 + eps * Math.sin(th) * Math.sin(k * ph);
-        if (rho < minR) minR = rho;
-        arr[3 * i] = rho * x;
-        arr[3 * i + 1] = rho * y;
-        arr[3 * i + 2] = rho * z;
-      }
-      pos.needsUpdate = true;
-      geo.computeVertexNormals();
-      if (hud) {
-        hud.innerHTML = 'rho = 1 + eps sin(theta) sin(k phi)<br>min rho = ' + minR.toFixed(3) +
-          (minR > 0.02 ? '  (immersion)' : '  (collapsed)');
-      }
-    }
-    document.getElementById('cs-eps').addEventListener('input', apply);
-    document.getElementById('cs-k').addEventListener('input', apply);
-    apply();
-    return null;
-  }
-});
-</script>
-
----
-
-# a formula that actually everts a band
-{: #a-formula-that-actually-everts-a-band}
-Existence is not a picture. Morin gave the first explicit halfway model --- a four-lobed immersion with a single quadruple point --- and later Apéry wrote algebraic formulae. A family you can type into a shader is due to Adam and Witold Bednorz, *Analytic sphere eversion using ruled surfaces*, arXiv:1711.10466. They evert a cylinder (the sphere minus two polar caps) by a ruled surface, then close the caps by a damped inversion. We draw only the cylinder, so that every vertex is the displayed equation.
-
-$$
-\begin{aligned}
-x&= t\cos\varphi + p\sin\bigl((n-1)\varphi\bigr) - h\sin\varphi,\\
-y&= t\sin\varphi + p\cos\bigl((n-1)\varphi\bigr) + h\cos\varphi,\\
-z&= h\sin(n\varphi) - \frac{t}{n}\cos(n\varphi) - q\,t\,h.
-\end{aligned}
-$$
-
-Parameters: $n=2$ (Morin band) or $n=3$ (Boy band), $q=\tfrac23$, and $p=1-\lvert qt\rvert$, which is exactly the choice that keeps their smoothness inequality
-
-$$(n-1)p\bigl(1-q\lvert t\rvert\bigr)+qt^2>0.$$
-
-The coordinates are $(\varphi,h)\in S^1\times\mathbb{R}$. At $t=0$, $n=2$ this is the ruled halfway model: four sheets through the origin (the quadruple point $Q$), and no preferred side. Sliding $t$ from $-3/2$ to $3/2$ swaps the two rims of the cylinder. That swap, once the poles are sewn back on, is the eversion of the band.
-
-<div id="cs-bednorz" class="cs-stage" style="height:500px;">
-  <div class="cs-hud cs-hud-tl" id="cs-bed-hud">Bednorz ruled band</div>
-  <div class="cs-hud cs-hud-tr"><span style="color:#818cf8;">front</span> <span style="color:#f97316;">back</span></div>
-  <div class="cs-ctrl">
-    <label>t <input type="range" id="cs-bt" min="-150" max="150" value="0"> <span id="cs-bt-v">0.00</span></label>
-    <label>n
-      <select id="cs-bn">
-        <option value="2" selected>2 (Morin)</option>
-        <option value="3">3 (Boy)</option>
-      </select>
-    </label>
-  </div>
-</div>
-<p class="cs-cap">Equation (4) of Bednorz--Bednorz, $q=2/3$, $p=1-\lvert qt\rvert$, $h\in[-2.3,2.3]$. The poles are not closed; what you see is the formula, not a screenshot of <em>Outside In</em>. At $t=0$, $n=2$ you are looking at the ruled Morin halfway. At $n=3$, $t=0$ you are looking at a ruled Boy surface, an immersion of $\mathbb{RP}^2$.</p>
-
-<script>
-CS.mount({
-  id: 'cs-bednorz',
-  height: 500,
-  cam: [0, 0.6, 6.2],
-  rotX: 0.45,
-  setup: function (api) {
-    var T = api.THREE;
-    var nH = 70, nP = 110;
-    var geo = new T.PlaneGeometry(1, 1, nP, nH);
-    var pos = geo.getAttribute('position');
-    function bednorz(h, phi, t, n) {
-      var q = 2 / 3;
-      var p = 1 - Math.abs(q * t);
-      var s = Math.sin(phi), c = Math.cos(phi);
-      var sn = Math.sin(n * phi), cn = Math.cos(n * phi);
-      var sm = Math.sin((n - 1) * phi), cm = Math.cos((n - 1) * phi);
-      return [
-        t * c + p * sm - h * s,
-        t * s + p * cm + h * c,
-        h * sn - (t / n) * cn - q * t * h
-      ];
-    }
-    function fill() {
-      var t = parseFloat(document.getElementById('cs-bt').value) / 100;
-      var n = parseInt(document.getElementById('cs-bn').value, 10);
-      document.getElementById('cs-bt-v').textContent = t.toFixed(2);
-      var arr = pos.array;
-      var i, maxR = 0;
-      for (i = 0; i < pos.count; i++) {
-        var col = i % (nP + 1);
-        var row = (i / (nP + 1)) | 0;
-        var phi = (col / nP) * Math.PI * 2 - Math.PI;
-        var h = -2.3 + 4.6 * (row / nH);
-        var xyz = bednorz(h, phi, t, n);
-        arr[3 * i] = xyz[0];
-        arr[3 * i + 1] = xyz[1];
-        arr[3 * i + 2] = xyz[2];
-        var r = Math.hypot(xyz[0], xyz[1], xyz[2]);
-        if (r > maxR) maxR = r;
-      }
-      var sc = maxR > 1e-6 ? 2.15 / maxR : 1;
-      for (i = 0; i < arr.length; i++) arr[i] *= sc;
-      pos.needsUpdate = true;
-      geo.computeVertexNormals();
-      var hud = document.getElementById('cs-bed-hud');
-      var q = 2 / 3;
-      var p = 1 - Math.abs(q * t);
-      if (hud) {
-        hud.innerHTML = 'n = ' + n + ', t = ' + t.toFixed(2) + ', p = ' + p.toFixed(2) + ', q = 2/3' +
-          (Math.abs(t) < 0.03 ? '<br>halfway' : '');
-      }
-    }
-    api.group.add(new T.Mesh(geo, new T.MeshStandardMaterial({
-      color: 0x6366f1, metalness: 0.32, roughness: 0.42,
-      side: T.FrontSide, transparent: true, opacity: 0.86
-    })));
-    api.group.add(new T.Mesh(geo, new T.MeshStandardMaterial({
-      color: 0xf97316, metalness: 0.32, roughness: 0.42,
-      side: T.BackSide, transparent: true, opacity: 0.86
-    })));
-    api.group.add(new T.Mesh(geo, new T.MeshBasicMaterial({
-      color: 0xe2e8f0, wireframe: true, transparent: true, opacity: 0.07, side: T.DoubleSide
-    })));
-    document.getElementById('cs-bt').addEventListener('input', fill);
-    document.getElementById('cs-bn').addEventListener('change', fill);
-    fill();
-    return null;
-  }
-});
-</script>
-
-To finish the sphere one maps $h=\omega\sin\theta/\cos^n\theta$ and applies Bednorz's damped inversion (their (7)--(8)). That is a page of algebra and a second rendering pass. The point of this canvas is narrower: a halfway model you can audit against a paper.
-
----
-
-# an integral that must cross zero, and one that must not
-{: #an-integral-that-must-cross-zero-and-one-that-must-not}
-<div class="cs-q">
-<strong>Student.</strong> How do I know I am halfway?
-</div>
-
-<div class="cs-a">
-<strong>Teacher.</strong> Track the average alignment of normals. For a path $f&#95;{s}$ with unit normal $\mathbf{n}&#95;{s}$,
-$$S(s)=\int_{S^2}\mathbf{n}_0\cdot\mathbf{n}_s\,dA.$$
-If $f&#95;{s}$ is a genuine eversion, $S(0)=4\pi$ and $S(1)=-4\pi$, so the intermediate-value theorem --- freshman calculus, on a continuous function of one real variable --- produces an $s^*$ with $S(s^*)=0$. That is a reasonable definition of halfway. The Morin surface is a geometric refinement of that idea (four-fold symmetry, one quadruple point), not just the vanishing of an integral.
-</div>
-
-For the illegal homotopy $F&#95;{s}$ one can compute the integrand in closed form, $\theta\in(0,\pi)$:
-
-$$
-\mathbf{n}_0\cdot\mathbf{n}_s=\frac{(1-2s)\sin^2\theta+\cos^2\theta}{\sqrt{(1-2s)^2\sin^2\theta+\cos^2\theta}}.
-$$
-
-Then $S(s)=2\pi\int&#95;{0}^\pi(\mathbf{n}&#95;{0}\cdot\mathbf{n}&#95;{s})\sin\theta\,d\theta$. At $s=0$ this is $4\pi$. At $s=1$ it is $-4\pi/3$, not $-4\pi$: $F&#95;{1}$ is equatorial reflection, not $\alpha$. At $s=\tfrac12$ the formula for $\mathbf{n}&#95;{s}$ fails on the equator, because $F&#95;{s}$ is not an immersion. The plot is that integral, by a trapezoid rule on the displayed integrand.
-
-<div id="cs-sync-wrap" style="width:100%; margin:1.4em 0 0.4em; border-radius:8px; overflow:hidden; background:#0f172a; position:relative;">
-  <canvas id="cs-sync" style="width:100%; height:280px; display:block;"></canvas>
-  <div class="cs-ctrl" style="position:static; padding:8px 10px 12px;">
-    <label>s <input type="range" id="cs-ss" min="0" max="100" value="0"> <span id="cs-ss-v">0.00</span></label>
-  </div>
-</div>
-<p class="cs-cap">Gold: $S(s)/(4\pi)$ for the crease homotopy $F&#95;{s}$. The red line is $s=1/2$, where the integrand is not the Gauss map of an immersion. A true eversion would run from $+1$ to $-1$ without that puncture.</p>
-
+<p class="cs-cap">Solid edge: those points belong to the set. Dashed edge: they do not. The gold disk is the biggest ball around your point that stays on one side. On the edge no ball works, and which side fails decides whether the set is open, closed, or neither.</p>
 <script>
 (function () {
-  var canvas = document.getElementById('cs-sync');
-  if (!canvas) return;
-  function integrand(s, th) {
-    var sth = Math.sin(th), cth = Math.cos(th);
-    var den = Math.sqrt((1 - 2 * s) * (1 - 2 * s) * sth * sth + cth * cth);
-    if (den < 1e-10) return 0;
-    return ((1 - 2 * s) * sth * sth + cth * cth) / den;
-  }
-  function S(s) {
-    var N = 240, acc = 0, i, th, w;
-    for (i = 0; i <= N; i++) {
-      th = Math.PI * i / N;
-      w = (i === 0 || i === N) ? 0.5 : 1;
-      acc += w * integrand(s, th) * Math.sin(th);
+  var root = document.getElementById('ev-open');
+  if (!root || !window.EV) return;
+  var svg = document.getElementById('ev-open-svg'), E = EV.el;
+  var CX = 230, CY = 150, R = 115, mode = 'open', P = { x: 280, y: 120 }, phase = 0, last = 0;
+  var verdict = document.getElementById('ev-open-verdict');
+  function circlePath() { return 'M' + (CX - R) + ',' + CY + 'a' + R + ',' + R + ' 0 1 0 ' + 2 * R + ',0a' + R + ',' + R + ' 0 1 0 ' + (-2 * R) + ',0'; }
+  // does the set contain the boundary point at angle a?
+  function edgeIn(a) { return mode === 'closed' || (mode === 'half' && Math.sin(a) > 0); }
+  function setMode(m) {
+    mode = m;
+    root.querySelectorAll('[data-m]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-m') === m); });
+    var fin = document.getElementById('ev-open-bd-in'), fout = document.getElementById('ev-open-bd-out');
+    document.getElementById('ev-open-fill').setAttribute('d', circlePath());
+    if (m === 'open') { fin.setAttribute('d', ''); fout.setAttribute('d', circlePath()); }
+    if (m === 'closed') { fin.setAttribute('d', circlePath()); fout.setAttribute('d', ''); }
+    if (m === 'half') { // top half solid, bottom half dashed
+      fin.setAttribute('d', 'M' + (CX + R) + ',' + CY + 'A' + R + ',' + R + ' 0 0 0 ' + (CX - R) + ',' + CY);
+      fout.setAttribute('d', 'M' + (CX - R) + ',' + CY + 'A' + R + ',' + R + ' 0 0 0 ' + (CX + R) + ',' + CY);
     }
-    return 2 * Math.PI * acc * (Math.PI / N);
+    EV.clear(verdict);
+    var rows = { open: ['open ✓', 'closed ✗'], closed: ['open ✗', 'closed ✓'], half: ['open ✗', 'closed ✗'] }[m];
+    var names = { open: 'the open disk', closed: 'the closed disk', half: 'half-open disk' }[m];
+    E('text', { x: 500, y: 110, 'text-anchor': 'middle', 'font-size': 14, style: 'fill:#c3c2b7' }, verdict).textContent = names;
+    E('text', { x: 500, y: 145, 'text-anchor': 'middle', 'font-size': 20, 'font-weight': 600 }, verdict).textContent = rows[0];
+    E('text', { x: 500, y: 178, 'text-anchor': 'middle', 'font-size': 20, 'font-weight': 600 }, verdict).textContent = rows[1];
+    if (m === 'half') E('text', { x: 500, y: 208, 'text-anchor': 'middle', 'font-size': 14, style: 'fill:#c3c2b7' }, verdict).textContent = 'neither';
+    document.getElementById('ev-open-title').textContent = {
+      open: 'The open disk { |p − c| < r }: every point has some room. The edge is not part of the set.',
+      closed: 'The closed disk { |p − c| ≤ r }: the edge is included, so edge points have no room inside; but the outside is open.',
+      half: 'The open disk plus the top half of its edge. The top edge fails "open", the bottom edge fails "closed".'
+    }[m];
+    draw();
   }
-  var cache = [];
-  for (var k = 0; k <= 100; k++) cache[k] = S(k / 100) / (4 * Math.PI);
-  function draw(s) {
-    var w = canvas.clientWidth || 640;
-    var h = 280;
-    canvas.width = w * 2;
-    canvas.height = h * 2;
-    var ctx = canvas.getContext('2d');
-    ctx.scale(2, 2);
-    ctx.fillStyle = '#0f172a';
-    ctx.fillRect(0, 0, w, h);
-    var padL = 48, padR = 16, padT = 18, padB = 28;
-    function X(u) { return padL + u * (w - padL - padR); }
-    function Y(v) { return padT + (1.15 - v) / 2.35 * (h - padT - padB); }
-    ctx.strokeStyle = '#334155';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(1), Y(0));
-    ctx.moveTo(X(0), Y(1.1)); ctx.lineTo(X(0), Y(-1.1));
-    ctx.stroke();
-    ctx.setLineDash([5, 5]);
-    ctx.strokeStyle = '#ef4444';
-    ctx.beginPath();
-    ctx.moveTo(X(0.5), Y(1.1)); ctx.lineTo(X(0.5), Y(-1.1));
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.strokeStyle = '#fbbf24';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    for (var i = 0; i <= 100; i++) {
-      var x = X(i / 100), y = Y(cache[i]);
-      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  function draw() {
+    var dx = P.x - CX, dy = P.y - CY, d = Math.hypot(dx, dy), a = Math.atan2(-dy, dx);
+    var ball = document.getElementById('ev-open-ball'), pt = document.getElementById('ev-open-pt'), det = document.getElementById('ev-open-detail');
+    pt.setAttribute('cx', P.x); pt.setAttribute('cy', P.y);
+    ball.setAttribute('cx', P.x); ball.setAttribute('cy', P.y);
+    var onEdge = Math.abs(d - R) < 0.5;
+    if (!onEdge) {
+      var eps = Math.abs(R - d);
+      ball.setAttribute('r', eps); ball.setAttribute('stroke', '#c98500'); ball.setAttribute('fill', '#c98500');
+      det.textContent = (d < R ? 'p is inside. ' : 'p is outside. ') + 'ε = ' + (eps / R).toFixed(2) + ' r works: the ball B(p, ε) stays ' + (d < R ? 'inside the set.' : 'outside the set.') + ' Move p toward the edge and watch ε shrink to nothing.';
+    } else {
+      // pulsing ball that always leaks: radius cycles 45 -> 4
+      var r = 4 + 41 * (0.5 + 0.5 * Math.cos(phase));
+      ball.setAttribute('r', r); ball.setAttribute('stroke', '#d95926'); ball.setAttribute('fill', '#d95926');
+      det.textContent = edgeIn(a)
+        ? 'p is on the edge and IN the set. Every ball around p, however small, pokes outside. So the set is not open.'
+        : 'p is on the edge and NOT in the set, so p lies in the complement. Every ball around p pokes into the set, so the complement is not open, and the set is not closed.';
     }
-    ctx.stroke();
-    var idx = Math.round(s * 100);
-    ctx.fillStyle = '#22d3ee';
-    ctx.beginPath();
-    ctx.arc(X(s), Y(cache[idx]), 4.5, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '12px ui-monospace, monospace';
-    ctx.fillText('s', w - 22, Y(0) + 16);
-    ctx.fillText('S / 4pi', 6, 16);
-    ctx.fillText('+1', 8, Y(1) + 4);
-    ctx.fillText('0', 14, Y(0) + 4);
-    ctx.fillText(cache[idx].toFixed(2) + '   at s = ' + s.toFixed(2), X(0.58), 28);
   }
-  var sl = document.getElementById('cs-ss');
-  function on() {
-    var s = parseFloat(sl.value) / 100;
-    document.getElementById('cs-ss-v').textContent = s.toFixed(2);
-    draw(s);
+  function place(q) {
+    var dx = q.x - CX, dy = q.y - CY, d = Math.hypot(dx, dy);
+    if (Math.abs(d - R) < 9 && d > 0) { q = { x: CX + dx * R / d, y: CY + dy * R / d }; } // snap onto the edge
+    P = { x: Math.max(8, Math.min(430, q.x)), y: Math.max(8, Math.min(290, q.y)) };
+    draw();
   }
-  sl.addEventListener('input', on);
-  window.addEventListener('resize', on);
-  on();
+  EV.drag(svg, svg, place);
+  root.querySelectorAll('[data-m]').forEach(function (b) { b.addEventListener('click', function () { setMode(b.getAttribute('data-m')); }); });
+  var edgeAngles = { open: 0.9, closed: 0.9, half: -0.9 };
+  document.getElementById('ev-open-edge').addEventListener('click', function () {
+    var a = edgeAngles[mode]; P = { x: CX + R * Math.cos(a), y: CY - R * Math.sin(a) }; draw();
+  });
+  var vis = true;
+  if (window.IntersectionObserver) new IntersectionObserver(function (e) { vis = e[0].isIntersecting; }).observe(root);
+  (function tick(ts) {
+    requestAnimationFrame(tick);
+    var dt = Math.min(50, ts - (last || ts)); last = ts;
+    if (!vis) return;
+    phase += 0.0035 * dt;
+    if (Math.abs(Math.hypot(P.x - CX, P.y - CY) - R) < 0.5) draw();
+  })(0);
+  setMode('open');
 })();
 </script>
 
----
+The half-open disk is neither: its top edge has points *in* the set with no room (so it is not open), and its bottom edge has points *outside* the set with no room in the complement (so it is not closed). On the real line the same thing happens with $[0,1)$.
 
-# what the model got wrong
-{: #what-the-model-got-wrong}
-The May transcript is still worth reading. It is a record of the questions one actually asks. Here is the answer key.
+Two facts about open sets in $\mathbb{R}^n$ are worth checking by hand, because they become the definition of everything else:
 
-<table class="cs-err">
-  <thead>
-    <tr><th>Claim in the Phi-3 notes</th><th>Fact</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>$H=(1-t)f&#95;{0}+tf&#95;{1}$ is a regular homotopy.</td><td>It is a homotopy of maps. Rank drops. See $F&#95;{s}$.</td></tr>
-    <tr><td>$\partial&#95;{\theta}(1,0,0)=\mathbf{0}$.</td><td>Differentiate the chart, not the point. $\mathbf{r}&#95;{\theta}(1,0,0)=(0,0,-1)$.</td></tr>
-    <tr><td>Jacobian of $f:\mathbb{R}^n\to\mathbb{R}^m$ is $n\times m$.</td><td>$m\times n$. For immersions $S^2\to\mathbb{R}^3$ it is $3\times 2$; there is no determinant.</td></tr>
-    <tr><td>$\det J=-1$ means a saddle.</td><td>It means orientation reversal. A saddle is a critical point, which requires $\det J=0$ (in the square case).</td></tr>
-    <tr><td>$S^2\times[0,1]$ is a ball.</td><td>It is a spherical shell. The ball is $D^3$.</td></tr>
-    <tr><td>Smale's hairy ball theorem.</td><td>Poincaré--Brouwer. Smale classified immersions of $S^2$.</td></tr>
-    <tr><td>Thurston's magic formula ($J(g&#95;{t})>0$) proves eversion.</td><td>Smale proved existence. Thurston gave corrugations. Bednorz wrote a ruled family.</td></tr>
-    <tr><td>Eversion forbids self-intersection and uses contact / Reeb foliations.</td><td>Self-intersection is the point. Contact geometry is a different chapter.</td></tr>
-    <tr><td>The complex exponential at $(0,\pi/2)$ has $\det J=-1$.</td><td>$\det J=e^{2x}=1$ there. The map is a local diffeomorphism everywhere.</td></tr>
-  </tbody>
-</table>
+1. **Any union of open sets is open.** If $p$ lies in the union it lies in one of the sets, and that set's ball works.
+2. **A finite intersection of open sets is open.** If $p\in U&#95;{1}\cap\dots\cap U&#95;{k}$, take the smallest of the $k$ radii. With infinitely many sets the smallest radius may be $0$: $\bigcap&#95;{n}(-\tfrac1n,\tfrac1n)=\lbrace 0\rbrace$, which is not open.
 
 ---
 
-# the arc
-{: #the-arc}
-Calculus gives the language: charts, $J&#95;{f}$, $\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}\neq\mathbf{0}$. Function spaces give the question: is $\operatorname{Imm}(S^2,\mathbb{R}^3)$ path-connected? Circles in the plane say no, by $\pi&#95;{1}(S^1)=\mathbb{Z}$. One dimension up, the same instinct produces $\pi&#95;{2}(V&#95;{3,2})$, and that group is zero. Smale's theorem is that computation plus a fibration argument. Morin, Thurston, and Bednorz are what you do if you want to *see* a path.
+# topologies
+{: #topologies}
+Those two facts, plus "$\varnothing$ and the whole space are open", are all we ever use. So we promote them to a definition and forget the distance.
 
-The first post asked. The second post answered, and then drew the forbidden crease. This one circles the sphere until the picture and the equation are the same object.
+<div class="ev-def"><strong>Definition (topological space).</strong> A set $X$ together with a collection $\mathcal{T}$ of subsets, called <em>open</em>, such that (i) $\varnothing$ and $X$ are open, (ii) any union of open sets is open, (iii) any finite intersection of open sets is open.</div>
 
-**Further reading.** S. Smale, *A classification of immersions of the two-sphere*, Trans. Amer. Math. Soc. 90 (1958). A. Bednorz and W. Bednorz, [arXiv:1711.10466](https://arxiv.org/abs/1711.10466). S. Levy, D. Maxwell, T. Munzner, *Outside In*, Geometry Center, 1994. Guillemin--Pollack, *Differential Topology*. The raw parent transcript: [Phi-3 notes](https://honghaptang.github.io/blog/2024/05/22/sphere-eversion-phi3-notes-I).
+Examples that will matter:
+
+- **Metric topologies.** Any set with a distance function, open sets defined by balls exactly as above. This includes $\mathbb{R}^n$, the sphere $S^2$ (with distance measured in $\mathbb{R}^3$), and, crucially, **spaces of maps**. For maps $f,g:S^2\to\mathbb{R}^3$ with derivatives, $d(f,g)=\sup\lVert f-g\rVert+\sup\lVert df-dg\rVert$ is a distance. Two surfaces are close when their points *and their tangent planes* are close. That is the topology in which Smale's theorem lives.
+- **The discrete topology.** Every subset is open. On $\mathbb{Z}$ with its usual distance this is what you get, since $B(n,\tfrac12)=\lbrace n\rbrace$.
+- **The subspace topology.** If $Y\subseteq X$, a set is open in $Y$ when it is $U\cap Y$ for some $U$ open in $X$. Open-ness is relative to the ambient space, and this is where things get interesting.
+
+---
+
+# clopen sets and connectedness
+{: #clopen-sets-and-connectedness}
+<div class="cs-q">
+<strong>Student.</strong> If a set can be both open and closed, what does that look like?
+</div>
+
+<div class="cs-a">
+<strong>Teacher.</strong> Like a crack in the space. $\varnothing$ and $X$ are always both; call a set that is both <em>clopen</em>. Any other clopen set $A$ splits $X$ into $A$ and $X\setminus A$, two open pieces with nothing in between. A space with no such split is <em>connected</em>.
+</div>
+
+<div class="mviz" id="ev-clopen" tabindex="0" aria-label="A clopen subset of a disconnected space, step by step">
+  <div class="mv-title" id="ev-clopen-title"></div>
+  <svg id="ev-clopen-svg" viewBox="0 0 640 190" role="img" aria-label="Number line with the space X and open intervals"></svg>
+  <div class="mv-detail" id="ev-clopen-detail"></div>
+  <div class="mv-controls">
+    <button type="button" class="mv-prev">◀ Back</button>
+    <button type="button" class="mv-next">Next ▶</button>
+    <span class="mv-key"><b style="background:#3987e5"></b>the space<b style="background:#c98500"></b>open interval of ℝ<b style="background:#d95926"></b>the intersection</span>
+    <span class="mv-step"></span>
+  </div>
+</div>
+<script>
+(function () {
+  var root = document.getElementById('ev-clopen');
+  if (!root || !window.EV) return;
+  var svg = document.getElementById('ev-clopen-svg'), E = EV.el, Y = 118;
+  var x = function (v) { return 40 + (v + 0.8) * 560 / 4.6; };
+  var axis = E('g', {}, svg);
+  E('line', { x1: 30, x2: 610, y1: Y, y2: Y, stroke: '#3a3a3a', 'stroke-width': 1 }, axis);
+  [0, 1, 2, 3].forEach(function (v) {
+    E('line', { x1: x(v), x2: x(v), y1: Y + 14, y2: Y + 20, stroke: '#6a6a6a' }, axis);
+    E('text', { x: x(v), y: Y + 36, 'text-anchor': 'middle', 'font-size': 13, style: 'fill:#c3c2b7' }, axis).textContent = v;
+  });
+  function seg(a, b, color, w, parent) {
+    var g = E('g', {}, parent);
+    E('line', { x1: x(a), x2: x(b), y1: Y, y2: Y, stroke: color, 'stroke-width': w, 'stroke-linecap': 'butt' }, g);
+    return g;
+  }
+  function dot(v, filled, color, parent) { E('circle', { cx: x(v), cy: Y, r: 5.5, fill: filled ? color : '#121212', stroke: color, 'stroke-width': 2 }, parent); }
+  function band(a, b, label, parent) {
+    var g = E('g', {}, parent);
+    E('rect', { x: x(a), y: Y - 34, width: x(b) - x(a), height: 68, fill: '#c98500', 'fill-opacity': 0.14 }, g);
+    [a, b].forEach(function (v) { E('line', { x1: x(v), x2: x(v), y1: Y - 34, y2: Y + 34, stroke: '#c98500', 'stroke-width': 2, 'stroke-dasharray': '4 4' }, g); });
+    E('text', { x: (x(a) + x(b)) / 2, y: Y - 44, 'text-anchor': 'middle', 'font-size': 14, style: 'fill:#e0a526' }, g).textContent = label;
+    return g;
+  }
+  var L = {};
+  L.X = E('g', { class: 'fade' }, svg); seg(0, 1, '#3987e5', 6, L.X); seg(2, 3, '#3987e5', 6, L.X); [0, 1, 2, 3].forEach(function (v) { dot(v, true, '#3987e5', L.X); });
+  L.Xlab = E('text', { x: x(1.5), y: Y + 60, 'text-anchor': 'middle', 'font-size': 14, class: 'fade' }, svg); L.Xlab.textContent = 'X = [0, 1] ∪ [2, 3]';
+  L.Y = E('g', { class: 'fade' }, svg); seg(0, 3, '#3987e5', 6, L.Y); dot(0, true, '#3987e5', L.Y); dot(3, true, '#3987e5', L.Y);
+  L.Ylab = E('text', { x: x(1.5), y: Y + 60, 'text-anchor': 'middle', 'font-size': 14, class: 'fade' }, svg); L.Ylab.textContent = 'Y = [0, 3]';
+  L.b1 = E('g', { class: 'fade' }, svg); band(-0.5, 1.5, '(−½, 3⁄2)', L.b1);
+  L.b2 = E('g', { class: 'fade' }, svg); band(1.5, 3.5, '(3⁄2, 7⁄2)', L.b2);
+  L.A = E('g', { class: 'fade' }, svg); seg(0, 1, '#d95926', 6, L.A); dot(0, true, '#d95926', L.A); dot(1, true, '#d95926', L.A);
+  L.B = E('g', { class: 'fade' }, svg); seg(2, 3, '#d95926', 6, L.B); dot(2, true, '#d95926', L.B); dot(3, true, '#d95926', L.B);
+  L.Yb = E('g', { class: 'fade' }, svg); seg(0, 1.5, '#d95926', 6, L.Yb); dot(0, true, '#d95926', L.Yb); dot(1.5, false, '#d95926', L.Yb);
+  L.poke = E('g', { class: 'fade' }, svg);
+  E('rect', { x: x(1.3), y: Y - 16, width: x(1.7) - x(1.3), height: 32, rx: 4, fill: 'none', stroke: '#f0f0f0', 'stroke-width': 1.5, 'stroke-dasharray': '3 3' }, L.poke);
+  E('text', { x: x(1.5), y: Y - 24, 'text-anchor': 'middle', 'font-size': 13 }, L.poke).textContent = 'any interval around 3⁄2';
+  var S = [
+    { on: ['X', 'Xlab'], t: 'The space X = [0, 1] ∪ [2, 3], two closed segments, with the subspace topology: a set is open in X when it is (open set of ℝ) ∩ X.',
+      d: 'Openness is relative. [0, 1] is not open in ℝ, because the point 1 has no room. Watch what happens inside X.' },
+    { on: ['X', 'Xlab', 'b1', 'A'], t: 'A = [0, 1] equals X ∩ (−½, 3⁄2). That is an open set of ℝ intersected with X, so A is open in X.',
+      d: 'Inside X, the point 1 does have room: the ball (½, 3⁄2) meets X only in (½, 1], which lies in A. There is nothing of X just to the right of 1.' },
+    { on: ['X', 'Xlab', 'b2', 'B'], t: 'Its complement X ∖ A = [2, 3] equals X ∩ (3⁄2, 7⁄2), also open in X. A set whose complement is open is closed, so A is closed in X.',
+      d: 'The same trick, applied to the other piece. The gap (1, 2) is what makes both intervals fit.' },
+    { on: ['X', 'Xlab', 'b1', 'b2', 'A', 'B'], t: 'So A is clopen (open and closed), and it is neither ∅ nor X. By definition, X is disconnected.',
+      d: 'A clopen set that is not ∅ or the whole space is exactly a clean split of the space into two pieces that do not touch.' },
+    { on: ['Y', 'Ylab', 'b1', 'Yb'], t: 'Close the gap: Y = [0, 3]. The same interval now gives Y ∩ (−½, 3⁄2) = [0, 3⁄2), open in Y.',
+      d: 'Its right end 3⁄2 is not included (hollow dot). So this set is open in Y. Is it also closed?' },
+    { on: ['Y', 'Ylab', 'b1', 'Yb', 'poke'], t: 'No. Its complement [3⁄2, 3] is not open in Y: every interval around 3⁄2 reaches back into [0, 3⁄2). No proper clopen subset of [0, 3] exists at all.',
+      d: 'That last sentence is the theorem "an interval is connected", proved in the text by taking a supremum. It is the engine behind every invariant in this series.' }
+  ];
+  EV.stepper({ root: root, n: S.length, render: function (i) {
+    for (var k in L) L[k].setAttribute('opacity', S[i].on.indexOf(k) >= 0 ? 1 : 0);
+    document.getElementById('ev-clopen-title').textContent = S[i].t;
+    document.getElementById('ev-clopen-detail').textContent = S[i].d;
+  } });
+})();
+</script>
+
+<div class="ev-def"><strong>Definition (connected).</strong> $X$ is <em>connected</em> if its only clopen subsets are $\varnothing$ and $X$.</div>
+
+**Theorem.** The interval $[0,1]$ is connected.
+
+*Proof.* Suppose $A\subseteq[0,1]$ is clopen and contains $0$; we show $A=[0,1]$. Let $s=\sup\lbrace x: [0,x]\subseteq A\rbrace$. Because $A$ is closed, it contains the limit point $s$. Because $A$ is open (in $[0,1]$), if $s&lt;1$ some interval $[s,s+\varepsilon)$ also lies in $A$, contradicting the choice of $s$. So $s=1$ and $A=[0,1]$. If instead $0\notin A$, apply the argument to the complement, which is also clopen. $\square$
+
+This is the completeness of the real numbers, wearing a topological hat. It is the single fact on which the rest of the series leans.
+
+---
+
+# continuity
+{: #continuity}
+In calculus, $f$ is continuous if for every $\varepsilon$ there is a $\delta$. In topology the same idea is one line.
+
+<div class="ev-def"><strong>Definition (continuous).</strong> $f:X\to Y$ is <em>continuous</em> if the preimage $f^{-1}(V)=\lbrace x: f(x)\in V\rbrace$ of every open $V\subseteq Y$ is open in $X$.</div>
+
+For $f:\mathbb{R}\to\mathbb{R}$ this is exactly $\varepsilon$--$\delta$: take $V=(f(x)-\varepsilon,\,f(x)+\varepsilon)$; "the preimage is open" says some $(x-\delta,\,x+\delta)$ maps into $V$. Drag the interval below and try to find an open $V$ whose preimage is not open.
+
+<div class="mviz" id="ev-pre" tabindex="0" aria-label="Preimages of open intervals under a continuous function and a step function">
+  <div class="mv-title" id="ev-pre-title"></div>
+  <svg id="ev-pre-svg" viewBox="0 0 640 330" role="img" aria-label="Graph of a function, an open interval on the vertical axis, and its preimage on the horizontal axis">
+    <g id="ev-pre-axes"></g>
+    <rect id="ev-pre-band" x="60" width="560" fill="#c98500" fill-opacity="0.12"/>
+    <g id="ev-pre-drop"></g>
+    <path id="ev-pre-graph" fill="none" stroke="#3987e5" stroke-width="2.5"/>
+    <g id="ev-pre-jump"></g>
+    <line id="ev-pre-yint" x1="60" x2="60" stroke="#c98500" stroke-width="7"/>
+    <circle id="ev-pre-ylo" cx="60" r="5.5" fill="#121212" stroke="#c98500" stroke-width="2"/>
+    <circle id="ev-pre-yhi" cx="60" r="5.5" fill="#121212" stroke="#c98500" stroke-width="2"/>
+    <g id="ev-pre-pre"></g>
+    <text x="340" y="322" text-anchor="middle" font-size="13" style="fill:#c3c2b7">drag up and down on the plot to move the interval V</text>
+  </svg>
+  <div class="mv-detail" id="ev-pre-detail"></div>
+  <div class="mv-controls">
+    <button type="button" data-f="c">continuous f</button>
+    <button type="button" data-f="s">step function g</button>
+    <label>width of V <input type="range" id="ev-pre-w" min="10" max="90" value="40"></label>
+    <span class="mv-key"><b style="background:#c98500"></b>open interval V<b style="background:#d95926"></b>its preimage</span>
+  </div>
+</div>
+<p class="cs-cap">Hollow dot: endpoint not included. Filled dot: endpoint included. For the continuous function every preimage is a union of open intervals, wherever you put $V$. For the step function one position of $V$ produces a preimage with a filled endpoint, a point with no room, and that single failure is the discontinuity.</p>
+<script>
+(function () {
+  var root = document.getElementById('ev-pre');
+  if (!root || !window.EV) return;
+  var svg = document.getElementById('ev-pre-svg'), E = EV.el;
+  var X0 = 60, X1 = 620, YT = 20, YB = 270, XMAX = 4, YMAX = 3.2;
+  var X = function (v) { return X0 + v / XMAX * (X1 - X0); }, Y = function (v) { return YB - v / YMAX * (YB - YT); };
+  var F = {
+    c: { name: 'f(x) = 1.5 + 0.9 sin(1.7x) + 0.15x, continuous', f: function (x) { return 1.5 + 0.9 * Math.sin(1.7 * x) + 0.15 * x; } },
+    s: { name: 'g(x) = 1 for x < 2, and 2.3 for x ≥ 2', f: function (x) { return x < 2 ? 1 : 2.3; } }
+  };
+  var cur = 'c', c = 1.8;
+  var ax = document.getElementById('ev-pre-axes');
+  E('line', { x1: X0, x2: X1, y1: YB, y2: YB, stroke: '#555' }, ax);
+  E('line', { x1: X0, x2: X0, y1: YT, y2: YB, stroke: '#555' }, ax);
+  for (var i = 0; i <= 4; i++) E('text', { x: X(i), y: YB + 18, 'text-anchor': 'middle', 'font-size': 12, style: 'fill:#c3c2b7' }, ax).textContent = i;
+  for (i = 1; i <= 3; i++) E('text', { x: X0 - 10, y: Y(i) + 4, 'text-anchor': 'end', 'font-size': 12, style: 'fill:#c3c2b7' }, ax).textContent = i;
+  function hw() { return document.getElementById('ev-pre-w').value / 100; }
+  function fmt(v) { return (Math.round(v * 100) / 100).toFixed(2); }
+  // preimage of (lo, hi) under the continuous f on [0, 4], by sampling + bisection
+  function preC(lo, hi) {
+    var f = F.c.f, N = 800, segs = [], inside = false, start = 0;
+    function edge(a, b) { // find crossing between a (state sa) and b
+      var sa = f(a) > lo && f(a) < hi;
+      for (var k = 0; k < 40; k++) { var m = (a + b) / 2, sm = f(m) > lo && f(m) < hi; if (sm === sa) a = m; else b = m; }
+      return (a + b) / 2;
+    }
+    for (var j = 0; j <= N; j++) {
+      var xx = XMAX * j / N, s = f(xx) > lo && f(xx) < hi;
+      if (s && !inside) { start = j === 0 ? 0 : edge(XMAX * (j - 1) / N, xx); inside = true; }
+      if (!s && inside) { segs.push([start, edge(XMAX * (j - 1) / N, xx)]); inside = false; }
+    }
+    if (inside) segs.push([start, XMAX]);
+    return segs.map(function (sg) { return { a: sg[0], b: sg[1], aIn: false, bIn: false, aEdge: sg[0] === 0, bEdge: sg[1] === XMAX }; });
+  }
+  function preS(lo, hi) {
+    var in1 = lo < 1 && 1 < hi, in2 = lo < 2.3 && 2.3 < hi;
+    if (in1 && in2) return [{ a: 0, b: XMAX, aEdge: true, bEdge: true }];
+    if (in1) return [{ a: 0, b: 2, aEdge: true, bIn: false }];
+    if (in2) return [{ a: 2, b: XMAX, aIn: true, bEdge: true }];
+    return [];
+  }
+  function draw() {
+    var h = hw() / 2 + 0.05, lo = c - h, hi = c + h;
+    var band = document.getElementById('ev-pre-band');
+    band.setAttribute('y', Y(hi)); band.setAttribute('height', Y(lo) - Y(hi));
+    var yi = document.getElementById('ev-pre-yint');
+    yi.setAttribute('y1', Y(hi) + 6); yi.setAttribute('y2', Y(lo) - 6);
+    document.getElementById('ev-pre-ylo').setAttribute('cy', Y(lo)); document.getElementById('ev-pre-yhi').setAttribute('cy', Y(hi));
+    var segs = cur === 'c' ? preC(lo, hi) : preS(lo, hi), g = document.getElementById('ev-pre-pre'), dr = document.getElementById('ev-pre-drop');
+    EV.clear(g); EV.clear(dr);
+    var bad = false;
+    segs.forEach(function (s) {
+      E('rect', { x: X(s.a), y: Y(lo), width: X(s.b) - X(s.a), height: Y(0) - Y(lo), fill: '#d95926', 'fill-opacity': 0.08 }, dr);
+      E('line', { x1: X(s.a), x2: X(s.b), y1: YB, y2: YB, stroke: '#d95926', 'stroke-width': 7 }, g);
+      [[s.a, s.aIn, s.aEdge], [s.b, s.bIn, s.bEdge]].forEach(function (e) {
+        if (e[2]) return; // runs off the edge of the window: no endpoint here
+        E('circle', { cx: X(e[0]), cy: YB, r: 6, fill: e[1] ? '#d95926' : '#121212', stroke: '#d95926', 'stroke-width': 2 }, g);
+        if (e[1]) bad = e[0];
+      });
+    });
+    var det = document.getElementById('ev-pre-detail');
+    var desc = segs.length === 0 ? '∅' : segs.map(function (s) {
+      return (s.aEdge ? '(…' : (s.aIn ? '[' : '(') + fmt(s.a)) + ', ' + (s.bEdge ? '…)' : fmt(s.b) + (s.bIn ? ']' : ')'));
+    }).join(' ∪ ');
+    det.textContent = 'V = (' + fmt(lo) + ', ' + fmt(hi) + ')   preimage = ' + desc + '   ' +
+      (bad !== false ? '← contains its endpoint x = 2, no ball around 2 fits inside: NOT open' : '← open ✓');
+  }
+  function setF(k) {
+    cur = k;
+    root.querySelectorAll('[data-f]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-f') === k); });
+    var pts = [], jg = document.getElementById('ev-pre-jump'); EV.clear(jg);
+    if (k === 'c') { for (var j = 0; j <= 400; j++) { var xx = XMAX * j / 400; pts.push([X(xx), Y(F.c.f(xx))]); } document.getElementById('ev-pre-graph').setAttribute('d', EV.path(pts)); }
+    else {
+      document.getElementById('ev-pre-graph').setAttribute('d', 'M' + X(0) + ',' + Y(1) + 'L' + X(2) + ',' + Y(1) + 'M' + X(2) + ',' + Y(2.3) + 'L' + X(4) + ',' + Y(2.3));
+      E('circle', { cx: X(2), cy: Y(1), r: 5.5, fill: '#121212', stroke: '#3987e5', 'stroke-width': 2 }, jg);
+      E('circle', { cx: X(2), cy: Y(2.3), r: 5.5, fill: '#3987e5', stroke: '#3987e5', 'stroke-width': 2 }, jg);
+    }
+    document.getElementById('ev-pre-title').textContent = k === 'c'
+      ? F.c.name + '. Continuity means: the preimage of every open set is open. Try to break it.'
+      : F.s.name + '. Put V around 2.3 but not around 1, and the preimage becomes [2, …), which contains its endpoint.';
+    draw();
+  }
+  EV.drag(svg, svg, function (p) { c = Math.max(0.1, Math.min(3.1, (YB - p.y) / (YB - YT) * YMAX)); draw(); });
+  document.getElementById('ev-pre-w').addEventListener('input', draw);
+  root.querySelectorAll('[data-f]').forEach(function (b) { b.addEventListener('click', function () { setF(b.getAttribute('data-f')); }); });
+  setF('c');
+})();
+</script>
+
+Now the payoff, in three lines.
+
+**Theorem.** The continuous image of a connected space is connected.
+
+*Proof.* If $f:X\to Y$ is continuous and onto and $B\subseteq Y$ is clopen, then $f^{-1}(B)$ is clopen in $X$ (preimages respect complements). If $X$ is connected, $f^{-1}(B)$ is $\varnothing$ or $X$, so $B$ is $\varnothing$ or $Y$. $\square$
+
+**Corollary (intermediate value theorem).** A continuous $f:[0,1]\to\mathbb{R}$ takes every value between $f(0)$ and $f(1)$. (Otherwise a missed value $c$ splits the image into the clopen pieces below and above $c$.)
+
+**Corollary (integers cannot jump).** *Every continuous map from a connected space to $\mathbb{Z}$ is constant.* $\mathbb{Z}$ is discrete, so each $\lbrace n\rbrace$ is clopen, and a connected image must be one point.
+
+That last corollary is the engine of the whole subject. In [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II) the integer is a winding number. In [Vol. IV](/blog/2026/08/17/circling-the-sphere-Vol-IV) it is the turning number of a curve, and it proves a circle cannot be turned inside out in the plane. In [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) the integer is replaced by an element of a group, and the group turns out to be zero.
+
+---
+
+# paths and path-connectedness
+{: #paths-and-path-connectedness}
+<div class="ev-def"><strong>Definition (path).</strong> A <em>path</em> in $X$ from $a$ to $b$ is a continuous map $\gamma:[0,1]\to X$ with $\gamma(0)=a$ and $\gamma(1)=b$. $X$ is <em>path-connected</em> if every two points are joined by a path.</div>
+
+Path-connected spaces are connected: a clopen split of $X$ would pull back, along a path joining the two pieces, to a clopen split of $[0,1]$. The converse fails for exotic spaces (the *topologist's sine curve*), but not for anything in this series: for locally path-connected spaces, which include manifolds and the spaces of maps we care about, connected and path-connected agree.
+
+The **path components** of $X$ are its maximal path-connected pieces; the set of them is written $\pi&#95;{0}(X)$. Now the theorem can be restated with no vague words left except "immersion":
+
+$$\text{Smale:}\qquad \pi_0\bigl(\operatorname{Imm}(S^2,\mathbb{R}^3)\bigr)=\{\ast\}.$$
+
+A *point* of this space is an entire immersed sphere. A *path* in it is a movie of immersed spheres, each close to the next in both position and tangent planes. An eversion is a path from $\iota$ to $\alpha$.
+
+---
+
+# compactness, and why immersions have room
+{: #compactness-and-why-immersions-have-room}
+One more word, because we will use it once in a crucial place.
+
+<div class="ev-def"><strong>Definition (compact).</strong> $K$ is <em>compact</em> if every cover of $K$ by open sets has a finite subcover. In $\mathbb{R}^n$ (Heine–Borel): compact $\iff$ closed and bounded.</div>
+
+$S^2$ is closed and bounded, so compact. The fact we need is: **a continuous real function on a compact space attains its minimum.** Apply it to an immersion $f$, whose tangent vectors $f&#95;{u},f&#95;{v}$ are independent everywhere, so $m=\min\lVert f&#95;{u}\times f&#95;{v}\rVert&gt;0$. The cross product is continuous in the derivatives, so any map $g$ whose derivatives are uniformly close enough to $f$'s (how close depends only on $m$ and on the size of $df$) still has $\lVert g&#95;{u}\times g&#95;{v}\rVert&gt;0$. So every immersion has a ball of immersions around it:
+
+$$\operatorname{Imm}(S^2,\mathbb{R}^3)\ \text{is an open subset of}\ C^1(S^2,\mathbb{R}^3).$$
+
+On a non-compact surface the minimum could be $0$ at infinity and there would be no room. On the sphere there always is. This is the fact that makes wiggling an immersion safe, and wiggling is how every eversion is built.
+
+(The last axiom we need is **Hausdorff**: distinct points have disjoint open neighbourhoods, so limits are unique. Every metric space is Hausdorff. It shows up in the definition of a manifold in Vol. III and nowhere else.)
+
+---
+
+# where this goes
+{: #where-this-goes}
+We now have the language to ask the question. $\operatorname{Imm}(S^2,\mathbb{R}^3)$ is a topological space. Its path components are what we want to count. The tool for counting path components of spaces of maps is **homotopy**, and the first thing it counts is how many times a loop winds around a hole.
+
+---
+
+**Next:** [Vol. II: Paths and Homotopy](/blog/2026/08/17/circling-the-sphere-Vol-II)
+
+*Sphere Eversion:* **Vol. I** · [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II) · [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III) · [Vol. IV](/blog/2026/08/17/circling-the-sphere-Vol-IV) · [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) · [Vol. VI](/blog/2026/08/17/circling-the-sphere-Vol-VI)

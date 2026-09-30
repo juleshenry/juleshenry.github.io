@@ -1,0 +1,224 @@
+<style>
+  .cs-q, .cs-a { padding: 0.8em 1em; margin: 1.5em 0 0.6em; border-radius: 0 8px 8px 0; }
+  .cs-q { border-left: 3px solid #d95926; background: rgba(217,89,38,0.08); }
+  .cs-a { border-left: 3px solid #3987e5; background: rgba(57,135,229,0.08); }
+  .cs-q strong { color: #f08a5d; }
+  .cs-a strong { color: #6fa8f0; }
+  .cs-stage { width: 100%; margin: 1.4em 0 0.4em; border-radius: 8px; overflow: hidden; background: #121212; border: 1px solid #2f2f2f; position: relative; touch-action: pan-y; }
+  .cs-hud { position: absolute; z-index: 10; font-family: inherit; font-size: 13px; color: #c3c2b7; pointer-events: none; font-variant-numeric: tabular-nums; }
+  .cs-hud-tl { top: 10px; left: 12px; }
+  .cs-hud-tr { top: 10px; right: 12px; text-align: right; }
+  .cs-ctrl { position: absolute; bottom: 8px; left: 10px; right: 10px; z-index: 10; text-align: center; color: #c3c2b7; font-size: 13px; }
+  .cs-ctrl label { display: inline-block; margin: 2px 8px; }
+  .cs-ctrl input[type="range"] { width: 42%; vertical-align: middle; }
+  .cs-ctrl select, .mviz select { background: #1f1f1f; color: #f0f0f0; border: 1px solid #444; border-radius: 6px; padding: 3px 6px; font-family: inherit; font-size: 13px; }
+  .cs-cap { color: #a8a79f; font-size: 0.92em; margin: 0 0 1.8em; }
+  .cs-err { width: 100%; border-collapse: collapse; font-size: 0.95em; margin: 1em 0 2em; background: #141414 !important; color: #e8e8e8; border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; overflow: hidden; }
+  .cs-err th, .cs-err td { border: 1px solid rgba(255,255,255,0.12); padding: 0.7em 0.9em; vertical-align: top; color: #e8e8e8 !important; background: transparent !important; font-weight: 400; }
+  .cs-err thead th { background: rgba(217,89,38,0.16) !important; color: #fafafa !important; font-weight: 600; }
+  .cs-err tbody tr:nth-child(even) td { background: rgba(255,255,255,0.04) !important; }
+  .cs-err mjx-container { color: #f5f5f5 !important; }
+  .cs-toc { margin: 1.6em 0 2em; padding: 1em 1.2em; background: rgba(18,18,18,0.85); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; }
+  .cs-toc > strong { display: block; color: #e8e8e8; margin-bottom: 0.55em; font-weight: 600; }
+  .cs-toc ol { margin: 0; padding-left: 1.3em; color: #c4c4c4; }
+  .cs-toc li { margin: 0.28em 0; line-height: 1.45; }
+  .cs-toc a { color: #f08a5d; }
+  .ev-def { border: 1px solid #2f2f2f; background: #161616; border-radius: 8px; padding: 0.8em 1em; margin: 1.3em 0; }
+  .ev-def > strong:first-child { color: #6fa8f0; }
+  .mviz { --viz-bg:#121212; --viz-ink:#f0f0f0; --viz-ink2:#c3c2b7; --viz-line:#2f2f2f; --viz-blue:#3987e5; --viz-orange:#d95926; --viz-aqua:#199e70; --viz-gold:#c98500;
+    background:var(--viz-bg); color:var(--viz-ink); border:1px solid var(--viz-line); border-radius:8px; padding:16px; margin:2em 0 0.5em; font-size:15px; line-height:1.45; }
+  .mviz svg { display:block; width:100%; height:auto; touch-action:none; user-select:none; -webkit-user-select:none; }
+  .mviz svg text { font-family:inherit; fill:var(--viz-ink); }
+  .mviz .mv-title { font-weight:600; min-height:2.9em; margin-bottom:8px; }
+  .mviz .mv-detail { min-height:1.5em; margin-top:8px; color:var(--viz-ink2); font-variant-numeric:tabular-nums; }
+  .mviz .mv-controls { display:flex; gap:8px 12px; align-items:center; margin-top:12px; flex-wrap:wrap; }
+  .mviz .mv-controls label { color:var(--viz-ink2); font-size:14px; display:flex; align-items:center; gap:6px; }
+  .mviz .mv-controls input[type="range"] { width:180px; max-width:48vw; }
+  .mviz button { font:inherit; font-size:14px; color:var(--viz-ink); background:#1f1f1f; border:1px solid #444; border-radius:6px; padding:5px 12px; cursor:pointer; }
+  .mviz button:hover:not(:disabled) { border-color:var(--viz-ink2); }
+  .mviz button:disabled { opacity:.4; cursor:default; }
+  .mviz button.on { border-color:var(--viz-orange); color:#fff; }
+  .mviz .mv-step { color:var(--viz-ink2); font-size:13px; margin-left:auto; }
+  .mviz .mv-key { color:var(--viz-ink2); font-size:13px; }
+  .mviz .mv-key b { display:inline-block; width:18px; height:3px; vertical-align:middle; margin:0 4px 0 10px; }
+  .mviz .mv-stage3 { height:380px; position:relative; border-radius:6px; overflow:hidden; background:#121212; touch-action:pan-y; }
+  .mviz .fade { transition:opacity .35s; }
+  .mviz .drag { cursor:grab; }
+</style>
+<script>
+(function () {
+  if (window.EV) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  window.EV = {
+    C: { bg: '#121212', ink: '#f0f0f0', ink2: '#c3c2b7', grid: '#2a2a2a', dim: '#4a4a4a', blue: '#3987e5', orange: '#d95926', aqua: '#199e70', gold: '#c98500' },
+    el: function (tag, attrs, parent) {
+      var e = document.createElementNS(NS, tag);
+      for (var a in attrs) e.setAttribute(a, attrs[a]);
+      if (parent) parent.appendChild(e);
+      return e;
+    },
+    clear: function (g) { while (g.firstChild) g.removeChild(g.firstChild); },
+    path: function (pts) {
+      var d = '';
+      for (var i = 0; i < pts.length; i++) d += (i ? 'L' : 'M') + pts[i][0].toFixed(2) + ',' + pts[i][1].toFixed(2);
+      return d;
+    },
+    // pointer position in SVG user units
+    pt: function (svg, e) {
+      var p = svg.createSVGPoint();
+      var src = e.touches ? e.touches[0] : e;
+      p.x = src.clientX; p.y = src.clientY;
+      return p.matrixTransform(svg.getScreenCTM().inverse());
+    },
+    // drag handler: cb(point) on press and move
+    drag: function (svg, target, cb) {
+      var on = false;
+      function mv(e) { if (!on) return; cb(EV.pt(svg, e)); e.preventDefault(); }
+      target.addEventListener('pointerdown', function (e) { on = true; target.setPointerCapture && target.setPointerCapture(e.pointerId); cb(EV.pt(svg, e)); e.preventDefault(); });
+      target.addEventListener('pointermove', mv);
+      target.addEventListener('pointerup', function () { on = false; });
+      target.addEventListener('pointercancel', function () { on = false; });
+    },
+    // Back / Next stepper: opts.root, opts.n, opts.render(i)
+    stepper: function (opts) {
+      var root = opts.root, i = 0;
+      var prev = root.querySelector('.mv-prev'), next = root.querySelector('.mv-next'), cnt = root.querySelector('.mv-step');
+      function go(d) {
+        i = Math.max(0, Math.min(opts.n - 1, i + d));
+        opts.render(i);
+        if (cnt) cnt.textContent = (i + 1) + ' / ' + opts.n;
+        if (prev) prev.disabled = i === 0;
+        if (next) next.disabled = i === opts.n - 1;
+      }
+      if (prev) prev.addEventListener('click', function () { go(-1); });
+      if (next) next.addEventListener('click', function () { go(1); });
+      root.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { go(1); e.preventDefault(); }
+        if (e.key === 'ArrowLeft') { go(-1); e.preventDefault(); }
+      });
+      go(0);
+      return { go: go, get: function () { return i; } };
+    },
+    // unwrap an angle sequence and return total turning / 2pi
+    winding: function (angles) {
+      var acc = 0;
+      for (var i = 1; i < angles.length; i++) {
+        var d = angles[i] - angles[i - 1];
+        while (d > Math.PI) d -= 2 * Math.PI;
+        while (d < -Math.PI) d += 2 * Math.PI;
+        acc += d;
+      }
+      return acc / (2 * Math.PI);
+    }
+  };
+})();
+(function () {
+  if (window.CS) return;
+  window.CS = {};
+  CS.ready = function (cb) {
+    var n = 0;
+    (function wait() {
+      if (typeof THREE !== 'undefined') { cb(window.THREE); return; }
+      if (++n > 300) return;
+      setTimeout(wait, 40);
+    })();
+  };
+  CS.mount = function (opts) {
+    CS.ready(function (THREE) {
+      var el = document.getElementById(opts.id);
+      if (!el || el.getAttribute('data-cs') === '1') return;
+      function boot() {
+        if (el.clientWidth < 16) { setTimeout(boot, 120); return; }
+        if (el.getAttribute('data-cs') === '1') return;
+        el.setAttribute('data-cs', '1');
+        var height = opts.height || el.clientHeight || 420;
+        var scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x121212);
+        var camera;
+        if (opts.ortho) {
+          var halfW = opts.orthoHalf || 3.3;
+          var asp = el.clientWidth / height;
+          camera = new THREE.OrthographicCamera(-halfW, halfW, halfW / asp, -halfW / asp, 0.05, 80);
+        } else {
+          camera = new THREE.PerspectiveCamera(50, el.clientWidth / height, 0.05, 200);
+        }
+        var cam = opts.cam || [0, 0.35, 4.1];
+        camera.position.set(cam[0], cam[1], cam[2]);
+        if (el.clientWidth < 520 && !opts.ortho) camera.position.multiplyScalar(1.25);
+        var renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setSize(el.clientWidth, height);
+        renderer.domElement.style.display = 'block';
+        el.insertBefore(renderer.domElement, el.firstChild);
+        var group = new THREE.Group();
+        scene.add(group);
+        if (!opts.noLights) {
+          scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+          var d1 = new THREE.DirectionalLight(0xffffff, 0.9);
+          d1.position.set(5, 5, 6);
+          scene.add(d1);
+          var d2 = new THREE.DirectionalLight(0x9db8e8, 0.35);
+          d2.position.set(-5, -2, -4);
+          scene.add(d2);
+        }
+        var rotX = opts.rotX || 0.28;
+        var rotY = opts.rotY || 0.45;
+        var dragging = false, lx = 0, ly = 0, visible = true;
+        var cvs = renderer.domElement;
+        cvs.style.cursor = opts.freeze ? 'default' : 'grab';
+        function down(x, y) { dragging = true; lx = x; ly = y; }
+        function move(x, y) {
+          if (!dragging) return;
+          rotY += (x - lx) * 0.008;
+          rotX += (y - ly) * 0.008;
+          if (rotX > 1.35) rotX = 1.35;
+          if (rotX < -1.35) rotX = -1.35;
+          lx = x; ly = y;
+        }
+        function up() { dragging = false; }
+        cvs.addEventListener('mousedown', function (e) { down(e.clientX, e.clientY); });
+        window.addEventListener('mouseup', up);
+        window.addEventListener('mousemove', function (e) { move(e.clientX, e.clientY); });
+        cvs.addEventListener('touchstart', function (e) {
+          if (e.touches[0]) down(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+        cvs.addEventListener('touchend', up);
+        cvs.addEventListener('touchmove', function (e) {
+          if (e.touches[0]) move(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+        window.addEventListener('resize', function () {
+          var w = el.clientWidth;
+          if (w < 16) return;
+          if (camera.isOrthographicCamera) {
+            var hW = opts.orthoHalf || 3.3;
+            var a = w / height;
+            camera.left = -hW; camera.right = hW;
+            camera.top = hW / a; camera.bottom = -hW / a;
+          } else {
+            camera.aspect = w / height;
+          }
+          camera.updateProjectionMatrix();
+          renderer.setSize(w, height);
+        });
+        if (typeof IntersectionObserver !== 'undefined') {
+          var io = new IntersectionObserver(function (ents) {
+            visible = !!(ents[0] && ents[0].isIntersecting);
+          }, { threshold: 0.04 });
+          io.observe(el);
+        }
+        var api = { THREE: THREE, el: el, scene: scene, camera: camera, renderer: renderer, group: group };
+        var tick = opts.setup ? opts.setup(api) : null;
+        (function loop() {
+          requestAnimationFrame(loop);
+          if (!visible) return;
+          if (!opts.freeze && !opts.noSpin && !dragging) rotY += 0.0028;
+          if (!opts.freeze) group.rotation.set(rotX, rotY, 0);
+          if (tick) tick(api);
+          renderer.render(scene, camera);
+        })();
+      }
+      boot();
+    });
+  };
+})();
+</script>

@@ -1,0 +1,101 @@
+<style>
+  .gv { --gv-bg:#121212; --gv-ink:#f0f0f0; --gv-ink2:#c3c2b7; --gv-line:#2f2f2f;
+    background:var(--gv-bg); color:var(--gv-ink); border:1px solid var(--gv-line); border-radius:8px;
+    padding:16px; margin:2em 0 0.6em; font-size:15px; line-height:1.45; }
+  .gv svg { display:block; width:100%; height:auto; touch-action:none; user-select:none; -webkit-user-select:none; }
+  .gv svg text { font-family:inherit; fill:var(--gv-ink); }
+  .gv .gv-title { font-weight:600; margin-bottom:4px; }
+  .gv .gv-sub { color:var(--gv-ink2); font-size:14px; min-height:2.9em; margin-bottom:8px; }
+  .gv .gv-read { color:var(--gv-ink2); font-size:14px; margin-top:8px; min-height:1.5em; font-variant-numeric:tabular-nums; }
+  .gv .gv-read b { color:var(--gv-ink); font-weight:600; }
+  .gv .gv-ctl { display:flex; gap:8px 12px; align-items:center; margin-top:12px; flex-wrap:wrap; }
+  .gv .gv-ctl label { color:var(--gv-ink2); font-size:14px; display:flex; align-items:center; gap:6px; }
+  .gv .gv-ctl input[type="range"] { width:170px; max-width:46vw; }
+  .gv button, .gv select { font:inherit; font-size:14px; color:var(--gv-ink); background:#1f1f1f; border:1px solid #444; border-radius:6px; padding:5px 12px; cursor:pointer; }
+  .gv button:hover:not(:disabled) { border-color:var(--gv-ink2); }
+  .gv button:disabled { opacity:.4; cursor:default; }
+  .gv .gv-pair { display:flex; flex-wrap:wrap; gap:12px; }
+  .gv .gv-pair > * { flex:1 1 260px; min-width:0; }
+  .gv .gv-3d { height:420px; position:relative; border-radius:6px; overflow:hidden; background:#121212; touch-action:pan-y; }
+  .gv .gv-3d canvas { display:block; cursor:grab; }
+  .gv .gv-drag { cursor:grab; }
+  .gv-cap { color:#a8a79f; font-size:0.92em; margin:0 0 1.8em; }
+  .gv-def { border:1px solid #2f2f2f; background:#161616; border-radius:8px; padding:0.8em 1em; margin:1.3em 0; }
+  .gv-def > strong:first-child { color:#6fa8f0; }
+</style>
+<script>
+(function () {
+  if (window.GV) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var GV = window.GV = {
+    C: { bg:'#121212', ink:'#f0f0f0', ink2:'#c3c2b7', grid:'#2a2a2a', dim:'#555', blue:'#3987e5', orange:'#d95926', aqua:'#199e70', gold:'#e0a100' },
+    el: function (tag, attrs, parent) {
+      var e = document.createElementNS(NS, tag);
+      for (var a in attrs) e.setAttribute(a, attrs[a]);
+      if (parent) parent.appendChild(e);
+      return e;
+    },
+    clear: function (g) { while (g.firstChild) g.removeChild(g.firstChild); },
+    // an arrow from (x0,y0) to (x1,y1); returns {set, g}
+    arrow: function (parent, color, width) {
+      var g = GV.el('g', {}, parent);
+      var ln = GV.el('line', { stroke: color, 'stroke-width': width || 3, 'stroke-linecap': 'round' }, g);
+      var hd = GV.el('polygon', { fill: color }, g);
+      return {
+        g: g,
+        set: function (x0, y0, x1, y1) {
+          var dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+          var h = 13, w = 6.5, bx = x1 - ux * h, by = y1 - uy * h;
+          ln.setAttribute('x1', x0); ln.setAttribute('y1', y0);
+          ln.setAttribute('x2', bx); ln.setAttribute('y2', by);
+          hd.setAttribute('points', x1 + ',' + y1 + ' ' + (bx - uy * w) + ',' + (by + ux * w) + ' ' + (bx + uy * w) + ',' + (by - ux * w));
+        }
+      };
+    },
+    // SVG arc path on a circle centered (cx,cy), radius r, from angle a0 to a1 (math convention, y up)
+    arc: function (cx, cy, r, a0, a1) {
+      var x0 = cx + r * Math.cos(a0), y0 = cy - r * Math.sin(a0);
+      var x1 = cx + r * Math.cos(a1), y1 = cy - r * Math.sin(a1);
+      var large = Math.abs(a1 - a0) > Math.PI ? 1 : 0, sweep = a1 > a0 ? 0 : 1;
+      return 'M' + x0.toFixed(2) + ',' + y0.toFixed(2) + ' A' + r + ',' + r + ' 0 ' + large + ' ' + sweep + ' ' + x1.toFixed(2) + ',' + y1.toFixed(2);
+    },
+    // pointer position in SVG user units
+    pt: function (svg, e) {
+      var p = svg.createSVGPoint();
+      p.x = e.clientX; p.y = e.clientY;
+      return p.matrixTransform(svg.getScreenCTM().inverse());
+    },
+    drag: function (svg, target, cb) {
+      var on = false;
+      target.addEventListener('pointerdown', function (e) { on = true; target.setPointerCapture && target.setPointerCapture(e.pointerId); cb(GV.pt(svg, e)); e.preventDefault(); });
+      target.addEventListener('pointermove', function (e) { if (on) { cb(GV.pt(svg, e)); e.preventDefault(); } });
+      target.addEventListener('pointerup', function () { on = false; });
+      target.addEventListener('pointercancel', function () { on = false; });
+    },
+    // eased tween: fn(t in [0,1]); returns a cancel function
+    tween: function (ms, fn, done) {
+      if (reduce || ms <= 0) { fn(1); if (done) done(); return function () {}; }
+      var t0 = null, live = true;
+      function f(ts) {
+        if (!live) return;
+        if (t0 === null) t0 = ts;
+        var t = Math.min(1, (ts - t0) / ms);
+        fn(t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+        if (t < 1) requestAnimationFrame(f); else if (done) done();
+      }
+      requestAnimationFrame(f);
+      return function () { live = false; };
+    },
+    deg: function (r) { return (r * 180 / Math.PI).toFixed(1) + '°'; },
+    ready3: function (cb) {
+      var n = 0;
+      (function wait() {
+        if (window.THREE) { cb(window.THREE); return; }
+        if (++n > 300) return;
+        setTimeout(wait, 40);
+      })();
+    }
+  };
+})();
+</script>
