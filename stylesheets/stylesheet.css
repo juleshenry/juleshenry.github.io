@@ -1062,16 +1062,9 @@ section#main_content table mjx-container {
 
 .about-lede {
   max-width: 640px;
-  margin: 0 auto 20px;
+  margin: 0 auto 40px;
   font-size: 1.05rem;
   color: var(--text);
-  line-height: 1.8;
-}
-
-.about-sub {
-  max-width: 640px;
-  margin: 0 auto 40px;
-  color: var(--muted);
   line-height: 1.8;
 }
 
