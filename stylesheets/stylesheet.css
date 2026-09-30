@@ -808,11 +808,50 @@ ul.posts li a {
   flex: 1 1 auto;
 }
 
-ul.posts li a .title-kicker,
-ul.posts li a .title-rest,
-section#main_content > h1 .title-kicker,
+ul.posts li a:has(.title-kicker),
+section#main_content > h1:has(.title-kicker) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35em;
+}
+
+.title-kicker,
+.title-rest {
+  display: block;
+}
+
+.title-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.85;
+}
+
+.title-kicker > span {
+  white-space: nowrap;
+}
+
+.title-rest {
+  text-wrap: balance;
+}
+
+section#main_content > h1 .title-kicker {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
 section#main_content > h1 .title-rest {
-  display: inline;
+  font-size: clamp(1.9rem, 4.2vw, 2.6rem);
+  line-height: 1.12;
+}
+
+ul.posts li a:hover .title-kicker {
+  color: var(--accent-2);
 }
 
 ul.posts li a:hover {
@@ -1618,20 +1657,16 @@ ul.posts li a {
     overflow-wrap: anywhere;
   }
 
-  ul.posts li a:has(.title-kicker),
-  body.page-post section#main_content > h1:has(.title-kicker) {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.12em;
-    text-wrap: unset;
+  ul.posts li a .title-kicker {
+    font-size: 0.62rem;
   }
 
-  ul.posts li a .title-kicker,
-  ul.posts li a .title-rest,
-  body.page-post section#main_content > h1 .title-kicker,
-  body.page-post section#main_content > h1 .title-rest {
-    display: block;
+  section#main_content > h1 .title-kicker {
+    font-size: 0.68rem;
+  }
+
+  section#main_content > h1 .title-rest {
+    font-size: inherit;
   }
 }
 
