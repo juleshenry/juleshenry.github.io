@@ -7,7 +7,7 @@ mathjax: true
 
 [View on GitHub](https://github.com/juleshenry/intersekt)
 
-A while back I wrote a [lengthy treatise on multiplication algorithms](/blog/2025/12/19/On-Multiplication), covering the whole arc from schoolbook to Karatsuba to Schönhage-Strassen to the galactic Harvey-Hoeven result. Theory is gorgeous. Theory is also cheap. So I asked a concrete question: can hand-built WebAssembly multiply big integers faster than the JavaScript engine's own `BigInt`?
+A while back I wrote a [four-volume treatise on multiplication algorithms](/blog/2025/12/19/On-Multiplication), covering the whole arc from schoolbook to Karatsuba to Schönhage-Strassen to the galactic Harvey-Hoeven result. Theory is gorgeous. Theory is also cheap. So I asked a concrete question: can hand-built WebAssembly multiply big integers faster than the JavaScript engine's own `BigInt`?
 
 The answer is yes. But only one kind of WASM multiplier can do it: a **WebAssembly Fast Fourier Transform** (WASM FFT) multiply, running in WASM's SIMD floating point. It beats V8's native `BigInt` multiply at every size I tested from 16 kbit to 33.5 Mbit, by 1.2–4.5× in kernel time and up to 2.9× including conversion to and from `BigInt`.
 
