@@ -2,7 +2,7 @@
   Splits long series titles into a small eyebrow line and a main title.
   The "Back-of-the-Envelope:" series prefix is dropped first.
   "Back-of-the-Envelope: Sphere Eversion, Vol. VI: Seeing the Eversion"
-    eyebrow: Sphere Eversion · Vol. VI
+    eyebrow: Sphere Eversion [VI]   (numeral rendered as a boxed badge)
     main:    Seeing the Eversion
   Titles with one colon split only when the prefix is a series name or
   carries a volume number; everything else renders unchanged.
@@ -24,7 +24,7 @@
   {%- assign eyebrow = "" -%}
   {%- for p in parts -%}
     {%- unless forloop.last -%}
-      {%- assign seg = p | strip | replace: ', Vol.', '</span> · <span>Vol.' -%}
+      {%- assign seg = p | strip | replace: ', Vol. ', '</span><span class="title-vol">' -%}
       {%- if forloop.first -%}{%- assign eyebrow = '<span>' | append: seg | append: '</span>' -%}{%- else -%}{%- assign eyebrow = eyebrow | append: ' · <span>' | append: seg | append: '</span>' -%}{%- endif -%}
     {%- endunless -%}
   {%- endfor -%}
