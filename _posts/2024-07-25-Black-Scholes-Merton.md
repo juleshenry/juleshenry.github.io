@@ -23,15 +23,10 @@ Many people have heard of this financial instrument but don't know how it's pric
 
 Volumes I and II use nothing but algebra, calculus, and the Central Limit Theorem — every step is proved on the page, with one exception: Itô's lemma is motivated by Taylor's theorem and checked by hand on one path, not proved in general. Volume III uses Girsanov's theorem, motivated by finite trees and a ratio of Gaussian densities, not proved in full generality. Where an argument is a heuristic rather than a proof, it is flagged as one.
 
-<div class="cs-toc">
-<strong>Contents</strong>
-<ol>
-  <li><a href="#1-puts-and-calls">Puts and calls</a></li>
-  <li><a href="#2-european-american-bermudan">European, American, Bermudan</a></li>
-  <li><a href="#3-the-bsm-assumptions">The BSM assumptions</a></li>
-  <li><a href="#where-this-goes">Where this goes</a></li>
-</ol>
-</div>
+- [Puts and calls](#1-puts-and-calls)
+- [European, American, Bermudan](#2-european-american-bermudan)
+- [The BSM assumptions](#3-the-bsm-assumptions)
+- [Where this goes](#where-this-goes)
 
 ---
 
