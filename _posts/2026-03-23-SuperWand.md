@@ -10,9 +10,9 @@ SuperWand takes an image, identifies its dominant color regions using KMeans clu
 
 ![Every theme, one Charizard](https://github.com/juleshenry/superwand/blob/main/examples/demos/charizard_themes.gif?raw=1)
 
-The project is on [PyPI](https://pypi.org/project/superwand/) (v0.2.10) and [GitHub](https://github.com/juleshenry/superwand). Licensed under MIT.
+The project is on [PyPI](https://pypi.org/project/superwand/) (v0.3.0) and [GitHub](https://github.com/juleshenry/superwand). Licensed under MIT.
 
-*Updated September 2026:* palette transfer, luminance matching, theme-cycle GIFs, a Python API, a much better CSS rethemer and a 25-33x faster gradient engine landed on `main`. Until the next PyPI release, install them with `pip install git+https://github.com/juleshenry/superwand`.
+*Updated September 2026:* v0.3.0 adds palette transfer, luminance matching, theme-cycle GIFs, a Python API, a much better CSS rethemer and a 25-33x faster gradient engine. `pip install -U superwand`.
 
 ## How It Works
 
