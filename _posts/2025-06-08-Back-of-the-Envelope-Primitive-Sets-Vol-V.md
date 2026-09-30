@@ -6,7 +6,7 @@ categories: number-theory
 mathjax: true
 ---
 
-*Primitive Sets:* [Vol. I](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets) · [Vol. II](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-II) · [Vol. III](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-III) · [Vol. IV](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-IV) · **Vol. V**
+*Primitive Sets:* [I](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets) · [II](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-II) · [III](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-III) · [IV](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-IV) · **V**
 
 {% include primitive-kit.html %}
 

@@ -5,7 +5,7 @@ date: 2025-12-19 12:02:00
 mathjax: true
 ---
 
-*On Multiplication:* [Vol. I](/blog/2025/12/19/On-Multiplication) · [Vol. II](/blog/2025/12/19/On-Multiplication-Vol-II) · **Vol. III** · [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
+*On Multiplication:* [I](/blog/2025/12/19/On-Multiplication) · [II](/blog/2025/12/19/On-Multiplication-Vol-II) · **III** · [IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
 
 # Schönhage-Strassen: Multiplication in $O(n \log n \log \log n)$
 

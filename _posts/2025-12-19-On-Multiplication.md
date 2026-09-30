@@ -5,7 +5,7 @@ date: 2025-12-19 12:00:00
 mathjax: true
 ---
 
-*On Multiplication:* **Vol. I** · [Vol. II](/blog/2025/12/19/On-Multiplication-Vol-II) · [Vol. III](/blog/2025/12/19/On-Multiplication-Vol-III) · [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
+*On Multiplication:* **I** · [II](/blog/2025/12/19/On-Multiplication-Vol-II) · [III](/blog/2025/12/19/On-Multiplication-Vol-III) · [IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
 
 # Intro
 

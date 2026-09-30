@@ -6,7 +6,7 @@ categories: differential topology
 mathjax: true
 ---
 
-*Sphere Eversion:* [Vol. I](/blog/2026/08/17/circling-the-sphere) · [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II) · [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III) · **Vol. IV** · [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) · [Vol. VI](/blog/2026/08/17/circling-the-sphere-Vol-VI)
+*Sphere Eversion:* [I](/blog/2026/08/17/circling-the-sphere) · [II](/blog/2026/08/17/circling-the-sphere-Vol-II) · [III](/blog/2026/08/17/circling-the-sphere-Vol-III) · **IV** · [V](/blog/2026/08/17/circling-the-sphere-Vol-V) · [VI](/blog/2026/08/17/circling-the-sphere-Vol-VI)
 
 {% include eversion-kit.html %}
 

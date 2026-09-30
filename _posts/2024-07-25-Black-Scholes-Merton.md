@@ -6,7 +6,7 @@ categories: wealth
 mathjax: true
 ---
 
-*Black-Scholes-Merton:* **Vol. I** · [Vol. II](/blog/2024/07/24/Black-Scholes-Merton-Vol-II) · [Vol. III](/blog/2024/07/24/Black-Scholes-Merton-Vol-III)
+*Black-Scholes-Merton:* **I** · [II](/blog/2024/07/24/Black-Scholes-Merton-Vol-II) · [III](/blog/2024/07/24/Black-Scholes-Merton-Vol-III)
 
 Is it optional to know what an "option" is? No!
 

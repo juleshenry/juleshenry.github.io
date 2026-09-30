@@ -5,7 +5,7 @@ date: 2025-12-19 12:01:00
 mathjax: true
 ---
 
-*On Multiplication:* [Vol. I](/blog/2025/12/19/On-Multiplication) · **Vol. II** · [Vol. III](/blog/2025/12/19/On-Multiplication-Vol-III) · [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
+*On Multiplication:* [I](/blog/2025/12/19/On-Multiplication) · **II** · [III](/blog/2025/12/19/On-Multiplication-Vol-III) · [IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
 
 # The Fourier Transform: From Signals to Arithmetic
 

@@ -893,13 +893,16 @@ body.page-post .post h1 {
   margin-top: 1.8em;
 }
 
-/* Volume nav: the series name is already in the eyebrow, so hide the label */
+/* Volume nav: tiles. The series name is already in the eyebrow, so the label
+   is hidden; font-size: 0 drops the " · " separator text between tiles. */
 body.page-post .post > p:first-child:has(> em:first-child):has(> strong) {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--muted);
-  margin: 0 auto 2.5em;
-  padding-bottom: 1.6em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0;
+  margin: 0 auto 2.5rem;
+  padding-bottom: 1.8rem;
   border-bottom: 1px solid var(--border);
   max-width: none;
 }
@@ -908,16 +911,41 @@ body.page-post .post > p:first-child:has(> em:first-child):has(> strong) > em:fi
   display: none;
 }
 
+body.page-post .post > p:first-child:has(> em:first-child):has(> strong) > a,
+body.page-post .post > p:first-child:has(> em:first-child):has(> strong) > strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.6rem;
+  height: 2.6rem;
+  padding: 0 0.5rem;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-decoration: none;
+  text-shadow: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
 body.page-post .post > p:first-child:has(> em:first-child):has(> strong) > a {
-  font-weight: 500;
-  margin: 0 0.35em;
+  background: #d4d4d4;
+  color: #000000;
+  border: 1px solid #d4d4d4;
+}
+
+body.page-post .post > p:first-child:has(> em:first-child):has(> strong) > a:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
 }
 
 body.page-post .post > p:first-child:has(> em:first-child):has(> strong) > strong {
-  color: var(--text);
-  margin: 0 0.35em;
-  padding-bottom: 2px;
-  border-bottom: 2px solid var(--accent);
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #d4d4d4;
 }
 
 ul.posts li a:hover {

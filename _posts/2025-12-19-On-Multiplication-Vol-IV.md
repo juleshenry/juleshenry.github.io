@@ -5,7 +5,7 @@ date: 2025-12-19 12:03:00
 mathjax: true
 ---
 
-*On Multiplication:* [Vol. I](/blog/2025/12/19/On-Multiplication) · [Vol. II](/blog/2025/12/19/On-Multiplication-Vol-II) · [Vol. III](/blog/2025/12/19/On-Multiplication-Vol-III) · **Vol. IV**
+*On Multiplication:* [I](/blog/2025/12/19/On-Multiplication) · [II](/blog/2025/12/19/On-Multiplication-Vol-II) · [III](/blog/2025/12/19/On-Multiplication-Vol-III) · **IV**
 
 # Connections to Sorting Algorithms
 

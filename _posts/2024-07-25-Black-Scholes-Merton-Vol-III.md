@@ -6,7 +6,7 @@ categories: wealth
 mathjax: true
 ---
 
-*Black-Scholes-Merton:* [Vol. I](/blog/2024/07/24/Black-Scholes-Merton) · [Vol. II](/blog/2024/07/24/Black-Scholes-Merton-Vol-II) · **Vol. III**
+*Black-Scholes-Merton:* [I](/blog/2024/07/24/Black-Scholes-Merton) · [II](/blog/2024/07/24/Black-Scholes-Merton-Vol-II) · **III**
 
 *The same formula, reached twice more — once as heat, once as a change of units — and then the assumptions, each pulled on until the formula bends or breaks.*
 

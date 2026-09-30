@@ -6,7 +6,7 @@ mathjax: true
 categories: wealth
 ---
 
-*Mean-Reverting VIX:* [Vol. I](/blog/2026/03/09/rafaga) · **Vol. II** · [Vol. III](/blog/2026/03/09/rafaga-Vol-III) · [Vol. IV](/blog/2026/03/09/rafaga-Vol-IV) · [Vol. V](/blog/2026/03/09/rafaga-Vol-V) · [Vol. VI](/blog/2026/03/09/rafaga-Vol-VI)
+*Mean-Reverting VIX:* [I](/blog/2026/03/09/rafaga) · **II** · [III](/blog/2026/03/09/rafaga-Vol-III) · [IV](/blog/2026/03/09/rafaga-Vol-IV) · [V](/blog/2026/03/09/rafaga-Vol-V) · [VI](/blog/2026/03/09/rafaga-Vol-VI)
 
 {% include vix-kit.html %}
 

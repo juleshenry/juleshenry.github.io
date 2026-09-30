@@ -6,7 +6,7 @@ categories: wealth
 mathjax: true
 ---
 
-*Black-Scholes-Merton:* [Vol. I](/blog/2024/07/24/Black-Scholes-Merton) · **Vol. II** · [Vol. III](/blog/2024/07/24/Black-Scholes-Merton-Vol-III)
+*Black-Scholes-Merton:* [I](/blog/2024/07/24/Black-Scholes-Merton) · **II** · [III](/blog/2024/07/24/Black-Scholes-Merton-Vol-III)
 
 *A source of noise, a fair game, a distribution that stays positive, and then the formula — from nothing heavier than completing the square.*
 
