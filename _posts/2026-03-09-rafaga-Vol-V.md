@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Back-of-the-Envelope: Mean-Reverting VIX, Vol. V: Twenty Twenty-Six"
+title: "Back-of-the-Envelope: Mean-Reverting VIX, Vol. V: 2026, viz. VIX"
 date: 2026-03-09 12:04:00
 mathjax: true
 categories: wealth

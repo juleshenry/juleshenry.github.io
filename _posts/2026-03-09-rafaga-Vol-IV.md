@@ -150,6 +150,6 @@ We have a reconstructed recipe that matches the thesis where the thesis can be c
 
 ---
 
-**Next:** [Vol. V: Twenty Twenty-Six](/blog/2026/03/09/rafaga-Vol-V)
+**Next:** [Vol. V: 2026, viz. VIX](/blog/2026/03/09/rafaga-Vol-V)
 
 *Mean-Reverting VIX:* [Vol. I](/blog/2026/03/09/rafaga) · [Vol. II](/blog/2026/03/09/rafaga-Vol-II) · [Vol. III](/blog/2026/03/09/rafaga-Vol-III) · **Vol. IV** · [Vol. V](/blog/2026/03/09/rafaga-Vol-V) · [Vol. VI](/blog/2026/03/09/rafaga-Vol-VI)

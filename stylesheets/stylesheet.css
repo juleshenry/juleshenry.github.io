@@ -222,7 +222,7 @@ header h1 a {
 header h2 {
   font-size: 0.9rem;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.72);
   margin: 0;
   font-family: var(--font-mono);
   letter-spacing: 0.08em;
@@ -788,7 +788,7 @@ ul.posts li:hover {
 ul.posts li > span {
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  color: #7a7a7a;
+  color: #b8b8b8;
   min-width: 100px;
   flex: 0 0 auto;
 }
@@ -846,16 +846,24 @@ section#main_content > h1:has(.title-kicker) {
   text-wrap: balance;
 }
 
-/* In the index the series line is quiet metadata, matching the date */
+/* In the index the series name leads; the chapter title sits under it */
 ul.posts li a .title-kicker {
-  font-size: 0.78rem;
-  font-weight: 400;
+  font-family: inherit;
+  font-size: 1.08rem;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
-  color: #7a7a7a;
+  color: #f2f2f2;
 }
 
-ul.posts li a:hover .title-kicker {
+ul.posts li a .title-rest {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #c4c4c4;
+}
+
+ul.posts li a:hover .title-kicker,
+ul.posts li a:hover .title-rest {
   color: var(--accent);
 }
 
@@ -883,12 +891,23 @@ body.page-post section#main_content > h1:has(.title-kicker) {
 }
 
 body.page-post section#main_content > h1 .title-kicker {
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: #ffffff;
+}
+
+body.page-post section#main_content > h1 .title-rest {
+  font-size: 0.55em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #cfcfcf;
 }
 
 body.page-post section#main_content > .meta {
-  color: #7a7a7a;
+  color: #b8b8b8;
   font-size: 0.8rem;
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -1769,11 +1788,11 @@ ul.posts li a {
   }
 
   ul.posts li a .title-kicker {
-    font-size: 0.7rem;
+    font-size: 1rem;
   }
 
-  section#main_content > h1 .title-kicker {
-    font-size: 0.68rem;
+  ul.posts li a .title-rest {
+    font-size: 0.85rem;
   }
 
 }
