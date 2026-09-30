@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "WebAssembly Fast Fourier Transform"
+title: "The Fast Fourier Transform in WebAssembly"
 date: 2026-01-10
 mathjax: true
 ---
