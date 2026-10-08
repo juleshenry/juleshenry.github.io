@@ -5,7 +5,7 @@ date: 2025-12-19 12:01:00
 mathjax: true
 ---
 
-*On Multiplication:* [I](/blog/2025/12/19/On-Multiplication) · **II** · [III](/blog/2025/12/19/On-Multiplication-Vol-III) · [IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
+*On Multiplication:* [I](/blog/2025/12/19/On-Multiplication) · **II** · [III](/blog/2025/12/19/On-Multiplication-Vol-III) · [IV](/blog/2025/12/19/On-Multiplication-Vol-IV) · [V](/blog/2026/10/08/On-Multiplication-Vol-V)
 
 # The Fourier Transform: From Signals to Arithmetic
 
@@ -74,7 +74,7 @@ $$
 \omega_N^k = e^{2\pi i k / N}, \qquad k = 0, 1, \ldots, N-1
 $$
 
-These are $N$ points spaced equally around the unit circle, like the vertices of a regular $N$-gon inscribed in the circle $|z| = 1$. The **primitive** $N$-th root of unity is:
+These are $N$ points spaced equally around the unit circle, like the vertices of a regular $N$-gon inscribed in the circle $\lvert z \rvert = 1$. The **primitive** $N$-th root of unity is:
 
 $$
 \omega_N = e^{2\pi i / N}
@@ -88,11 +88,11 @@ The roots of unity possess remarkable algebraic properties that are the engine o
 
 2. **Cancellation (Half-turn symmetry):** $\omega^{k + N/2} = -\omega^k$ when $N$ is even. Geometrically, the point diametrically opposite $\omega^k$ on the unit circle is $-\omega^k$. This is the single most important property for the FFT.
 
-3. **Summation:** $\displaystyle\sum_{k=0}^{N-1} \omega^{jk} = \begin{cases} N & \text{if } N \mid j \\ 0 & \text{otherwise} \end{cases}$
+3. **Summation:** $\displaystyle\sum_{k=0}^{N-1} \omega^{jk} = \begin{cases} N & \text{if } N \mid j \cr 0 & \text{otherwise} \end{cases}$
 
    This orthogonality relation is what makes the inverse DFT work.
 
-4. **Squaring (Halving):** If $N$ is even, then $\{(\omega_N^k)^2 : k = 0, \ldots, N-1\}$ gives exactly the $N/2$-th roots of unity, each appearing twice. That is, $(\omega_N)^2 = \omega_{N/2}$.
+4. **Squaring (Halving):** If $N$ is even, then $\lbrace (\omega_N^k)^2 : k = 0, \ldots, N-1 \rbrace$ gives exactly the $N/2$-th roots of unity, each appearing twice. That is, $(\omega_N)^2 = \omega_{N/2}$.
 
 ### Definition of the DFT
 
@@ -471,4 +471,4 @@ At this point you might ask: if the FFT already gives us $O(n \log n)$ multiplic
 
 **Next:** [Vol. III: Schönhage-Strassen and Harvey-van der Hoeven](/blog/2025/12/19/On-Multiplication-Vol-III)
 
-*On Multiplication:* [Vol. I](/blog/2025/12/19/On-Multiplication) · **Vol. II** · [Vol. III](/blog/2025/12/19/On-Multiplication-Vol-III) · [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
+*On Multiplication:* [Vol. I](/blog/2025/12/19/On-Multiplication) · **Vol. II** · [Vol. III](/blog/2025/12/19/On-Multiplication-Vol-III) · [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV) · [Vol. V](/blog/2026/10/08/On-Multiplication-Vol-V)

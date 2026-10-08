@@ -5,7 +5,7 @@ date: 2025-12-19 12:02:00
 mathjax: true
 ---
 
-*On Multiplication:* [I](/blog/2025/12/19/On-Multiplication) · [II](/blog/2025/12/19/On-Multiplication-Vol-II) · **III** · [IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
+*On Multiplication:* [I](/blog/2025/12/19/On-Multiplication) · [II](/blog/2025/12/19/On-Multiplication-Vol-II) · **III** · [IV](/blog/2025/12/19/On-Multiplication-Vol-IV) · [V](/blog/2026/10/08/On-Multiplication-Vol-V)
 
 # Schönhage-Strassen: Multiplication in $O(n \log n \log \log n)$
 
@@ -133,7 +133,7 @@ The remaining $\log \log n$ factor is the residue of recursive nesting. Eliminat
 
 ## The Last Factor Standing
 
-We have arrived at the final chapter. Let us take stock of where we are.
+We have arrived at the final chapter -- or what was the final chapter until October 2026, when [Vol. V](/blog/2026/10/08/On-Multiplication-Vol-V) had to be added. Let us take stock of where we are.
 
 You now understand that multiplying two $n$-digit integers is really computing a convolution of their digits. You understand that the FFT evaluates a polynomial at all $N$-th roots of unity in $O(N \log N)$ time, and that the Convolution Theorem lets us turn this evaluation into multiplication. You understand that Schönhage and Strassen sidestepped floating-point precision by working in the ring $\mathbb{Z}/(2^m + 1)\mathbb{Z}$, where twiddle factors are just bit-shifts.
 
@@ -177,7 +177,7 @@ $$
 \text{cost} = \sum_{i=1}^{d} \frac{S}{s_i} \cdot (\text{cost of a length-}s_i\text{ DFT})
 $$
 
-where $S = \prod s_i$. By choosing $d$ to grow with $n$ (specifically, $d \sim \log n / \log \log n$), each $s_i$ stays bounded by a constant, and the DFTs along each dimension have constant cost per element. The total transform cost is $O(S \cdot d) = O\!\left(\frac{n}{\log n} \cdot \frac{\log n}{\log \log n}\right) = O\!\left(\frac{n}{\log \log n}\right)$, which is well within the $O(n \log n)$ budget.
+where $S = \prod s_i$. By choosing $d$ to grow with $n$ (specifically, $d \sim \log n / \log \log n$), each $s_i$ stays bounded by a constant, and the DFTs along each dimension have constant cost per element. The total transform cost is $O(S \cdot d) = O\left(\frac{n}{\log n} \cdot \frac{\log n}{\log \log n}\right) = O\left(\frac{n}{\log \log n}\right)$, which is well within the $O(n \log n)$ budget.
 
 The problem is that the Cooley-Tukey radix-2 trick does not work on prime-sized dimensions. This is where the second idea comes in.
 
@@ -271,7 +271,7 @@ The algorithm's correctness depends on the Gaussian resampling errors being negl
 
 Harvey and van der Hoeven estimate this crossover at numbers with more than $2^{1729^{12}}$ digits.
 
-The appearance of **1729** -- Ramanujan's famous "taxicab number," the smallest number expressible as the sum of two cubes in two different ways -- is a coincidence, but a poetic one. The number arises from a chain of parameter optimizations in the proof, not from any deep connection to Ramanujan's work. But it is fitting that the algorithm that closes the book on multiplication complexity should bear, in its constant, an echo of one of mathematics' most beautiful stories.
+The appearance of **1729** -- Ramanujan's famous "taxicab number," the smallest number expressible as the sum of two cubes in two different ways -- is a coincidence, but a poetic one. The number arises from a chain of parameter optimizations in the proof, not from any deep connection to Ramanujan's work. But it is fitting that the algorithm that seemed, for a while, to close the book on multiplication complexity should bear, in its constant, an echo of one of mathematics' most beautiful stories.
 
 To put $2^{1729^{12}}$ in perspective:
 - The observable universe contains roughly $10^{80}$ atoms.
@@ -296,8 +296,10 @@ Each breakthrough changed the *kind* of mathematics being used. Karatsuba's was 
 
 And yet the punchline is the same as it was in the schoolbook algorithm: we are still just multiplying digits together and adding up the results. Every advance has been about finding a cleverer *order* in which to do it.
 
+*October 2026: the summit turned out to have more mountain behind it. A preprint now claims $O(n (\log n)^{1-\kappa})$ for a tiny $\kappa > 0$, built directly on top of the algorithm described here. See [Vol. V](/blog/2026/10/08/On-Multiplication-Vol-V).*
+
 ---
 
-**Next:** [Vol. IV: Sorting and the Structure of Computation](/blog/2025/12/19/On-Multiplication-Vol-IV)
+**Next:** [Vol. IV: Sorting and the Mirage of n log n](/blog/2025/12/19/On-Multiplication-Vol-IV)
 
-*On Multiplication:* [Vol. I](/blog/2025/12/19/On-Multiplication) · [Vol. II](/blog/2025/12/19/On-Multiplication-Vol-II) · **Vol. III** · [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
+*On Multiplication:* [Vol. I](/blog/2025/12/19/On-Multiplication) · [Vol. II](/blog/2025/12/19/On-Multiplication-Vol-II) · **Vol. III** · [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV) · [Vol. V](/blog/2026/10/08/On-Multiplication-Vol-V)

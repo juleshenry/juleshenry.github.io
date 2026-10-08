@@ -5,13 +5,13 @@ date: 2025-12-19 12:00:00
 mathjax: true
 ---
 
-*On Multiplication:* **I** · [II](/blog/2025/12/19/On-Multiplication-Vol-II) · [III](/blog/2025/12/19/On-Multiplication-Vol-III) · [IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
+*On Multiplication:* **I** · [II](/blog/2025/12/19/On-Multiplication-Vol-II) · [III](/blog/2025/12/19/On-Multiplication-Vol-III) · [IV](/blog/2025/12/19/On-Multiplication-Vol-IV) · [V](/blog/2026/10/08/On-Multiplication-Vol-V)
 
 # Intro
 
 For centuries, multiplying two $n$-digit numbers meant performing $n^2$ single-digit multiplications. In 1960, the great Andrey Kolmogorov conjectured that this quadratic cost was an inescapable law of arithmetic. Within a week, a 23-year-old student named Anatoly Karatsuba proved him wrong.
 
-This series traces the arc from schoolbook multiplication through the algorithms that successively shattered the $O(n^2)$ barrier: Karatsuba's $O(n^{1.585})$ divide-and-conquer trick, the polynomial interpolation of Toom-Cook, the Fourier-analytic machinery of Schönhage-Strassen, and finally the 2019 result of Harvey and van der Hoeven achieving the conjectured floor of $O(n \log n)$. We close by examining the deep structural parallel between multiplication and sorting -- both saturate the same information-theoretic bound.
+This series traces the arc from schoolbook multiplication through the algorithms that successively shattered the $O(n^2)$ barrier: Karatsuba's $O(n^{1.585})$ divide-and-conquer trick, the polynomial interpolation of Toom-Cook, the Fourier-analytic machinery of Schönhage-Strassen, and the 2019 result of Harvey and van der Hoeven reaching $O(n \log n)$, long conjectured to be the floor. [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV) examines the parallel with sorting that made that conjecture so easy to believe. [Vol. V](/blog/2026/10/08/On-Multiplication-Vol-V), added in October 2026, covers a preprint claiming to go *below* $n \log n$, what that does to the parallel, and the conclusion of the series.
 
 A caveat: in practice, these faster algorithms only overtake schoolbook multiplication at enormous scales. The Harvey-Hoeven algorithm's crossover point lies somewhere beyond $2^{1729^{12}}$ digits -- a number so large it cannot be written down even if every atom in the observable universe were an ink molecule. These are "galactic algorithms," beautiful and useless in equal measure. But their existence reveals something profound about the structure of computation itself.
 
@@ -303,7 +303,7 @@ $$
 
 ### Phase 2: Evaluation
 
-Select $2k - 1$ distinct evaluation points. The standard choice for Toom-3 is the set $\{0,\; 1,\; -1,\; 2,\; \infty\}$, chosen because they minimize the size of intermediate values and keep the arithmetic simple. Evaluate both polynomials at each point:
+Select $2k - 1$ distinct evaluation points. The standard choice for Toom-3 is the set $\lbrace 0,\; 1,\; -1,\; 2,\; \infty \rbrace$, chosen because they minimize the size of intermediate values and keep the arithmetic simple. Evaluate both polynomials at each point:
 
 $$
 \begin{aligned}
@@ -422,7 +422,7 @@ The exponent $\log_k(2k - 1)$ decreases monotonically as $k$ increases, approach
 | Karatsuba (Toom-2)    | $2$         | $3$                      | $O(n^{\log_2 3}) \approx O(n^{1.585})$ |
 | Toom-3                | $3$         | $5$                      | $O(n^{\log_3 5}) \approx O(n^{1.465})$ |
 | Toom-4                | $4$         | $7$                      | $O(n^{\log_4 7}) \approx O(n^{1.404})$ |
-| Toom-$k$              | $k$         | $2k-1$                   | $O\!\big(n^{\log_k(2k-1)}\big)$  |
+| Toom-$k$              | $k$         | $2k-1$                   | $O\big(n^{\log_k(2k-1)}\big)$  |
 
 ### The Hidden Cost: Why We Cannot Simply Let $k \to \infty$
 
@@ -436,10 +436,10 @@ The practical sweet spot is typically Toom-3 or Toom-4. Beyond that, the FFT-bas
 
 ### Karatsuba as Toom-2: A Unifying Perspective
 
-It is worth pausing to note that Karatsuba's algorithm is precisely Toom-Cook with $k = 2$. The "trick" of computing $(x_1 + x_0)(y_1 + y_0) - z_2 - z_0$ is the interpolation step for a degree-2 product polynomial evaluated at the points $\{0, 1, \infty\}$. Karatsuba's genius was to discover this special case in 1960; Toom and Cook's contribution was to recognize the general structure of which Karatsuba is the simplest instance.
+It is worth pausing to note that Karatsuba's algorithm is precisely Toom-Cook with $k = 2$. The "trick" of computing $(x_1 + x_0)(y_1 + y_0) - z_2 - z_0$ is the interpolation step for a degree-2 product polynomial evaluated at the points $\lbrace 0, 1, \infty \rbrace$. Karatsuba's genius was to discover this special case in 1960; Toom and Cook's contribution was to recognize the general structure of which Karatsuba is the simplest instance.
 
 ---
 
 **Next:** [Vol. II: The Fourier Transform](/blog/2025/12/19/On-Multiplication-Vol-II)
 
-*On Multiplication:* **Vol. I** · [Vol. II](/blog/2025/12/19/On-Multiplication-Vol-II) · [Vol. III](/blog/2025/12/19/On-Multiplication-Vol-III) · [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV)
+*On Multiplication:* **Vol. I** · [Vol. II](/blog/2025/12/19/On-Multiplication-Vol-II) · [Vol. III](/blog/2025/12/19/On-Multiplication-Vol-III) · [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV) · [Vol. V](/blog/2026/10/08/On-Multiplication-Vol-V)
