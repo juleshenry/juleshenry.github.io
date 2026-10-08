@@ -13,9 +13,9 @@ mathjax: true
 # Field extensions: where the family lives
 {: #field-extensions-where-the-family-lives}
 
-The FTA placed the family $\{r_1,\ldots,r_n\}$ in $\mathbb{C}$. The coefficients may live in a much smaller field — classically $\mathbb{Q}$. The roots need not.
+The FTA placed the family $\lbrace r_1,\ldots,r_n\rbrace$ in $\mathbb{C}$. The coefficients may live in a much smaller field — classically $\mathbb{Q}$. The roots need not.
 
-Take $x^2-2\in\mathbb{Q}[x]$. It is irreducible over $\mathbb{Q}$ (if $\sqrt{2}=p/q$ in lowest terms then $p^2=2q^2$, so $2$ divides $p$ and then $q$, contradiction). The family is $\{\sqrt{2},-\sqrt{2}\}$. Neither root is rational. Both live in the smallest field that contains $\mathbb{Q}$ and $\sqrt{2}$.
+Take $x^2-2\in\mathbb{Q}[x]$. It is irreducible over $\mathbb{Q}$ (if $\sqrt{2}=p/q$ in lowest terms then $p^2=2q^2$, so $2$ divides $p$ and then $q$, contradiction). The family is $\lbrace\sqrt{2},-\sqrt{2}\rbrace$. Neither root is rational. Both live in the smallest field that contains $\mathbb{Q}$ and $\sqrt{2}$.
 
 ## Adjoining one element
 
@@ -25,9 +25,9 @@ $$
 F(\alpha) = \{ c_0 + c_1\alpha + \cdots + c_{d-1}\alpha^{d-1} : c_i\in F \},
 $$
 
-where $d=\deg m_{\alpha,F}$, with multiplication reduced using $m_{\alpha,F}(\alpha)=0$. In particular $F(\alpha)$ is a $d$-dimensional vector space over $F$, with basis $\{1,\alpha,\ldots,\alpha^{d-1}\}$.
+where $d=\deg m_{\alpha,F}$, with multiplication reduced using $m_{\alpha,F}(\alpha)=0$. In particular $F(\alpha)$ is a $d$-dimensional vector space over $F$, with basis $\lbrace 1,\alpha,\ldots,\alpha^{d-1}\rbrace$.
 
-For $\alpha=\sqrt{2}$ over $\mathbb{Q}$, the minimal polynomial is $x^2-2$, and $\mathbb{Q}(\sqrt{2})=\{a+b\sqrt{2}:a,b\in\mathbb{Q}\}$ with basis $\{1,\sqrt{2}\}$. The family of roots of $x^2-2$ *already lives entirely in this field*: $-\sqrt{2}$ is just $-1\cdot\sqrt{2}$.
+For $\alpha=\sqrt{2}$ over $\mathbb{Q}$, the minimal polynomial is $x^2-2$, and $\mathbb{Q}(\sqrt{2})=\lbrace a+b\sqrt{2}:a,b\in\mathbb{Q}\rbrace$ with basis $\lbrace 1,\sqrt{2}\rbrace$. The family of roots of $x^2-2$ *already lives entirely in this field*: $-\sqrt{2}$ is just $-1\cdot\sqrt{2}$.
 
 ## Splitting fields: the home of the whole family
 
@@ -57,7 +57,7 @@ $$
 F \subset F(\sqrt{d}),
 $$
 
-a single square-root step of degree $1$ or $2$, and both roots $\frac{-b\pm\sqrt{d}}{2a}$ live in the top field. The family $\{\sqrt{d},-\sqrt{d}\}$ is swapped by the unique nontrivial automorphism, which is why the two choices of sign in the formula are not a defect: they are the Galois group.
+a single square-root step of degree $1$ or $2$, and both roots $\frac{-b\pm\sqrt{d}}{2a}$ live in the top field. The family $\lbrace\sqrt{d},-\sqrt{d}\rbrace$ is swapped by the unique nontrivial automorphism, which is why the two choices of sign in the formula are not a defect: they are the Galois group.
 
 A **pure radical extension** of $F$ is $F(\sqrt[n]{a})$ for some $a\in F$ and $n\ge 2$: adjoin a root of $x^n-a$. A **radical tower** over $F$ is a finite chain
 
@@ -96,7 +96,7 @@ View an extension $E/F$ as a vector space over $F$. Its dimension, finite or inf
 
 An **$F$-automorphism** of $E$ is a field automorphism $\sigma:E\to E$ with $\sigma(c)=c$ for every $c\in F$. Write $\mathrm{Aut}(E/F)$ for the group of all of them.
 
-Let $E$ be a splitting field of $f\in F[x]$, with family of roots $\{r_1,\ldots,r_n\}$. If $\sigma\in\mathrm{Aut}(E/F)$ and $f(r_i)=0$, then
+Let $E$ be a splitting field of $f\in F[x]$, with family of roots $\lbrace r_1,\ldots,r_n\rbrace$. If $\sigma\in\mathrm{Aut}(E/F)$ and $f(r_i)=0$, then
 
 $$
 f(\sigma(r_i))=\sigma(f(r_i))=0,
@@ -117,7 +117,7 @@ A polynomial is **separable** if its irreducible factors have distinct roots in 
 **Theorem (standard; proof sketch below).** Let $E$ be a splitting field of a separable polynomial $f\in F[x]$. Then:
 
 1. $\lvert \mathrm{Aut}(E/F)\rvert = [E:F]$;
-2. the **fixed field** $\{\,x\in E : \sigma(x)=x\text{ for all }\sigma\in\mathrm{Aut}(E/F)\,\}$ equals $F$;
+2. the **fixed field** $\lbrace\,x\in E : \sigma(x)=x\text{ for all }\sigma\in\mathrm{Aut}(E/F)\,\rbrace$ equals $F$;
 3. $E/F$ is **normal**: every irreducible in $F[x]$ with one root in $E$ splits completely in $E$.
 
 A finite extension with these properties is called **Galois**. Conversely, every finite Galois extension is the splitting field of a separable polynomial. This is the content of the discussion at [Math.StackExchange 962898](https://math.stackexchange.com/questions/962898/on-a-proof-that-the-splitting-field-of-a-separable-polynomial-is-galois); the argument below is the standard one.
@@ -136,7 +136,7 @@ where the last equality is the tower law, proved at the start of [Vol. V](/blog/
 
 ## Two examples, now with groups
 
-**$\mathbb{Q}(\sqrt{2})/\mathbb{Q}$.** Degree $2$, Galois group $\{\mathrm{id},\,\sqrt{2}\mapsto-\sqrt{2}\}\cong C_2\cong S_2$. The family of $x^2-2$ has two labels; both rearrangements are realized.
+**$\mathbb{Q}(\sqrt{2})/\mathbb{Q}$.** Degree $2$, Galois group $\lbrace\mathrm{id},\,\sqrt{2}\mapsto-\sqrt{2}\rbrace\cong C_2\cong S_2$. The family of $x^2-2$ has two labels; both rearrangements are realized.
 
 **$\mathbb{Q}(\sqrt[3]{2},\zeta_3)/\mathbb{Q}$.** Let $\alpha=\sqrt[3]{2}\in\mathbb{R}$. Then $[\mathbb{Q}(\alpha):\mathbb{Q}]=3$. The polynomial $x^2+x+1$ is the minimal polynomial of $\zeta_3$ over $\mathbb{Q}(\alpha)$: it is irreducible over $\mathbb{R}$, hence over the real field $\mathbb{Q}(\alpha)$. So $[E:\mathbb{Q}(\alpha)]=2$ and $[E:\mathbb{Q}]=6$. (Symmetrically: $x^3-2$ stays irreducible over $\mathbb{Q}(\zeta_3)$, not because it is irreducible over $\mathbb{Q}$, but because a root in $\mathbb{Q}(\zeta_3)$ would embed a degree-$3$ field into a degree-$2$ extension, which the tower law forbids.) The Galois group has order $6$, hence is $S_3$. Explicitly: you may send $\alpha$ to $\alpha\zeta_3^k$ for $k=0,1,2$, and independently send $\zeta_3$ to $\zeta_3^{\pm 1}$.
 

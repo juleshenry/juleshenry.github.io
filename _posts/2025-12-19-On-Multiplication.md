@@ -34,6 +34,7 @@ Once we have generated these $n$ rows of partial products, the work is not yet f
 ## The Quadratic Ceiling
 
 In the lexicon of Big O notation, we ignore the smaller constants and focus on the dominant growth factor. While you might perform some clever carries or skip a few zeros, the fundamental structure of the algorithm remains a nested loop: for every digit in the bottom number, you must visit every digit in the top number.
+
 $$
 \sum_{i=1}^{n}\sum_{j=1}^{n} \big(A_j \times B_i\big) \;\Longrightarrow\; O(n^2)
 $$

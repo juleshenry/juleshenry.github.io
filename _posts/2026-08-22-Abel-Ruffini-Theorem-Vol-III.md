@@ -13,15 +13,15 @@ mathjax: true
 # Group theory: symmetries of a labeled family
 {: #group-theory-symmetries-of-a-labeled-family}
 
-Label the roots $r_1,\ldots,r_n$. A **permutation** of the labels is a bijection $\sigma$ of the set $\{1,\ldots,n\}$. The set of all such bijections is the **symmetric group** $S_n$. There are $n!$ of them. Composition of functions is the group law: $(\sigma\tau)(i)=\sigma(\tau(i))$, done right to left. The identity $\mathrm{id}$ does nothing; every $\sigma$ has an inverse.
+Label the roots $r_1,\ldots,r_n$. A **permutation** of the labels is a bijection $\sigma$ of the set $\lbrace 1,\ldots,n\rbrace$. The set of all such bijections is the **symmetric group** $S_n$. There are $n!$ of them. Composition of functions is the group law: $(\sigma\tau)(i)=\sigma(\tau(i))$, done right to left. The identity $\mathrm{id}$ does nothing; every $\sigma$ has an inverse.
 
 This is the symmetry group of a labeled family of $n$ things. Whether a *particular* polynomial admits all $n!$ rearrangements as actual symmetries of its coefficients is a later question. First we need the group, and a few words for talking about groups.
 
-A **subgroup** of $G$ is a subset that is itself a group under the same operation (contains the identity, inverses, and products). Two elements $a,b$ **commute** if $ab=ba$; a group is **abelian** if every pair commutes. The **cyclic group** $C_n$ is the group of $n$ rotations of a regular $n$-gon, equivalently $\{\,1,g,g^2,\ldots,g^{n-1}\,\}$ with $g^n=1$; it is abelian. A **homomorphism** $\varphi:G\to H$ is a map with $\varphi(ab)=\varphi(a)\varphi(b)$. Its **kernel** is $\{\,g\in G:\varphi(g)=\mathrm{id}_H\,\}$, always a subgroup. Two groups are **isomorphic**, written $G\cong H$, if there is a bijective homomorphism between them: the same group law, relabeled. A **(left) coset** of a subgroup $H\le G$ is a translate $gH=\{\,gh:h\in H\,\}$; the distinct cosets partition $G$.
+A **subgroup** of $G$ is a subset that is itself a group under the same operation (contains the identity, inverses, and products). Two elements $a,b$ **commute** if $ab=ba$; a group is **abelian** if every pair commutes. The **cyclic group** $C_n$ is the group of $n$ rotations of a regular $n$-gon, equivalently $\lbrace\,1,g,g^2,\ldots,g^{n-1}\,\rbrace$ with $g^n=1$; it is abelian. A **homomorphism** $\varphi:G\to H$ is a map with $\varphi(ab)=\varphi(a)\varphi(b)$. Its **kernel** is $\lbrace\,g\in G:\varphi(g)=\mathrm{id}_H\,\rbrace$, always a subgroup. Two groups are **isomorphic**, written $G\cong H$, if there is a bijective homomorphism between them: the same group law, relabeled. A **(left) coset** of a subgroup $H\le G$ is a translate $gH=\lbrace\,gh:h\in H\,\rbrace$; the distinct cosets partition $G$.
 
 ## Small pictures
 
-$S_2=\{\mathrm{id},(1\,2)\}$. That is the quadratic: the two roots $\frac{-b\pm\sqrt{b^2-4ac}}{2a}$ are indistinguishable once you forget which sign you took. Swapping them is the only nontrivial symmetry.
+$S_2=\lbrace\mathrm{id},(1\,2)\rbrace$. That is the quadratic: the two roots $\frac{-b\pm\sqrt{b^2-4ac}}{2a}$ are indistinguishable once you forget which sign you took. Swapping them is the only nontrivial symmetry.
 
 $S_3$ has six elements: the identity, two $3$-cycles $(1\,2\,3)$ and $(1\,3\,2)$, and three transpositions $(1\,2)$, $(1\,3)$, $(2\,3)$. Already there is a distinction: some permutations reverse an ordering, some do not.
 
@@ -41,7 +41,7 @@ $$
 \mathrm{sgn}(\sigma) := \frac{\Delta(x_{\sigma(1)},\ldots,x_{\sigma(n)})}{\Delta(x_1,\ldots,x_n)}\in\{+1,-1\}.
 $$
 
-This is a **homomorphism** $S_n\to\{+1,-1\}$: $\mathrm{sgn}(\sigma\tau)=\mathrm{sgn}(\sigma)\,\mathrm{sgn}(\tau)$. A transposition sends $\Delta$ to $-\Delta$, so $\mathrm{sgn}$ of a transposition is $-1$. (An *adjacent* transposition flips exactly one factor; a non-adjacent one, such as $(1\,3)$ in $S_4$, flips an odd number of factors. Either way the overall sign is $-1$.) Therefore $\mathrm{sgn}(\sigma)=(-1)^m$ whenever $\sigma$ is a product of $m$ transpositions. The number $m$ is not unique, but its *parity* is. See [parity of a permutation](https://en.wikipedia.org/wiki/Parity_of_a_permutation) for the inversion-count, adjacent-transposition, and cycle-index proofs that these notions coincide.
+This is a **homomorphism** $S_n\to\lbrace+1,-1\rbrace$: $\mathrm{sgn}(\sigma\tau)=\mathrm{sgn}(\sigma)\,\mathrm{sgn}(\tau)$. A transposition sends $\Delta$ to $-\Delta$, so $\mathrm{sgn}$ of a transposition is $-1$. (An *adjacent* transposition flips exactly one factor; a non-adjacent one, such as $(1\,3)$ in $S_4$, flips an odd number of factors. Either way the overall sign is $-1$.) Therefore $\mathrm{sgn}(\sigma)=(-1)^m$ whenever $\sigma$ is a product of $m$ transpositions. The number $m$ is not unique, but its *parity* is. See [parity of a permutation](https://en.wikipedia.org/wiki/Parity_of_a_permutation) for the inversion-count, adjacent-transposition, and cycle-index proofs that these notions coincide.
 
 The even permutations form a subgroup, the **alternating group** $A_n=\ker\mathrm{sgn}$ — exactly the permutations sent to $+1$. It has index $2$ in $S_n$ (two cosets, even and odd), hence order $n!/2$ for $n\ge 2$. The odd permutations are the other coset $A_n\cdot(1\,2)$; they do not form a subgroup, because odd times odd is even.
 
@@ -69,9 +69,9 @@ For $n\ge 5$ (in fact $n\neq 6$), $A_n$ is the *only* nontrivial proper normal s
 
 ## Why simplicity matters
 
-If a group is **simple**, it has no nontrivial proper normal subgroup, so it cannot be peeled into a smaller layer plus a quotient. Solvable groups are built from abelian pieces. A simple non-abelian group therefore cannot appear in a solvable series except as a dead end: you cannot start a stack of abelian quotients with it. That is why $A_5$ kills solvability of $S_5$: the only normal series of $S_5$ is $\{1\}\trianglelefteq A_5\trianglelefteq S_5$, and the factor $A_5$ is not abelian.
+If a group is **simple**, it has no nontrivial proper normal subgroup, so it cannot be peeled into a smaller layer plus a quotient. Solvable groups are built from abelian pieces. A simple non-abelian group therefore cannot appear in a solvable series except as a dead end: you cannot start a stack of abelian quotients with it. That is why $A_5$ kills solvability of $S_5$: the only normal series of $S_5$ is $\lbrace 1\rbrace\trianglelefteq A_5\trianglelefteq S_5$, and the factor $A_5$ is not abelian.
 
-Contrast $S_4$, which *can* be peeled: $\{1\}\trianglelefteq V_4\trianglelefteq A_4\trianglelefteq S_4$, with abelian (in fact cyclic, after one refinement) quotients.
+Contrast $S_4$, which *can* be peeled: $\lbrace 1\rbrace\trianglelefteq V_4\trianglelefteq A_4\trianglelefteq S_4$, with abelian (in fact cyclic, after one refinement) quotients.
 
 <p style="text-align:center;">
   <img src="/blog/assets/2026/abel-ruffini/lattice-s4-s5.png" alt="Solvable chain of S4 versus the dead-end chain of S5 through A5" style="max-width:100%;">
@@ -87,9 +87,9 @@ $$
 (a\,b)(a\,c) = (a\,c\,b), \qquad (a\,b)(c\,d) = (a\,c\,b)(a\,c\,d)
 $$
 
-when $\{a,b\}\cap\{c,d\}=\emptyset$. So products of two transpositions are products of $3$-cycles.
+when $\lbrace a,b\rbrace\cap\lbrace c,d\rbrace=\emptyset$. So products of two transpositions are products of $3$-cycles.
 
-**(ii) All $3$-cycles are conjugate in $A_n$ for $n\ge 5$.** In $S_n$, any two $3$-cycles are conjugate: if $\sigma=(1\,2\,3)$ then $\tau\sigma\tau^{-1}=(\tau(1)\,\tau(2)\,\tau(3))$. For $n\ge 5$ there are two unused letters, say $4$ and $5$. If the conjugating $\tau$ is odd, replace it by $\tau'=\tau\cdot(4\,5)$. Then $\tau'$ is even, so lies in $A_n$, and $\tau'\sigma(\tau')^{-1}=\tau\sigma\tau^{-1}$ because $(4\,5)$ does not meet $\{1,2,3\}$. Thus conjugacy of $3$-cycles still happens *inside* $A_n$.
+**(ii) All $3$-cycles are conjugate in $A_n$ for $n\ge 5$.** In $S_n$, any two $3$-cycles are conjugate: if $\sigma=(1\,2\,3)$ then $\tau\sigma\tau^{-1}=(\tau(1)\,\tau(2)\,\tau(3))$. For $n\ge 5$ there are two unused letters, say $4$ and $5$. If the conjugating $\tau$ is odd, replace it by $\tau'=\tau\cdot(4\,5)$. Then $\tau'$ is even, so lies in $A_n$, and $\tau'\sigma(\tau')^{-1}=\tau\sigma\tau^{-1}$ because $(4\,5)$ does not meet $\lbrace 1,2,3\rbrace$. Thus conjugacy of $3$-cycles still happens *inside* $A_n$.
 
 **(iii) Any nontrivial normal subgroup $N\trianglelefteq A_n$ ($n\ge 5$) contains a $3$-cycle.** Take $\sigma\in N$, $\sigma\neq\mathrm{id}$. Because $N$ is normal, every $A_n$-conjugate of $\sigma$ is in $N$, and so is every commutator $\tau\sigma\tau^{-1}\sigma^{-1}$. The even cycle types that can occur in $A_5$ are $3$-cycles, products of two disjoint transpositions, and $5$-cycles. The first is already a $3$-cycle. The other two are handled by an explicit conjugation:
 
@@ -110,7 +110,7 @@ when $\{a,b\}\cap\{c,d\}=\emptyset$. So products of two transpositions are produ
 
 Once $N$ contains *one* $3$-cycle, conjugacy (ii) puts *every* $3$-cycle in $N$, and generation (i) forces $N=A_n$. That is the whole of simplicity: a nontrivial normal subgroup cannot be proper.
 
-Thus $A_5$ is simple. It is non-abelian: $(1\,2\,3)(3\,4\,5)\neq (3\,4\,5)(1\,2\,3)$. Therefore $A_5$ admits no chain of subgroups down to $\{1\}$ with abelian successive quotients, except the trivial two-step $\{1\}\trianglelefteq A_5$ whose quotient is not abelian. The same argument, with the extra room of unused letters, shows $A_n$ is simple for all $n\ge 5$.
+Thus $A_5$ is simple. It is non-abelian: $(1\,2\,3)(3\,4\,5)\neq (3\,4\,5)(1\,2\,3)$. Therefore $A_5$ admits no chain of subgroups down to $\lbrace 1\rbrace$ with abelian successive quotients, except the trivial two-step $\lbrace 1\rbrace\trianglelefteq A_5$ whose quotient is not abelian. The same argument, with the extra room of unused letters, shows $A_n$ is simple for all $n\ge 5$.
 
 ## Solvable groups
 
@@ -131,12 +131,12 @@ The picture is a stack of commutative layers. Each radical step $F(\sqrt[n]{a})/
 **$S_2$, $S_3$, $S_4$ are solvable.**
 
 - $S_2\cong C_2$, already abelian.
-- $\{1\}\trianglelefteq A_3 \trianglelefteq S_3$ with quotients $C_3$ and $C_2$. Here $A_3=\langle(1\,2\,3)\rangle$.
-- $\{1\}\trianglelefteq V_4 \trianglelefteq A_4 \trianglelefteq S_4$, where $V_4=\{\mathrm{id},(1\,2)(3\,4),(1\,3)(2\,4),(1\,4)(2\,3)\}$ is the Klein four-group, abelian of order $4$. Quotients: $C_2\times C_2$, $C_3$, $C_2$.
+- $\lbrace 1\rbrace\trianglelefteq A_3 \trianglelefteq S_3$ with quotients $C_3$ and $C_2$. Here $A_3=\langle(1\,2\,3)\rangle$.
+- $\lbrace 1\rbrace\trianglelefteq V_4 \trianglelefteq A_4 \trianglelefteq S_4$, where $V_4=\lbrace\mathrm{id},(1\,2)(3\,4),(1\,3)(2\,4),(1\,4)(2\,3)\rbrace$ is the Klein four-group, abelian of order $4$. Quotients: $C_2\times C_2$, $C_3$, $C_2$.
 
 $V_4$ is normal in $S_4$ because conjugation preserves cycle type, and the three non-identity elements of $V_4$ are *all* the products of two disjoint transpositions in $S_4$. So $S_4$ permutes those three elements among themselves and leaves $V_4$ invariant. The quotient $A_4/V_4$ has order $3$, hence is cyclic. This is the group-theoretic shadow of Ferrari’s method: the resolvent cubic of a quartic is the quotient $S_4\to S_3\cong S_4/V_4$, and solving that cubic (solvable, because $S_3$ is) is the step that reduces a quartic to nested quadratics.
 
-**$S_n$ is not solvable for $n\ge 5$.** Two facts, connected. First: for $n\neq 6$, $A_n$ is the unique nontrivial proper normal subgroup of $S_n$ (it is $\ker\mathrm{sgn}$, index $2$). So any normal series from $\{1\}$ up to $S_n$ has $A_n$ as its last proper term: $\{1\}\trianglelefteq\cdots\trianglelefteq A_n\trianglelefteq S_n$. Second: $A_n$ is simple and non-abelian, so the stretch $\{1\}\trianglelefteq\cdots\trianglelefteq A_n$ cannot be refined into abelian quotients — the only possibilities are to skip $A_n$ (impossible, by uniqueness) or to leave the non-abelian factor $A_n$ in the series. There is no analogue of $V_4$ sitting normally inside $A_5$. That is the group-theoretic half of Abel–Ruffini, stated before we have fields. The rest of the series ([Vol. IV](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-IV) through [Vol. VI](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-VI)) is the identification: a radical formula produces a solvable group of symmetries of the root family, and the general quintic’s group is $S_5$. Then $S_5$ is too big.
+**$S_n$ is not solvable for $n\ge 5$.** Two facts, connected. First: for $n\neq 6$, $A_n$ is the unique nontrivial proper normal subgroup of $S_n$ (it is $\ker\mathrm{sgn}$, index $2$). So any normal series from $\lbrace 1\rbrace$ up to $S_n$ has $A_n$ as its last proper term: $\lbrace 1\rbrace\trianglelefteq\cdots\trianglelefteq A_n\trianglelefteq S_n$. Second: $A_n$ is simple and non-abelian, so the stretch $\lbrace 1\rbrace\trianglelefteq\cdots\trianglelefteq A_n$ cannot be refined into abelian quotients — the only possibilities are to skip $A_n$ (impossible, by uniqueness) or to leave the non-abelian factor $A_n$ in the series. There is no analogue of $V_4$ sitting normally inside $A_5$. That is the group-theoretic half of Abel–Ruffini, stated before we have fields. The rest of the series ([Vol. IV](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-IV) through [Vol. VI](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-VI)) is the identification: a radical formula produces a solvable group of symmetries of the root family, and the general quintic’s group is $S_5$. Then $S_5$ is too big.
 
 One more computational fact, used twice below.
 

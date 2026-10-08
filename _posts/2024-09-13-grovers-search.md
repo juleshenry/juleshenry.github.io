@@ -138,7 +138,7 @@ Flip the order: a column times a row is not a number but a **matrix**. This is t
 
 $$\lvert \psi \rangle \langle \phi \rvert \quad (N \times 1 \text{ times } 1 \times N = N \times N)$$
 
-For example, $\lvert 0 \rangle\langle 0 \rvert = \begin{pmatrix} 1 \\ 0 \end{pmatrix}\begin{pmatrix} 1 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}$.
+For example, $\lvert 0 \rangle\langle 0 \rvert = \begin{pmatrix} 1 \cr 0 \end{pmatrix}\begin{pmatrix} 1 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 0 \cr 0 & 0 \end{pmatrix}$.
 
 You almost never multiply these out. Instead, use associativity and let the bra-ket collapse to a number first:
 
@@ -253,7 +253,7 @@ A matrix $A$ is **Hermitian** (also called self-adjoint) if $A = A^\dagger$: it 
 - Eigenvectors for distinct eigenvalues are **orthogonal**.
 - A Hermitian matrix can always be diagonalized by a unitary matrix (the spectral theorem): $A = \sum_j \lambda_j \lvert v_j \rangle\langle v_j \rvert$, a weighted sum of projectors. There is Step 3 again.
 
-**Example**: The matrix $\begin{pmatrix} 2 & 1-i \\ 1+i & 3 \end{pmatrix}$ is Hermitian. Swap rows and columns, conjugate, and you get the same matrix back. Check it yourself -- it takes ten seconds.
+**Example**: The matrix $\begin{pmatrix} 2 & 1-i \cr 1+i & 3 \end{pmatrix}$ is Hermitian. Swap rows and columns, conjugate, and you get the same matrix back. Check it yourself -- it takes ten seconds.
 
 ### The Hamiltonian: The Energy Operator
 

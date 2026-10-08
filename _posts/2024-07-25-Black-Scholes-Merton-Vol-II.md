@@ -176,7 +176,7 @@ The logs **add**. If the daily log-returns are independent with finite mean and 
 
 ![A Gaussian for the price spills below zero; a lognormal cannot](/blog/assets/2024/bsm/normal-vs-lognormal.png)
 
-Two objections to a normal for the *price* are gone. $S_T>0$ always. And a $\$10$ stock and a $\$1000$ stock can share the same $\sigma$, because $\sigma$ measures *percentage* spread: scaling the price by $c$ just adds $\ln c$ to $\mu$. A normal with a fixed $\sigma$ would give both stocks the same *dollar* spread, which no one believes.
+Two objections to a normal for the *price* are gone. $S_T>0$ always. And a $\\$10$ stock and a $\\$1000$ stock can share the same $\sigma$, because $\sigma$ measures *percentage* spread: scaling the price by $c$ just adds $\ln c$ to $\mu$. A normal with a fixed $\sigma$ would give both stocks the same *dollar* spread, which no one believes.
 
 **A change of letters.** In §3, $\mu$ and $\sigma$ become the stock's drift and volatility, and the log-price turns out normal with parameters *built from* them but not equal to them. To keep the two apart, write the log-price's parameters as $(m,s)$:
 
@@ -195,7 +195,7 @@ Five steps. Write the stock as an ODE plus noise. Find the one Taylor term that 
 
 ## From ODE to SDE
 
-$W_t$ is a bad model for a stock. It can be negative, and a $\$100$ stock and a $\$10$ stock should not make dollar moves of the same typical size.
+$W_t$ is a bad model for a stock. It can be negative, and a $\\$100$ stock and a $\\$10$ stock should not make dollar moves of the same typical size.
 
 You already know the ODE $dS=\mu S\,dt$, whose solution is $S_t=S_0 e^{\mu t}$. The model used here is that ODE plus noise, scaled by the current price so the *percentage* move is Wiener. That is **geometric Brownian motion**:
 
@@ -208,7 +208,7 @@ Read it as a recipe for a short interval $dt$:
 - a deterministic fraction $\mu\,dt$ (the **drift** $\mu$ is the expected rate of return);
 - plus a random fraction $\sigma\,dW_t$ (the **volatility** $\sigma$ scales the Wiener increment).
 
-Because the noise is multiplied by $S_t$, a $\$200$ stock has twice the dollar volatility of a $\$100$ stock, and $S_t$ stays positive. The $d$ on the left is an increment, not a derivative.
+Because the noise is multiplied by $S_t$, a $\\$200$ stock has twice the dollar volatility of a $\\$100$ stock, and $S_t$ stays positive. The $d$ on the left is an increment, not a derivative.
 
 A dollar in the **money-market account** (riskless savings at a constant rate $r$) grows as $B_t=e^{rt}$. Continuous compounding: $e^{0.05}\approx 1.0513$ over a year.
 
@@ -220,7 +220,7 @@ The solution of $(2)$ is *not* $S_0 e^{\mu t}$ times a noise factor. The exponen
 
 ## The term calculus drops
 
-The chain rule you already know is first-order Taylor. If $x$ moves by $dx$, then $f$ moves by $f'(x)\,dx$, and the next term $\tfrac12 f''(x)\,(dx)^2$ is discarded because it vanishes faster than $dx$. For a path with a tangent that discard is legal.
+The chain rule you already know is first-order Taylor. If $x$ moves by $dx$, then $f$ moves by $f'(x)\,dx$, and the next term $\tfrac12 f^{\prime\prime}(x)\,(dx)^2$ is discarded because it vanishes faster than $dx$. For a path with a tangent that discard is legal.
 
 A Wiener path has no tangent. Each increment satisfies $(dW)^2=dt$, the same size as the clock, so the second-order term survives. In 1942 Kiyosi Itô put it back.
 
@@ -289,7 +289,7 @@ The $\tfrac12\sigma^2$ that left the log-drift is the $e^{s^2/2}$ from the MGF. 
 
 ## The call as an integral
 
-Now forget where $(m,s)$ came from. Assume only $\ln S_T\sim\mathcal{N}(m,s^2)$. Split the payoff on $\{S_T>K\}$:
+Now forget where $(m,s)$ came from. Assume only $\ln S_T\sim\mathcal{N}(m,s^2)$. Split the payoff on $\lbrace S_T>K\rbrace$:
 
 $$
 \mathbb{E}[(S_T-K)^+]
@@ -387,9 +387,9 @@ Subtract: $\Delta=2/3$, then $B=-33.33$. Today the portfolio costs $\tfrac23\cdo
 
 A free lunch if the quote is not $33.33$. The physical probability that the stock doubles never entered. Two linear equations.
 
-Now run it backwards. Is there a probability $p^*$ of the up-move under which the call's price is simply its expected payoff? Only one makes the *stock* a fair game — expected value $100$, no drift: $200p^*+50(1-p^*)=100$, so $p^*=1/3$. And $C=p^*\cdot 100=33.33$ again. With interest, a dollar grows by a factor $R$ over the step, the fair-game condition becomes $\mathbb{E}^*[S_1]=R\,S_0$, i.e. $p^*=(R-d)/(u-d)$, and the call is the discounted $\mathbb{E}^*$ of its payoff. That $p^*$ is not the real-world chance of the up-move. It is the probability that makes the discounted stock a martingale, in the sense of §1. It is called **risk-neutral** because under it the stock earns only what the bank does.
+Now run it backwards. Is there a probability $p^{\ast}$ of the up-move under which the call's price is simply its expected payoff? Only one makes the *stock* a fair game — expected value $100$, no drift: $200p^{\ast}+50(1-p^{\ast})=100$, so $p^{\ast}=1/3$. And $C=p^{\ast}\cdot 100=33.33$ again. With interest, a dollar grows by a factor $R$ over the step, the fair-game condition becomes $\mathbb{E}^{\ast}[S_1]=R\,S_0$, i.e. $p^{\ast}=(R-d)/(u-d)$, and the call is the discounted $\mathbb{E}^{\ast}$ of its payoff. That $p^{\ast}$ is not the real-world chance of the up-move. It is the probability that makes the discounted stock a martingale, in the sense of §1. It is called **risk-neutral** because under it the stock earns only what the bank does.
 
-Notice what changing $p$ to $p^*$ did *not* touch: the two leaves, $200$ and $50$. The step sizes set the spread; the probabilities set the drift. That is why $\sigma$ will survive the switch and $\mu$ will not.
+Notice what changing $p$ to $p^{\ast}$ did *not* touch: the two leaves, $200$ and $50$. The step sizes set the spread; the probabilities set the drift. That is why $\sigma$ will survive the switch and $\mu$ will not.
 
 A tree calibrated to $r=5\%$, $\sigma=20\%$, one year, $S=K=100$, with Cox–Ross–Rubinstein $u=e^{\sigma\sqrt{\Delta t}}$, $d=1/u$, walks from $12.16$ ($n=1$) to $10.45$ ($n\to\infty$):
 
@@ -511,7 +511,7 @@ For the rain-check numbers, $P\approx 5.57$, and $C-P=4.88$, the $\sigma=0$ row.
 # Where this goes
 {: #where-this-goes}
 
-The derivation used a lognormal, one integral, and a tree. Black and Scholes did not do it this way: they wrote a partial differential equation, and it turns out to be the heat equation in disguise. And the two $\Phi$'s in $(1)$ are probabilities of the *same* event, $\{S_T>K\}$, yet they differ; a change of numeraire explains why. Those are the first two stops in Vol. III. The third is the list of assumptions from Vol. I, now that we have seen exactly where each one was spent.
+The derivation used a lognormal, one integral, and a tree. Black and Scholes did not do it this way: they wrote a partial differential equation, and it turns out to be the heat equation in disguise. And the two $\Phi$'s in $(1)$ are probabilities of the *same* event, $\lbrace S_T>K\rbrace$, yet they differ; a change of numeraire explains why. Those are the first two stops in Vol. III. The third is the list of assumptions from Vol. I, now that we have seen exactly where each one was spent.
 
 ---
 

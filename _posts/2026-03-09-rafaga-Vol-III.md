@@ -129,9 +129,9 @@ $\Pi_2 = \mathbb Q(\ln\text{VIX}_T > \ln K)$ is a probability, and the **Gil-Pel
 
 $$\Pi_2 = \frac12 + \frac1\pi\int_0^\infty \frac{\operatorname{Im}\big(e^{-iuk}\psi(u)\big)}{u}\,du, \qquad k = \ln K.$$
 
-(Where does it come from? $\mathbf 1\{X>k\} = \tfrac12 + \tfrac12\operatorname{sign}(X-k)$, and the sign function has the Fourier representation $\operatorname{sign}(y) = \frac2\pi\int_0^\infty \frac{\sin(uy)}{u}du$. Take expectations and swap the integrals.)
+(Where does it come from? $\mathbf 1\lbrace X>k\rbrace = \tfrac12 + \tfrac12\operatorname{sign}(X-k)$, and the sign function has the Fourier representation $\operatorname{sign}(y) = \frac2\pi\int_0^\infty \frac{\sin(uy)}{u}du$. Take expectations and swap the integrals.)
 
-$\Pi_1 = \mathbb E[\text{VIX}_T\mathbf 1\{\cdot\}]/F$ is the same kind of probability, under a measure that weights each outcome by $\text{VIX}_T/F$. Its characteristic function is $\psi(u - i)/\psi(-i)$, so the same formula applies with that in place of $\psi(u)$. Under MRLR the two collapse to $\Phi(d_1)$ and $\Phi(d_2)$ and we are back to Black; with jumps or random vol-of-vol they are two integrals, and the price is **one pair of integrals per strike**. No Monte Carlo, no PDE grid.
+$\Pi_1 = \mathbb E[\text{VIX}_T\mathbf 1\lbrace\cdot\rbrace]/F$ is the same kind of probability, under a measure that weights each outcome by $\text{VIX}_T/F$. Its characteristic function is $\psi(u - i)/\psi(-i)$, so the same formula applies with that in place of $\psi(u)$. Under MRLR the two collapse to $\Phi(d_1)$ and $\Phi(d_2)$ and we are back to Black; with jumps or random vol-of-vol they are two integrals, and the price is **one pair of integrals per strike**. No Monte Carlo, no PDE grid.
 
 ---
 

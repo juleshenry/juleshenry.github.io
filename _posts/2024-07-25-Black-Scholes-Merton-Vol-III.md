@@ -88,13 +88,13 @@ What this road buys you is *numerics*. When the payoff or the boundary makes the
 # 2. Change of numeraire
 {: #2-change-of-numeraire}
 
-The two $\Phi$'s in $(1)$ are both probabilities that the call finishes in the money, $\{S_T>K\}$. Yet $\Phi(d_1)\approx 0.637$ and $\Phi(d_2)\approx 0.560$. Same event, two probabilities. The explanation is that they are measured in different units of account. To say that precisely we first need the tool Vol. II asserted: changing probabilities without changing the spread.
+The two $\Phi$'s in $(1)$ are both probabilities that the call finishes in the money, $\lbrace S_T>K\rbrace$. Yet $\Phi(d_1)\approx 0.637$ and $\Phi(d_2)\approx 0.560$. Same event, two probabilities. The explanation is that they are measured in different units of account. To say that precisely we first need the tool Vol. II asserted: changing probabilities without changing the spread.
 
 The calculation below follows Fabrice Douglas Rouah, *Four Derivations of the Black-Scholes Formula*. The original host is gone. A copy is [here](/blog/assets/2024/bsm/Black-Scholes-Formula-Rouah.pdf); the [Wayback capture of 19 July 2024](https://web.archive.org/web/20240719130017/https://www.frouah.com/finance%20notes/Black%20Scholes%20Formula.pdf) is the provenance.
 
 ## Girsanov, from two Gaussians
 
-On the tree, the likelihood ratio on one step is $p^*/p$ on up and $(1-p^*)/(1-p)$ on down. Then $\mathbb{E}^*[X]=\mathbb{E}[X\,\xi]$. Over $n$ steps, $\xi$ is the product of those ratios. That product *is* Girsanov, before the limit.
+On the tree, the likelihood ratio on one step is $p^{\ast}/p$ on up and $(1-p^{\ast})/(1-p)$ on down. Then $\mathbb{E}^{\ast}[X]=\mathbb{E}[X\,\xi]$. Over $n$ steps, $\xi$ is the product of those ratios. That product *is* Girsanov, before the limit.
 
 **One Gaussian.** Under $\mathbb{P}$, $W_t\sim\mathcal{N}(0,t)$. We want $\mathbb{Q}$ under which $W_t\sim\mathcal{N}(-\theta t,\,t)$, so that $W_t+\theta t$ is standard Wiener. Divide the two densities:
 
@@ -178,7 +178,7 @@ $$
 \exp\bigl(-\tfrac12\sigma^2\tau + \sigma\sqrt{\tau}\,Z\bigr).
 $$
 
-That is the Girsanov density $\xi=\exp(-\theta W-\tfrac12\theta^2 t)$ from above, with $\theta=-\sigma$ and $W_{\tau}=\sqrt{\tau}\,Z$. The tilt *adds* $\sigma\sqrt{\tau}$ to $Z$. The event $\{S_T>K\}$ is $\{Z>-d_2\}$ under $\mathbb{Q}$; after the tilt it is $\{Z+\sigma\sqrt{\tau}>-d_2\}=\{Z>-d_1\}$, so
+That is the Girsanov density $\xi=\exp(-\theta W-\tfrac12\theta^2 t)$ from above, with $\theta=-\sigma$ and $W_{\tau}=\sqrt{\tau}\,Z$. The tilt *adds* $\sigma\sqrt{\tau}$ to $Z$. The event $\lbrace S_T>K\rbrace$ is $\lbrace Z>-d_2\rbrace$ under $\mathbb{Q}$; after the tilt it is $\lbrace Z+\sigma\sqrt{\tau}>-d_2\rbrace=\lbrace Z>-d_1\rbrace$, so
 
 $$
 \mathbb{Q}^{S}(S_T>K) \;=\; \Phi(d_1).
@@ -249,9 +249,11 @@ The smile is the market telling you which assumption to drop. Each fix correspon
 
 - **Fat tails.** If $\ln S_T$ is Student-$t$ rather than Gaussian, completing the square fails: that move is a property of $\exp(-\tfrac12 z^2)$, not of densities in general. No closed form; integrate numerically. Fatter tails than the lognormal make far-out-of-the-money options dearer, which is a smile.
 - **Wandering volatility.** If $\sigma_t$ is itself random (Heston), then $s$ is random, and conditional on $s$ the stock is lognormal. The call is an *average* of Black–Scholes prices, one per realised $s$:
+
   $$
   \mathbb{E}[(S_T-K)^+] \;=\; \mathbb{E}\bigl[e^{m+s^2/2}\Phi(d_{+}(s)) - K\Phi(d_{-}(s))\bigr].
   $$
+
   Averaging over $s$ fattens both tails. Correlate $\sigma$ with $S$ negatively — vol rises when the market falls — and the left tail fattens more: a smirk.
 - **Jumps.** Wiener paths are continuous; a crash is a gap. Merton added Poisson jumps on top of the Wiener process. Conditional on the number of jumps, $\ln S_T$ is Gaussian, so the price is a Poisson-weighted *sum* of $\Phi$-pairs. You cannot hedge a jump with $\Delta$ shares, so the market is no longer complete, and the price is no longer unique: it depends on what the market charges for jump risk.
 - **Local volatility.** Or let $\sigma=\sigma(S,t)$, fitted so that every quoted strike is recovered exactly (Dupire, 1994). One function reproduces the whole smile today. But $S_T$ is then typically not lognormal, and the two-$\Phi$ formula is being used as a quoting dictionary, not as a model.

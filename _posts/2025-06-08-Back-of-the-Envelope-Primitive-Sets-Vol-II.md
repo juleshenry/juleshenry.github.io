@@ -79,6 +79,7 @@ Each integer $a$ is given a positive weight that gets smaller as $a$ gets larger
 $$
 \log 6 \approx 1.792, \quad 6\log 6 \approx 10.75, \quad \frac{1}{6\log 6} \approx 0.093,
 $$
+
 $$
 \log 10 \approx 2.303, \quad \frac{1}{10\log 10} \approx 0.043, \qquad \log 15 \approx 2.708, \quad \frac{1}{15\log 15} \approx 0.025.
 $$

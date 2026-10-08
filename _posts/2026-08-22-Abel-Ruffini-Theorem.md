@@ -48,7 +48,7 @@ The formula **solves the quintic** if the value we follow is always a root: $p_{
 
 # Step 1: loops of coefficients permute the roots
 
-Start at coefficients $a$ with five distinct roots $r_1,\ldots,r_5$. Move $a$ around a closed loop $\gamma$ that avoids the bad set. Each root moves continuously, and at the end the polynomial is $p_a$ again, so the roots land on $\{r_1,\ldots,r_5\}$ again, perhaps in a different order. The loop $\gamma$ therefore defines a permutation $\pi(\gamma)\in S_5$.
+Start at coefficients $a$ with five distinct roots $r_1,\ldots,r_5$. Move $a$ around a closed loop $\gamma$ that avoids the bad set. Each root moves continuously, and at the end the polynomial is $p_a$ again, so the roots land on $\lbrace r_1,\ldots,r_5\rbrace$ again, perhaps in a different order. The loop $\gamma$ therefore defines a permutation $\pi(\gamma)\in S_5$.
 
 **Every permutation is achievable.** Run the argument backwards. Choose any continuous motion of five points in the plane that never collide and that ends with the points permuted the way you want: for a swap, rotate $r_1$ and $r_2$ half a turn around their midpoint while the others stay still. Then define
 
@@ -74,7 +74,7 @@ It is a closed loop. Its permutation is $\pi(\delta)^{-1}\pi(\gamma)^{-1}\pi(\de
 
 **Depth $0$.** An expression with no radicals is a rational function of the coefficients. It is single-valued, so after *any* loop it returns to its starting value. It cannot solve even a quadratic, because the swap loop of Step 1 sends $r_1$ to $r_2$ while the expression comes back to $r_1$. (This already says something: no root of $x^2+bx+c$ is a rational function of $b$ and $c$. You need a square root.)
 
-**Depth $1$.** Take $\sqrt[n]{R}$ with $R$ a rational function of the coefficients. Along a loop $\gamma$, $R$ traces a closed curve in $\mathbb{C}\setminus\{0\}$ with some **winding number** $w(\gamma)\in\mathbb{Z}$ around $0$. Write $R=\rho e^{i\theta}$ with $\rho$ and $\theta$ varying continuously. The followed value of $\sqrt[n]{R}$ is $\rho^{1/n}e^{i\theta/n}$. At the end, $\rho$ is back where it started and $\theta$ has grown by $2\pi w(\gamma)$, so the root has been multiplied by
+**Depth $1$.** Take $\sqrt[n]{R}$ with $R$ a rational function of the coefficients. Along a loop $\gamma$, $R$ traces a closed curve in $\mathbb{C}\setminus\lbrace 0\rbrace$ with some **winding number** $w(\gamma)\in\mathbb{Z}$ around $0$. Write $R=\rho e^{i\theta}$ with $\rho$ and $\theta$ varying continuously. The followed value of $\sqrt[n]{R}$ is $\rho^{1/n}e^{i\theta/n}$. At the end, $\rho$ is back where it started and $\theta$ has grown by $2\pi w(\gamma)$, so the root has been multiplied by
 
 $$
 e^{2\pi i\,w(\gamma)/n}.
@@ -96,7 +96,7 @@ $$
 
 **Claim.** Every value of a formula of depth at most $k$ returns to itself after every loop in $\Gamma_k$.
 
-*Proof, by induction on $k$.* Depth $0$ is done. Suppose the claim holds up to depth $k$. (Note that $\Gamma_k\subseteq\Gamma_{k-1}$ in effect: every loop in $\Gamma_k$ is a concatenation of loops in $\Gamma_{k-1}$ and their reverses.) A depth-$(k+1)$ formula is built by arithmetic from depth-$\le k$ pieces and radicals $\sqrt[n]{R}$ whose radicands $R$ have depth $\le k$. Every loop in $\Gamma_{k+1}$ is a concatenation of loops in $\Gamma_k$ and their reverses. By induction, each of those returns every value of the depth-$\le k$ pieces, so the concatenation does too. That leaves the new radicals. Take $\gamma,\delta\in\Gamma_k$ and follow a value of $R$. By induction it returns after $\gamma$ and after $\delta$. So along $[\gamma,\delta]$ it traces four closed curves in $\mathbb{C}\setminus\{0\}$, and each segment starts from exactly the configuration that $\gamma$ started from. The four windings are $w(\gamma)$, $w(\delta)$, $-w(\gamma)$, $-w(\delta)$, which sum to $0$. So each value of $\sqrt[n]{R}$ returns, exactly as at depth $1$. $\square$
+*Proof, by induction on $k$.* Depth $0$ is done. Suppose the claim holds up to depth $k$. (Note that $\Gamma_k\subseteq\Gamma_{k-1}$ in effect: every loop in $\Gamma_k$ is a concatenation of loops in $\Gamma_{k-1}$ and their reverses.) A depth-$(k+1)$ formula is built by arithmetic from depth-$\le k$ pieces and radicals $\sqrt[n]{R}$ whose radicands $R$ have depth $\le k$. Every loop in $\Gamma_{k+1}$ is a concatenation of loops in $\Gamma_k$ and their reverses. By induction, each of those returns every value of the depth-$\le k$ pieces, so the concatenation does too. That leaves the new radicals. Take $\gamma,\delta\in\Gamma_k$ and follow a value of $R$. By induction it returns after $\gamma$ and after $\delta$. So along $[\gamma,\delta]$ it traces four closed curves in $\mathbb{C}\setminus\lbrace 0\rbrace$, and each segment starts from exactly the configuration that $\gamma$ started from. The four windings are $w(\gamma)$, $w(\delta)$, $-w(\gamma)$, $-w(\delta)$, which sum to $0$. So each value of $\sqrt[n]{R}$ returns, exactly as at depth $1$. $\square$
 
 The claim needs only that each building block is continuous and single-valued. So you can add $e^{z}$, $\sin z$, or any other entire function to the toolkit, and the proof goes through unchanged. What it rules out is the combination of arithmetic and roots, not some limitation of polynomials.
 
@@ -197,12 +197,12 @@ for n in (2, 3, 4, 5):
 
 For $S_5$, the set of single commutators already has size $60$, so here it equals the group it generates. That group is $A_5$, the even permutations, and its commutators are $A_5$ again. It never shrinks, which is the lemma above seen from a computer.
 
-- **Degree 2:** $S_2\to\{1\}$ in one step. Commutators already fix both roots, so nothing rules out depth $1$, and the quadratic formula has depth $1$.
-- **Degree 3:** $S_3\to A_3\to\{1\}$. One layer of commutators still moves the roots, since $[(1\,2),(1\,3)]$ is a $3$-cycle, so no depth-$1$ formula exists. Two layers kill everything. So the formula needs a root inside a root, and Cardano's cube root of a square root is exactly that.
-- **Degree 4:** $S_4\to A_4\to V_4\to\{1\}$, where $V_4$ consists of the three double transpositions and the identity. Two $3$-cycles in $S_4$ share at least two letters, and their commutator lands in $V_4$, which is commutative. So the quartic needs depth $3$, which is Ferrari.
-- **Degree 5:** $S_5\to A_5\to A_5\to\cdots$ never reaches $\{1\}$.
+- **Degree 2:** $S_2\to\lbrace 1\rbrace$ in one step. Commutators already fix both roots, so nothing rules out depth $1$, and the quadratic formula has depth $1$.
+- **Degree 3:** $S_3\to A_3\to\lbrace 1\rbrace$. One layer of commutators still moves the roots, since $[(1\,2),(1\,3)]$ is a $3$-cycle, so no depth-$1$ formula exists. Two layers kill everything. So the formula needs a root inside a root, and Cardano's cube root of a square root is exactly that.
+- **Degree 4:** $S_4\to A_4\to V_4\to\lbrace 1\rbrace$, where $V_4$ consists of the three double transpositions and the identity. Two $3$-cycles in $S_4$ share at least two letters, and their commutator lands in $V_4$, which is commutative. So the quartic needs depth $3$, which is Ferrari.
+- **Degree 5:** $S_5\to A_5\to A_5\to\cdots$ never reaches $\lbrace 1\rbrace$.
 
-That chain of groups is the **derived series**, and "reaches $\{1\}$" is the definition of a **solvable group** ([Vol. III](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-III)). The topological proof and the Galois proof are the same obstruction seen from two sides: loops of coefficients here, automorphisms of fields there.
+That chain of groups is the **derived series**, and "reaches $\lbrace 1\rbrace$" is the definition of a **solvable group** ([Vol. III](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-III)). The topological proof and the Galois proof are the same obstruction seen from two sides: loops of coefficients here, automorphisms of fields there.
 
 ---
 

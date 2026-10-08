@@ -171,7 +171,7 @@ $$ \sum_{a \in A_n} d(L_a) \;\le\; \sqrt{v}\cdot\bigl(1+o(1)\bigr)\cdot d(L_n). 
 
 For $v < 1$ this is strictly better than the trivial budget $\sum d(L_a) \le d(L_n)$. At $v = 1/4$ you may spend at most about half the slot; at $v = 1/100$, at most about a tenth. **A primitive set cannot fill a slot with numbers that are all nearly prime.**
 
-Where does $\sqrt{v}$ come from? For each $a$, let $a^* = a/P(a)$ (so $a^*$ is $a$ with its largest prime stripped off), and let $Q = P(a^*)$ be the second-largest prime factor of $a$. The extra multipliers $c$ are the integers --- including $c = 1$ --- whose prime factors all lie in a window
+Where does $\sqrt{v}$ come from? For each $a$, let $a^* = a/P(a)$ (so $a^{\ast}$ is $a$ with its largest prime stripped off), and let $Q = P(a^{\ast})$ be the second-largest prime factor of $a$. The extra multipliers $c$ are the integers --- including $c = 1$ --- whose prime factors all lie in a window
 
 $$
 \bigl[Q,\; Q^{1/\sqrt{v}}\bigr).

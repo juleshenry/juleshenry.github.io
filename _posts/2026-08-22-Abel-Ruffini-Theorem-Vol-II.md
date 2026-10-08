@@ -31,7 +31,7 @@ What the rest of the argument needs from this theorem is only the family of root
 
 Two corollaries, and nothing more from the analytic side.
 
-**The family of roots.** Given $p$ of degree $n$, we may speak of a complete **family** $\{r_1,\ldots,r_n\}$ in $\mathbb{C}$. Labels are arbitrary; later we will ask which rearrangements of the labels can be realized by maps that fix the coefficients.
+**The family of roots.** Given $p$ of degree $n$, we may speak of a complete **family** $\lbrace r_1,\ldots,r_n\rbrace$ in $\mathbb{C}$. Labels are arbitrary; later we will ask which rearrangements of the labels can be realized by maps that fix the coefficients.
 
 **Conjugate pairs.** If $p$ has *real* coefficients and $p(z)=0$, then $p(\overline{z})=0$, because conjugation $z\mapsto\overline{z}$ is a field automorphism of $\mathbb{C}$ fixing $\mathbb{R}$. Non-real roots therefore come in pairs $\lbrace z,\overline{z}\rbrace$.
 
@@ -98,6 +98,7 @@ The first term $b_k z^k$ can be *aimed*. We want a direction $\beta$ with $b_k\b
 **De Moivre, and $k$th roots.**
 
 > **De Moivre's theorem.** If $k$ is a positive integer and $\theta\in\mathbb{R}$, then
+>
 > $$(\cos\theta + i\sin\theta)^k \;=\; \cos(k\theta) + i\sin(k\theta).$$
 
 The proof is induction on $k$, using the addition formulas $\cos(\theta+\varphi)=\cos\theta\cos\varphi-\sin\theta\sin\varphi$ and $\sin(\theta+\varphi)=\sin\theta\cos\varphi+\cos\theta\sin\varphi$. Those two identities are the whole of trigonometry that the argument needs.
