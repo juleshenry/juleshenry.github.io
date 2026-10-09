@@ -52,20 +52,23 @@ The critical advantage: all the "twiddle factor multiplications" in the FFT butt
 
 Given two $n$-bit integers $x$ and $y$, choose parameters:
 - Let $K = 2^k$ for some $k$ (the number of chunks).
-- Let $m = \lceil n / K \rceil + O(k)$ (the chunk size in bits, with some padding for carries).
+- Let $\ell = \lceil n / K \rceil$ (the chunk size in bits).
+- Let $m \approx 2\ell + k$ (the size of a ring element in bits).
 - Work in the ring $R = \mathbb{Z}/(2^m + 1)\mathbb{Z}$.
 
-The parameters are chosen so that $K \approx \sqrt{n}$ (roughly), meaning we split each input into about $\sqrt{n}$ chunks of about $\sqrt{n}$ bits each.
+Why is $m$ about *twice* $\ell$? Because the ring has to hold the answer, not just the input. A convolution coefficient is a sum of up to $K$ products of two $\ell$-bit chunks, so it can be as large as $K \cdot 2^{2\ell} = 2^{2\ell + k}$. The modulus must exceed that, or the coefficients wrap around and are lost. This factor of two looks like bookkeeping. It turns out to be the entire source of the $\log \log n$, as we will see below.
+
+The parameters are chosen so that $K \approx \sqrt{n}$ (roughly), meaning we split each input into about $\sqrt{n}$ chunks of about $\sqrt{n}$ bits each, held in a ring whose elements are about $2\sqrt{n}$ bits wide.
 
 ### Step 1: Decomposition
 
-Break each $n$-bit integer into $K$ chunks of $\sim m$ bits:
+Break each $n$-bit integer into $K$ chunks of $\ell$ bits:
 
 $$
-x = \sum_{j=0}^{K-1} a_j \cdot 2^{jm}, \qquad y = \sum_{j=0}^{K-1} b_j \cdot 2^{jm}
+x = \sum_{j=0}^{K-1} a_j \cdot 2^{j\ell}, \qquad y = \sum_{j=0}^{K-1} b_j \cdot 2^{j\ell}
 $$
 
-Form the polynomials $A(z) = \sum a_j z^j$ and $B(z) = \sum b_j z^j$ over $R$, so that $x = A(2^m)$ and $y = B(2^m)$.
+Form the polynomials $A(z) = \sum a_j z^j$ and $B(z) = \sum b_j z^j$ over $R$, so that $x = A(2^\ell)$ and $y = B(2^\ell)$.
 
 ### Step 2: Forward NTT
 
@@ -96,24 +99,38 @@ The vector $\mathbf{c}$ now contains the convolution of $\mathbf{a}$ and $\mathb
 ## Why $\log \log n$?
 
 The complexity breaks down as follows. At the top level we have:
-- NTT and INTT: $O(Nm \log N)$ bit operations for the transforms.
-- Pointwise multiplications: $N$ recursive multiplications on $m$-bit inputs.
+- NTT and INTT: $O(Nm \log N)$ bit operations for the transforms, which is $O(n \log n)$.
+- Pointwise multiplications: recursive multiplications on $m$-bit inputs.
 
-With $K \approx \sqrt{n}$ and $m \approx \sqrt{n}$, the recurrence is roughly:
+How many recursive multiplications? One more detail matters here. A plain convolution of two length-$K$ sequences has $2K - 1$ coefficients, which is why the pipeline above pads the transform to length $N \geq 2K$. Schönhage and Strassen avoid the padding: they compute the product modulo $2^n + 1$, which turns the convolution into a *wrapped* one of length exactly $K$. So only $K$ pointwise products are needed, each on ring elements of $m \approx 2n/K$ bits.
+
+With $K \approx \sqrt{n}$, the recurrence is:
 
 $$
-T(n) = O\!\left(\sqrt{n} \cdot T(\sqrt{n})\right) + O(n \log n)
+T(n) = \sqrt{n} \cdot T\!\left(2\sqrt{n}\right) + O(n \log n)
 $$
 
-Let us trace the recursion. At depth $d$, the problem size is $n^{1/2^d}$. The recursion bottoms out when $n^{1/2^d} = O(1)$, which requires $2^d \approx \log n$, giving a recursion depth of $d = O(\log \log n)$.
+The $2$ inside the recursive call is the factor from Step 0: a product needs twice the bits of its factors. It is easy to drop, and dropping it changes the answer. To see why, count the cost *per bit*. Write $t(n) = T(n)/n$. The $\sqrt{n}$ sub-problems of size $2\sqrt{n}$ hold $2n$ bits between them, so
 
-At each recursion level, the non-recursive work is $O(n \log n)$ (the NTTs). Summing over $O(\log \log n)$ levels:
+$$
+t(n) = 2\,t\!\left(2\sqrt{n}\right) + O(\log n)
+$$
+
+Now trace the recursion. At depth $d$ the problem size is about $n^{1/2^d}$, so its logarithm is about $(\log n)/2^d$: the logarithm *halves* at every level. But the number of bits in play *doubles* at every level, because of that factor of two. The two effects cancel exactly:
+
+$$
+\underbrace{2^d \cdot n}_{\text{bits in play at depth } d} \;\times\; \underbrace{\frac{\log n}{2^d}}_{\text{log of the sub-problem size}} \;=\; n \log n
+$$
+
+Every level costs the same $O(n \log n)$. The recursion bottoms out when $n^{1/2^d} = O(1)$, which requires $2^d \approx \log n$, giving a recursion depth of $d = O(\log \log n)$. Summing equal contributions over $O(\log \log n)$ levels:
 
 $$
 T(n) = O(n \log n \cdot \log \log n)
 $$
 
-This is the Schönhage-Strassen bound. The $\log \log n$ factor is not a deficiency of the FFT itself -- the FFT is $O(n \log n)$. It is the cost of the **recursive multiplications** needed at each level of the NTT.
+This is the Schönhage-Strassen bound, and it sits on a knife-edge. Without the doubling -- if the recurrence were $T(n) = \sqrt{n} \cdot T(\sqrt{n}) + O(n \log n)$ -- the levels would shrink geometrically, $n \log n \,(1 + \tfrac12 + \tfrac14 + \cdots)$, and the total would be a clean $O(n \log n)$. With slightly *more* than doubling -- $2K$ pointwise products instead of $K$ -- the levels would grow geometrically and the total would be $O(n \log^2 n)$. The $\log \log n$ lives exactly at the balance point between the two. Harvey and van der Hoeven make the same observation about this recurrence in their own paper: the constant 2 "plays a crucial role in the complexity analysis," because it keeps the cost of the transforms the same at every level.
+
+So the $\log \log n$ factor is not a deficiency of the FFT itself -- the FFT is $O(n \log n)$. It is the cost of the **recursive multiplications** needed at each level of the NTT, on numbers that are twice as wide as the chunks they came from.
 
 ## A Comparison
 
@@ -147,15 +164,15 @@ To understand the fix, we first need a sharper picture of the disease.
 
 ### The disease: a long chain of recursive calls
 
-In Schönhage-Strassen, we split our $n$-bit number into $K \approx \sqrt{n}$ chunks of $m \approx \sqrt{n}$ bits each. The NTT on these chunks is cheap (just bit-shifts and additions), but the **pointwise multiplications** -- the $K$ products of $m$-bit numbers in $\mathbb{Z}/(2^m+1)$ -- each require a recursive call to the entire algorithm.
+In Schönhage-Strassen, we split our $n$-bit number into $K \approx \sqrt{n}$ chunks of about $\sqrt{n}$ bits each, held in ring elements of $m \approx 2\sqrt{n}$ bits. The NTT on these chunks is cheap (just bit-shifts and additions), but the **pointwise multiplications** -- the $K$ products of $m$-bit numbers in $\mathbb{Z}/(2^m+1)$ -- each require a recursive call to the entire algorithm.
 
-At the next level down, each $m$-bit multiplication splits into $\sqrt{m}$ chunks of $\sqrt{m}$ bits, and so on. The problem sizes form a chain:
+At the next level down, each $m$-bit multiplication splits into about $\sqrt{m}$ chunks of about $\sqrt{m}$ bits, and so on. Up to constant factors, the problem sizes form a chain:
 
 $$
 n \;\to\; \sqrt{n} \;\to\; n^{1/4} \;\to\; n^{1/8} \;\to\; \cdots \;\to\; O(1)
 $$
 
-This chain has $\log \log n$ links (since $n^{1/2^d} = O(1)$ when $2^d \approx \log n$, giving $d \approx \log \log n$). Each link does $O(n \log n)$ work in total. The $\log \log n$ factor is simply the number of links in this chain.
+This chain has $\log \log n$ links (since $n^{1/2^d} = O(1)$ when $2^d \approx \log n$, giving $d \approx \log \log n$). Each link does $O(n \log n)$ work in total: the sub-problems shrink, but there are twice as many bits in play at every level, and the two effects cancel. The $\log \log n$ factor is simply the number of links in this chain.
 
 ### The cure: make the chain shorter
 

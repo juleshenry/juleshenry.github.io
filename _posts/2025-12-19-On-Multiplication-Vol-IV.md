@@ -62,7 +62,7 @@ Both algorithms do $O(n)$ work at each of $\log n$ stages. Only one of the two p
 
 ## The Symmetry of the Recurrence
 
-The resemblance that made the parallel so persuasive is algebraic: Merge Sort and the fastest multiplication algorithm known in 2019 satisfy the same *recurrence relation*.
+The resemblance that made the parallel so persuasive is algebraic: Merge Sort and the Fast Fourier Transform at the heart of fast multiplication satisfy the same *recurrence relation*.
 
 ### Merge Sort
 
@@ -78,23 +78,29 @@ $$
 T(n) = O(n \log n)
 $$
 
-### Harvey-van der Hoeven Multiplication
+### The Fast Fourier Transform
 
-The HvH algorithm decomposes an $n$-coefficient convolution into $K$ sub-convolutions of size $n/K$ each, with $O(n)$ work for the FFT and pointwise operations at each level:
+A radix-2 FFT of length $n$ splits its input into even- and odd-indexed halves, transforms each half recursively, and recombines them with $n/2$ butterflies:
 
 $$
-T(n) = K \cdot T\!\left(\frac{n}{K}\right) + O(n)
+T(n) = 2\,T\!\left(\frac{n}{2}\right) + O(n)
 $$
 
-This is the *same* Master Theorem case regardless of $K$: we have $a = K$, $b = K$, $n^{\log_b a} = n^1 = n = f(n)$, giving:
+It is the same recurrence, symbol for symbol, and it solves the same way:
 
 $$
 T(n) = O(n \log n)
 $$
 
-The recurrences are structurally identical. In both cases, the algorithm splits the problem into $K$ pieces of size $n/K$ and does $O(n)$ work to split and recombine. The $\log n$ factor is simply the depth of the recursion tree: $\log_K n$ levels, each costing $O(n)$. The particular value of $K$ (2 for Merge Sort, $\sqrt{n}$ for Schönhage-Strassen, a carefully chosen composite for HvH) affects the constant factors but not the asymptotic complexity.
+In both cases, the algorithm splits the problem into two halves and does $O(n)$ work to split and recombine. The $\log n$ factor is simply the depth of the recursion tree: $\log_2 n$ levels, each costing $O(n)$. (Splitting into any fixed number $K$ of pieces gives $K \cdot T(n/K) + O(n)$ and the same answer, with $\log_K n$ levels.)
 
-The critical difference is that Schönhage-Strassen's "recombine" step secretly contains *additional recursive multiplications* -- the pointwise products in $\mathbb{Z}/(2^m + 1)$ -- which add a $\log \log n$ overhead atop the clean recurrence. Harvey and van der Hoeven's achievement was making the recombine step *truly* $O(n)$ by using Nussbaumer's technique to eliminate those inner multiplications. Once they did, the recurrence collapsed to the same clean form as Merge Sort, and $O(n \log n)$ fell out immediately.
+Multiplying integers adds a *second* recursion on top of the transform, and this is where the two great algorithms of [Vol. III](/blog/2025/12/19/On-Multiplication-Vol-III) part ways. In Schönhage-Strassen, the pointwise products are themselves multiplications, of numbers twice as wide as the chunks they came from. Every level of that recursion costs the same $O(n \log n)$, and there are $\log \log n$ levels. Harvey and van der Hoeven's achievement was to make the levels *shrink*. Their recurrence has the form
+
+$$
+M(n) \;<\; \frac{K n}{n'}\, M(n') + O(n \log n), \qquad n' = n^{1/d + o(1)},
+$$
+
+with $K = 1728$ and a number of dimensions $d$ that they are free to choose. They take $d = 1729$; any constant larger than $K$ would do. Measured against $n \log n$, each level then costs $K/d < 1$ times the one above it, so the levels sum like a geometric series and only the top one matters: one transform's worth of work, $O(n \log n)$, the same total as Merge Sort.
 
 Note what this is a symmetry *between*: two algorithms. A recurrence is an upper bound. It tells you what one method costs, and nothing about what every method must cost.
 
