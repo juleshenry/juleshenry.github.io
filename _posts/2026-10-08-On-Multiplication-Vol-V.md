@@ -17,7 +17,7 @@ On October 6, 2026, OpenAI published a repository of 719 mathematical manuscript
 
 > We give a deterministic algorithm that multiplies two $n$-bit integers in $O(n(\lg n)^{1-\kappa})$ worst-case time, with $\kappa = 2^{-182}$, on one fixed finite-alphabet Turing machine with a fixed finite number of one-dimensional tapes. The algorithm is exact for every input length and disproves the $n \log n$ optimality conjecture of Schönhage and Strassen in this model.
 
-A companion manuscript does the same thing to the Fourier transform itself. And within a day of the release, a community repository started pushing $\kappa$ upward -- conditionally, assuming the original argument holds -- from $2^{-182}$ to better than $2^{-15}$ at the time of writing.
+A companion manuscript does the same thing to the Fourier transform itself. And within a day of the release, a community repository started pushing $\kappa$ upward -- conditionally, assuming the original argument holds -- from $2^{-182}$ to better than $2^{-15}$ when this post went up, and past $2^{-11}$ a day later.
 
 Three warnings before we start. First, this is a preprint: it has not been refereed, and nobody has machine-checked it yet (details [below](#how-sure-are-we)). Second, it is a galactic algorithm in the fullest sense -- more galactic than Harvey-van der Hoeven, which is saying something. Third, it forces a retraction: the conclusion of this series has been rewritten, and it now sits at the bottom of this page.
 
@@ -212,9 +212,20 @@ In under two days the conditional saving improved by a factor of more than $2^{1
 
 The word *conditional* is load-bearing, and the repository is scrupulous about it. Its README calls the work "conditional on the original OpenAI #109 framework" and says it is "not full formal verification, independent human peer review, a worldwide priority claim, or a practical multiplication benchmark." If the foundation moves, the whole tower moves with it. And the last row of that table will be stale by the time you read this.
 
+*Update, October 9.* It was stale within hours. The table above stops where this post did when it went up. One day later the ledger read:
+
+| Conditional $\kappa$ | Scope of the witness, per the repository's ledger |
+|---|---|
+| $\approx 9.3 \times 10^{-5}$ | partial source gauges, pair-first cube assembly |
+| $\approx 3.1 \times 10^{-4}$ | three signed shears on a regular Cayley cover |
+| $\approx 4.6 \times 10^{-4}$, above $2^{-12}$ | a signed paired-cube producer, cores sharing one auxiliary bank |
+| $\approx 6.6 \times 10^{-4}$, above $2^{-11}$ | coordinated operation frames, completed shared entrance banks |
+
+That is about thirteen times the figure from the day before, and more than $2^{171}$ times the original, less than three days after the release. The caveat has not moved an inch: every row is conditional on the preprint, and the repository still says that its "finite replay and written review do not formally verify the multiplication theorem." This table will not chase the number any further. The repository is the place to watch.
+
 # How Sure Are We?
 
-Honestly: not yet sure. Here is the state of the evidence on October 8, 2026.
+Honestly: not yet sure. Here is the state of the evidence on October 8, 2026 (and nothing in OpenAI's repository had changed a day later).
 
 - **Provenance.** Both manuscripts are machine-written. OpenAI's README says the collection was produced by an unreleased internal model that was posed roughly 4,000 open problems, and that it "includes results at different stages of verification."
 - **Formal verification.** About 42% of the collection's headline results have Lean formalizations. The Fourier-transform paper is among them: the catalogue lists Lean statements for its transform and convolution theorems. The integer-multiplication paper is **not**. As of today it rests on its 73 pages of prose.
@@ -235,7 +246,7 @@ $$
 
 Below its cutoff, the machine in the theorem -- this is in the paper -- uses **schoolbook multiplication**. And for the saving $(\lg n)^{\kappa}$ to amount to a mere factor of two, constants aside, you would need $n \approx 2^{2^{2^{182}}}$.
 
-For Harvey-van der Hoeven, the *input* does not fit in the universe. Here, the *length of the input*, written out in decimal, does not fit in the universe. Even the community's $\kappa \approx 5 \times 10^{-5}$ would want $n \approx 2^{2^{19601}}$ before it bought that factor of two.
+For Harvey-van der Hoeven, the *input* does not fit in the universe. Here, the *length of the input*, written out in decimal, does not fit in the universe. Even the community's best conditional $\kappa$ as of October 9, about $6.6 \times 10^{-4}$, would want $n \approx 2^{2^{1511}}$ before it bought that factor of two.
 
 None of this is a criticism. As this series has said before, galactic algorithms are not for running. The arc now reads:
 
