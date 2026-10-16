@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Mean-Reverting VIX, Vol. IV: Calibration, and What the Thesis Didn't Say"
 date: 2026-03-09 12:03:00
+description: "How the thesis calibrated its VIX models, what it left unstated, a check of its 2011 parameter tables, and why one expiry cannot identify the reversion speed."
 mathjax: true
 categories: wealth
 ---
@@ -10,7 +11,7 @@ categories: wealth
 
 {% include vix-kit.html %}
 
-*Calibration turns a model into numbers. The thesis published its numbers but not its method. This volume reconstructs the method, tests the published numbers without the data they came from, and finds that some of them could have been anything.*
+*Calibration turns a model into numbers. The thesis published its numbers but only half of its method. This volume reconstructs the method, tests the published numbers without the data they came from, and finds that some of them could have been anything.*
 
 After [Vol. III](/blog/2026/03/09/rafaga-Vol-III) we can price VIX futures and options under MRLR, MRLRJ and MRLRSV. What we do not have is parameters. The historical fit of [Vol. I](/blog/2026/03/09/rafaga#what-22-years-say) gives real-world ($\mathbb P$) values; prices need risk-neutral ($\mathbb Q$) ones, and the only source of those is the option market itself.
 
@@ -45,11 +46,11 @@ Chapter 7 of the thesis states the first two decisions clearly.
 
 **Quotes.** Delayed Cboe quotes of VIX calls, downloaded on 26 September 2011 at 10:01 ET, with spot VIX at 42.3. Six expiries were listed, from October 2011 to March 2012. Calls with a zero bid are dropped, then calls with zero open interest; the last two expiries are dropped as illiquid. That leaves 30, 31, 32 and 35 calls in the first four expiries. Prices are the bid–ask mid.
 
-**Loss.** The obvious choice is mean squared error, $\sum_j (C^{\text{mod}}_j - C^{\text{mkt}}_j)^2$. It is dominated by the expensive in-the-money calls: a 5% miss on a 20-dollar call counts ten thousand times more than a 5% miss on a 20-cent one. Fitting logarithms, $\sum_j(\ln C^{\text{mod}}_j - \ln C^{\text{mkt}}_j)^2$, has the opposite problem. Following Rebonato, the thesis adds the two:
+**Loss.** The obvious choice is mean squared error, $\sum_j (C^{\text{mod}}_j - C^{\text{mkt}}_j)^2$. It is dominated by the expensive in-the-money calls: a 5% miss on a 20-dollar call counts ten thousand times more than a 5% miss on a 20-cent one. Fitting logarithms, $\sum_j(\ln C^{\text{mod}}_j - \ln C^{\text{mkt}}_j)^2$, has the opposite problem. The logarithmic fit is Rebonato's suggestion; adding the two is the thesis' own:
 
 $$\mathcal L_{\text{MMLSE}} = \sum_j \big(C^{\text{mod}}_j - C^{\text{mkt}}_j\big)^2 + \alpha\sum_j\big(\ln C^{\text{mod}}_j - \ln C^{\text{mkt}}_j\big)^2, \qquad \alpha = 8.$$
 
-It fits each expiry separately, with every parameter free, including $\theta$, and the spot VIX plugged in as the starting value. Fit quality is reported as the percentage error $\text{PE} = \text{mean}\,\lvert C^{\text{mod}} - C^{\text{mkt}}\rvert/C^{\text{mkt}}$ and the mean absolute error (MAE):
+It fits each expiry separately, with every parameter free, including $\theta$, and the spot VIX plugged in as $\text{VIX}_t$. Fit quality is reported as the percentage error $\text{PE} = \text{mean}\,\lvert C^{\text{mod}} - C^{\text{mkt}}\rvert/C^{\text{mkt}}$ (Table 7.2, below) and the mean absolute error (MAE, Table 7.3):
 
 <table class="cs-err">
   <thead><tr><th>Sep 2011, PE</th><th>Oct 11</th><th>Nov 11</th><th>Dec 11</th><th>Jan 12</th></tr></thead>
@@ -91,7 +92,7 @@ So the code here has to choose, and states its choices ([`calibration.jl`](https
 
 Without the quotes we cannot check the thesis' errors. We can still check its *parameters*, and whether this code reads them the way the thesis meant.
 
-The idea: Tables 7.5 (MRLRJ) and 7.6 (MRLRSV) were fitted separately to the **same** quotes. Each model's prices sit, on average, 0.12–0.21 from the market (Table 7.3). Two sets of prices that are each that close to one market must be close to each other. So price both parameter sets with this code at the thesis' inputs (VIX 42.3, strikes 20 to 90) and compare them. If the code had the jump term's sign wrong, or read $\eta$ as a mean rather than a rate, or mis-scaled the Riccati equation, two structurally different models would disagree. If the code is right, they must agree.
+The idea: the parameters in Tables 7.5 (MRLRJ) and 7.6 (MRLRSV) were fitted separately to the **same** quotes. Each model's prices sit, on average, 0.12–0.21 from the market (Table 7.3). Two sets of prices that are each that close to one market must be close to each other, within the sum of their two errors. So price both parameter sets with this code at the thesis' inputs (VIX 42.3, strikes 20 to 90) and compare them. If the code had the jump term's sign wrong, or read $\eta$ as a mean rather than a rate, or mis-scaled the Riccati equation, two structurally different models would disagree. If the code is right, they must agree.
 
 <table class="cs-err">
   <thead><tr><th>Expiry</th><th>mean |MRLRJ − MRLRSV|</th><th>allowed by Table 7.3</th><th>mean |MRLR − MRLRJ|</th></tr></thead>
@@ -103,9 +104,9 @@ The idea: Tables 7.5 (MRLRJ) and 7.6 (MRLRSV) were fitted separately to the **sa
   </tbody>
 </table>
 
-They agree to two to three and a half cents at every maturity, ten times tighter than required, while MRLR sits further away, as it should. The implied volatilities match the levels in the thesis' Figure 7.3 as well (for October, MRLRJ gives 1.27, 1.39 and 1.48 at strikes 40, 60 and 80, against a plotted range of 1.2–1.8). This is as close to reproducing the thesis as its publication allows, and it says the code and the thesis agree ([script](https://github.com/juleshenry/rafaga/blob/main/julia_impl/scripts/reproduce_paper.jl), [output](https://github.com/juleshenry/rafaga/blob/main/results/paper_2011_check.md)).
+They agree to two to three and a half cents at every maturity, seven to nineteen times tighter than required, while MRLR sits further away, as it should. The implied volatilities match the levels in the thesis' Figure 7.3 as well (for October, MRLRJ gives 1.27, 1.39 and 1.48 at strikes 40, 60 and 80, against a plotted range of 1.2–1.8). This is as close to reproducing the thesis as its publication allows, and it shows that the code and the thesis agree ([script](https://github.com/juleshenry/rafaga/blob/main/julia_impl/scripts/reproduce_paper.jl), [output](https://github.com/juleshenry/rafaga/blob/main/results/paper_2011_check.md)).
 
-The same exercise recovers numbers the thesis never printed. The model futures implied by its parameters are 37.8–38.5 for October 2011 falling to about 32 for December: a backwardated curve, as the text says it was. And it shows the undisclosed bounds. **$\theta = 3.00$ in all four MRLRJ fits, and $\rho = 1.00$ in all four MRLRSV fits.** Estimates do not land on round numbers four times in a row. Those are parameters pressed against a wall that the thesis never mentions, and their "fitted values" are the location of the wall.
+The same exercise recovers numbers the thesis never printed. The model futures implied by its parameters are 37.8–38.5 for October 2011 falling to about 32 for December: a backwardated curve, as the text says it was. The parameter tables themselves show the bounds the fits ran into. **$\theta = 3.00$ in all four MRLRJ fits, and $\rho = 1.00$, the largest value a correlation can take, in all four MRLRSV fits.** Estimates do not land on round numbers four times in a row. Those are parameters pressed against a wall that the thesis never mentions, and their "fitted values" are the location of the wall.
 
 ---
 
@@ -120,7 +121,7 @@ Three parameters, two numbers. For any $\kappa$ you like there is a $\theta$ tha
 
 <div class="ev-def"><strong>Definition (identification).</strong> A parameter is <em>identified</em> by some data if different values of it produce different distributions of that data. If two parameter values fit every possible dataset equally well, no amount of data can tell them apart.</div>
 
-It is not a subtle effect. On the October 2026 expiry, fix $\kappa$ and refit $\theta$, $\sigma$:
+It is not a subtle effect. On the October 2026 expiry of the 29 September chain, fix $\kappa$ and refit $\theta$, $\sigma$:
 
 <table class="cs-err">
   <thead><tr><th>fixed $\kappa$</th><th>best loss</th><th>$\theta$</th><th>$\sigma$</th></tr></thead>
@@ -134,7 +135,7 @@ It is not a subtle effect. On the October 2026 expiry, fix $\kappa$ and refit $\
 
 Identical to nine digits, with long-run VIX levels $e^\theta$ ranging from $10^{-5}$ to 10. The thesis reports MRLR reversion speeds of $\kappa = 11.05$, 11.43, 9.88 and 12.58. Those are points on a ridge; the optimizer stopped wherever it happened to be.
 
-<div class="cs-q"><strong>The tempting claim:</strong> The calibrated $\kappa$ and $\theta$ are stable and physically interpretable. A reversion speed between 3 and 8 means a half-life of a month or two. That is a property of the VIX, not a fitted artifact.</div>
+<div class="cs-q"><strong>The tempting claim:</strong> The calibrated $\kappa$ and $\theta$ are stable and physically interpretable. A reversion speed between 3 and 8 means a half-life of one to three months. That is a property of the VIX, not a fitted artifact.</div>
 <div class="cs-a"><strong>The data says:</strong> From one expiry, $\kappa$ is exactly a fitted artifact. In the 2026 fits of <a href="/blog/2026/03/09/rafaga-Vol-V">Vol. V</a> it ranges from 0.009 to 88.5 across models and maturities. The 3–8 range is what the <em>time series</em> gives ($\kappa = 5.57$ in <a href="/blog/2026/03/09/rafaga#what-22-years-say">Vol. I</a>), and it is identified there for a reason: 22 years of daily data watch the VIX revert over every horizon at once. One option expiry watches one horizon.</div>
 
 The jump model is not immune. Its parameters enter through more than two numbers, so the ridge is not exactly flat, but it is close. In 2026 the MRLRJ fits beyond October slide down it to $\kappa\approx0.01$ and $\theta\approx-15$ to $-23$. Along that slide the product $\kappa\theta$ stays near $-0.2$, and the drift $\kappa(\theta - \ln\text{VIX})\approx\kappa\theta$ becomes a constant. That is, the model quietly stops mean-reverting and turns into a Brownian motion with drift plus jumps. The per-maturity fit cannot tell reversion from drift, and it does not need to, because both price one expiry equally well.

@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Sphere Eversion, Vol. III: Manifolds and Immersions"
 date: 2026-08-17 12:02:00
+description: "Charts on the 2-sphere, the Jacobian, immersions, regular homotopy, and why straight-line interpolation creases the sphere instead of everting it."
 categories: differential topology
 mathjax: true
 ---
@@ -12,7 +13,7 @@ mathjax: true
 
 *Calculus enters. Charts, tangent vectors, the Jacobian that must not drop rank, and the first honest definition of the word "eversion".*
 
-In [Vol. I](/blog/2026/08/17/circling-the-sphere) we built topological spaces and continuity; in [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II) we built paths, homotopies, and $\pi&#95;{1}$. Topology alone cannot see a crease: a homotopy is allowed to squash a sphere flat, fold it, and unfold it. The eversion problem is only interesting once we ask for *smooth* maps whose derivative never degenerates. This volume adds exactly that much calculus.
+In [Vol. I](/blog/2026/08/17/circling-the-sphere) we built topological spaces, continuity, and paths; in [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II), homotopies and $\pi&#95;{1}$. Topology alone cannot see a crease: a homotopy is allowed to squash a sphere flat, fold it, and unfold it. The eversion problem is only interesting once we ask for *smooth* maps whose derivative never degenerates. This volume adds exactly that much calculus.
 
 As in Vol. I, the boxed **Student** questions are the ones a first reading raises, wrong turns included. The **Teacher**'s answers set them straight.
 
@@ -34,18 +35,18 @@ As in Vol. I, the boxed **Student** questions are the ones a first reading raise
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> A manifold is a space that is Euclidean in the small. Formally, a smooth $n$-manifold is a Hausdorff space covered by charts $\varphi&#95;{\alpha}: U&#95;{\alpha}\to\mathbb{R}^n$ whose transition maps $\varphi&#95;{\beta}\circ\varphi&#95;{\alpha}^{-1}$ are $C^\infty$. You already know one: the surface of the Earth. No single paper map covers it, but an atlas does, and the overlap rules are smooth.
+<strong>Teacher.</strong> A manifold is a space that is Euclidean in the small. Formally, a smooth $n$-manifold is a Hausdorff space covered by charts $\psi&#95;{\alpha}: U&#95;{\alpha}\to\mathbb{R}^n$ (homeomorphisms from open sets onto open subsets) whose transition maps $\psi&#95;{\beta}\circ\psi&#95;{\alpha}^{-1}$ are $C^\infty$. You already know one: the surface of the Earth. No single paper map covers it, but an atlas does, and the overlap rules are smooth.
 </div>
 
 The **2-sphere** is the set of unit vectors,
 
 $$S^2=\bigl\{(x,y,z)\in\mathbb{R}^3:x^2+y^2+z^2=1\bigr\}.$$
 
-Spherical coordinates are a pair of charts (you need at least two: the azimuth $\varphi$ is not a global coordinate). On the complement of a meridian,
+Spherical coordinates give one chart, and a rotated copy gives a second (you need at least two: the azimuth $\varphi$ is not a global coordinate). On the complement of a meridian,
 
-$$\mathbf{r}(\theta,\varphi)=\bigl(\sin\theta\cos\varphi,\;\sin\theta\sin\varphi,\;\cos\theta\bigr),\qquad \theta\in(0,\pi),\;\varphi\in(0,2\pi).$$
+$$\mathbf{r}(\theta,\varphi)=\bigl(\sin\theta\cos\varphi,\;\sin\theta\sin\varphi,\;\cos\theta\bigr),\qquad \theta\in(0,\pi),\;\varphi\in(-\pi,\pi).$$
 
-A **point** is not a function of $(\theta,\varphi)$. Differentiate the point and you get $\partial&#95;{\theta}(1,0,0)=\mathbf{0}$, which says nothing. The object that has derivatives is the chart:
+A **point** is not a function of $(\theta,\varphi)$. Differentiate the point and you get $\partial&#95;{\theta}(1,0,0)=\mathbf{0}$, which says nothing. The object that has derivatives is the parametrization $\mathbf{r}$, the inverse of a chart:
 
 $$
 \begin{aligned}
@@ -58,7 +59,7 @@ At $(1,0,0)$ one has $(\theta,\varphi)=(\pi/2,\,0)$, so
 
 $$\mathbf{r}_\theta=(0,0,-1),\qquad \mathbf{r}_\varphi=(0,1,0),\qquad \mathbf{r}_\theta\times\mathbf{r}_\varphi=(1,0,0)=\mathbf{r}.$$
 
-Those two vectors are a basis of the tangent plane $T&#95;{(1,0,0)}S^2$, the $yz$-plane. Drag the sliders; the blue and orange arrows are exactly $\mathbf{r}&#95;{\theta}$ and $\mathbf{r}&#95;{\varphi}$.
+Those two vectors are a basis of the tangent plane $T&#95;{(1,0,0)}S^2$, the $yz$-plane. Drag the sliders; the blue and orange arrows point along $\mathbf{r}&#95;{\theta}$ and $\mathbf{r}&#95;{\varphi}$.
 
 <div id="cs-charts" class="cs-stage" style="height:440px;">
   <div class="cs-hud cs-hud-tl" id="cs-charts-eq">r, r<sub>θ</sub>, r<sub>φ</sub></div>
@@ -131,7 +132,7 @@ CS.mount({
 <div class="cs-a">
 <strong>Teacher.</strong> Take the equator as a curve $\gamma:[0,2\pi]\to S^2$,
 $$\gamma(t)=(\cos t,\;\sin t,\;0).$$
-Then $\gamma'(t)=(-\sin t,\;\cos t,\;0)\neq\mathbf{0}$. At $t=0$ this is $(0,1,0)$, which is $\mathbf{r}&#95;{\varphi}$ at $(1,0,0)$. A tempting wrong answer is $\gamma(t)=(\sin(\pi t),0,\cos(\pi t))$, offered as the equator with $\varphi$ fixed at $0$; that is a meridian, a semicircle from north pole to south, and at its midpoint the velocity is $(0,0,-\pi)$, not a trip around the equator. Wrapping around $S^2$ means the image of $\gamma$ is a closed loop that is not contractible in $S^2\setminus\{\text{two poles}\}$. We will need that loop.
+Then $\gamma'(t)=(-\sin t,\;\cos t,\;0)\neq\mathbf{0}$. At $t=0$ this is $(0,1,0)$, which is $\mathbf{r}&#95;{\varphi}$ at $(1,0,0)$. A tempting wrong answer is $\gamma(t)=(\sin(\pi t),0,\cos(\pi t))$, offered as the equator with $\varphi$ fixed at $0$. For $t\in[0,1]$ that is a meridian, a semicircle from north pole to south, and at its midpoint the velocity is $(0,0,-\pi)$, pointing down the meridian rather than around the equator. Wrapping around $S^2$ means the image of $\gamma$ is a closed loop that is not contractible in $S^2\setminus\lbrace\text{two poles}\rbrace$. We will need that loop.
 </div>
 
 ---
@@ -143,7 +144,7 @@ Then $\gamma'(t)=(-\sin t,\;\cos t,\;0)\neq\mathbf{0}$. At $t=0$ this is $(0,1,0
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> For $f:\mathbb{R}^n\to\mathbb{R}^m$ the Jacobian is the $m\times n$ matrix of first partials: rows are outputs, columns are inputs. (Not $n\times m$, an easy slip.) An <strong>immersion</strong> $f:M\to N$ is a smooth map whose differential $df&#95;{p}:T&#95;{p}M\to T&#95;{f(p)}N$ is injective at every $p$. For $f:S^2\to\mathbb{R}^3$ that is the statement that the $3\times 2$ matrix
+<strong>Teacher.</strong> For $f:\mathbb{R}^n\to\mathbb{R}^m$ the Jacobian is the $m\times n$ matrix of first partials: rows are outputs, columns are inputs. (Not $n\times m$, an easy slip.) An <strong>immersion</strong> $f:M\to N$ is a smooth map whose differential $df&#95;{p}:T&#95;{p}M\to T&#95;{f(p)}N$ is injective at every $p$. For $f:S^2\to\mathbb{R}^3$, in local coordinates $(u,v)$, that is the statement that the $3\times 2$ matrix
 $$
 J_f=\begin{pmatrix}
 \partial_u f_1 & \partial_v f_1 \\
@@ -151,12 +152,12 @@ J_f=\begin{pmatrix}
 \partial_u f_3 & \partial_v f_3
 \end{pmatrix}
 $$
-has rank $2$ everywhere, equivalently $\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}\neq\mathbf{0}$. There is no $2\times 2$ determinant to watch. The only vanishing that matters is that cross product.
+has rank $2$ everywhere, equivalently $\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}\neq\mathbf{0}$. There is no single determinant to watch: the components of that cross product are, up to sign, the three $2\times 2$ minors of $J&#95;{f}$, and rank $2$ means they never vanish together.
 </div>
 
-A sign change of $\det J$ for a map $\mathbb{R}^n\to\mathbb{R}^n$ means the map reverses orientation. It does **not** mean a saddle: $f(x,y)=(e^x\cos y,\,e^x\sin y)$ has $\det J=e^{2x}>0$ everywhere (it is a local diffeomorphism, the complex exponential). At $(0,\pi/2)$ one has $\det J=1$, not $-1$, and there is no critical point. Vanishing of $\det J$ *does* mean the inverse-function theorem fails: the map is not a local diffeomorphism there.
+For a map $\mathbb{R}^n\to\mathbb{R}^n$, $\det J<0$ means the map reverses orientation, and a continuous $\det J$ can change sign only by passing through $0$. A negative determinant does **not** mean a saddle; saddles of a scalar function are read off its Hessian, a different matrix. The complex exponential $f(x,y)=(e^x\cos y,\,e^x\sin y)$ has $\det J=e^{2x}>0$ everywhere, so it is a local diffeomorphism with no critical point at all. Where $\det J$ *does* vanish, the inverse function theorem no longer applies and the map is not a local diffeomorphism there.
 
-Self-intersection is allowed. A figure-eight $\gamma(t)=(\sin 2t,\,\sin t)$ is an immersion ($\gamma'$ never vanishes), and it crosses itself. An **embedding** is an injective immersion (proper, on noncompact manifolds). The standard sphere $\iota(p)=p$ is an embedding. Mid-eversion surfaces are immersions and not embeddings.
+Self-intersection is allowed. A figure-eight $\gamma(t)=(\sin 2t,\,\sin t)$ is an immersion ($\gamma'$ never vanishes), and it crosses itself. An **embedding** is an immersion that is a homeomorphism onto its image; when the domain is compact, as $S^2$ is, any injective immersion is one. The standard sphere $\iota(p)=p$ is an embedding. Mid-eversion surfaces are immersions and not embeddings.
 
 Step through three curves. Watch the arrow, not the picture.
 
@@ -256,12 +257,12 @@ Step through three curves. Watch the arrow, not the picture.
 <div class="cs-a">
 <strong>Teacher.</strong> $S^2\times[0,1]$ is a <em>thickened sphere</em>: a spherical shell, not the ball. Each point of $S^2$ grows an interval. A homotopy of maps $S^2\to\mathbb{R}^3$ is a single map
 $$F:S^2\times[0,1]\to\mathbb{R}^3.$$
-It is a <strong>regular homotopy</strong> when each slice $F(\,\cdot\,,t)$ is an immersion. Straight-line interpolation between immersions is a homotopy of smooth maps and almost never a regular homotopy. It routinely drops rank.
+It is a <strong>regular homotopy</strong> when each slice $F(\,\cdot\,,s)$ is an immersion. Straight-line interpolation between immersions is a homotopy of smooth maps, but in general not a regular homotopy. It routinely drops rank.
 </div>
 
-<div class="ev-def"><strong>Definition (regular homotopy).</strong> A homotopy $F:S^2\times[0,1]\to\mathbb{R}^3$ such that every slice $f&#95;{t}=F(\cdot,t)$ is an immersion and the derivative $df&#95;{t}$ varies continuously with $t$. Equivalently: a path in the space $\operatorname{Imm}(S^2,\mathbb{R}^3)$ with the $C^1$ topology. That is <a href="/blog/2026/08/17/circling-the-sphere-Vol-II">Vol. II</a>'s homotopy, with one extra rule: no slice may crease.</div>
+<div class="ev-def"><strong>Definition (regular homotopy).</strong> A homotopy $F:S^2\times[0,1]\to\mathbb{R}^3$ such that every slice $f&#95;{s}=F(\cdot,s)$ is an immersion and the derivative $df&#95;{s}$ varies continuously with $s$. Equivalently: a path in the space $\operatorname{Imm}(S^2,\mathbb{R}^3)$ with the $C^1$ topology. That is <a href="/blog/2026/08/17/circling-the-sphere-Vol-II">Vol. II</a>'s homotopy, with one extra rule: no slice may crease.</div>
 
-The sock-push is the interpolation from the identity to reflection through the equator,
+The sock-push, shoving the north pole straight down through the south pole, is the interpolation from $\iota$ to the reflection in the equatorial plane,
 
 $$F_s(\theta,\varphi)=\bigl(\sin\theta\cos\varphi,\;\sin\theta\sin\varphi,\;(1-2s)\cos\theta\bigr).$$
 
@@ -284,7 +285,7 @@ At $s=\tfrac12$ this is $\lvert\sin\theta\cos\theta\rvert$, which is zero all al
     <label>s <input type="range" id="cs-s" min="0" max="100" value="0"> <span id="cs-s-v">0.00</span></label>
   </div>
 </div>
-<p class="cs-cap">$F&#95;{s}(\theta,\varphi)=(\sin\theta\cos\varphi,\,\sin\theta\sin\varphi,\,(1-2s)\cos\theta)$. This is <em>not</em> an eversion. At $s=1$ you have reflected the sphere through the $xy$-plane, and at $s=1/2$ you have left $\mathrm{Imm}(S^2,\mathbb{R}^3)$.</p>
+<p class="cs-cap">$F&#95;{s}(\theta,\varphi)=(\sin\theta\cos\varphi,\,\sin\theta\sin\varphi,\,(1-2s)\cos\theta)$. This is <em>not</em> an eversion. At $s=1$ you have reflected the sphere through the $xy$-plane, and at $s=1/2$ you have left $\operatorname{Imm}(S^2,\mathbb{R}^3)$.</p>
 
 <script>
 CS.mount({
@@ -327,7 +328,7 @@ CS.mount({
         arr[3 * i + 2] = (1 - 2 * s) * cth;
         var c = jacColor(s, th, ph);
         col[3 * i] = c[0]; col[3 * i + 1] = c[1]; col[3 * i + 2] = c[2];
-        if (c[3] < minJ) minJ = c[3];
+        if (sth > 0.1 && c[3] < minJ) minJ = c[3];
       }
       pos.needsUpdate = true;
       geo.getAttribute('color').needsUpdate = true;
@@ -349,6 +350,6 @@ CS.mount({
 });
 </script>
 
-An **eversion** is a regular homotopy from the inclusion $\iota(p)=p$ to the antipodal embedding $\alpha(p)=-p$. The map $\alpha$ reverses orientation of $\mathbb{R}^3$ ($\det D\alpha=(-1)^3=-1$), and the outward normal of the image sphere at $-p$ is $-p$, while the pushed tangent frame produces the opposite normal. Inside has become outside. $F&#95;{s}$ ends at the reflection $\rho(x,y,z)=(x,y,-z)$, which is $\alpha$ followed by a half-turn about the $z$-axis. Rotating an immersion keeps it an immersion, so reaching $\rho$ regularly would be as good as reaching $\alpha$. $F&#95;{s}$ gets there, but it cheats: at $s=\tfrac12$ it leaves $\operatorname{Imm}(S^2,\mathbb{R}^3)$.
+An **eversion** is a regular homotopy from the inclusion $\iota(p)=p$ to the antipodal embedding $\alpha(p)=-p$. The antipodal map $x\mapsto -x$ reverses the orientation of $\mathbb{R}^3$ ($\det(-I)=(-1)^3=-1$), and the outward normal of the image sphere at $-p$ is $-p$, while the pushed tangent frame produces the opposite normal. Inside has become outside. $F&#95;{s}$ ends at the reflection $\rho(x,y,z)=(x,y,-z)$, which is $\alpha$ followed by a half-turn about the $z$-axis. Rotating an immersion keeps it an immersion, so undoing that half-turn gradually is a regular homotopy from $\rho$ to $\alpha$, and reaching $\rho$ regularly would be as good as reaching $\alpha$. $F&#95;{s}$ gets there, but it cheats: at $s=\tfrac12$ it leaves $\operatorname{Imm}(S^2,\mathbb{R}^3)$.
 
 So the question is sharp now. $\iota$ and $\alpha$ are both immersions (both embeddings, in fact). Is there a path between them in $\operatorname{Imm}(S^2,\mathbb{R}^3)$? The crease homotopy is not one. Before attacking the sphere we drop a dimension and ask the same question of circles in the plane, where the answer is *no* and the reason is an integer.

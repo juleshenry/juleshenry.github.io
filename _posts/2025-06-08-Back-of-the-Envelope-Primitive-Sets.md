@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Primitive Sets, Vol. I: No One Divides Another"
 date: 2025-06-08 12:00:00
+description: "Divisibility, unique factorization and primitive sets from scratch, and why counting and natural density cannot say which primitive set is largest."
 categories: number-theory
 mathjax: true
 ---
@@ -25,7 +26,7 @@ The calculus we need is substitution in integrals, the chain rule, and one named
   <tbody>
     <tr><td><strong>I</strong></td><td>No one divides another</td><td>Divisibility, unique factorization, primitive sets, and why counting or density cannot rank them.</td></tr>
     <tr><td><strong>II</strong></td><td>The Erdős sum</td><td>The scale $f(A)=\sum 1/(a\log a)$, why it sits on the knife-edge between finite and infinite, and why the primes score $1.6366$.</td></tr>
-    <tr><td><strong>III</strong></td><td>Territories and the $e^\gamma$ bound</td><td>Each $a$ gets a private territory $L_a$. Primitivity makes them disjoint, a density budget of $1$, and Mertens turns the budget into $f(A)\lt e^\gamma\approx 1.781$.</td></tr>
+    <tr><td><strong>III</strong></td><td>Territories and the $e^\gamma$ bound</td><td>Each $a$ gets a private territory $L_a$. Primitivity makes them disjoint, which gives a density budget of $1$, and Mertens turns the budget into $f(A)\lt e^\gamma\approx 1.781$.</td></tr>
     <tr><td><strong>IV</strong></td><td>Slots and the $\sqrt v$ packing</td><td>Compete prime by prime. Composites convert density at a discount $1/(1+v)$, and nearly-prime composites cannot fill more than $\sqrt v$ of a slot.</td></tr>
     <tr><td><strong>V</strong></td><td>The quarter-turn</td><td>Discount against packing integrates to $\pi/4$. Every odd prime beats its composites; the prime $2$ is handled separately; what is still open.</td></tr>
   </tbody>
@@ -69,7 +70,7 @@ Unique factorization gives a lemma we will need in [Vol. III](/blog/2025/06/08/B
 
 <div class="pv-def"><strong>Euclid's lemma.</strong> If $a$ divides a product $bc$ and $\gcd(a,b)=1$, then $a$ divides $c$.</div>
 
-**Proof.** Write $bc = ak$. Every prime in the factorization of $a$ appears on the left, hence in $b$ or in $c$. None of those primes appear in $b$, because $a$ and $b$ are coprime. So they all appear in $c$, with at least the same exponents. Thus $a$ divides $c$.
+**Proof.** Write $bc = ak$. By unique factorization, every prime of $a$ appears in $bc$ with at least its exponent in $a$. None of those primes appear in $b$, because $a$ and $b$ are coprime, so their whole exponent in $bc$ comes from $c$. Thus every prime of $a$ appears in $c$ with at least its exponent in $a$, and $a$ divides $c$.
 
 Three bookkeeping functions come from the factorization.
 
@@ -90,7 +91,7 @@ The small letter $p(n)$ and the capital $P(n)$ will both matter. $p(n)$ sorts in
 
 That is the whole definition. Draw the integers with an arrow from $a$ to $b$ whenever $a$ divides $b$ and $a \neq b$. A primitive set is a selection of dots with no arrow between any two of them. (In order-theory language: an *antichain* in the divisibility order.)
 
-**The primes** $\lbrace 2, 3, 5, 7, 11, \ldots\rbrace$. The only positive divisors of a prime $p$ are $1$ and $p$, and $1$ is excluded from every primitive set. So no prime divides another prime.
+**The primes** $\lbrace 2, 3, 5, 7, 11, \ldots\rbrace$. The only positive divisors of a prime $p$ are $1$ and $p$, and $1$ is not prime. So no prime divides another prime.
 
 **$\lbrace 6, 10, 15\rbrace$.** Check every pair: $6 \nmid 10$, $6 \nmid 15$, $10 \nmid 15$, and the three reverse directions. Nothing divides anything else. (As factorizations: $2\cdot 3$, $2\cdot 5$, $3\cdot 5$. Each pair shares a prime, but neither number is a multiple of the other.)
 
@@ -100,7 +101,7 @@ That is the whole definition. Draw the integers with an arrow from $a$ to $b$ wh
 
 **All integers with $\Omega(n) = k$,** for a fixed $k$. If $a$ divides $b$ and $a \neq b$, then $\Omega(b) > \Omega(a)$, so two numbers with the same $\Omega$ cannot divide one another. The primes are the case $k = 1$. The case $k = 2$ is the numbers with exactly two prime factors (repeats allowed): $\lbrace 4, 6, 9, 10, 14, 15, \ldots\rbrace$.
 
-**Even perfect numbers** $\lbrace 6, 28, 496, 8128, \ldots\rbrace$. Each has the Euclid–Euler form $2^{p-1}(2^p-1)$ with $2^p-1$ itself prime. The odd parts $2^p-1$ and $2^q-1$ are distinct primes, so neither divides the other, and therefore these numbers do not divide one another.
+**Even perfect numbers** $\lbrace 6, 28, 496, 8128, \ldots\rbrace$. Each has the Euclid–Euler form $2^{p-1}(2^p-1)$ with $2^p-1$ itself prime. For two different ones, the odd parts $2^p-1$ and $2^q-1$ are distinct primes, so neither divides the other, and therefore these numbers do not divide one another.
 
 ```mermaid
 graph BT
@@ -142,7 +143,7 @@ Build your own. Click integers to add or remove them. Any divisibility between t
     <span class="pv-key"><b style="background:#3987e5"></b>chosen<b style="background:#e5484d"></b>a divides b</span>
   </div>
 </div>
-<p class="pv-cap">Try trading the primes $2$ and $3$ for $6$: primitivity survives, and the score drops by more than $0.8$. That one-for-one trade looks like a bad deal. The theorem is that no infinite combination of such trades comes out ahead.</p>
+<p class="pv-cap">Try trading the primes $2$ and $3$ for $6$: primitivity survives, and the score drops by more than $0.9$. That two-for-one trade looks like a bad deal. The theorem is that no infinite combination of such trades comes out ahead.</p>
 <script>
 (function () {
   var root = document.getElementById('pv-pick');
@@ -226,7 +227,7 @@ Build your own. Click integers to add or remove them. Any divisibility between t
 
 A number $n$ is **abundant** if its proper divisors (the positive divisors except $n$ itself) add up to more than $n$. For $12$, those divisors are $1, 2, 3, 4, 6$, summing to $16 > 12$, so $12$ is abundant. A number is **perfect** if they add up to exactly $n$ (so $6 = 1+2+3$), and **deficient** otherwise. **Non-deficient** means abundant or perfect.
 
-Davenport proved in the 1930s that the abundant numbers occupy a positive proportion of the integers. The original proof was analytic and heavy. Erdős found a shortcut: it is enough to understand the *primitive* non-deficient numbers, those that are not multiples of a smaller non-deficient number. Every non-deficient number is a multiple of one of those, so the primitive ones control the whole set. (A multiple of a non-deficient number is non-deficient: if $n \mid m$, the divisors $d$ of $n$ give divisors $dm/n$ of $m$, so the divisor sum of $m$ is at least $m/n$ times that of $n$.)
+Davenport proved in 1933 that the proportion of abundant numbers up to $N$ tends to a positive limit as $N$ grows. The original proof was analytic and heavy. Erdős found a shortcut: it is enough to understand the *primitive* non-deficient numbers, those that are not multiples of a smaller non-deficient number. No one of them divides another, and every non-deficient number is a multiple of one of them, so the primitive ones control the whole set. (A multiple of a non-deficient number is non-deficient: if $n \mid m$, the divisors $d$ of $n$ give divisors $dm/n$ of $m$, so the divisor sum of $m$ is at least $m/n$ times that of $n$.)
 
 Once the definition was on the table, it was more interesting than the application. Classic Erdős. The question became: among all primitive sets, which one is the "largest"?
 
@@ -248,22 +249,22 @@ $$
 
 The even numbers have density $1/2$. The multiples of $a$ have density $1/a$. The primes have density $0$ (they thin out like $1/\log N$, a fact from [Vol. II](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-II)). A single interval $(x,2x]$ is a *finite* set, so its density is $0$. It occupies about half the integers up to $2x$, and then as $N\to\infty$ it is diluted to nothing.
 
-What one can do is string infinitely many such intervals together, with huge gaps between them. Pick $x_1 = 2$ and take $(2,4]$. Skip far enough that those two integers are a negligible fraction of the next $x_2$, then take $(x_2, 2x_2]$. Repeat. (The union is not automatically primitive; see the exercise below.) Two running proportions oscillate:
+What one can do is string infinitely many such intervals together, with huge gaps between them. Pick $x_1 = 2$ and take $(2,4]$. Skip far enough that those two integers are a negligible fraction of the integers up to $x_2$, then take $(x_2, 2x_2]$. Repeat. (The union is not automatically primitive; see the exercise below.) The proportion up to $N$ now oscillates, and two numbers record its swings:
 
-- **Upper density** is the $\limsup$ of the proportion up to $N$. At each $N = 2x_i$ you have just swallowed an interval of length $x_i$, so the proportion is close to $1/2$.
-- **Lower density** is the $\liminf$. At each $N = x_{i+1}$, just before the next interval, you have diluted the previous harvest down toward $0$.
+- **Upper density** is the $\limsup$ of the proportion up to $N$: the highest level it gets close to infinitely often. At each $N = 2x_i$ you have just swallowed an interval of length $x_i$, so the proportion is close to $1/2$.
+- **Lower density** is the $\liminf$: the lowest level it gets close to infinitely often. At each $N = x_{i+1}$, just before the next interval, you have diluted the previous harvest down toward $0$.
 
 Besicovitch showed that by placing the intervals farther and farther out you can make the *upper* density of a primitive set arbitrarily close to $1/2$. Behrend and Erdős showed that the *lower* density is always $0$. Density oscillates too wildly to pick a winner.
 
 <details class="pv-ex"><summary><strong>Check yourself.</strong> Why isn't the naive union $(2,4] \cup (8,16]$ primitive, and what does Besicovitch have to do about it?</summary>
-<p>$3 \mid 12$ and $4 \mid 12$. An element of an early interval can divide an element of a later one, and spacing the intervals out does not stop that. The later intervals have to be thinned: discard their multiples of earlier elements, and choose the construction so that the discarded proportion is small. That thinning is why the upper density only approaches $1/2$, and never reaches it.</p>
+<p>$3 \mid 12$ and $4 \mid 12$. An element of an early interval can divide an element of a later one, and spacing the intervals out does not stop that. The later intervals have to be thinned: discard their multiples of earlier elements. Starting from $(2,4]$ would discard about half of every later interval, because half of all integers are multiples of $3$ or $4$. So Besicovitch starts far out, where the multiples of the numbers in $(x,2x]$ are only a small proportion of the integers, and the discarded proportion stays small. It never vanishes, which is why the upper density only approaches $1/2$, and never reaches it.</p>
 </details>
 
 So the ruler must
 
 1. notice small integers more than large ones (the primes are sparse, yet they should be able to win),
 2. stay finite on infinite sets, so that different infinite primitive sets get different scores, and
-3. be exactly as harsh as needed that *primitivity* is what keeps the score bounded.
+3. be exactly harsh enough that *primitivity* is what keeps the score bounded.
 
 ---
 

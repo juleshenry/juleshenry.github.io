@@ -9,10 +9,10 @@ description: "My 2020 undergraduate thesis at Penn: can fake traffic hide real w
 
 It asks whether you can hide your real web activity from an observer by burying it in fake traffic. The test case is ISP Pollution, an open-source tool that generates random searches and page visits for exactly that purpose.
 
-I trained a logistic-regression classifier to tell ISP Pollution's traffic apart from real search histories, taken from the 2006 AOL query dataset, and tested it against two adversaries at noise ratios from 1:1 up to 20:1.
+I trained a logistic-regression classifier to tell ISP Pollution's traffic apart from real search histories, taken from the 2006 AOL query dataset, and tested it in the role of two adversaries at noise ratios from 1:1 up to 20:1.
 
-- **A search engine**, which sees the queries themselves. The noise did not help. Even at twenty fake queries for each real one, the classifier's F-score did not fall.
-- **An internet service provider**, which sees only domain names. Here more noise did hide more: the fraction of real activity the classifier identified fell as the noise ratio rose, in line with earlier theoretical work.
+- **A search engine**, which sees the queries themselves. The noise did not help. Even at twenty fake queries for each real one, the classifier's F-score barely moved.
+- **An internet service provider**, which sees only domain names. Here the noise did help: the classifier's F-score fell as the noise ratio rose, in line with earlier theoretical work.
 
 The thesis also surveys the theory of differentially private obfuscation and earlier noise-injection tools such as TrackMeNot.
 

@@ -1,4 +1,5 @@
-// Renders a 1200×630 share card for each post into images/social/<post file name>.png.
+// Renders a 1200×630 share card for each post into images/social/<post file name>.png,
+// and one per series into images/social/series-<slug>.png (from _data/series.yml).
 // _includes/meta.html uses the card when it exists and falls back to the site card.
 // Usage: node scripts/make_social_cards.mjs [--all]
 //   Without --all, only posts that have no card yet are rendered.
@@ -81,9 +82,27 @@ for (const p of posts) {
   if (p.series) (volumes[p.series] ||= new Set()).add(p.num);
 }
 
+// Same as Jekyll's default slugify
+const slugify = (s) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
+
+// Series landing pages: name, topic and blurb from _data/series.yml
+const seriesCards = readFileSync(root + '_data/series.yml', 'utf8')
+  .split(/^- /m)
+  .slice(1)
+  .map((entry) => {
+    const field = (k) => {
+      const m = entry.match(new RegExp(`^\\s*${k}:\\s*"?(.*?)"?\\s*$`, 'm'));
+      return m ? m[1].replace(/\\"/g, '"') : '';
+    };
+    const series = field('name');
+    return { kind: 'series', name: 'series-' + slugify(series), series, chapter: series, topic: field('topic'), blurb: field('blurb') };
+  })
+  .filter((c) => volumes[c.series]);
+
 // Drop cards whose post is gone or became a redirect
 mkdirSync(outDir, { recursive: true });
-const live = new Set(posts.map((p) => p.name + '.png'));
+const cards = [...posts, ...seriesCards];
+const live = new Set(cards.map((p) => p.name + '.png'));
 for (const f of readdirSync(outDir)) {
   if (f.endsWith('.png') && !live.has(f)) {
     unlinkSync(outDir + f);
@@ -91,7 +110,7 @@ for (const f of readdirSync(outDir)) {
   }
 }
 
-const todo = posts.filter((p) => all || !existsSync(outDir + p.name + '.png'));
+const todo = cards.filter((p) => all || !existsSync(outDir + p.name + '.png'));
 if (!todo.length) {
   console.log('All cards are up to date. Pass --all to render them again.');
   process.exit(0);
@@ -101,7 +120,12 @@ function cardHtml(p) {
   let kicker;
   let tiles = '';
   let desc = '';
-  if (p.series) {
+  if (p.kind === 'series') {
+    const vols = NUMERALS.filter((n) => volumes[p.series].has(n));
+    kicker = `${p.topic ? esc(p.topic) + ' <span class="dot">·</span> ' : ''}Series of ${vols.length}`;
+    tiles = `<div class="tiles">${vols.map((n) => `<span class="tile">${n}</span>`).join('')}</div>`;
+    if (p.blurb) desc = `<p class="desc">${esc(p.blurb)}</p>`;
+  } else if (p.series) {
     kicker = `${esc(p.series)} <span class="dot">·</span> Vol. ${p.num}`;
     const vols = NUMERALS.filter((n) => volumes[p.series].has(n));
     tiles = `<div class="tiles">${vols

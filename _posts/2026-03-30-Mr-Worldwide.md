@@ -6,7 +6,7 @@ categories: python gif polyglot
 description: "A Python script that turns one word into a looping GIF of its translations in 80+ languages, and how it handles fonts and contrast."
 ---
 
-[Mr. Worldwide](https://github.com/juleshenry/mr.worldwide) takes one word (`Hello`, `Love`, whatever you want) and turns it into a looping GIF. Each frame is a translation in a different language, optionally over a country photograph. English, then Spanish, then Japanese, then Amharic, then Tibetan, then Yoruba, through 80+ languages.
+[Mr. Worldwide](https://github.com/juleshenry/mr.worldwide) takes one word (`Hello` or `Love`, the two it ships translations for) and turns it into a looping GIF. Each frame is a translation in a different language, optionally over a country photograph. English, then Spanish, and on through Tibetan, Japanese, Amharic, Yoruba, and the rest of the 80+ languages.
 
 ![Demo](https://github.com/juleshenry/mr.worldwide/blob/main/examples/demos/worldwide_demo.gif?raw=1)
 
@@ -32,31 +32,31 @@ description: "A Python script that turns one word into a looping GIF of its tran
 
 ## The Hard Part: Finding a Font for Every Script
 
-Generating a GIF is easy. Pillow does that in five lines. The hard problem is rendering text correctly in 80+ writing systems.
+Generating a GIF is easy. Pillow does that in five lines. The hard problem is rendering text correctly in the two dozen writing systems those 80+ languages use.
 
-"Hello" in English uses Latin characters. "こんにちは" uses Japanese hiragana. "مرحبا" uses Arabic script (right-to-left). "สวัสดี" uses Thai. "ᓱᓇᑦᓯᐊᖅ" uses Canadian Aboriginal Syllabics. "བཀྲ་ཤིས་བདེ་ལེགས" uses Tibetan. Each of these scripts needs a different font, and many system fonts cover only a handful.
+"Hello" in English uses Latin characters. "こんにちは" uses Japanese hiragana. "مرحبا" uses Arabic script (right-to-left). "สวัสดี" uses Thai. "ሰላም" uses Ethiopic. "བཀྲ་ཤིས་བདེ་ལེགས" uses Tibetan. Each of these scripts needs a different font, and many system fonts cover only a handful.
 
-Mr. Worldwide bundles 25+ Google Noto fonts. For each character, it checks the Unicode range and picks the matching Noto face: Arabic → NotoSansArabic, Devanagari → NotoSansDevanagari, CJK → NotoSansCJK, and so on.
+Mr. Worldwide bundles two dozen Google Noto fonts. For each translation, it picks the matching Noto face from the language code, or failing that from the Unicode range of its characters: Arabic → NotoSansArabic, Devanagari → NotoSansDevanagari, Chinese → NotoSansSC, Japanese → NotoSansJP, and so on.
 
-Font sizing is automatic too. "Hello" is five compact Latin letters; "こんにちは" is five wide kana. The tool measures rendered width per translation and scales so nothing clips and nothing shrinks into a corner.
+Font sizing is automatic too. "Hello" is five compact Latin letters; "こんにちは" is five wide kana. The tool measures the rendered width of each translation and shrinks the font only as far as needed to fit 90% of the frame width, so nothing clips and short words stay large.
 
 ## Smart Contrast Coloring
 
 White text on a bright sky disappears. Black text on a dark scene disappears. Over a country photograph, legibility is the whole game.
 
-For each background image:
+For the patch of background behind the text in each frame:
 
-1. Cluster pixels into dominant colors with `scipy.cluster.vq.kmeans`
+1. Cluster its pixels into three dominant colors with `scipy.cluster.vq.kmeans`
 2. Find the strongest background hues
-3. Pick a text color that maximizes contrast *and* saturation
+3. Pick a text color with the opposite lightness, near-full saturation, and the hue farthest from those
 
-Bright cyan over a dark forest. Deep navy over a sunlit beach. Magenta over gray cityscape.
+Pale magenta over a dark forest. Deep navy over a sunlit beach. Red over a gray cityscape.
 
 ## Flag-Color Text
 
 Alternate mode: paint each character from the country's flag palette. "Hola" in Spanish red/yellow/red. "Bonjour" in blue/white/red. "Hallo" in black/red/gold.
 
-Flag colors come from SVG fills in `banderas/`. Characters cycle through the palette.
+Flag colors come from SVG fills in `banderas/`. The palette is laid across each word in contiguous bands, in stripe order.
 
 ![Flag Hello](https://github.com/juleshenry/mr.worldwide/blob/main/examples/demos/flag_hello.gif?raw=1)
 
@@ -69,7 +69,7 @@ bash setup.sh
 source venv/bin/activate
 ```
 
-Background images are optional:
+Downloading extra background images is optional:
 
 ```bash
 python3 src/download_assets.py
@@ -77,7 +77,7 @@ python3 src/download_assets.py
 
 ## Make a GIF
 
-Full experience, with translations, backgrounds and smart contrast:
+Full experience, with translations, backgrounds, and smart contrast:
 
 ```bash
 python3 src/mr_worldwide.py \
@@ -107,28 +107,28 @@ python3 src/mr_worldwide.py \
 
 | Option | Description |
 | :--- | :--- |
-| `--text` | Word to translate (`Hello`, `Love`, …) |
+| `--text` | Word to translate (`Hello` or `Love`) |
 | `--text_array` | Custom comma-separated strings instead of translations |
 | `--use_icons` | Country-specific background images |
 | `--smart_color` | High-contrast text colors from the background |
 | `--rainbow` | Shifting rainbow text |
 | `--use_flag_colors` | Color text from the country's flag |
-| `--sine_delay` | Dwell on each frame in a sine rhythm |
+| `--sine_delay` | Hold each frame in turn for this many ms, one pass per frame |
 | `--size` | `width,height` |
 | `--delay` | Milliseconds between frames |
 | `--languages` | ISO codes or `all` |
 | `--gif_path` | Output path |
 
-The example gallery has permutation scripts for the major flag combinations, each with a pre-generated demo GIF.
+The example gallery has permutation scripts for the major option combinations, each with a pre-generated demo GIF.
 
 ## Design Decisions
 
-**Local translations, not an API.** The 80+ strings live in `translations.json`. Machine-translation APIs are rate-limited, cost money, and wobble on single-word context-free inputs. A curated list is checked once and then stays put.
+**Local translations, not an API.** The 80+ strings live in `translations.json`. Machine-translation APIs are rate-limited, cost money, and wobble on single-word, context-free inputs. A curated list is checked once and then stays put.
 
-**Deduplication.** "Hello" is "Halo" in both Indonesian and Malay. Identical strings collapse to one frame.
+**Deduplication.** "Love" is "Cinta" in both Indonesian and Malay. Identical strings collapse to one frame.
 
 **Geographic ordering.** Europe → Asia → Africa → Americas → Oceania, with a few priority languages first, so the GIF walks the map instead of shuffling a bag of codes.
 
-**Background sourcing.** Country photos come from Pexels and Wikimedia Commons into per-country directories. A random pick per country means regenerating the same flags still changes the pictures.
+**Background sourcing.** Country photos come from Pexels and Wikimedia Commons into per-country directories. A random pick per country means rerunning with the same options still changes the pictures.
 
-Internationalization stops being a terminal problem the moment text has to sit on an image. Fonts, sizing, contrast, and sequence are the actual engineering.
+Internationalization stops being a string-lookup problem the moment text has to sit on an image. Fonts, sizing, contrast, and sequence are the actual engineering.

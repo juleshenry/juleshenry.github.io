@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Primitive Sets, Vol. IV: Slots and the √v Packing"
 date: 2025-06-08 12:03:00
+description: "Splitting the Erdős primitive set problem into one slot per prime, measuring a composite's distance from prime, and Lichtman's √v packing bound."
 categories: number-theory
 mathjax: true
 ---
@@ -10,7 +11,7 @@ mathjax: true
 
 {% include primitive-kit.html %}
 
-*The $e^\gamma$ bound treats every integer as a prime. This volume splits the contest into one slot per prime, measures how much a composite loses by not being prime, and proves that the composites which lose least cannot come in crowds.*
+*The $e^\gamma$ bound treats every integer as a prime. This volume splits the contest into one slot per prime, measures how much a composite loses by not being prime, and shows that the composites which lose least cannot come in crowds.*
 
 [Vol. III](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-III) proved $f(A) < e^\gamma \approx 1.781$ for every primitive set, against $f(\mathcal{P}) = 1.6366$ for the primes. It ended with a diagnosis: the argument charges a composite $a$ as if it were a prime, by replacing $\log a$ with $\log P(a)$. Closing the last $9\%$ means putting that charge back, and showing composites cannot evade it.
 
@@ -44,7 +45,7 @@ $$
 
 You sold the two heaviest elements in the store for pocket change. Any one-for-one substitution of a composite $a$ for the primes dividing $a$ looks like a bad deal. The conjecture says there is no clever *infinite* combination of such trades that comes out ahead.
 
-The right way to organise the comparison is not globally but **slot by slot**. Every integer $a > 1$ has a smallest prime factor $p(a)$. Split any set $A$ by that prime:
+The right way to organize the comparison is not globally but **slot by slot**. Every integer $a > 1$ has a smallest prime factor $p(a)$. Split any set $A$ by that prime:
 
 $$
 A_p \;=\; \{ a \in A : p(a) = p \}, \qquad A \;=\; \text{the disjoint union of the } A_p.
@@ -62,7 +63,7 @@ Simply: in the slot of numbers whose smallest prime factor is $p$, the single be
 
 The slot decomposition is the *local* version of the problem. Each prime $p$ faces its own challengers, all living in $L_p$, and they are constrained by the local budget from [Vol. III](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-III): $\sum_{a\in A_p} d(L_a) \le d(L_p)$.
 
-A concrete odd slot, before any asymptotic. The slot $p=5$ consists of integers whose smallest prime factor is $5$. The triple $\lbrace 25, 35, 55\rbrace$ lives there (check: $5^2$, $5\cdot 7$, $5\cdot 11$, and none divides another):
+A concrete odd slot, before any asymptotics. The slot $p=5$ consists of integers whose smallest prime factor is $5$. The triple $\lbrace 25, 35, 55\rbrace$ lives there (check: $5^2$, $5\cdot 7$, $5\cdot 11$, and none divides another):
 
 $$
 f(25)+f(35)+f(55) \;\approx\; 0.0124+0.0080+0.0045 \;=\; 0.025,
@@ -74,7 +75,7 @@ $$
 f(9)+f(15)+f(21)+f(33) \;\approx\; 0.0506+0.0246+0.0156+0.0087 \;=\; 0.099,
 $$
 
-against $f(3)\approx 0.303$. Any finite bunch of composites in an odd slot is a rout. The work is to prove that no infinite primitive combination in that slot can catch up.
+against $f(3)\approx 0.303$. Small bunches like these are a rout. The work is to prove that no primitive combination in that slot, however large, can catch up.
 
 ---
 
@@ -101,7 +102,7 @@ $$
 e^{\gamma} \approx 1.781 \qquad\text{while}\qquad \frac{1}{\log 2} \approx 1.443.
 $$
 
-Worse: even among odd primes, $(\star)$ is not a theorem. It fails for infinitely many primes, unconditionally. On the Riemann hypothesis it fails for a positive proportion of them (in log-density). The strategy "prove every prime is Erdős-strong via $(\star)$" cannot finish the conjecture. That is why the problem sat open.
+Worse: even among odd primes, $(\star)$ is not a theorem. It fails for infinitely many primes, unconditionally. On the Riemann hypothesis it fails for a positive proportion of them (in log-density). The strategy "prove every prime is Erdős-strong via $(\star)$" cannot finish the conjecture. That is one reason the problem sat open.
 
 <div class="pv-q"><strong>Student.</strong> If $(\star)$ fails for infinitely many primes, why doesn't the conjecture fail there too?</div>
 <div class="pv-a"><strong>Teacher.</strong> Because $(\star)$ is what you get when you pretend the composites in the slot convert density into score at the full prime rate $e^\gamma$. They don't. $(\star)$ fails by a hair, a Mertens wobble of relative size tending to $0$. If we can prove composites convert at, say, $79\%$ of the prime rate, the hair is irrelevant. The rest of this volume and the next one earn that $79\%$.</div>
@@ -122,7 +123,7 @@ $$
 \frac{1}{a\log a} \;=\; \frac{1}{1+v(a)}\cdot \frac{1}{a\log P(a)} \;\approx\; \frac{e^{\gamma}}{1+v(a)}\, d(L_a).
 $$
 
-So $v(a)$ is the discount at which $a$ converts density into $f$-weight. Primes convert at full rate $e^{\gamma}$. A composite converts at rate $e^{\gamma}/(1+v(a))$.
+So $v(a)$ sets the discount at which $a$ converts density into $f$-weight. Primes convert at full rate $e^{\gamma}$. A composite converts at rate $e^{\gamma}/(1+v(a))$.
 
 Worked example: $a = 15 = 3\cdot 5$. Then $P(15) = 5$, and
 
@@ -133,7 +134,7 @@ $$
 | $a$ | factorization | $P(a)$ | $v(a)$ | conversion $1/(1+v)$ |
 |-----|----------------|--------|--------|----------------------|
 | $7$ | $7$ | $7$ | $0$ | $1$ |
-| $14$ | $2\cdot 7$ | $7$ | $0.356$ | $0.738$ |
+| $14$ | $2\cdot 7$ | $7$ | $0.356$ | $0.737$ |
 | $22$ | $2\cdot 11$ | $11$ | $0.289$ | $0.776$ |
 | $15$ | $3\cdot 5$ | $5$ | $0.683$ | $0.594$ |
 | $6$ | $2\cdot 3$ | $3$ | $0.631$ | $0.613$ |
@@ -147,9 +148,9 @@ $$
 v(2p) \;=\; \frac{\log 2}{\log p} \;\longrightarrow\; 0 \quad\text{as } p \to \infty.
 $$
 
-So $2p$ looks almost like a prime to the 1935 bound: $P(2p) = p$ is a little more than half of $2p$, and the conversion rate tends to $1$. Numbers such as $9$ and $13\cdot 17$ are *very* composite in this sense ($P(a)^2 \approx a$, so $v \approx 1$) and convert at half rate or worse. They are no threat: even if they spent the whole density budget they would score at most $e^{\gamma}/2 \approx 0.89$, well below $f(\mathcal{P})$.
+So $2p$ looks almost like a prime to the 1935 bound: $P(2p) = p$ is exactly half of $2p$, so $\log P(2p)$ falls short of $\log 2p$ only by $\log 2$, and the conversion rate tends to $1$. Numbers such as $9$ and $13\cdot 17$ are *very* composite in this sense ($P(a)^2 \approx a$, so $v \approx 1$) and convert at about half rate. They are no threat: even if they spent the whole density budget they would score only about $e^{\gamma}/2 \approx 0.89$, well below $f(\mathcal{P})$.
 
-Lichtman's outline says the same thing in the other direction: the 1935 argument already saves a lot when $P(a)^2 < a$. The **critical case** is a composite with $P(a)$ close to $a$ in size: a large prime with a small factor stuck on.
+Lichtman's outline says the same thing in the other direction: putting back the factor $\log P(a)/\log a$ saves a lot when $P(a)^2 < a$. The **critical case** is a composite with $P(a)$ close to $a$ in size: a large prime with a small factor stuck on.
 
 The remaining question: can a primitive set contain *many* dangerous (small-$v$) composites in the same slot? If it can fill the whole density of $L_p$ with $v \approx 0.01$ composites, the 1935 bound barely improves and $(\star)$ is still the bottleneck. If it cannot, we win.
 
@@ -162,16 +163,16 @@ The remaining question: can a primitive set contain *many* dangerous (small-$v$)
 # Copies, and the $\sqrt{v}$ packing
 {: #copies-and-the-sqrtv-packing}
 
-A baby version of the idea. Suppose you have some disjoint subsets of the integers, of total density $D$, and suppose you can also fit a second family of disjoint copies of those subsets, still disjoint from the first family. Then $2D \le 1$, so $D \le 1/2$. More copies, smaller $D$. If each set comes with copies of total density $K$ times its own, all disjoint and all inside a region of density $R$, then $K\cdot D \le R$, so $D\le R/K$.
+A baby version of the idea. Suppose you have some disjoint subsets of the integers, of total density $D$, and suppose you can also fit a second family of disjoint copies of those subsets, still disjoint from the first family. Then $2D \le 1$, so $D \le 1/2$. More copies, smaller $D$. If each set comes with copies (counting the set itself) of total density $K$ times its own, all disjoint and all inside a region of density $R$, then $K\cdot D \le R$, so $D\le R/K$.
 
 Lichtman produces many copies of each $L_a$, indexed by extra multipliers $c$, provided every $a$ in the set is uniformly $v$-close to being prime, that is, $P(a)^{1+v} > a$, or equivalently $v(a) < v$. The copies live *inside* the ambient territory $L_n$ of the slot (for instance $L_p$ when we are competing with a prime $p$). That is the true statement, and it is local:
 
-<div class="pv-def"><strong>Proposition (Lichtman).</strong> Let $A$ be primitive, let $n \notin A$, and suppose $P(a)^{1+v} > a$ for every $a$ in the slot $A_n = A \cap L_n$. Then
+<div class="pv-def"><strong>Proposition (Lichtman).</strong> Let $A$ be primitive, let $n \notin A$, let $0 < v < 1$, and suppose $P(a)^{1+v} > a$ for every $a$ in the slot $A_n = A \cap L_n$. Then
 $$ \sum_{a \in A_n} d(L_a) \;\le\; \sqrt{v}\cdot\bigl(1+o(1)\bigr)\cdot d(L_n). $$</div>
 
-For $v < 1$ this is strictly better than the trivial budget $\sum d(L_a) \le d(L_n)$. At $v = 1/4$ you may spend at most about half the slot; at $v = 1/100$, at most about a tenth. **A primitive set cannot fill a slot with numbers that are all nearly prime.**
+Here $o(1)$ is a Mertens error that depends only on $P(n)$ and tends to $0$ as $P(n)\to\infty$. For $v < 1$ this is strictly better than the trivial budget $\sum d(L_a) \le d(L_n)$. At $v = 1/4$ you may spend at most about half the slot; at $v = 1/100$, at most about a tenth. **A primitive set cannot fill a slot with numbers that are all nearly prime.**
 
-Where does $\sqrt{v}$ come from? For each $a$, let $a^* = a/P(a)$ (so $a^{\ast}$ is $a$ with its largest prime stripped off), and let $Q = P(a^{\ast})$ be the second-largest prime factor of $a$. The extra multipliers $c$ are the integers, including $c = 1$, whose prime factors all lie in a window
+Where does $\sqrt{v}$ come from? For each $a$, let $a^{\ast} = a/P(a)$ (so $a^{\ast}$ is $a$ with its largest prime stripped off), and let $Q = P(a^{\ast})$ be the second-largest prime factor of $a$. The extra multipliers $c$ are the integers, including $c = 1$, whose prime factors all lie in a window
 
 $$
 \bigl[Q,\; Q^{1/\sqrt{v}}\bigr).
@@ -179,7 +180,7 @@ $$
 
 The one genuinely hard lemma in the paper, which we will not prove, is that the sets $L_{ac}$ ranging over $a \in A_n$ and over such $c$ remain pairwise disjoint, and all sit inside $L_n$, as long as $A$ is primitive and uniformly $v$-close. Primitivity is essential: the weaker "no one is an L-multiple of another" is enough for ordinary disjointness of the $L_a$, but not for the copies. (That is why the $e^{\gamma}$ bound is essentially sharp for that weaker class, while primitive sets can be pushed down to $f(\mathcal{P})$.) Everything after this lemma is Euler products, Mertens, and calculus.
 
-Granting disjointness of the copies, their densities add, and cannot exceed $d(L_n)$. For each fixed $a$, the copy $L_{ac}$ is just $L_a$ scaled by $c$, so $d(L_{ac}) = d(L_a)/c$. The total copy-density attached to one $a$ is therefore $d(L_a)$ times $\sum 1/c$.
+Granting disjointness of the copies, their densities add, and cannot exceed $d(L_n)$. For each fixed $a$, the primes of $c$ lie below $Q^{1/\sqrt v}$, while $P(a)^v > a^{\ast} \ge Q$ puts $P(a)$ above $Q^{1/v} > Q^{1/\sqrt v}$. So $P(ac) = P(a)$, the copy $L_{ac}$ is just $L_a$ scaled by $c$, and $d(L_{ac}) = d(L_a)/c$. The total copy-density attached to one $a$ is therefore $d(L_a)$ times $\sum 1/c$.
 
 That sum is an Euler product. Unique factorization says every such $c$ is a product of primes from the window, so
 
@@ -205,7 +206,7 @@ $$
 \prod_{11\le q\lt 121}\Bigl(1-\frac1q\Bigr)^{-1} \;\approx\; 1.992, \qquad\text{against}\qquad \frac{1}{\sqrt v} \;\approx\; 2.000.
 $$
 
-So each such $L_a$ drags along about twice its own density in copies, and a slot of such numbers can spend at most about half its ambient density. The ratio of logarithms is an asymptotic statement, good when $Q$ is not tiny. At $Q = 2$ (the numbers $2p$) the window $[2, 2^{1/\sqrt v})$ holds only one or two primes and the Mertens estimate is off, which is one reason the paper treats the smallest primes with explicit numerics. Try it:
+So each such $L_a$ drags along about twice its own density in copies, and a slot of such numbers can spend at most about half its ambient density. The ratio of logarithms is an asymptotic statement, good when $Q$ is not tiny. At $Q = 2$ (the numbers $2p$) the window $[2, 2^{1/\sqrt v})$ starts at the first prime, where the Mertens estimate is off (for $v = 1/4$ the window holds only $2$ and $3$, and the product is $3$, not $2$), which is one reason the paper treats the smallest primes with explicit numerics. Try it:
 
 <div class="pv" id="pv-win" aria-label="The prime window from Q to Q to the power 1 over root v, and its Euler product">
   <div class="pv-title" id="pv-win-title"></div>
@@ -218,7 +219,7 @@ So each such $L_a$ drags along about twice its own density in copies, and a slot
     <span class="pv-key"><b style="background:#3987e5"></b>Euler product Σ 1/c<b style="background:#e0a100"></b>Mertens: 1/√v</span>
   </div>
 </div>
-<p class="pv-cap">Each tick is a prime in the window $[Q, Q^{1/\sqrt v})$ on a logarithmic axis. The Euler product (blue) is the exact copy multiplier; the gold bar is the Mertens prediction $1/\sqrt v$. For $Q\ge 11$ they agree to within a few percent; for $Q=2$ they do not. The packing cap on the slot is the reciprocal.</p>
+<p class="pv-cap">Each tick is a prime in the window $[Q, Q^{1/\sqrt v})$ on a logarithmic axis. The Euler product (blue) is the exact copy multiplier; the gold bar is the Mertens prediction $1/\sqrt v$. For $Q\ge 11$ and small $v$ (a wide window) they agree to within a few percent; for $Q=2$ they do not. The packing cap on the slot is the reciprocal.</p>
 <script>
 (function () {
   var root = document.getElementById('pv-win');
@@ -271,9 +272,9 @@ $$
 \frac{1}{\sqrt{v}} \sum_{a \in A_n} d(L_a) \;\lesssim\; d(L_n) \qquad\Longrightarrow\qquad \sum_{a \in A_n} d(L_a) \;\lesssim\; \sqrt{v}\; d(L_n).
 $$
 
-The exponent $1/\sqrt{v}$ on the window is the largest Lichtman could take and still prove the copies disjoint. A larger window would improve $\sqrt{v}$ to a smaller power of $v$, and would improve the $\pi/4$ in [Vol. V](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-V).
+The exponent $1/\sqrt{v}$ on the window is the largest Lichtman could take and still prove the copies disjoint. A larger window would replace $\sqrt{v}$ by a higher power of $v$ (a smaller number, since $v < 1$), and would improve the $\pi/4$ in [Vol. V](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-V).
 
-When $v$ is small (the dangerous $2p$ numbers), the window $Q^{1/\sqrt{v}}$ is *large*, so there are many copies, so the original density is forced to be *small*. That is the packing constraint biting exactly on the critical case.
+When $v$ is small (the dangerous $2p$ numbers), the window's upper end $Q^{1/\sqrt{v}}$ is *large*, so there are many copies, so the original density is forced to be *small*. That is the packing constraint biting exactly on the critical case.
 
 ---
 
@@ -285,4 +286,4 @@ Inside one slot $A_n$ of composites we now hold two opposing facts, both functio
 - **Conversion.** An element at level $v$ turns density into score at rate about $e^{\gamma}/(1+v)$. Small $v$ is valuable.
 - **Packing.** All the elements with $v(a) < v$ together spend at most about $\sqrt{v}$ of the ambient density $d(L_n)$. Small $v$ is scarce.
 
-A challenger wants cheap, nearly-prime composites, and there are not many of them. [Vol. V](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-V) plays the two facts against each other, finds the best possible challenger, and discovers that its score is a quarter-turn: $\pi/4$ of the prime's.
+A challenger wants nearly prime composites, and there are not many of them. [Vol. V](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-V) plays the two facts against each other and finds that the most a challenger can score under both is a quarter-turn: $\pi/4$ of the prime's score.

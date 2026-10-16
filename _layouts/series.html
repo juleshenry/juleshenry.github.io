@@ -1,0 +1,69 @@
+---
+layout: default
+---
+{%- comment -%}
+  Landing page for one series. The page's `title` is the series name exactly as
+  it appears in post titles ("<name>, Vol. N: ..."); topic, blurb and prereqs
+  come from _data/series.yml. Volumes are listed in reading order with each
+  one's `description` and reading time.
+{%- endcomment -%}
+{%- assign numerals = "I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII" | split: "," -%}
+{%- assign needle = page.title | append: ', Vol. ' -%}
+{%- assign vols = site.posts | where_exp: "p", "p.title contains needle" -%}
+{%- assign info = site.data.series | where: "name", page.title | first -%}
+{%- assign vol_count = 0 -%}
+{%- assign total_minutes = 0 -%}
+{%- assign first_year = "" -%}
+{%- assign last_year = "" -%}
+{%- capture toc -%}
+  {%- for n in numerals -%}
+    {%- assign vol_tag = needle | append: n | append: ':' -%}
+    {%- for v in vols -%}
+      {%- if v.redirect_to -%}{%- continue -%}{%- endif -%}
+      {%- if v.title contains vol_tag -%}
+        {%- assign vol_count = vol_count | plus: 1 -%}
+        {%- if vol_count == 1 -%}{%- assign first_url = v.url -%}{%- endif -%}
+        {%- assign minutes = v.content | strip_html | number_of_words | divided_by: 220 | plus: 1 -%}
+        {%- assign total_minutes = total_minutes | plus: minutes -%}
+        {%- assign year = v.date | date: '%Y' -%}
+        {%- if first_year == "" or year < first_year -%}{%- assign first_year = year -%}{%- endif -%}
+        {%- if last_year == "" or year > last_year -%}{%- assign last_year = year -%}{%- endif -%}
+        {%- assign chapter = v.title | split: vol_tag | last | strip %}
+    <li>
+      <a href="{{ v.url }}">
+        <span class="vol-num">{{ n }}</span>
+        <span class="toc-body">
+          <span class="toc-title">{{ chapter }}</span>
+          {%- if v.description %}
+          <span class="toc-desc">{{ v.description }}</span>
+          {%- endif %}
+          <span class="toc-meta">{{ minutes }} min</span>
+        </span>
+      </a>
+    </li>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endcapture -%}
+<article class="series-page">
+  <header class="page-head">
+    <p class="kicker">{% if info.topic %}{{ info.topic }} <span aria-hidden="true">·</span> {% endif %}Series of {{ vol_count }} <span aria-hidden="true">·</span> {{ total_minutes }} min</p>
+    <h1>{{ page.title }}</h1>
+    {%- if info.blurb %}
+    <p class="page-lede">{{ info.blurb }}</p>
+    {%- endif %}
+    {%- if info.prereqs %}
+    <p class="series-prereqs"><span class="kicker">What you need</span> {{ info.prereqs }}</p>
+    {%- endif %}
+    <p class="hero-links">
+      <a class="btn" href="{{ first_url }}">Start with Vol. I</a>
+      <span class="series-years">{% if first_year == last_year %}{{ first_year }}{% else %}{{ first_year }}–{{ last_year }}{% endif %}</span>
+    </p>
+  </header>
+
+  <ol class="series-toc" aria-label="{{ page.title }}, volumes in reading order">
+    {{- toc }}
+  </ol>
+
+  <p class="post-foot-links"><a href="/blog/#h-series">All series</a> <span aria-hidden="true">·</span> <a href="/blog/atom.xml">RSS</a></p>
+</article>

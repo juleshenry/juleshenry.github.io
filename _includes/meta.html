@@ -1,8 +1,9 @@
 {%- comment -%}
   <title>, description, canonical, social tags and structured data. A post's
   description is its own `description:` front matter, else its series blurb,
-  else the site's. A post's share image is its card in images/social/ (made by
-  scripts/make_social_cards.mjs), else the site card.
+  else the site's. A series page's description is its blurb. Posts and series
+  pages use their card in images/social/ (made by scripts/make_social_cards.mjs),
+  else the site card.
 {%- endcomment -%}
 {%- assign meta_desc = page.description | default: site.description -%}
 {%- if page.layout == 'post' -%}
@@ -14,6 +15,10 @@
       {%- assign meta_desc = 'Vol. ' | append: series_num | append: ' of ' | append: series_name | append: '. ' | append: meta_series.blurb -%}
     {%- endif -%}
   {%- endif -%}
+{%- elsif page.layout == 'series' -%}
+  {%- assign meta_series = site.data.series | where: "name", page.title | first -%}
+  {%- assign meta_desc = meta_series.blurb | default: meta_desc -%}
+  {%- assign meta_title = page.title | append: ' · ' | append: site.title -%}
 {%- elsif page.url == '/' -%}
   {%- assign meta_title = site.title | append: ' · ' | append: site.tagline -%}
 {%- else -%}
@@ -22,8 +27,13 @@
 {%- assign meta_desc = meta_desc | strip_html | strip_newlines | strip -%}
 {%- assign meta_url = site.url | append: page.url -%}
 {%- assign meta_image = site.social_image -%}
+{%- assign card_path = nil -%}
 {%- if page.layout == 'post' -%}
   {%- assign card_path = page.path | split: '/' | last | replace: '.md', '.png' | prepend: '/images/social/' -%}
+{%- elsif page.layout == 'series' -%}
+  {%- assign card_path = page.title | slugify | prepend: '/images/social/series-' | append: '.png' -%}
+{%- endif -%}
+{%- if card_path -%}
   {%- assign card = site.static_files | where: "path", card_path | first -%}
   {%- if card -%}{%- assign meta_image = card_path -%}{%- endif -%}
 {%- endif -%}
@@ -59,6 +69,8 @@
 {%- endcapture -%}
 {%- if page.layout == 'post' and page.redirect_to == nil %}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":{{ plain_title | jsonify }},"description":{{ meta_desc | jsonify }},"datePublished":"{{ page.date | date_to_xmlschema }}","url":"{{ meta_url }}","mainEntityOfPage":"{{ meta_url }}","image":"{{ site.url }}{{ meta_image }}","author":{{ person_json }}}</script>
+{%- elsif page.layout == 'series' %}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":{{ page.title | jsonify }},"description":{{ meta_desc | jsonify }},"url":"{{ meta_url }}","image":"{{ site.url }}{{ meta_image }}","author":{{ person_json }}}</script>
 {%- elsif page.url == '/' or page.url == '/about' %}
 <script type="application/ld+json">{"@context":"https://schema.org",{{ person_json | remove_first: '{' }}</script>
 {%- endif %}

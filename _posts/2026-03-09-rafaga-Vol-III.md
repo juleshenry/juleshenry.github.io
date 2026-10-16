@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Mean-Reverting VIX, Vol. III: Jumps, Vol-of-Vol and the Fourier Trick"
 date: 2026-03-09 12:02:00
+description: "How upward jumps and random vol-of-vol fatten the right tail of log VIX, and how Gil-Pelaez inversion of the characteristic function prices VIX options."
 mathjax: true
 categories: wealth
 ---
@@ -43,7 +44,7 @@ and add the jumps to the rubber band of [Vol. I](/blog/2026/03/09/rafaga):
 
 Jumps are upward only. That is the physics of fear: the VIX spikes up and decays down, and the decay is already handled by mean reversion. A mean log-jump of $1/\eta = 0.3$ means the typical jump multiplies the VIX by $e^{0.3}\approx1.35$. Because a jump is a shock to $\ln\text{VIX}$, mean reversion then pulls it back at the same speed as any other shock.
 
-This model is due to Psychoyios, Dotsis and Markellos (2010); the thesis develops its futures, options, hedging and convexity formulas. What it costs us is the Gaussian. $\ln\text{VIX}_T$ is now a Gaussian plus a random sum of decayed exponentials, and there is no closed-form density, so no $\Phi(d_1)$.
+This model is due to Psychoyios, Dotsis and Markellos (2010); the thesis develops its futures, options, hedging and convexity formulas. What it costs us is the Gaussian. $\ln\text{VIX}_T$ is now a Gaussian plus a random sum of decayed exponential jumps, and there is no closed-form density, so no $\Phi(d_1)$.
 
 ---
 
@@ -62,14 +63,14 @@ For a Gaussian $\mathcal N(\mu,v)$, $\psi(s) = e^{is\mu - s^2v/2}$. So under MRL
 
 $$\psi_{\text{MRLR}}(s) = \exp\!\Big(is\mu - \tfrac12 s^2 v\Big).$$
 
-Also note what $\psi$ at an imaginary argument gives: $\psi(-i) = \mathbb E[e^{X}] = \mathbb E[\text{VIX}_T] = F$. **The VIX future is the characteristic function evaluated at $s=-i$.** That will be used constantly.
+Also note what $\psi$ at an imaginary argument gives: for $X = \ln\text{VIX}_T$, $\psi(-i) = \mathbb E[e^{X}] = \mathbb E[\text{VIX}_T] = F$. **The VIX future is the characteristic function evaluated at $s=-i$.** That will be used constantly.
 
 ---
 
 # Deriving the jump term
 {: #the-jump-term}
 
-The jump term looks as if it should take considerable algebra. It takes one substitution. Solve the MRLRJ equation with the integrating factor, as in Vol. I, and a jump of size $J_k$ at time $t_k$ contributes $e^{-\kappa(T-t_k)}J_k$ to $\ln\text{VIX}_T$: it decays like any other shock. So the jump part is $\sum_k e^{-\kappa(T - t_k)}J_k$, a compound Poisson sum with time-dependent weights. For such a sum over $[t, T]$,
+The jump term looks as if it should take considerable algebra. It takes one substitution. Solve the MRLRJ equation with the integrating factor, as in Vol. I, and a jump of size $J_k$ at time $t_k$ contributes $e^{-\kappa(T-t_k)}J_k$ to $\ln\text{VIX}_T$: it decays like any other shock. So the jump part is $\sum_k e^{-\kappa(T - t_k)}J_k$, a compound Poisson sum with time-dependent weights. For such a sum over $[t, T]$, writing $h = T - t_k$ for the time from a jump to expiry,
 
 $$\mathbb E\Big[\exp\Big(is\sum_k e^{-\kappa(T-t_k)}J_k\Big)\Big] = \exp\Big(\lambda\int_0^{\tau}\big(\mathbb E\big[e^{is e^{-\kappa h}J}\big]-1\big)\,dh\Big),$$
 
@@ -96,7 +97,7 @@ which is finite only if $\eta>1$. Exponential jumps in $\ln\text{VIX}$ are Paret
 # Random vol-of-vol
 {: #vol-of-vol}
 
-Jumps are one way to fatten the tail. The other is to notice that the vol-of-vol $\sigma$ itself is not constant: when the VIX rises, it rises more violently. Replace $\sigma$ by a random variance with its own rubber band, the square-root process of Heston (1993):
+Jumps are one way to fatten the tail. The other is to notice that the vol-of-vol $\sigma$ itself is not constant: when the VIX rises, it rises more violently. Replace $\sigma^2$ by a random variance $V_t$ with its own rubber band, the square-root process of Heston (1993):
 
 <div class="ev-def"><strong>Definition (MRLRSV).</strong>
 $$d\ln\text{VIX}_t = \kappa(\theta - \ln\text{VIX}_t)\,dt + \sqrt{V_t}\,dW_t,\qquad dV_t = \kappa_v(\theta_v - V_t)\,dt + \sigma_v\sqrt{V_t}\,dZ_t,$$
@@ -108,11 +109,11 @@ The model is **affine**: its drift and variance are linear in the state $(X, V)$
 
 $$\psi = \exp\big(a(\tau) + b(\tau)\,V_t + c(\tau)\,X_t\big),$$
 
-require that $\psi$ be a martingale in $t$ (it is a conditional expectation of a fixed payoff), and match the coefficients of $X$, $V$ and 1. The $X$-coefficient decays like any shock, $c = is\,e^{-\kappa\tau}$. With $u(h) = is\,e^{-\kappa h}$, the $V$-coefficient solves a **Riccati equation** and $a$ is its integral:
+require that $\psi$ be a martingale in $t$ (it is a conditional expectation of a fixed payoff), and match the coefficients of $X$, $V$ and 1. The $X$-coefficient decays like any shock, $c = is\,e^{-\kappa\tau}$. With $u(h) = is\,e^{-\kappa h}$, the $V$-coefficient solves a **Riccati equation** and $a$ comes from integrating $b$:
 
 $$b' = \tfrac12 u^2 + \rho\sigma_v\,u\,b + \tfrac12\sigma_v^2 b^2 - \kappa_v b,\quad b(0) = 0; \qquad a = is\,\theta(1-\phi) + \kappa_v\theta_v\int_0^\tau b\,dh.$$
 
-In Heston's stock model the coefficients are constant and the Riccati equation has an elementary solution. Here $u(h)$ decays with $h$, and the solution needs Kummer confluent hypergeometric functions. The thesis tried them, found them unstable and slow, and recommends Runge–Kutta instead. So do we: classic fourth-order RK4, one integration per value of $s$.
+In Heston's stock model the coefficients are constant and the Riccati equation has an elementary solution. Here $u(h)$ decays with $h$, and the solution needs Kummer confluent hypergeometric functions. The thesis tried them, found them unstable and slow, and recommends Runge–Kutta instead. So do we: RK4, the classical fourth-order method, one integration per value of $s$.
 
 **Why not both?** MRLRSVJ puts jumps and random vol-of-vol together. In the thesis it fits no better than MRLRSV (percentage errors within 0.01 points of each other) at the price of two more parameters. We leave it out.
 
@@ -138,16 +139,16 @@ $\Pi_1 = \mathbb E[\text{VIX}_T\mathbf 1\lbrace\cdot\rbrace]/F$ is the same kind
 # The numerics, and a precision myth
 {: #numerics}
 
-In practice the integral is truncated at a point $U$ where $\lvert\psi(U)\rvert < 10^{-12}$, and evaluated by composite 16-point Gauss–Legendre quadrature on $[0, U]$. Every strike of one expiry shares the same nodes, so $\psi$ is computed once per maturity and reused. For MRLRSV that matters: each node is an RK4 solve. The Riccati equation is **stiff** for large $\lvert s\rvert$ (its Jacobian grows like $\sigma_v\lvert s\rvert$), so the step size must shrink as $s$ grows, and the code chooses it per node.
+In practice the integrals are truncated at a point $U$ where $\lvert\psi(U)\rvert < 10^{-12}$, and evaluated by composite 16-point Gauss–Legendre quadrature on $[0, U]$. Every strike of one expiry shares the same nodes, so $\psi$ is computed once per maturity and reused. For MRLRSV that matters: each node is an RK4 solve. The Riccati equation is **stiff** for large $\lvert s\rvert$ (its Jacobian grows like $\sigma_v\lvert s\rvert$), so the step size must shrink as $s$ grows, and the code chooses it per node.
 
-Two failure modes show up only when calibration starts throwing wild parameters at the pricer. As $\sigma\to0$ in MRLRJ, the characteristic function stops decaying (the jump term alone has modulus bounded away from zero), and an adaptive cutoff grows without limit. Uncapped, one calibration run spends 321 seconds on a single maturity. So the cutoff is capped at $U = 400$, a point beyond which $\ln\text{VIX}_T$ would have a standard deviation under 2%, far from any real VIX market. And huge $\sigma_v$ makes RK4 need thousands of steps per node. Both are bounded, and both bounds are documented in the paper.
+Two failure modes show up only when calibration starts throwing wild parameters at the pricer. As $\sigma\to0$ in MRLRJ, the characteristic function stops decaying (the jump term alone has modulus bounded away from zero), and an adaptive cutoff grows without limit. Uncapped, one calibration run spends 321 seconds on a single maturity. So the cutoff is capped at $U = 400$, which costs accuracy only if the Gaussian part of $\ln\text{VIX}_T$ has a standard deviation under 2%, far from any real VIX market. And huge $\sigma_v$ makes RK4 need thousands of steps per node. Both are bounded, and both bounds are documented in the code ([`pricing.jl`](https://github.com/juleshenry/rafaga/blob/main/julia_impl/src/pricing.jl), [`calibration.jl`](https://github.com/juleshenry/rafaga/blob/main/julia_impl/src/calibration.jl)).
 
-The code is checked by 34 assertions ([tests](https://github.com/juleshenry/rafaga/blob/main/julia_impl/test/runtests.jl)): the Fourier pricer reproduces the MRLR closed form to $10^{-8}$; MRLRJ with $\lambda\to0$ and MRLRSV with $\sigma_v\to0$ reduce to MRLR; $F = \psi(-i)$ matches the closed-form futures; prices fall and are convex in $K$ and respect arbitrage bounds; Euler Monte Carlo with 200,000 paths agrees within four standard errors; and a ten-times-smaller RK4 step moves no price by more than $10^{-4}$.
+The code is checked by 34 assertions ([tests](https://github.com/juleshenry/rafaga/blob/main/julia_impl/test/runtests.jl)): the Fourier pricer reproduces the MRLR closed form to $10^{-8}$; MRLRJ with $\lambda\to0$ and MRLRSV with $\sigma_v\to0$ reduce to MRLR; $F = \psi(-i)$ matches the closed-form futures; prices fall and are convex in $K$ and respect arbitrage bounds; Euler Monte Carlo with 200,000 paths agrees within four standard errors plus 0.01 for discretization bias; and a ten-times-smaller RK4 step moves no price by more than $10^{-4}$.
 
 Now the myth. A Fourier pricer written in a hurry returns probabilities greater than one, and the tempting diagnosis is floating point.
 
 <div class="cs-q"><strong>The tempting claim:</strong> Far out in the tail, <code>float64</code> maps the integrand to exactly zero (underflow), and the integrand becomes discontinuous. The cure is arbitrary precision: evaluate everything in <code>BigFloat</code>. No underflow, no overflow.</div>
-<div class="cs-a"><strong>The data says:</strong> Double precision is not the problem. The pricer here is plain <code>Float64</code>, and it agrees with a 25-digit <code>BigFloat</code> quadrature to $10^{-9}$ on the thesis' most extreme jump parameters ($\lambda = 169$ jumps a year). An integrand that underflows to zero where it is $e^{-200}$ is correct, not broken. The logarithm's branch cut is not a hazard either: for real $u$ both $\eta - iu\phi$ and $\eta - iu$ have positive real part, so their ratio never crosses the negative real axis. And arbitrary precision only helps if it is carried all the way through: evaluate the characteristic function in <code>BigFloat</code>, convert it to <code>ComplexF64</code> before integrating, and every price is a double-precision computation anyway.</div>
+<div class="cs-a"><strong>The data says:</strong> Double precision is not the problem. The pricer here is plain <code>Float64</code>, and it agrees with a 25-digit <code>BigFloat</code> quadrature to $10^{-9}$ on the thesis' most extreme jump parameters ($\lambda = 169$ jumps a year). An integrand that underflows to zero where it is $e^{-200}$ is correct, not broken. The logarithm's branch cut is not a hazard either: for real $u$ both $\eta - iu\phi$ and $\eta - iu$ have positive real part (for $\psi(u-i)$ the real parts are $\eta-\phi$ and $\eta-1$, positive once $\eta>1$), so their ratio never crosses the negative real axis. And arbitrary precision only helps if it is carried all the way through: evaluate the characteristic function in <code>BigFloat</code>, convert it to <code>ComplexF64</code> before integrating, and every price is a double-precision computation anyway.</div>
 
 A probability above one from a Gil-Pelaez integral is the classic symptom of the *integration* going wrong: truncating before $\psi$ has decayed, or an adaptive routine giving up on an oscillating integrand. In Python that is what SciPy's `IntegrationWarning` is trying to say, and `warnings.simplefilter(action='ignore', category=integrate.IntegrationWarning)`, in a project whose entire purpose is integration, silences the one message that matters. The rule: *when your numbers are impossible, read the warning before you change the language*.
 

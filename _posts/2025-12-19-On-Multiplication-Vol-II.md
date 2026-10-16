@@ -2,6 +2,7 @@
 layout: post
 title: "On Multiplication, Vol. II: The Fourier Transform"
 date: 2025-12-19 12:01:00
+description: "Integer multiplication as convolution, the discrete Fourier transform, and how the Cooley-Tukey FFT computes it in O(N log N), with a worked 8-point example."
 mathjax: true
 ---
 
@@ -11,9 +12,9 @@ mathjax: true
 
 ## Why We Need a New Idea
 
-At the end of the Toom-Cook story in [Vol. I](/blog/2025/12/19/On-Multiplication) we noted a frustrating ceiling: as we increase the splitting parameter $k$, the exponent $\log_k(2k-1)$ drifts toward 1, but it never reaches it. Worse, the constant factor in the $O(n)$ additive work (evaluation and interpolation matrices of size $k \times k$, coefficient blowup at large evaluation points) grows so fast that no finite $k$ delivers practical gains beyond Toom-4 or so.
+At the end of the Toom-Cook story in [Vol. I](/blog/2025/12/19/On-Multiplication) we noted a frustrating ceiling: as we increase the splitting parameter $k$, the exponent $\log_k(2k-1)$ drifts toward 1, but it never reaches it. Worse, the constant factor in the $O(n)$ additive work (evaluation and interpolation matrices with $2k-1$ rows, coefficient blowup at large evaluation points) grows so fast that implementations stop at small $k$: [GMP's largest variant is Toom-8½](https://gmplib.org/manual/Higher-degree-Toom_0027n_0027half), and above that size it switches to an FFT.
 
-To break through this wall we need to abandon the strategy of evaluating at a handful of ad-hoc points and instead evaluate at a *structured family* of points whose algebraic symmetry enables a radically faster algorithm. That family is the **complex roots of unity**, and the algorithm that exploits their symmetry is the **Fast Fourier Transform**.
+To break through this wall we need to abandon the strategy of evaluating at a handful of ad-hoc points and instead evaluate at a *structured family* of points whose algebraic symmetry enables a much faster algorithm. That family is the **complex roots of unity**, and the algorithm that exploits their symmetry is the **Fast Fourier Transform**.
 
 Before we can state Schönhage and Strassen's multiplication algorithm, we must build the FFT from the ground up. This requires four conceptual layers: (1) the observation that integer multiplication is polynomial convolution, (2) the Discrete Fourier Transform as an evaluation map, (3) the Cooley-Tukey decomposition that makes the DFT fast, and (4) the inverse transform that recovers coefficients from point values.
 
@@ -23,7 +24,7 @@ Before we can state Schönhage and Strassen's multiplication algorithm, we must 
 
 ### Polynomials and digit vectors
 
-We have already seen that an $n$-digit integer in base $B$ can be written as a polynomial evaluated at $B$. Let us now make the multiplication side precise. Given two integers with digit vectors $\mathbf{a} = (a_0, a_1, \ldots, a_{n-1})$ and $\mathbf{b} = (b_0, b_1, \ldots, b_{n-1})$, their product is a new integer whose digit vector $\mathbf{c} = (c_0, c_1, \ldots, c_{2n-2})$ satisfies:
+We have already seen that an $n$-digit integer in base $B$ can be written as a polynomial evaluated at $B$. Given two integers with digit vectors $\mathbf{a} = (a_0, a_1, \ldots, a_{n-1})$ and $\mathbf{b} = (b_0, b_1, \ldots, b_{n-1})$, their product is the integer $\sum_k c_k B^k$, where the coefficient vector $\mathbf{c} = (c_0, c_1, \ldots, c_{2n-2})$ satisfies:
 
 $$
 c_k = \sum_{j=0}^{k} a_j \, b_{k-j}
@@ -42,15 +43,15 @@ Computing this convolution directly requires computing each of the $2n - 1$ outp
 
 The single most important theorem in this entire story is:
 
-> **Convolution Theorem.** Let $\mathcal{F}$ denote the Discrete Fourier Transform (defined below). If $\mathbf{c} = \mathbf{a} \ast \mathbf{b}$ is the convolution of two sequences, then:
+> **Convolution Theorem.** Let $\mathcal{F}$ denote the Discrete Fourier Transform of length $N$ (defined below). If $\mathbf{c} = \mathbf{a} \ast \mathbf{b}$ is the *cyclic* convolution of two length-$N$ sequences, $c_k = \sum_{j=0}^{N-1} a_j b_{(k-j) \bmod N}$, then:
 >
 > $$\mathcal{F}(\mathbf{a} \ast \mathbf{b}) = \mathcal{F}(\mathbf{a}) \cdot \mathcal{F}(\mathbf{b})$$
 >
 > where $\cdot$ denotes *pointwise* (component-by-component) multiplication.
 
-In words: convolution in the "coefficient domain" becomes pointwise multiplication in the "frequency domain." Since pointwise multiplication of two length-$N$ vectors costs only $O(N)$, the entire cost of multiplication reduces to the cost of *two forward transforms and one inverse transform*. If each transform costs $O(N \log N)$, the total cost is $O(N \log N)$, a vast improvement over $O(N^2)$.
+In words: convolution in the "coefficient domain" becomes pointwise multiplication in the "frequency domain." Cyclic convolution wraps indices around modulo $N$, but if $\mathbf{a}$ and $\mathbf{b}$ are zero-padded to length $N \geq 2n - 1$, nothing wraps and it equals the linear convolution above. Since pointwise multiplication of two length-$N$ vectors costs only $O(N)$, the entire cost of multiplication reduces to the cost of *two forward transforms and one inverse transform*. If each transform costs $O(N \log N)$, the total cost is $O(N \log N)$, a vast improvement over $O(N^2)$.
 
-This is not a hand-wave. Let us now build the DFT rigorously and prove why it can be computed in $O(N \log N)$.
+This is not a hand-wave. We now build the DFT, prove the theorem, and show why the DFT can be computed in $O(N \log N)$.
 
 ---
 
@@ -64,7 +65,7 @@ $$
 e^{i\theta} = \cos\theta + i\sin\theta
 $$
 
-This elegant identity tells us that the complex exponential $e^{i\theta}$ traces out the unit circle in the complex plane as $\theta$ varies from $0$ to $2\pi$. Every point on the unit circle can be written as $e^{i\theta}$ for some angle $\theta$.
+This identity tells us that the complex exponential $e^{i\theta}$ traces out the unit circle in the complex plane as $\theta$ varies from $0$ to $2\pi$. Every point on the unit circle can be written as $e^{i\theta}$ for some angle $\theta$.
 
 ### The $N$-th roots of unity
 
@@ -74,7 +75,7 @@ $$
 \omega_N^k = e^{2\pi i k / N}, \qquad k = 0, 1, \ldots, N-1
 $$
 
-These are $N$ points spaced equally around the unit circle, like the vertices of a regular $N$-gon inscribed in the circle $\lvert z \rvert = 1$. The **primitive** $N$-th root of unity is:
+These are $N$ points spaced equally around the unit circle, like the vertices of a regular $N$-gon inscribed in the circle $\lvert z \rvert = 1$. The standard **primitive** $N$-th root of unity (one whose powers give all $N$ roots) is:
 
 $$
 \omega_N = e^{2\pi i / N}
@@ -82,11 +83,11 @@ $$
 
 so that $\omega_N^k = (\omega_N)^k$. We will usually drop the subscript $N$ when the context is clear.
 
-The roots of unity possess remarkable algebraic properties that are the engine of the FFT:
+Four algebraic properties of the roots of unity drive the FFT:
 
 1. **Periodicity:** $\omega^{k+N} = \omega^k$ for all $k$. The roots cycle with period $N$.
 
-2. **Cancellation (Half-turn symmetry):** $\omega^{k + N/2} = -\omega^k$ when $N$ is even. Geometrically, the point diametrically opposite $\omega^k$ on the unit circle is $-\omega^k$. This is the single most important property for the FFT.
+2. **Cancellation (Half-turn symmetry):** $\omega^{k + N/2} = -\omega^k$ when $N$ is even. Geometrically, a half turn around the circle takes $\omega^k$ to the diametrically opposite point $-\omega^k$. The FFT relies on this property more than on any other.
 
 3. **Summation:** $\displaystyle\sum_{k=0}^{N-1} \omega^{jk} = \begin{cases} N & \text{if } N \mid j \cr 0 & \text{otherwise} \end{cases}$
 
@@ -102,7 +103,7 @@ $$
 X_k = \sum_{j=0}^{N-1} x_j \, \omega_N^{jk}, \qquad k = 0, 1, \ldots, N-1
 $$
 
-Equivalently, $X_k = P(\omega^k)$ where $P(z) = \sum_{j} x_j z^j$ is the polynomial whose coefficients are the entries of $\mathbf{x}$. The DFT is nothing more than **evaluating the polynomial at all $N$-th roots of unity simultaneously**.
+Equivalently, $X_k = P(\omega^k)$ where $P(z) = \sum_{j} x_j z^j$ is the polynomial whose coefficients are the entries of $\mathbf{x}$. The DFT is nothing more than **evaluating the polynomial at all $N$-th roots of unity simultaneously**. This proves the Convolution Theorem: cyclic convolution computes the coefficients of $A(z)B(z)$ with $z^N$ replaced by $1$, and since $(\omega^k)^N = 1$, that replacement does not change the value at $\omega^k$. So the $k$-th entry of $\mathcal{F}(\mathbf{a} \ast \mathbf{b})$ is $A(\omega^k)B(\omega^k)$, the product of the $k$-th entries of $\mathcal{F}(\mathbf{a})$ and $\mathcal{F}(\mathbf{b})$.
 
 ### The DFT matrix
 
@@ -139,9 +140,9 @@ $$
 x_j = \frac{1}{N} \sum_{k=0}^{N-1} X_k \, \omega_N^{-jk}
 $$
 
-or in matrix form, $\mathbf{x} = \frac{1}{N} F_N^{-1} \mathbf{X}$ where $F_N^{-1}$ is the matrix with entries $\omega_N^{-jk}$: the same as $F_N$ but with $\omega$ replaced by $\omega^{-1} = \overline{\omega}$ (the complex conjugate). In other words, **the inverse DFT is computed by the same algorithm as the forward DFT**, just with the twiddle factors conjugated and the output scaled by $1/N$. Any algorithm that computes the forward DFT efficiently also computes the inverse efficiently, for free.
+or in matrix form, $\mathbf{x} = \frac{1}{N} \overline{F_N} \mathbf{X}$ where $\overline{F_N}$ is the matrix with entries $\omega_N^{-jk}$: the same as $F_N$ but with $\omega$ replaced by $\omega^{-1} = \overline{\omega}$ (the complex conjugate). So $F_N^{-1} = \frac{1}{N} \overline{F_N}$. In other words, **the inverse DFT is computed by the same algorithm as the forward DFT**, just with every power of $\omega$ conjugated and the output scaled by $1/N$. Any fast algorithm for the forward DFT is therefore also a fast algorithm for the inverse.
 
-**Proof of inversion.** We need to verify that $\frac{1}{N}F_N^{-1} F_N = I_N$, i.e., that:
+**Proof of inversion.** We need to verify that $\frac{1}{N}\overline{F_N} F_N = I_N$, i.e., that for all $j$ and $\ell$:
 
 $$
 \frac{1}{N} \sum_{k=0}^{N-1} \omega^{-jk} \omega^{k\ell} = \frac{1}{N} \sum_{k=0}^{N-1} \omega^{k(\ell - j)} = \begin{cases} 1 & \text{if } j = \ell \\ 0 & \text{if } j \neq \ell \end{cases}
@@ -199,7 +200,7 @@ $$
 \boxed{X_k = E_k + \omega_N^k \cdot D_k}
 $$
 
-But we need $X_k$ for $k = 0, 1, \ldots, N-1$, while $E_k$ and $D_k$ are periodic with period $M = N/2$ (they are DFTs of size $M$). For the "upper half" $k + M$, the **cancellation property** $\omega_N^{k+M} = -\omega_N^k$ gives:
+But we need $X_k$ for $k = 0, 1, \ldots, N-1$, while $E_k$ and $D_k$ are periodic with period $M = N/2$ (they are DFTs of size $M$, so $E_{k+M} = E_k$ and $D_{k+M} = D_k$). For the "upper half" $k + M$, the **cancellation property** $\omega_N^{k+M} = -\omega_N^k$ gives:
 
 $$
 \boxed{X_{k+M} = E_k - \omega_N^k \cdot D_k}
@@ -235,11 +236,11 @@ $$
 T(N) = O(N \log N)
 $$
 
-compared to $O(N^2)$ for the naive DFT. For $N = 2^{20} \approx 10^6$, this is the difference between $\sim 10^{12}$ operations and $\sim 2 \times 10^7$, a speedup of 50,000$\times$.
+compared to $O(N^2)$ for the naive DFT. For $N = 2^{20} \approx 10^6$, this is the difference between $\sim 10^{12}$ operations and $\sim 2 \times 10^7$, a speedup of about 50,000$\times$.
 
 ### The full recursion tree
 
-When $N = 2^s$, the recursion unfolds $s = \log_2 N$ levels deep. At each level, we partition the data, recurse on two halves, and combine with $N$ butterfly operations. The total work is:
+When $N = 2^s$, the recursion unfolds $s = \log_2 N$ levels deep. At each level, we partition the data, recurse on two halves, and combine the halves with $N/2$ butterflies, which produce $N$ outputs. Counting one unit of work per output, the total work is:
 
 $$
 \underbrace{N}_{\text{level 0}} + \underbrace{N}_{\text{level 1}} + \cdots + \underbrace{N}_{\text{level } s-1} = s \cdot N = N \log_2 N
@@ -461,8 +462,8 @@ We now have all the pieces. To multiply two polynomials $A(x)$ and $B(x)$ of deg
 
 **Step 4. Inverse FFT.** Compute $\mathbf{c} = \text{IFFT}_N(\hat{\mathbf{c}})$. Cost: $O(N \log N)$.
 
-**Step 5. Carry propagation.** The entries of $\mathbf{c}$ are the exact convolution coefficients (no rounding yet). Each $c_k$ may exceed the base $B$, so we perform a single left-to-right carry pass: set $c_k \leftarrow c_k \bmod B$ and add $\lfloor c_k / B \rfloor$ to $c_{k+1}$. Cost: $O(N)$.
+**Step 5. Carry propagation.** In exact arithmetic, the entries of $\mathbf{c}$ are the convolution coefficients themselves. Each $c_k$ may exceed the base $B$, so we perform a single carry pass from $c_0$ upward: add $\lfloor c_k / B \rfloor$ to $c_{k+1}$, then set $c_k \leftarrow c_k \bmod B$. Cost: $O(N)$.
 
-**Total cost: $O(N \log N) = O(n \log n)$.**
+**Total cost: $O(N \log N) = O(n \log n)$ arithmetic operations.**
 
-At this point you might ask: if the FFT already gives us $O(n \log n)$ multiplication, why do we need Schönhage-Strassen? The answer lies in a subtle but critical issue: **numerical precision**.
+At this point you might ask: if the FFT already gives us $O(n \log n)$ multiplication, why do we need Schönhage-Strassen? The answer is **numerical precision**.

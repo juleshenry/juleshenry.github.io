@@ -2,6 +2,7 @@
 layout: post
 title: "On Multiplication, Vol. I: Schoolbook, Karatsuba, Toom-Cook"
 date: 2025-12-19 12:00:00
+description: "Why schoolbook multiplication costs O(n²), how Karatsuba gets by with three half-size products, and how Toom-Cook generalizes the trick by interpolation."
 mathjax: true
 ---
 
@@ -19,13 +20,13 @@ Start with the method from school. To multiply two $n$-digit integers $A$ and $B
 
 ## The Anatomy of the Partial Product
 
-First, consider the "multiplication phase." We take the first digit of the multiplier ($B$) and multiply it by every single digit of the multiplicand ($A$). If both numbers have $n$ digits, this initial step requires $n$ individual single-digit multiplications.
+First, consider the "multiplication phase." We take the first digit of the multiplier ($B$) and multiply it by every digit of the multiplicand ($A$). If both numbers have $n$ digits, this initial step requires $n$ individual single-digit multiplications.
 
 Now repeat this for the second digit of $B$, then the third, and so on through all $n$ digits of the multiplier. That is $n$ sets of $n$ multiplications: $n^2$ in all.
 
 ## The Cost of Alignment and Addition
 
-Once we have generated these $n$ rows of partial products, the work is not yet finished. We must then perform the "addition phase." Each row is shifted to the left (multiplying by a power of 10), and then the rows are summed.
+Generating the $n$ rows of partial products is only half the work. Next comes the "addition phase." Each row is shifted to the left (multiplying by a power of 10), and then the rows are summed.
 
 - Each partial product can have up to $n+1$ digits.
 - We are summing $n$ such rows.
@@ -33,23 +34,23 @@ Once we have generated these $n$ rows of partial products, the work is not yet f
 
 ## The Quadratic Ceiling
 
-Big O notation ignores constant factors and keeps the dominant term. While you might perform some clever carries or skip a few zeros, the fundamental structure of the algorithm remains a nested loop: for every digit in the bottom number, you must visit every digit in the top number.
+Big O notation ignores constant factors and keeps the dominant term. While you might perform some clever carries or skip a few zeros, the fundamental structure of the algorithm remains a nested loop: for every digit in the bottom number, you must visit every digit in the top number. Writing $A_j$ and $B_i$ for the digits of $A$ and $B$, indexed from the units place at $0$:
 
 $$
-\sum_{i=1}^{n}\sum_{j=1}^{n} \big(A_j \times B_i\big) \;\Longrightarrow\; O(n^2)
+AB = \sum_{i=0}^{n-1}\sum_{j=0}^{n-1} A_j B_i \cdot 10^{i+j} \qquad (n^2 \text{ digit products}) \;\Longrightarrow\; O(n^2)
 $$
 
-Thus, the "schoolbook" method represents a rigid, two-dimensional grid of operations. To break the $O(n^2)$ barrier, as every algorithm in this series does, one must move beyond this grid entirely and treat integers not as mere strings of digits, but as polynomials to be evaluated and interpolated.
+The schoolbook method is a rigid, two-dimensional grid of operations. To break the $O(n^2)$ barrier, as every later algorithm in this series does, one must move beyond this grid entirely and treat integers not as mere strings of digits, but as polynomials to be evaluated and interpolated.
 
 # Karatsuba: Breaking $O(n^2)$ with $O(n^{\log_2 3})$
 
-Kolmogorov organized a seminar in 1960 specifically to prove that $O(n^2)$ was the floor for multiplication. He was wrong. A 23-year-old student named **Anatoly Karatsuba** attended that seminar and, within a week, returned with a counterexample that reduced the exponent from 2 to $\log_2 3 \approx 1.585$.
+In 1960 Kolmogorov ran a seminar on mathematical problems of cybernetics at Moscow State University, where he conjectured that $O(n^2)$ was the floor for multiplication. He was wrong. A 23-year-old student named **Anatoly Karatsuba** attended that seminar and, within a week, returned with an algorithm that reduced the exponent from 2 to $\log_2 3 \approx 1.585$.
 
 The idea is pure divide-and-conquer, but with an algebraic twist that turns four sub-multiplications into three.
 
 ### Splitting the Numbers
 
-Take two $n$-digit numbers $x$ and $y$. Cut each in half at position $m = \lfloor n/2 \rfloor$, writing them as a "high part" times a power of the base plus a "low part":
+Take two $n$-digit numbers $x$ and $y$. Cut each in half at position $m = \lfloor n/2 \rfloor$, writing them as a "high part" times a power of the base $B$ plus a "low part":
 
 $$
 \begin{aligned}
@@ -58,7 +59,7 @@ y &= y_1 B^m + y_0
 \end{aligned}
 $$
 
-Concretely: if $x = 1234$ in base 10, then $x_1 = 12$, $x_0 = 34$, and $m = 2$.
+Concretely: if $x = 1234$ in base $B = 10$, then $x_1 = 12$, $x_0 = 34$, and $m = 2$.
 
 Expanding the product naively gives:
 
@@ -66,11 +67,11 @@ $$
 xy = x_1 y_1 \cdot B^{2m} + (x_1 y_0 + x_0 y_1) \cdot B^m + x_0 y_0
 $$
 
-This expression requires **four** half-size multiplications: $x_1 y_1$, $x_1 y_0$, $x_0 y_1$, and $x_0 y_0$. Four recursive calls on inputs of size $n/2$ gives recurrence $T(n) = 4T(n/2) + O(n)$, which solves to $O(n^2)$ by the Master Theorem: no improvement at all.
+This expression requires **four** half-size multiplications: $x_1 y_1$, $x_1 y_0$, $x_0 y_1$, and $x_0 y_0$. Four recursive calls on inputs of size $n/2$ give the recurrence $T(n) = 4T(n/2) + O(n)$, which solves to $O(n^2)$ by the Master Theorem: no improvement at all.
 
 ### The Trick: Three Multiplications Suffice
 
-Karatsuba's insight is that we never need the cross-terms $x_1 y_0$ and $x_0 y_1$ individually. We only need their **sum**. And that sum falls out for free from a single cleverly chosen multiplication.
+Karatsuba's insight is that we never need the cross-terms $x_1 y_0$ and $x_0 y_1$ individually. We only need their **sum**, and that sum falls out of a single, cleverly chosen multiplication.
 
 Define three products:
 
@@ -88,7 +89,7 @@ $$
 (x_1 + x_0)(y_1 + y_0) = \underbrace{x_1 y_1}_{z_2} + x_1 y_0 + x_0 y_1 + \underbrace{x_0 y_0}_{z_0}
 $$
 
-Subtracting $z_2$ and $z_0$ cancels the terms we already know, leaving exactly the cross-term sum $x_1 y_0 + x_0 y_1$. We have extracted the middle coefficient using **one** multiplication and **two** subtractions, operations that cost only $O(n)$, negligible compared to multiplication.
+Subtracting $z_2$ and $z_0$ cancels the terms we already know, leaving exactly the cross-term sum $x_1 y_0 + x_0 y_1$. We have extracted the middle coefficient using **one** multiplication plus two additions and two subtractions, and those cost only $O(n)$, negligible compared to multiplication.
 
 The final product assembles as:
 
@@ -96,7 +97,7 @@ $$
 xy = z_2 \cdot B^{2m} + z_1 \cdot B^m + z_0
 $$
 
-Three multiplications. Not four. At every level of the recursion, we save 25% of the multiplicative work, and that savings compounds exponentially as we recurse deeper.
+Three multiplications, not four. Every level of the recursion saves a quarter of the multiplications, and the saving compounds as the recursion deepens.
 
 ### The Payoff
 
@@ -107,7 +108,7 @@ The recurrence is now $T(n) = 3T(n/2) + O(n)$, and the Master Theorem gives:
 | Schoolbook    | $T(n)=4T(n/2)+O(n)$           | $O(n^{\log_2 4}) = O(n^2)$             |
 | Karatsuba     | $T(n)=3T(n/2)+O(n)$           | $O(n^{\log_2 3}) \approx O(n^{1.585})$ |
 
-The gap between $n^2$ and $n^{1.585}$ may look modest for small $n$, but it widens relentlessly. At 1,000 digits the schoolbook method performs $\sim 10^6$ primitive multiplications; Karatsuba performs $\sim 10^{4.75} \approx 56{,}000$, a 17$\times$ speedup. At 10,000 digits it is about 46$\times$. The deeper the recursion, the more the saved quarter compounds.
+The gap between $n^2$ and $n^{1.585}$ may look modest for small $n$, but it keeps widening. At 1,000 digits the schoolbook method performs $\sim 10^6$ primitive multiplications; Karatsuba performs $\sim 1000^{1.585} \approx 57{,}000$, about an 18$\times$ speedup. At 10,000 digits it is about 46$\times$.
 
 The visualization below runs the trick on a real product, $3141 \times 2718$, drawn to scale as an area. Step through it with Next and Back, or the arrow keys.
 
@@ -269,27 +270,27 @@ The visualization below runs the trick on a real product, $3141 \times 2718$, dr
 
 ## From Digits to Polynomials
 
-Karatsuba showed that splitting a number in two and exploiting an algebraic identity could reduce four half-size multiplications to three. A natural question follows: what happens if we split into *three* pieces? Or $k$? This is exactly the generalization that Andrei Toom (1963) and Stephen Cook (1966) independently formalized. The resulting family of algorithms, collectively known as **Toom-Cook** or **Toom-$k$**, systematically trades more additions and scalar operations for fewer recursive multiplications, pushing the exponent ever closer to 1.
+Karatsuba showed that splitting a number in two and exploiting an algebraic identity could reduce four half-size multiplications to three. A natural question follows: what happens if we split into *three* pieces? Or $k$? This is exactly the generalization that Andrei Toom introduced in 1963 and Stephen Cook refined in his 1966 PhD thesis. The resulting family of algorithms, collectively known as **Toom-Cook** or **Toom-$k$**, systematically trades more additions and scalar operations for fewer recursive multiplications, pushing the exponent ever closer to 1.
 
-The key conceptual shift is to stop viewing integers as flat strings of digits and instead view them as **polynomials**. If we partition an $n$-digit number into $k$ blocks of roughly $m = \lceil n/k \rceil$ digits each, writing $B = 10^m$ (or $2^m$ in binary), then:
+The key conceptual shift is to stop viewing integers as flat strings of digits and instead view them as **polynomials**. If we partition an $n$-digit number into $k$ blocks of roughly $m = \lceil n/k \rceil$ digits each, writing $B = 10^m$ (or $2^m$ in binary) for the place value of one block, then:
 
 $$
 x = a_{k-1} B^{k-1} + a_{k-2} B^{k-2} + \cdots + a_1 B + a_0
 $$
 
-This is simply the number $x$ evaluated at the point $z = B$ of the polynomial:
+So $x$ is the value at $z = B$ of the polynomial:
 
 $$
 P_x(z) = a_{k-1} z^{k-1} + a_{k-2} z^{k-2} + \cdots + a_1 z + a_0
 $$
 
-Multiplying two such integers $x$ and $y$ is therefore equivalent to computing the **product polynomial** $P_x(z) \cdot P_y(z)$ and then evaluating the result at $z = B$ (with appropriate carries). If each input polynomial has degree $k-1$, their product has degree $2(k-1) = 2k - 2$, and is therefore determined by exactly $2k - 1$ point-value pairs. (A nonzero polynomial of degree $m$ has at most $m$ roots, so two polynomials of degree $2k-2$ that agree at $2k-1$ points must be the same polynomial.)
+Multiplying two such integers $x$ and $y$ is therefore equivalent to computing the **product polynomial** $P_x(z) \cdot P_y(z)$ and then evaluating the result at $z = B$ (with appropriate carries). If each input polynomial has degree $k-1$, their product has degree $2(k-1) = 2k - 2$, and is therefore determined by exactly $2k - 1$ point-value pairs. (A nonzero polynomial of degree $d$ has at most $d$ roots, so two polynomials of degree at most $2k-2$ that agree at $2k-1$ points must be the same polynomial.)
 
 This is the heart of the speedup: instead of multiplying the coefficients pairwise (which would require $k^2$ recursive multiplications), we can recover the product polynomial from only $2k - 1$ pointwise products.
 
 ## The Five Phases of Toom-Cook
 
-The algorithm proceeds through five clearly delineated stages:
+The algorithm has five phases:
 
 ### Phase 1: Splitting
 
@@ -297,14 +298,14 @@ Break each $n$-digit operand into $k$ blocks of $\sim n/k$ digits. For Toom-3, t
 
 $$
 \begin{aligned}
-x &= a_2 B^{2m} + a_1 B^m + a_0  &\longleftrightarrow\quad P_x(z) &= a_2 z^2 + a_1 z + a_0 \\
-y &= b_2 B^{2m} + b_1 B^m + b_0  &\longleftrightarrow\quad P_y(z) &= b_2 z^2 + b_1 z + b_0
+x &= a_2 B^2 + a_1 B + a_0  &\longleftrightarrow\quad P_x(z) &= a_2 z^2 + a_1 z + a_0 \\
+y &= b_2 B^2 + b_1 B + b_0  &\longleftrightarrow\quad P_y(z) &= b_2 z^2 + b_1 z + b_0
 \end{aligned}
 $$
 
 ### Phase 2: Evaluation
 
-Select $2k - 1$ distinct evaluation points. The standard choice for Toom-3 is the set $\lbrace 0,\; 1,\; -1,\; 2,\; \infty \rbrace$, chosen because they minimize the size of intermediate values and keep the arithmetic simple. Evaluate both polynomials at each point:
+Select $2k - 1$ distinct evaluation points. A common choice for Toom-3, and the one [GMP uses](https://gmplib.org/manual/Toom-3_002dWay-Multiplication), is the set $\lbrace 0,\; 1,\; -1,\; 2,\; \infty \rbrace$: these points keep intermediate values small and the arithmetic simple. Evaluate both polynomials at each point:
 
 $$
 \begin{aligned}
@@ -342,7 +343,7 @@ $$
 R(z) = C_4 z^4 + C_3 z^3 + C_2 z^2 + C_1 z + C_0
 $$
 
-From the five evaluated products, we can read off:
+Each of the five products is $R$ evaluated at one point:
 
 $$
 \begin{aligned}
@@ -366,14 +367,14 @@ C_1 &= W_1 - C_4 - C_3 - C_2 - C_0
 \end{aligned}
 $$
 
-Note that these expressions involve only additions, subtractions, and divisions by small constants (2 and 6): all $O(n)$ operations, negligible compared to the recursive multiplications.
+These expressions involve only additions, subtractions, and divisions by small constants (2 and 6): all $O(n)$ operations, negligible compared to the recursive multiplications.
 
 ### Phase 5: Recomposition
 
 Reassemble the final integer from the product polynomial's coefficients:
 
 $$
-x \cdot y = C_4 B^{4m} + C_3 B^{3m} + C_2 B^{2m} + C_1 B^m + C_0
+x \cdot y = C_4 B^4 + C_3 B^3 + C_2 B^2 + C_1 B + C_0
 $$
 
 The multiplications by powers of $B$ are simply left-shifts, and the final addition with carry propagation is $O(n)$.
@@ -399,7 +400,7 @@ Evaluating at the five standard points:
 | $2$   | $2{,}193$ | $5{,}577$ | $12{,}230{,}361$   |
 | $\infty$ | $123$ | $987$ | $121{,}401$          |
 
-Interpolation then yields the five coefficients $C_0, \ldots, C_4$, and recomposition with $B = 1000$ recovers the product $121{,}932{,}631{,}112{,}635{,}269$.
+Interpolation then yields $C_0 = 253{,}269$, $C_1 = 662{,}382$, $C_2 = 1{,}116{,}450$, $C_3 = 530{,}514$ and $C_4 = 121{,}401$, and recomposition with $B = 1000$ (the coefficients overlap, so carries propagate) recovers the product $121{,}932{,}631{,}112{,}635{,}269$.
 
 ## Complexity Analysis
 
@@ -419,7 +420,7 @@ The exponent $\log_k(2k - 1)$ decreases monotonically as $k$ increases, approach
 
 | Algorithm             | Split ($k$) | Recursive Mults ($2k-1$) | Complexity                       |
 |-----------------------|-------------|--------------------------|----------------------------------|
-| Grade School          | $n$         | $n^2$                    | $O(n^2)$                         |
+| Schoolbook            | $n$         | $n^2$                    | $O(n^2)$                         |
 | Karatsuba (Toom-2)    | $2$         | $3$                      | $O(n^{\log_2 3}) \approx O(n^{1.585})$ |
 | Toom-3                | $3$         | $5$                      | $O(n^{\log_3 5}) \approx O(n^{1.465})$ |
 | Toom-4                | $4$         | $7$                      | $O(n^{\log_4 7}) \approx O(n^{1.404})$ |
@@ -433,8 +434,8 @@ A tempting conclusion is that by choosing $k$ large enough, we can push the expo
 
 2. **Coefficient blowup.** Evaluating at points like $2, -2, 3, \ldots$ produces intermediate values that are significantly larger than the original coefficients. This "coefficient swell" increases the size of the sub-problems fed to the recursive multiplications, partially negating the savings.
 
-The practical sweet spot is typically Toom-3 or Toom-4. Beyond that, the FFT-based methods (Schönhage-Strassen and its successors) offer a fundamentally better asymptotic trade-off. The transition from Toom-Cook to FFT-based multiplication is, in a sense, the transition from finite polynomial interpolation to interpolation at infinitely many structured points: the roots of unity.
+So implementations stop at small $k$: [GMP's largest variant is Toom-8½](https://gmplib.org/manual/Higher-degree-Toom_0027n_0027half). Beyond that, the FFT-based methods (Schönhage-Strassen and its successors) offer a fundamentally better asymptotic trade-off. The transition from Toom-Cook to FFT-based multiplication is, in a sense, the transition from interpolation at a handful of ad hoc points to interpolation at a large, structured family of points, the roots of unity, where evaluation and interpolation are fast.
 
 ### Karatsuba as Toom-2: A Unifying Perspective
 
-It is worth pausing to note that Karatsuba's algorithm is precisely Toom-Cook with $k = 2$. The "trick" of computing $(x_1 + x_0)(y_1 + y_0) - z_2 - z_0$ is the interpolation step for a degree-2 product polynomial evaluated at the points $\lbrace 0, 1, \infty \rbrace$. Karatsuba's genius was to discover this special case in 1960; Toom and Cook's contribution was to recognize the general structure of which Karatsuba is the simplest instance.
+Karatsuba's algorithm is precisely Toom-Cook with $k = 2$. The "trick" of computing $(x_1 + x_0)(y_1 + y_0) - z_2 - z_0$ is the interpolation step for a degree-2 product polynomial evaluated at the points $\lbrace 0, 1, \infty \rbrace$. Karatsuba found this special case in 1960; Toom and Cook recognized the general structure of which it is the simplest instance.

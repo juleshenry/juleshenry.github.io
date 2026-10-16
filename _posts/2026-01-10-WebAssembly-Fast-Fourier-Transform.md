@@ -6,9 +6,9 @@ mathjax: true
 description: "Why no WebAssembly Karatsuba can beat V8's BigInt multiply, and how a SIMD floating-point FFT does, by up to 4.5× in kernel time."
 ---
 
-The [On Multiplication](/blog/2025/12/19/On-Multiplication) series covers the theory of multiplication algorithms, the whole arc from schoolbook to Karatsuba to Schönhage-Strassen to the galactic Harvey-van der Hoeven result. Theory is gorgeous. Theory is also cheap. So here is a concrete question: can hand-built WebAssembly multiply big integers faster than the JavaScript engine's own `BigInt`?
+The [On Multiplication](/blog/2025/12/19/On-Multiplication) series covers the theory of multiplication algorithms, the whole arc from schoolbook to Karatsuba to Schönhage-Strassen to the galactic Harvey-van der Hoeven result. Theory is cheap. So here is a concrete question: can hand-built WebAssembly multiply big integers faster than the JavaScript engine's own `BigInt`?
 
-The answer is yes. But only one kind of WASM multiplier can do it: a **WebAssembly Fast Fourier Transform** (WASM FFT) multiply, running in WASM's SIMD floating point. It beats V8's native `BigInt` multiply at every size I tested from 16 kbit to 33.5 Mbit, by 1.2–4.5× in kernel time and up to 2.9× including conversion to and from `BigInt`.
+The answer is yes. But only one kind of WASM multiplier can do it: a **WebAssembly Fast Fourier Transform** (WASM FFT) multiply, running in WASM's SIMD floating point. It beats V8's native `BigInt` multiply at every size I tested from 16 kbit to 32 Mbit, by 1.2–4.5× in kernel time and up to 2.9× including conversion to and from `BigInt`.
 
 This post is about why *only* the WASM FFT can do it. The argument starts with Wasmatsuba: a hand-written WAT Karatsuba that loses to V8 badly. It shows the Karatsuba curve bending exactly as the textbook says, and then shows that bending is not enough. It also carries a bug and two benchmarking traps that are worth seeing up close.
 
@@ -24,7 +24,7 @@ The plan:
 
 It is easy to guess why V8 wins: compiled C++, hardware carry flags, FFT-based algorithms. It is better to measure. Here is V8's `a*b` (Node 26.5, V8 14.6, Apple M1 Pro) across 35 sizes from 8 to 1,048,576 32-bit limbs.
 
-- **Up to about 2,048 limbs**, V8's time grows with a local exponent of about 1.6. That is Karatsuba.
+- **Up to about 3,000 limbs**, V8's time grows with a local exponent of about 1.6. That is Karatsuba, then Toom-3 from 386 limbs, which at these sizes scales about the same.
 - **Above that**, the exponent drops to 1.05–1.2. That is an FFT-class algorithm.
 - **At every size**, V8 works in 64-bit digits with native 64×64→128-bit multiplies.
 
@@ -69,9 +69,9 @@ This choice is also forced. With no 64×64→128 multiply, 32-bit limbs are the 
 
 WASM gives you linear memory. No GC. No malloc. No free. You are on your own, partner.
 
-I went with a bump allocator: an exported global `heap_ptr` that only moves forward. You allocate by incrementing the pointer. You "free" by resetting it between benchmark runs. This is the memory management equivalent of never cleaning your apartment and instead moving to a new one every month. The module exports 2,000 pages (~128MB), because Karatsuba recurses, each level allocates temporaries, and without headroom you OOM mid-recursion. I learned this the hard way. Several times.
+I went with a bump allocator: an exported global `heap_ptr` that only moves forward. You allocate by incrementing the pointer. You "free" by resetting it between benchmark runs. This is the memory management equivalent of never cleaning your apartment and instead moving to a new one every month. The module exports 2,000 pages (~131 MB), because Karatsuba recurses, each level allocates temporaries, and without headroom you OOM mid-recursion. I learned this the hard way. Several times.
 
-The schoolbook kernel allocates aggressively. For a 1,024-limb multiply it issues over 3,000 bump allocations and moves the heap pointer by about 16.7MB. That is 16.7 megabytes for one multiply.
+The schoolbook kernel allocates aggressively. For a 1,024-limb multiply it issues over 3,000 bump allocations and moves the heap pointer by about 16.8 MB. That is 16.8 megabytes for one multiply.
 
 ```
 bigint_mul_simple(a, b):
@@ -114,7 +114,7 @@ end
 Note over Mem: heap_ptr reset between benchmark runs
 ```
 
-Every iteration of the inner loop allocates three new chunks. The old ones? Left behind. Orphaned. The bump allocator marches forward until you tell it to go home.
+Every iteration of the loop allocates three new chunks. The old ones? Left behind. Orphaned. The bump allocator marches forward until you tell it to go home.
 
 ### Karatsuba, by hand
 
@@ -207,13 +207,13 @@ And JavaScript BigInt sits at the bottom of the graph, having finished before th
 
 Finding out *why* it loses turns up three problems first.
 
-**The Karatsuba kernel is wrong, not just slow.** Look at `sx = x_low + x_high`. The sum can carry into an extra limb, so `sx` gets an $(m+1)$-limb block, but only $m$ limbs are copied into it. The top limb is never zeroed. When the add carries, it lands on whatever the heap held before. On fresh, zeroed memory, which is how a simple test runs, the answer is correct. On a reused heap, random operands fail 17 times out of 20 at 48 limbs and 20 out of 20 at every size from 96 limbs up. The recursion reuses its own memory too, so it fails even inside a single call once it is two levels deep. The fix is one `i32.store` of zero (`research/oldfix/` in the repo).
+**The Karatsuba kernel is wrong, not just slow.** Look at `sx = x_low + x_high`. The sum can carry into an extra limb, so `sx` gets an $(m+1)$-limb block, but only $m$ limbs are copied into it. The top limb is never zeroed. When the add carries, it lands on whatever the heap held before. On fresh, zeroed memory, which is how a simple test runs, small products come out correct. On a reused heap, random operands fail 17 times out of 20 at 48 limbs and at least 15 times out of 20 at every tested size from 96 limbs up. The recursion reuses its own memory too, so it fails even inside a single call once it is two levels deep. The fix is one `i32.store` of zero per sum (`research/oldfix/` in the repo).
 
 **A naive harness times the wrong thing.** It counts an $O(N^2)$ BigInt-to-limbs conversion as part of the WASM multiply.
 
 **And it flatters the baseline.** Give BigInt the same operands on every repetition and V8 hoists the loop-invariant `a*b` out of the loop entirely. Timed that way, V8 reads 3 ns at every size, which is meaningless. The harness used here rotates four distinct operand pairs and stores every product, so nothing can be hoisted.
 
-With the bug fixed and the benchmark made fair, the hand-written Karatsuba still runs at only 0.17–0.22× of V8's speed. The loss is real. The question is whether *any* Karatsuba could win.
+With the bug fixed and the benchmark made fair, the hand-written Karatsuba still runs at only 0.17–0.22× of V8's speed from 2 to 64 kbit, and falls further behind above that. The loss is real. The question is whether *any* Karatsuba could win.
 
 ## 3. The Karatsuba Ceiling
 
@@ -225,19 +225,19 @@ To answer that, here is a second Karatsuba, as fast as I could make it, in C com
 
 It is 3.8× faster than the fixed Wasmatsuba kernel at 1,024 limbs. It still loses to V8, and it always will.
 
-From 128 to 2,048 limbs, where V8 is also running Karatsuba, the fitted exponents are **1.65 for WASM and 1.64 for V8**. Same slope. WASM sits a flat 1.47–1.52× behind, and a constant ratio between equal slopes never crosses. That ratio is the digit width from section 1: one 64×64 product costs WASM four 32×32 products, and an extra level of Karatsuba recursion only claws back part of that.
+From 128 to 2,048 limbs, where V8 runs Karatsuba and then Toom-3, the fitted exponents are **1.65 for WASM and 1.64 for V8**. Same slope. WASM sits a flat 1.46–1.57× behind, and a constant ratio between equal slopes never crosses. That ratio is the digit width from section 1: one 64×64 product costs WASM four 32×32 products, and an extra level of Karatsuba recursion only claws back part of that.
 
-Above 2,048 limbs it gets worse. V8 switches to its FFT (exponent 1.18) while WASM Karatsuba keeps climbing at 1.59, and it falls 23× behind by 1M limbs.
+Above 2,048 limbs it gets worse. V8 switches to its FFT at 3,000 limbs (exponent 1.18) while WASM Karatsuba keeps climbing at 1.59, and it falls 23× behind by 1M limbs.
 
-So here is the argument in one line. **Same algorithm, narrower digits: you lose by a constant forever. To win you need a lower exponent than V8's best, with better constants.** In WASM that means an FFT. And it has to be an FFT that does its heavy lifting somewhere WASM is *not* handicapped.
+So here is the argument in one line. **Same exponent, narrower digits: you lose by a constant forever. To win you need a lower exponent than V8's best, with better constants.** In WASM that means an FFT. And it has to be an FFT that does its heavy lifting somewhere WASM is *not* handicapped.
 
 ## 4. WASM FFT
 
 That somewhere is floating point. WASM's `f64x2` SIMD does two double-precision operations per instruction, with no digit-width penalty against native code. The WASM FFT is a double-precision complex FFT multiply that lives entirely there, in five steps, all SIMD on split real/imaginary arrays:
 
-1. **Balanced digits.** Cut each operand into $b$-bit digits in $[-2^{b-1}, 2^{b-1})$, with $b$ as large as $2b + \log_2 N \le 56$ allows (15–20 bits).
-2. **One forward transform for both operands.** Pack $z = a + i\,b$ and run a radix-4 DIF FFT of size $N$, depth-first until a sub-transform fits in L1 (4,096 points). Each radix-4 group loads one twiddle and derives the rest: $w_{j+q} = -i\,w_j$, $w_2 = w_1^2$.
-3. **Pointwise product in scrambled order.** $A_k B_k = (Z_k^2 - \overline{Z_{-k}}^2)/4i$. In bit-reversed order the mirror of position $p$ in block $[2^m, 2^{m+1})$ is $3 \cdot 2^m - 1 - p$, so no permutation pass is needed.
+1. **Balanced digits.** Cut each operand into $b$-bit digits in $[-2^{b-1}, 2^{b-1})$, with $b$ as large as $2b + \log_2 N \le 56$ allows for transform size $N$ (15–20 bits).
+2. **One forward transform for both operands.** Pack the two digit vectors $x$ and $y$ as $z = x + i\,y$ and run a radix-4 DIF FFT of size $N$, depth-first until a sub-transform fits in L1 (4,096 points). Each radix-4 group loads one twiddle and derives the rest: $w_{j+q} = -i\,w_j$, $w_2 = w_1^2$.
+3. **Pointwise product in scrambled order.** $X_k Y_k = (Z_k^2 - \overline{Z_{-k}}^2)/4i$. In bit-reversed order the mirror of position $p$ in block $[2^m, 2^{m+1})$ is $3 \cdot 2^m - 1 - p$, so no permutation pass is needed.
 4. **Half-size inverse.** The product spectrum is Hermitian, so it folds in place into a size-$N/2$ complex spectrum and inverts to give two real coefficients per complex output. Transform work drops from $2N$ to $1.5N$.
 5. **Round, carry, verify.** Accept only if the max rounding error is below 0.375 and the residues mod $2^{32}-1$ and $2^{31}-1$ match. Otherwise retry with $b-1$. A single wrong coefficient changes the result by $\pm 2^{bk}$, which is never $0 \bmod 2^{32}-1$, so it is always caught.
 
@@ -256,22 +256,22 @@ Unsigned digits average $2^{b-1}$, so the products in each convolution sum add u
 | 19 | 0.17 | — |
 | 20 | 0.5 (fail) | — |
 
-The gap grows with size: 53× at 1K limbs, about 160× at 16K, 1,280× at 1M. More bits per digit means a shorter transform, and that is where the single biggest speedup came from.
+The gap grows with size: 53× at 1K limbs, about 150× at 16K, 1,280× at 1M. More bits per digit means a shorter transform, and that is where the single biggest speedup came from.
 
-### The optimisation ladder
+### The optimization ladder
 
-At 1M limbs (33.5 Mbit), where V8 takes 304 ms:
+At 1M limbs (32 Mbit), where V8 takes 304 ms:
 
 | Step | WASM FFT (ms) | vs V8 |
 | --- | --- | --- |
 | Radix-2, bit-reversal-free, depth-first; budget 50 | 206 | 1.5× |
 | Budget 56 with balanced digits | 114 | 2.7× |
 | Radix-4 passes | 122 | 2.5× |
-| Vectorised rounding and residues | 99 | 3.1× |
+| Vectorized rounding and residues | 99 | 3.1× |
 | Derived twiddles (1 load instead of 3) | 81 | 3.7× |
 | Half-size real-output inverse | 73 | 4.2× |
 
-Radix-4 was a step backwards on its own. It only paid off once the rounding and twiddle loads around it were vectorised.
+Radix-4 was a step backwards on its own. It only paid off once the rounding around it was vectorized and its twiddle loads were cut from three to one.
 
 ## 5. The Numbers
 
@@ -289,26 +289,26 @@ Node 26.5 / V8 14.6 on an Apple M1 Pro. Speedup is V8 time ÷ WASM time; higher 
 | 8 Mbit | 4.49× | 2.89× | — |
 | 32 Mbit | 4.16× | 2.93× | — |
 
-The kernel column is `mul_auto`, so at 2 kbit (64 limbs) it is really the SIMD Karatsuba. The switch to the WASM FFT happens at 216 limbs, about 7 kbit.
+Both WASM FFT columns run `mul_auto`, so at 2 kbit (64 limbs) they are really the SIMD Karatsuba. The switch to the WASM FFT happens at 216 limbs, about 7 kbit; the end-to-end harness switches at 384 limbs, so its 8 kbit entry is Karatsuba too.
 
 {% include wasm-fft-vs-v8.svg %}
 
-Measured time per multiply, log-log. The FFT line is the pure FFT kernel, so it loses below 16 kbit, where `mul_auto` uses Karatsuba instead. Hover a point for its value.
+Measured time per multiply, log-log. The FFT line is the pure FFT kernel at every size; it loses to V8 below 16 kbit, and below 216 limbs `mul_auto` uses Karatsuba instead. Hover a point for its value.
 
-The scaling tells the whole story. From 128 kbit to 33 Mbit the fitted exponents are **V8 1.18, WASM Karatsuba 1.59, WASM FFT 1.08**. Karatsuba runs parallel to V8's Karatsuba and then falls away from V8's FFT. Only the WASM FFT bends below V8. At 33.5 Mbit, Karatsuba is 98× slower than the WASM FFT.
+The scaling tells the whole story. From 128 kbit to 32 Mbit the fitted exponents are **V8 1.18, WASM Karatsuba 1.59, WASM FFT 1.08**. Karatsuba runs parallel to V8's Karatsuba and Toom-3, then falls away from V8's FFT. Only the WASM FFT bends below V8. At 32 Mbit, Karatsuba is 98× slower than the WASM FFT.
 
-**Correctness.** All 1,336 test products matched V8 exactly, up to 1M limbs. The tests cover every size from 1 to 80 limbs; $2^p-1$, $2^p$, $2^p+1$ and $1.37 \cdot 2^p$ for $p = 7$ to $16$; and 262,144, 777,777 and 1,048,576 limbs, with random and all-ones operands. Adversarial inputs, with every balanced digit maximal and the same sign, blow the rounding budget on the first try. The residue check caught every one, and each came out exact after one retry, or two at 1M limbs (458 ms).
+**Correctness.** All 1,336 test products matched V8 exactly, up to 1M limbs. The tests cover every size from 1 to 80 limbs; $2^p-1$, $2^p$, $2^p+1$ and $1.37 \cdot 2^p$ for $p = 7$ to $16$; and 262,144, 777,777 and 1,048,576 limbs, with random and all-ones operands. Adversarial inputs, with every balanced digit maximal and the same sign, blow the rounding budget on the first try. The rounding-error check rejected every one, and each came out exact after one retry, or two at 1M limbs (458 ms).
 
 ### Fine print
 
 - One machine and one engine. Other engines and CPUs may differ.
 - Balanced $n \times n$ products only.
 - Below about 12 kbit, V8 still wins by 1.2–1.9×.
-- Power-of-two padding creates a sawtooth: just above each power of two the speedup drops to 2.1–3.0×.
+- Power-of-two padding creates a sawtooth: each time the transform size doubles, the FFT time nearly doubles too. Just past each step the speedup falls to 1.8–2.5× from 80 kbit up, about 1.5× at 40 kbit, and a tie with V8 at 640 limbs (20 kbit), which lies between the benchmark sizes.
 - End-to-end only pays off from about 1,024 limbs, because the hex round trip costs about half the multiply.
 - Exactness rests on verification plus the residue check, not a proof. Cancelling multi-coefficient errors are not ruled out, though none were observed.
 - Adversarial inputs cost one retry (~2.2×), and two at 1M limbs, which makes that case 1.5× slower than V8.
-- The WASM FFT needs about $5N$ doubles (~170 MB at 1M limbs). wasm32's 4 GB address space caps operands near 20M limbs.
+- The WASM FFT needs about $5N$ doubles (~170 MB at 1M limbs). wasm32's 4 GB address space caps operands near 16M limbs.
 
 Next steps: `wide-arithmetic` 64-bit digits once engines ship it, mixed-radix or truncated FFTs to remove the sawtooth, Toom-3 for 128–400 limbs, worker threads for large transforms, and an NTT for proof-level exactness.
 
@@ -338,7 +338,7 @@ The code is at [github.com/juleshenry/intersekt](https://github.com/juleshenry/i
 
 ## Coda
 
-Wasmatsuba sets out to watch two curves separate, and they do. What it cannot do is cross V8's curve, and working out why is the whole argument. Same algorithm, narrower digits, constant loss. Lower exponent, better constants, win. Karatsuba's 1960 insight is real, and it is never going to be enough. To beat the engine from inside the sandbox, you need Cooley and Tukey's 1965 one, running where WASM is V8's equal: in floating point.
+Wasmatsuba sets out to watch two curves separate, and they do. What it cannot do is cross V8's curve, and working out why is the whole argument. Same exponent, narrower digits, constant loss. Lower exponent, better constants, win. Karatsuba's 1960 insight is real, and it is never going to be enough. To beat the engine from inside the sandbox, you need Cooley and Tukey's 1965 one, running where WASM is V8's equal: in floating point.
 
 Sometimes you hand-write WAT just to find out which algorithm you actually needed.
 

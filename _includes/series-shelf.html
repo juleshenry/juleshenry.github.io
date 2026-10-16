@@ -42,7 +42,7 @@
   <li class="series" id="series-{{ shelf_name | slugify }}">
     <div class="series-head">
       <p class="kicker">{% if info.topic %}{{ info.topic }} <span aria-hidden="true">·</span> {% endif %}{{ vol_count }} volumes <span aria-hidden="true">·</span> {{ post.date | date: '%Y' }}</p>
-      <h3 class="series-name"><a href="{{ first_url }}">{{ shelf_name }}</a></h3>
+      <h3 class="series-name"><a href="/blog/series/{{ shelf_name | slugify }}">{{ shelf_name }}</a></h3>
       {%- if info.blurb %}
       <p class="series-blurb">{{ info.blurb }}</p>
       {%- endif %}

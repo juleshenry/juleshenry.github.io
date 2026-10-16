@@ -8,6 +8,10 @@ layout: null
   <url><loc>{{ site.url }}/blog/</loc><lastmod>{{ latest.date | date_to_xmlschema }}</lastmod></url>
   <url><loc>{{ site.url }}/selected-works</loc></url>
   <url><loc>{{ site.url }}/about</loc></url>
+{%- assign series_pages = site.pages | where: "layout", "series" %}
+{%- for sp in series_pages %}
+  <url><loc>{{ site.url }}{{ sp.url }}</loc></url>
+{%- endfor %}
 {%- for post in site.posts %}
   {%- if post.redirect_to %}{% continue %}{% endif %}
   <url><loc>{{ site.url }}{{ post.url }}</loc><lastmod>{{ post.last_modified_at | default: post.date | date_to_xmlschema }}</lastmod></url>

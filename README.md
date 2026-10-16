@@ -17,12 +17,15 @@ Then open `http://localhost:4000`. To check a build without touching the repo, p
 |---|---|
 | `_posts/` | Every post. Stubs with `redirect_to:` forward to wherever the post moved and are hidden from the index. |
 | `_layouts/default.html`, `_layouts/post.html` | Page shell and post template. |
+| `_layouts/series.html`, `blog/series/` | One landing page per series: blurb, prerequisites, volumes with their descriptions and reading times. |
 | `_includes/series-shelf.html` | The series listing on the home and Writing pages. |
 | `_includes/post-list.html` | The listing of posts that are not part of a series. |
 | `_includes/series-info.html` | Splits a post title into series, volume and chapter. |
 | `_includes/*-kit.html` | Shared styles and helpers for the interactive figures in each series. |
 | `_data/series.yml` | Topic and one-line blurb per series. |
-| `stylesheets/site.css` | The whole theme. |
+| `stylesheets/site.css` | The whole theme, starting with the `@font-face` rules. |
+| `fonts/` | Source Serif 4 and JetBrains Mono, self-hosted (SIL OFL, see `fonts/OFL.txt`). |
+| `images/home/`, `images/projects/` | The three series figures on the home page; Projects card thumbnails. |
 | `selected-works.html` | The Projects page. Generated; do not edit by hand. |
 | `images/social/` | One 1200×630 share card per post, named after the post file. Generated. |
 | `sitemap.xml`, `robots.txt` | Every page and post except redirect stubs, for search engines. |
@@ -63,7 +66,17 @@ A post joins a series through its title alone:
 title: "Sphere Eversion, Vol. III: Manifolds and Immersions"
 ```
 
-Everything before `, Vol.` is the series name, the Roman numeral is the volume, and the rest is the chapter title. A leading `Back-of-the-Envelope:` is dropped for display. From that the site builds the series entry on the home and Writing pages, the kicker above the post title, and the previous/next links at the bottom of each volume. To give a new series a topic and blurb, add an entry to `_data/series.yml` with the same name.
+Everything before `, Vol.` is the series name, the Roman numeral is the volume, and the rest is the chapter title. A leading `Back-of-the-Envelope:` is dropped for display. From that the site builds the series entry on the home and Writing pages, the kicker above the post title, and the previous/next links at the bottom of each volume. To give a new series a topic, blurb and optional `prereqs`, add an entry to `_data/series.yml` with the same name. To give it a landing page, add `blog/series/<slug>.html`:
+
+```yaml
+---
+layout: series
+title: "Sphere Eversion"          # the series name, exactly as in the post titles
+permalink: /blog/series/sphere-eversion
+---
+```
+
+Each volume's `description:` is listed under its title on that page, so give every volume one.
 
 Volumes still open with a hand-written switcher line, which the stylesheet turns into the row of numeral tiles:
 
@@ -85,6 +98,10 @@ Do not add a "Next" link or a volume list at the end of a volume. The post templ
 
 - `selected_works_sites.txt`: live sites that are not repos, listed first (`name | URL | Description`).
 - `selected_works_blacklist.txt`: repos to leave out.
-- `selected_works_categories.txt`: which section each repo goes in, and optionally the post that writes it up, a description for the card, and a language label (`repo-name | /blog/… | Description | Language`).
+- `selected_works_categories.txt`: which section each repo goes in, and optionally the post that writes it up, a description for the card, a language label, and a thumbnail (`repo-name | /blog/… | Description | Language | /images/projects/name.webp`).
 
-Without a description there, the card shows the repo's description from GitHub; without a language label, the language GitHub detected.
+Without a description there, the card shows the repo's description from GitHub; without a language label, the language GitHub detected. Thumbnails are 320×240 WebP, shown at 160×120.
+
+## Analytics
+
+Cloudflare Web Analytics (cookie-free). Put the site token in `cf_web_analytics_token` in `_config.yml`; the beacon then loads on GitHub Pages builds only, never in local `jekyll serve`.

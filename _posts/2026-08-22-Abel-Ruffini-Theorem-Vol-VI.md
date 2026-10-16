@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Abel–Ruffini, Vol. VI: Quintic Symmetry"
 date: 2026-08-22 12:05:00
+description: "Why the general polynomial of degree n has Galois group Sₙ, a quintic over ℚ with group S₅, a solvable quintic, and the history from Ruffini to Galois."
 categories: algebra
 mathjax: true
 ---
@@ -15,7 +16,7 @@ mathjax: true
 
 ## What a formula would be
 
-Suppose there were a general radical formula for degree $n$: an expression built from the coefficients $a_1,\ldots,a_n$ by field operations and nested radicals, which, when the $a_i$ are specialized to the coefficients of any degree-$n$ polynomial, produces a root. Interpreting the $a_i$ as indeterminates, the expression would place a root in a radical tower over the field of rational functions $F=\mathbb{Q}(a_1,\ldots,a_n)$. The splitting field over $F$ would then sit in (a Galois closure of) a radical tower, and $\mathrm{Gal}(f/F)$ would be solvable.
+Suppose there were a general radical formula for degree $n$: an expression built from the coefficients $a_1,\ldots,a_n$ by field operations and nested radicals, which, when the $a_i$ are specialized to the coefficients of any degree-$n$ polynomial, produces a root. Interpreting the $a_i$ as indeterminates, the expression would place a root in a radical tower over the field of rational functions $F=\mathbb{Q}(a_1,\ldots,a_n)$. The splitting field over $F$ of the general polynomial $f=x^n+a_1x^{n-1}+\cdots+a_n$ would then sit in (a Galois closure of) a radical tower, and $\mathrm{Gal}(f/F)$ would be solvable.
 
 So: if we can show that the Galois group of the general degree-$n$ polynomial is $S_n$, then for $n\ge 5$ there is no such formula.
 
@@ -37,17 +38,17 @@ $$
 P(x) = (x-x_1)\cdots(x-x_n) = x^n + b_1 x^{n-1} + \cdots + b_n,
 $$
 
-so the $b_i$ are the elementary symmetric polynomials in the $x_j$ (Vieta: $b_1=-(x_1+\cdots+x_n)$, and so on). Let $H=\mathbb{Q}(x_1,\ldots,x_n)$ and $K=\mathbb{Q}(b_1,\ldots,b_n)$. Every permutation of the $x_i$ extends to a field automorphism of $H$ fixing $K$. Distinct permutations give distinct automorphisms, because they move the $x_i$ differently. Thus
+so the $b_i$ are, up to sign, the elementary symmetric polynomials in the $x_j$ (Vieta: $b_1=-(x_1+\cdots+x_n)$, and so on). Let $H=\mathbb{Q}(x_1,\ldots,x_n)$ and $K=\mathbb{Q}(b_1,\ldots,b_n)$. Every permutation of the $x_i$ extends to a field automorphism of $H$ fixing $K$. Distinct permutations give distinct automorphisms, because they move the $x_i$ differently. Thus
 
 $$
 \mathrm{Gal}(H/K) \cong S_n.
 $$
 
-($H$ is the splitting field of the separable polynomial $P$ over $K$, so the extension is Galois.) The $b_i$ are algebraically independent. That is the fundamental theorem of symmetric polynomials, which we use as a named fact: every symmetric polynomial in the $x_j$ is a polynomial in the $b_i$, with no unexpected algebraic relations among the $b_i$. The map sending each indeterminate coefficient $a_i$ of the *general* polynomial $x^n+a_1 x^{n-1}+\cdots+a_n$ to the corresponding $b_i$ is therefore a field isomorphism $\mathbb{Q}(a_1,\ldots,a_n)\xrightarrow{\sim} K$. Carrying the Galois group along this isomorphism, the general polynomial of degree $n$ over $\mathbb{Q}(a_1,\ldots,a_n)$ has Galois group $S_n$.
+($H$ is the splitting field of the separable polynomial $P$ over $K$, so the extension is Galois.) The $b_i$ are algebraically independent. That is the fundamental theorem of symmetric polynomials, which we use as a named fact: every symmetric polynomial in the $x_j$ is a polynomial in the $b_i$ in exactly one way. The map sending each indeterminate coefficient $a_i$ of the *general* polynomial $x^n+a_1 x^{n-1}+\cdots+a_n$ to the corresponding $b_i$ is therefore a field isomorphism $\mathbb{Q}(a_1,\ldots,a_n)\xrightarrow{\sim} K$. Carrying the Galois group along this isomorphism, the general polynomial of degree $n$ over $\mathbb{Q}(a_1,\ldots,a_n)$ has Galois group $S_n$.
 
 If a universal radical formula existed, it would solve the polynomial with symbolic coefficients. But that symbolic (or general) quintic has Galois group $S_5$, and $S_5$ is not solvable. Therefore such a formula cannot exist.
 
-Specialization is how the general fact infects particular polynomials. If a formula in the indeterminate coefficients existed, substituting rational numbers for the $a_i$ would give a radical expression for every quintic over $\mathbb{Q}$. So it is enough, to kill a *uniform* formula, that $S_5$ be the Galois group in the indeterminate case. To kill *particular* quintics, one still has to check that the Galois group remains non-solvable after specialization. Hilbert irreducibility (used as a named existence theorem, not proved here) says that infinitely many rational specializations of the general quintic still have Galois group $S_5$ or $A_5$. The $p-2$ real-roots theorem below is a hands-on way to catch some of them without that theorem.
+Specialization is how the general fact infects particular polynomials. If a formula in the indeterminate coefficients existed, substituting rational numbers for the $a_i$ would give a radical expression for every quintic over $\mathbb{Q}$. So it is enough, to kill a *uniform* formula, that $S_5$ be the Galois group in the indeterminate case. To kill *particular* quintics, one still has to check that the Galois group remains non-solvable after specialization. Hilbert irreducibility (used as a named existence theorem, not proved here) says that infinitely many rational specializations of the general quintic still have Galois group $S_5$. The $p-2$ real-roots theorem below is a hands-on way to catch some of them without that theorem.
 
 **Abel–Ruffini theorem.** There is no formula, in the coefficients, by field operations and nested radicals, for the roots of the general polynomial of degree $n\ge 5$.
 
@@ -55,9 +56,9 @@ That is the original theorem: a statement about a formula in *indeterminates*. I
 
 ## Concrete quintics with $S_5$ symmetry
 
-We have shown that the *general* quintic (indeterminate coefficients) has group $S_5$. That kills a uniform formula, but it exhibits no single polynomial with *integer* coefficients that is unsolvable. Here is how to produce one by hand, without appealing to Hilbert irreducibility.
+Here is how to produce, by hand and without Hilbert irreducibility, a single quintic with *integer* coefficients that is not solvable by radicals.
 
-The following machine is [Math.StackExchange 3075225](https://math.stackexchange.com/questions/3075225/f-irreducible-polynomial-with-p-2-real-roots-rightarrow-gal-mathbbq-f).
+The theorem below is from [Math.StackExchange 3075225](https://math.stackexchange.com/questions/3075225/f-irreducible-polynomial-with-p-2-real-roots-rightarrow-gal-mathbbq-f).
 
 **Theorem.** Let $p\ge 5$ be prime, and let $f\in\mathbb{Q}[x]$ be irreducible of degree $p$, with exactly $p-2$ real roots (hence exactly one conjugate pair of non-real roots). Then $\mathrm{Gal}(f/\mathbb{Q})\cong S_p$.
 
@@ -69,7 +70,7 @@ Complex conjugation is an automorphism of $\mathbb{C}$ fixing $\mathbb{Q}$. It p
 
 **Lemma.** A subgroup of $S_p$ ($p$ prime) that contains a $p$-cycle and a transposition is all of $S_p$.
 
-Relabel so the transposition is $(1\,2)$. Write the $p$-cycle as $(1\,a_2\,\cdots\,a_p)$. Some power of it sends $1$ to $2$, because the cycle acts transitively; replacing the cycle by that power, we may assume it is $(1\,2\,3\,\cdots\,p)$. Conjugating the transposition by powers of the cycle produces the adjacent transpositions:
+Relabel so the transposition is $(1\,2)$. Write the $p$-cycle as $(1\,a_2\,\cdots\,a_p)$. Some power of it sends $1$ to $2$, because the cycle acts transitively, and since $p$ is prime that power is again a $p$-cycle, $(1\,2\,c_3\,\cdots\,c_p)$. Replacing the cycle by that power and relabeling $c_3,\ldots,c_p$ as $3,\ldots,p$, we may assume it is $(1\,2\,3\,\cdots\,p)$. Conjugating the transposition by powers of the cycle produces the adjacent transpositions:
 
 $$
 (1\,2\,3\,\cdots\,p)^k\,(1\,2)\,(1\,2\,3\,\cdots\,p)^{-k} = (k+1\,k+2),
@@ -77,15 +78,15 @@ $$
 
 indices modulo $p$ in $\lbrace 1,\ldots,p\rbrace$. Adjacent transpositions generate $S_p$, as recorded at the end of [Vol. III](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-III). Hence $G=S_p$.
 
-The hypothesis that $p$ is prime was used twice: to guarantee that an element of order $p$ is a single $p$-cycle, and to guarantee transitivity of that cycle on all $p$ letters. For composite degree the same counting can leave you in a proper transitive subgroup (dihedral, Frobenius, $A_n$, \ldots). Prime degree plus a transposition is a sledgehammer.
+The hypothesis that $p$ is prime was used twice: to guarantee that an element of order $p$ is a single $p$-cycle, and to guarantee that the power of that cycle sending $1$ to $2$ is still a $p$-cycle. For composite degree the lemma fails: $(1\,3)$ and $(1\,2\,3\,4)$ generate a subgroup of $S_4$ of order $8$. Prime degree plus a transposition is a sledgehammer.
 
 **Example: $f(x)=x^5-6x+3$.** Eisenstein at $3$, as stated in [Vol. V](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-V): $3$ divides $6$ and $3$, $9$ does not divide $3$. Irreducible over $\mathbb{Q}$. Now count real roots. $f(-2)=-17$, $f(-1)=8$, $f(0)=3$, $f(1)=-2$, $f(2)=23$: three sign changes, so at least three real roots by the intermediate-value theorem. The derivative $f'(x)=5x^4-6$ has exactly two real zeros, $\pm(6/5)^{1/4}$. Rolle’s theorem: between any two real roots of $f$ lies a root of $f'$, so $f$ has *at most* three real roots. Exactly three real roots, two non-real. The theorem gives $\mathrm{Gal}(f/\mathbb{Q})\cong S_5$.
 
-This polynomial is not solvable by radicals. Its five roots exist in $\mathbb{C}$, by the FTA. They do not lie in any radical tower over $\mathbb{Q}$.
+This polynomial is not solvable by radicals. Its five roots exist in $\mathbb{C}$, by the fundamental theorem of algebra. They do not lie in any radical tower over $\mathbb{Q}$.
 
-**Optional second method: $q(x)=x^5-x-1$.** The $p-2$ argument is self-contained. A different factory for cycle types is the **Dedekind–Frobenius theorem**, which we state and use but do not prove: if a monic $q\in\mathbb{Z}[x]$ factors modulo a prime $\ell$ not dividing the discriminant $\Delta=\prod_{i<j}(r_i-r_j)^2$ (the square of the Vandermonde product from the parity section) as a product of distinct irreducibles of degrees $d_1,\ldots,d_k$, then $G$ contains an element of cycle type $d_1+\cdots+d_k$.
+**Optional second method: $q(x)=x^5-x-1$.** The $p-2$ argument is self-contained. A different factory for cycle types is the **Dedekind–Frobenius theorem**, which we state and use but do not prove: if a monic $q\in\mathbb{Z}[x]$ factors modulo a prime $\ell$ not dividing the discriminant $\Delta=\prod_{i<j}(r_i-r_j)^2$ (the square of the Vandermonde product from the parity section of [Vol. III](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-III)) as a product of distinct irreducibles of degrees $d_1,\ldots,d_k$, then its Galois group $G$ contains an element of cycle type $d_1+\cdots+d_k$.
 
-Modulo $2$, check by multiplying: $(x^2+x+1)(x^3+x^2+1)=x^5+x^4+x^2+x^4+x^3+x+x^3+x^2+1=x^5+x+1$ in $\mathbb{F}_2[x]$, and $x^5-x-1\equiv x^5+x+1\pmod{2}$. Two irreducibles of degrees $2$ and $3$, hence a permutation of type $2+3$ in $G$; cubing it yields a transposition. Modulo $3$, $q$ is irreducible, hence $G$ contains a $5$-cycle. A transposition and a $5$-cycle generate $S_5$. Same conclusion, different pair of hands.
+The discriminant of $q$ is $2869=19\cdot 151$, so $\ell=2$ and $\ell=3$ are allowed. Modulo $2$, check by multiplying: $(x^2+x+1)(x^3+x^2+1)=x^5+x^4+x^2+x^4+x^3+x+x^3+x^2+1=x^5+x+1$ in $\mathbb{F}_2[x]$, and $x^5-x-1\equiv x^5+x+1\pmod{2}$. Two irreducibles of degrees $2$ and $3$, hence a permutation of type $2+3$ in $G$; cubing it yields a transposition. Modulo $3$, $q$ is irreducible, hence $G$ contains a $5$-cycle. A transposition and a $5$-cycle generate $S_5$. Same conclusion, different pair of hands.
 
 ## Degree five is not the crime
 
@@ -95,7 +96,7 @@ $$
 \mathbb{Q} \subset \mathbb{Q}(\zeta_5) \subset \mathbb{Q}(\zeta_5,\sqrt[5]{2})
 $$
 
-has degrees $\varphi(5)=4$ and $5$, product $20$ by the tower law. (You must adjoin $\zeta_5$ *first*, or at least somewhere: $\mathbb{Q}(\sqrt[5]{2})$ is a real field of degree $5$, hence not Galois over $\mathbb{Q}$, and does not contain the four non-real fifth roots of $2$. This is $x^3-2$ again, one degree up.) The Galois group has order $20$. It is the Frobenius group of affine transformations $x\mapsto ax+b$ over $\mathbb{F}_5$: an automorphism is determined by
+has degrees $\varphi(5)=4$ and $5$, product $20$ by the tower law; the second step is a full $5$ because the total degree is divisible by $[\mathbb{Q}(\sqrt[5]{2}):\mathbb{Q}]=5$ as well as by $4$. (You must adjoin $\zeta_5$ *first*, or at least somewhere: $\mathbb{Q}(\sqrt[5]{2})$ is a real field of degree $5$, so it misses the four non-real fifth roots of $2$ and is not Galois over $\mathbb{Q}$. This is $x^3-2$ again, in degree five.) The Galois group has order $20$. It is the Frobenius group of affine transformations $x\mapsto ax+b$ over $\mathbb{F}_5$: an automorphism is determined by
 
 $$
 \sqrt[5]{2}\mapsto \sqrt[5]{2}\,\zeta_5^{b}, \qquad \zeta_5\mapsto\zeta_5^{a},
@@ -103,9 +104,9 @@ $$
 
 with $a\in(\mathbb{Z}/5\mathbb{Z})^\times$ and $b\in\mathbb{Z}/5\mathbb{Z}$. The maps with $a=1$ form a normal cyclic subgroup $C_5$ (pure translation of the radical); the quotient is $C_4$ (the cyclotomic Galois group). The whole group is the **semidirect product** $C_5\rtimes C_4$: the set of pairs $(b,a)$ with the multiplication coming from $C_4$ acting on $C_5$ by $a\cdot b = a b$ in $\mathbb{F}_5$. Equivalently, it is the group of affine maps $x\mapsto ax+b$ already named. Solvable series: $\lbrace 1\rbrace\trianglelefteq C_5 \trianglelefteq C_5\rtimes C_4$. And indeed $\sqrt[5]{2}$ is a radical, and the other roots are $\sqrt[5]{2}\,\zeta_5^k$.
 
-Compare the two quintics as permutation groups acting on their five roots. For $x^5-2$, complex conjugation fixes the one real root and inverts $\zeta_5$, which (on a suitable labeling) is a product of two disjoint transpositions, an even permutation of order $2$, not a transposition of two roots. The $p-2$ real-roots theorem never fires, because there are not three real roots to fix. For $x^5-6x+3$, conjugation *is* a transposition, the group is forced up to $S_5$, and solvability dies.
+Compare the two quintics as permutation groups acting on their five roots. For $x^5-2$, complex conjugation fixes the one real root and inverts $\zeta_5$, so it swaps $\sqrt[5]{2}\,\zeta_5^{k}$ with $\sqrt[5]{2}\,\zeta_5^{-k}$: a product of two disjoint transpositions, an even permutation of order $2$, not a transposition of two roots. The $p-2$ real-roots theorem never fires, because there are not three real roots to fix. For $x^5-6x+3$, conjugation *is* a transposition, the group is forced up to $S_5$, and solvability dies.
 
-The same degree, two different symmetries. $S_5$ has order $120$; the Frobenius group has order $20$. One is solvable, one is not. Abel–Ruffini forbids a *uniform* formula because the *general* quintic has the larger symmetry. Galois forbids a radical expression for $x^5-6x+3$ because *that* quintic has the larger symmetry too.
+The same degree, two different symmetries. $S_5$ has order $120$ and is not solvable; the Frobenius group has order $20$ and is. Abel–Ruffini forbids a *uniform* formula because the *general* quintic has the larger symmetry. Galois forbids a radical expression for $x^5-6x+3$ because *that* quintic has the larger symmetry too.
 
 ## Why degrees two, three, and four have formulae
 
@@ -115,7 +116,7 @@ The correspondence is visible in the groups we already wrote down.
 
 - Degree $2$: $S_2\cong C_2$. One quadratic radical. The sign homomorphism *is* the Galois group.
 - Degree $3$: $\lbrace 1\rbrace\trianglelefteq A_3\trianglelefteq S_3$. The quadratic subextension is generated by $\sqrt{\Delta}$, where $\Delta=\prod_{i \lt j}(r_i-r_j)^2$ is the discriminant; adjoining it cuts $S_3$ down to $A_3\cong C_3$, which is then a pure cube-root step once $\zeta_3$ is present. Cardano’s nested square-then-cube is exactly this chain.
-- Degree $4$: $\lbrace 1\rbrace\trianglelefteq V_4\trianglelefteq A_4\trianglelefteq S_4$. The quotient $S_4/V_4\cong S_3$ is Cardano’s cubic resolvent. Solving it (by the previous bullet) lands you in a $V_4$-extension, which is a pair of quadratics. Ferrari is this chain written in coefficients.
+- Degree $4$: $\lbrace 1\rbrace\trianglelefteq V_4\trianglelefteq A_4\trianglelefteq S_4$. The quotient $S_4/V_4\cong S_3$ is the group of the resolvent cubic. Solving it (by the previous bullet) lands you in a $V_4$-extension, which is a pair of quadratics. Ferrari is this chain written in coefficients.
 
 There is no corresponding normal subgroup of $S_5$ with abelian (or even solvable) quotient except $A_5$, whose quotient is only $C_2$. Adjoining a square root of the discriminant cuts $S_5$ down to $A_5$, and $A_5$ does not budge. That is why “just adjoin $\sqrt{\Delta}$ and continue as in the cubic” dies on the quintic: you have spent your only normal subgroup, and what remains is simple.
 
@@ -126,10 +127,10 @@ For degree $\ge 5$ the embedding $\mathrm{Gal}(f/F)\hookrightarrow S_n$ is into 
 - **Existence.** The fundamental theorem of algebra: a degree-$n$ polynomial has a family of $n$ roots in $\mathbb{C}$.
 - **Symmetry.** The family may be rearranged. All rearrangements form $S_n$; the even ones form $A_n$. For $n\ge 5$, $A_n$ is simple and non-abelian, so $S_n$ is not solvable.
 - **Housing.** The family lives in a splitting field over the coefficient field. Automorphisms of that field that fix the coefficients are the rearrangements the coefficients can see: the Galois group, a subgroup of $S_n$. The splitting field of a separable polynomial is Galois; the count of automorphisms equals the degree.
-- **Towers.** Degrees multiply along a chain of fields. A nested-radical formula is a tower of pure radical steps. After inserting roots of unity, each step is cyclic Galois. The Galois group of a polynomial solvable by radicals is therefore a solvable group, and conversely.
+- **Towers.** Degrees multiply along a chain of fields. A nested-radical formula is a tower of pure radical steps. After inserting roots of unity, each step is abelian Galois. The Galois group of a polynomial solvable by radicals is therefore a solvable group, and conversely.
 - **Mismatch.** The general degree-$n$ polynomial has Galois group $S_n$. For $n\ge 5$ that group is not solvable. Hence there is no general radical formula. Particular polynomials over $\mathbb{Q}$, such as $x^5-6x+3$ and $x^5-x-1$, also have Galois group $S_5$, hence have no radical expression for their roots over $\mathbb{Q}$. Degree five is allowed to be solvable ($x^5-2$); $S_5$-sized symmetry is not.
 
-Compare the short proof of [Vol. I](/blog/2026/08/22/Abel-Ruffini-Theorem). There, loops of coefficients stood in for automorphisms, and the tower of commutators stood in for the derived series. It kills the uniform formula with almost no machinery, but it says nothing about $x^5-6x+3$ on its own: a single polynomial has no coefficients to wiggle. That sharper statement is what the five volumes of field theory buy.
+Compare the short proof of [Vol. I](/blog/2026/08/22/Abel-Ruffini-Theorem). There, loops of coefficients stood in for automorphisms, and the tower of commutators stood in for the derived series. It kills the uniform formula with almost no machinery, but it says nothing about $x^5-6x+3$ on its own: a single polynomial has no coefficients to wiggle. That sharper statement is what the other five volumes buy.
 
 That is the lack of an algebraic solution for quintic and higher equations, stated precisely: not that roots fail to exist, but that the symmetry of the root family cannot be assembled from the cyclic symmetries of nested radicals.
 
@@ -140,16 +141,16 @@ That is the lack of an algebraic solution for quintic and higher equations, stat
 
 Paolo Ruffini nearly proved the general-coefficient case in 1799, in *Teoria generale delle equazioni*. Cauchy believed him; Abel, later, found the memoir too tangled to adjudicate. The gap is the one already named: Ruffini treated radicals as if they lived in the splitting field. Abel published a six-page proof in 1824 (he paid for the printing, and saved paper) and a fuller one in 1826. He was at work on the *which* quintics question when he died in 1829.
 
-Évariste Galois, at eighteen, submitted the criterion to the Paris Academy: solvability by radicals if and only if the group of the equation is solvable. It was rejected as too sketchy. He died in 1832. Liouville published the memoir in 1846. Wantzel, already aware of Galois, noted in 1845 that Abel’s argument hits the *general* polynomial, while Galois produces *specific* unsolvable ones.
+Évariste Galois, at nineteen, submitted the criterion to the Paris Academy in January 1831: solvability by radicals if and only if the group of the equation is solvable. It was rejected as too sketchy. He died in 1832. Wantzel, already aware of Galois, [noted in 1845](https://www.numdam.org/item/NAM_1845_1_4__57_0/) that Abel’s argument hits the *general* polynomial, while Galois’ unpublished memoir treats *specific* ones. Liouville published the memoir in 1846.
 
 What this series does not claim: that roots cannot be approximated (they can, to any precision); that no closed form of any kind exists (Bring’s radical and elliptic modular functions give expressions outside the radical language); that every quintic is unsolvable (only those whose Galois group is not a solvable group).
 
 The sources woven here are the [fundamental theorem of algebra](https://en.wikipedia.org/wiki/Fundamental_theorem_of_algebra); Sheldon Axler, [*Linear Algebra Done Right*](https://linear.axler.net), 4th ed., §4.12, for the $k$th-root walk; [parity of a permutation](https://en.wikipedia.org/wiki/Parity_of_a_permutation); the [degree of a field extension](https://en.wikipedia.org/wiki/Degree_of_a_field_extension#The_multiplicativity_formula_for_degrees) and the [tower law](https://artofproblemsolving.com/wiki/index.php/Tower_law); [the splitting field of a separable polynomial is Galois](https://math.stackexchange.com/questions/962898/on-a-proof-that-the-splitting-field-of-a-separable-polynomial-is-galois); [irreducible of prime degree with $p-2$ real roots has Galois group $S_p$](https://math.stackexchange.com/questions/3075225/f-irreducible-polynomial-with-p-2-real-roots-rightarrow-gal-mathbbq-f); and the [Abel–Ruffini theorem](https://en.wikipedia.org/wiki/Abel%E2%80%93Ruffini_theorem). For the $S_p$ lemma in cleaner notes, Keith Conrad’s *Galois groups as permutation groups* is the standard blurb. Dummit and Foote, Chapter 14, is the textbook companion if you want every lemma with a number.
 
-For the topological proof of [Vol. I](/blog/2026/08/22/Abel-Ruffini-Theorem) the original is V. I. Arnold's 1963 lectures to Moscow schoolchildren, written up by V. B. Alekseev as [*Abel's Theorem in Problems and Solutions*](https://link.springer.com/book/10.1007/1-4020-2187-9) (Kluwer, 2004); see also the [Wikipedia summary of Arnold's proof](https://en.wikipedia.org/wiki/Abel%E2%80%93Ruffini_theorem#Proof).
+For the topological proof of [Vol. I](/blog/2026/08/22/Abel-Ruffini-Theorem) the original is V. I. Arnold's 1963 lectures to Moscow schoolchildren, written up by V. B. Alekseev as [*Abel's Theorem in Problems and Solutions*](https://link.springer.com/book/10.1007/1-4020-2187-9) (Kluwer, 2004); see also Leo Goldmakher's [*Arnold's elementary proof of the insolvability of the quintic*](https://web.williams.edu/Mathematics/lg5/394/ArnoldQuintic.pdf).
 
 **Videos.**
 
-- [*Short proof that 5th degree polynomial equations cannot be solved*](https://www.youtube.com/watch?v=zeRXVL6qPk4): Arnold's proof, animated on real numerical quintics, with a brute-force commutator count ($120\to 60\to 60$). Vol. I follows it.
+- [*Short proof that 5th degree polynomial equations cannot be solved*](https://www.youtube.com/watch?v=zeRXVL6qPk4): Arnold's proof, animated on concrete numerical quintics, with a brute-force commutator count ($120\to 60\to 60$). Vol. I follows it.
 - [*Why you can't solve quintic equations (Galois theory approach)* #SoME2](https://www.youtube.com/watch?v=zCU9tZ2VkWc): the radical-tower-to-solvable-group direction, with the cyclotomic and Kummer groups computed explicitly. It stops at "$S_5$ is too constrained"; Vols. III and VI supply the proofs.
 - [*Everything You Ever Wanted To Know About Galois Theory*, Practical Galois Theory #1, #SoME4](https://www.youtube.com/watch?v=eVzIrn7hE4w): the fundamental theorem worked out on $x^4-2x^2+9$ (reproduced in [Vol. IV](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-IV)), an elementary $3$-cycle proof that $S_n$ is not solvable, and the converse via Lagrange resolvents.

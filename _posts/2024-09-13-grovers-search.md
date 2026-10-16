@@ -10,13 +10,13 @@ description: "Grover's algorithm as two mirrors rotating a vector: why it needs 
 
 # The Key-Ring Problem
 
-You find a key-ring on the ground. $N$ keys, one door, no labels. What do you do? You try every last one. In the worst case, you try all $N$. On average, $\frac{N}{2}$. No cleverness saves you here; any classical strategy for searching an unstructured collection requires $O(N)$ tries.
+You find a key-ring on the ground. $N$ keys, one door, no labels. What do you do? You try every last one. In the worst case, you try all $N$. On average, about $\frac{N}{2}$. No cleverness saves you here; any classical strategy for searching an unstructured collection requires on the order of $N$ tries.
 
 This is the problem of **searching an unsorted database**. Given $N$ items, find the one that satisfies some property. Classically, there is nothing faster than brute force.
 
-The popular story about quantum computers is that they "try every key at once." That story is wrong, and it is worth saying so up front: if a quantum computer simply held all $N$ keys in superposition and you looked, you would get a *random* key, no better than grabbing one off the ring blindfolded. What a quantum computer actually offers is subtler. Its state is a vector of **amplitudes**, amplitudes can cancel one another, and with the right sequence of operations you can make the wrong answers cancel and the right one pile up *before* you look. In 1996, Lov Grover showed that this trick finds the needle in the haystack using only $O(\sqrt{N})$ queries. For a million items, that is about 800 queries instead of 1,000,000. Bennett, Bernstein, Brassard and Vazirani had already proved that no quantum algorithm can do better, so Grover's result is optimal.
+The popular story about quantum computers is that they "try every key at once." That story is wrong: if a quantum computer simply held all $N$ keys in superposition and you looked, you would get a *random* key, no better than grabbing one off the ring blindfolded. What a quantum computer actually offers is subtler. Its state is a vector of **amplitudes**, amplitudes can cancel one another, and with the right sequence of operations you can make the wrong answers cancel and the right one pile up *before* you look. In 1996, Lov Grover showed that this trick finds the needle in the haystack using only $O(\sqrt{N})$ queries. For a million items, that is about 800 queries instead of 1,000,000. Bennett, Bernstein, Brassard and Vazirani had already proved that no quantum algorithm can do better, so Grover's result is optimal.
 
-Herein we build your understanding of Grover's algorithm from the ground up. If you have taken Calculus 1 through 3 and have seen matrices and dot products, you have all the prerequisites. Everything else, we build together. By the end, you will understand not only *why* the algorithm works, but *why it must be stopped at the right moment*. That property has no classical analogue, and it is one of the strangest things in computer science.
+Herein we build your understanding of Grover's algorithm from the ground up. If you have taken Calculus 1 through 3 and have seen matrices and dot products, you have all the prerequisites. Everything else, we build together. By the end, you will understand not only *why* the algorithm works, but *why it must be stopped at the right moment*. No classical search algorithm has that property, and it is one of the strangest things in computer science.
 
 **The road ahead.** A calculus warm-up that plants the key picture. Then the vocabulary, built in order: amplitudes, kets, bras, ket-bras, Hilbert space, unitaries, the Hadamard gate. Then the algorithm itself, which turns out to be two mirrors and a circle. Then the $\sqrt{N}$, and finally the overshoot.
 
@@ -24,7 +24,7 @@ Herein we build your understanding of Grover's algorithm from the ground up. If 
 
 # The Calculus Bridge: Rotation as Repeated Small Kicks
 
-Before we touch any quantum mechanics, let us build the geometric intuition that makes the whole thing click. No qubits required. Just calculus.
+Before we touch any quantum mechanics, here is the geometric intuition that makes the whole thing click. No qubits required. Just calculus.
 
 ## Euler's Method Recap
 
@@ -46,7 +46,7 @@ After $k$ kicks, the vector has rotated by $2k\theta$ total. You want the total 
 
 $$2k\theta \approx \frac{\pi}{2} \implies k \approx \frac{\pi}{4\theta}$$
 
-If the angle $\theta$ is small, say $\theta \approx \frac{1}{\sqrt{N}}$, then you need about $\frac{\pi}{4}\sqrt{N}$ kicks. Now here is where it gets wild: keep kicking past that sweet spot and the vector **rotates past vertical**, pointing away from the target. The alignment gets *worse* the more work you do.
+If the angle $\theta$ is small, say $\theta \approx \frac{1}{\sqrt{N}}$, then you need about $\frac{\pi}{4}\sqrt{N}$ kicks. Keep kicking past that sweet spot and the vector **rotates past vertical**, pointing away from the target. The alignment gets *worse* the more work you do.
 
 This is **exactly** what Grover's algorithm does. Each iteration is a small angular kick, rotating a quantum state vector toward the solution. The "vector pointing up" represents having found the answer. And just like a stepper that takes too many steps, if you take too many kicks, the vector overshoots and the probability of finding the answer actually decreases.
 
@@ -103,13 +103,13 @@ A **bra** $\langle \psi \rvert$ is the **conjugate transpose** of the ket: lay t
 
 $$\langle \psi \rvert = \begin{pmatrix} \overline{a_0} & \overline{a_1} & \cdots & \overline{a_{N-1}} \end{pmatrix}$$
 
-Put a bra against a ket and you get a row times a column: a single number. This is the **inner product** (the "bra-ket," get it?), the generalized dot product from Calc 3:
+Put a bra against a ket and you get a row times a column: a single number. This is the **inner product** (the "bra-ket," get it?), the generalized dot product from Calc 3. If $\lvert \phi \rangle$ has amplitudes $b_x$:
 
 $$\langle \phi \mid \psi \rangle = \sum_{x} \overline{b_x} \, a_x$$
 
 A good mental model: **a bra is a machine that eats a ket and returns a number.** Read the expression right to left: "take $\psi$, measure how much of it points along $\phi$."
 
-Why the conjugate? So that a vector dotted with itself is a real, non-negative length: $\langle \psi \mid \psi \rangle = \sum_x \overline{a_x} a_x = \sum_x \lvert a_x \rvert^2$. For Grover's algorithm every amplitude stays real, so the conjugate does nothing and you may read every bra-ket as an ordinary Calc 3 dot product.
+Why the conjugate? So that a vector dotted with itself is a real, non-negative squared length: $\langle \psi \mid \psi \rangle = \sum_x \overline{a_x} a_x = \sum_x \lvert a_x \rvert^2$. For Grover's algorithm every amplitude stays real, so the conjugate does nothing and you may read every bra-ket as an ordinary Calc 3 dot product.
 
 Four facts do all the work:
 
@@ -139,7 +139,7 @@ Flip the order: a column times a row is not a number but a **matrix**. This is t
 
 $$\lvert \psi \rangle \langle \phi \rvert \quad (N \times 1 \text{ times } 1 \times N = N \times N)$$
 
-For example, $\lvert 0 \rangle\langle 0 \rvert = \begin{pmatrix} 1 \cr 0 \end{pmatrix}\begin{pmatrix} 1 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 0 \cr 0 & 0 \end{pmatrix}$.
+For example, with $N = 2$, $\lvert 0 \rangle\langle 0 \rvert = \begin{pmatrix} 1 \cr 0 \end{pmatrix}\begin{pmatrix} 1 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 0 \cr 0 & 0 \end{pmatrix}$.
 
 You almost never multiply these out. Instead, use associativity and let the bra-ket collapse to a number first:
 
@@ -238,17 +238,17 @@ $$\sigma_x = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \quad
 \sigma_y = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \quad
 \sigma_z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$$
 
-- $\sigma_x$ is the **bit-flip** (NOT gate): $\sigma_x \lvert 0\rangle = \lvert 1\rangle$
+- $\sigma_x$ is the **bit-flip** (NOT gate): $\sigma_x \lvert 0\rangle = \lvert 1\rangle$.
 - $\sigma_z$ is the **phase-flip**: $\sigma_z \lvert 1\rangle = -\lvert 1\rangle$. The outcome probabilities are unchanged, but the sign has changed, and signs are what interfere. Grover's oracle is exactly a phase-flip, aimed at one key out of $N$.
-- $\sigma_y = i\sigma_x\sigma_z$ combines both
+- $\sigma_y = i\sigma_x\sigma_z$ combines both.
 
-Together with the identity $I$, they form a basis for all $2 \times 2$ Hermitian matrices. Each Pauli matrix is both Hermitian ($\sigma = \sigma^\dagger$) and unitary ($\sigma^\dagger \sigma = I$). That dual nature is unusual and worth remembering.
+Together with the identity $I$, they form a basis for all $2 \times 2$ Hermitian matrices. Each Pauli matrix is both Hermitian ($\sigma = \sigma^\dagger$) and unitary ($\sigma^\dagger \sigma = I$), so it squares to the identity, like the Hadamard gate and the mirrors of Step 3.
 
 ### Hermitian Matrices: The Matrices of Measurement
 
 In quantum mechanics, anything you can physically **measure** (energy, position, momentum) is represented by a Hermitian matrix. Their eigenvalues are always real numbers, which makes sense because measurement results are real. That is not a coincidence; it is the reason physicists use them.
 
-A matrix $A$ is **Hermitian** (also called self-adjoint) if $A = A^\dagger$: it equals its own conjugate transpose. Equivalently, each entry above the diagonal is the complex conjugate of the entry below.
+A matrix $A$ is **Hermitian** (also called self-adjoint) if $A = A^\dagger$: it equals its own conjugate transpose. Equivalently, every diagonal entry is real and each entry above the diagonal is the complex conjugate of its mirror image below.
 
 - All eigenvalues are **real**.
 - Eigenvectors for distinct eigenvalues are **orthogonal**.
@@ -268,15 +268,15 @@ This is a first-order linear ODE! Its solution, when $\hat{H}$ is time-independe
 
 $$\lvert \psi(t) \rangle = e^{-i\hat{H}t/\hbar} \lvert \psi(0) \rangle$$
 
-The operator $e^{-i\hat{H}t/\hbar}$ is **unitary** (preserves probabilities), and it acts as a **rotation** in Hilbert space. This is the deep connection: **time evolution in quantum mechanics is rotation**, driven by the Hamiltonian. We will not use the Hamiltonian directly in Grover's algorithm, but the intuition that quantum operations are rotations *is* the Hamiltonian picture at work.
+The operator $e^{-i\hat{H}t/\hbar}$ is **unitary** (preserves probabilities), and it acts as a **rotation** in Hilbert space. This is the connection: **time evolution in quantum mechanics is rotation**, driven by the Hamiltonian. We will not use the Hamiltonian directly in Grover's algorithm, but the intuition that quantum operations are rotations *is* the Hamiltonian picture at work.
 
-> **Notation warning**: Two critical concepts, one letter. The Hamiltonian is written $\hat{H}$; the Hadamard gate is $H$ (no hat); and the Hilbert space is $\mathcal{H}$. Physicists are a generous people, but nomenclature is not their gift. Context will always make clear which is meant.
+> **Notation warning**: Three concepts, one letter. The Hamiltonian is written $\hat{H}$; the Hadamard gate is $H$ (no hat); and the Hilbert space is $\mathcal{H}$. Physicists are a generous people, but nomenclature is not their gift. Context will always make clear which is meant.
 
 ---
 
 # Grover's Search Algorithm
 
-Armed with our vocabulary, we can describe Grover's algorithm precisely. The beautiful surprise is that the entire algorithm lives in a simple two-dimensional geometric picture. All the machinery we built is in service of understanding *that*.
+Armed with our vocabulary, we can describe Grover's algorithm precisely. The surprise is that the entire algorithm lives in a simple two-dimensional geometric picture. All the machinery we built is in service of understanding *that*.
 
 ## The Oracle
 
@@ -296,7 +296,7 @@ Read it with Step 3: flip the $\lvert s \rangle$ component, keep everything perp
 
 ## The Geometry: A 2D Story
 
-Here is the beautiful simplification that makes the whole thing tractable: no matter how many qubits you have, even millions, the action of Grover's algorithm takes place in a **two-dimensional plane**. Everything else is a spectator.
+Here is the simplification that makes the whole thing tractable: no matter how many qubits you have, even millions, the action of Grover's algorithm takes place in a **two-dimensional plane**. Everything else is a spectator.
 
 Define two orthogonal unit vectors:
 - $\lvert s \rangle$: the solution state (what we are looking for)
@@ -411,7 +411,7 @@ $$D\lvert \psi \rangle = 2\lvert \phi \rangle \sqrt{N}\,\bar{a} - \lvert \psi \r
 
 Every amplitude $a_x$ is replaced by $2\bar{a} - a_x$: it is **reflected about the mean**. An amplitude a little above average lands a little below it; an amplitude far *below* average (say, one the oracle just made negative) lands far *above* it. That is the amplifier.
 
-(On hardware, $D$ is built as $H^{\otimes n}\,(2\lvert 0 \rangle\langle 0 \rvert - I)\,H^{\otimes n}$: since $H^{\otimes n}$ maps $\lvert 0 \cdots 0 \rangle$ to $\lvert \phi \rangle$ and is its own inverse, sandwiching a mirror about $\lvert 0 \cdots 0 \rangle$ between Hadamards gives a mirror about $\lvert \phi \rangle$.)
+(On hardware, $D$ is built as $H^{\otimes n}\,(2\lvert 0 \rangle\langle 0 \rvert - I)\,H^{\otimes n}$, where $\lvert 0 \rangle$ is key 0, the all-zeros string $\lvert 0 \cdots 0 \rangle$. Since $H^{\otimes n}$ maps it to $\lvert \phi \rangle$ and is its own inverse, sandwiching a mirror about $\lvert 0 \cdots 0 \rangle$ between Hadamards gives a mirror about $\lvert \phi \rangle$.)
 
 **The smallest example, by hand.** Take $N = 4$ keys, and suppose the answer is key 2.
 
@@ -792,9 +792,9 @@ Substituting:
 
 $$(2k+1) \cdot \frac{1}{\sqrt{N}} \approx \frac{\pi}{2} \quad\implies\quad k \approx \frac{\pi}{4}\sqrt{N} - \frac{1}{2}$$
 
-And there it is: $O(\sqrt{N})$ iterations. Since $k$ must be a whole number, we take $k^* = \left\lfloor \frac{\pi}{4\theta} \right\rfloor$, which lands within half a step of vertical:
+And there it is: $O(\sqrt{N})$ iterations. Since $k$ must be a whole number, we take $k^{\ast} = \left\lfloor \frac{\pi}{4\theta} \right\rfloor$, which lands within half a step of vertical:
 
-| Keys $N$ | $\theta$ | $k^*$ | $P(\text{answer})$ at $k^*$ | Classical, same number of queries |
+| Keys $N$ | $\theta$ | $k^{\ast}$ | $P(\text{answer})$ at $k^{\ast}$ | Classical, same number of queries |
 |---|---|---|---|---|
 | $4$ | $30^\circ$ | $1$ | $1$ | $0.5$ |
 | $16$ | $14.5^\circ$ | $3$ | $0.961$ | $0.25$ |
@@ -804,13 +804,13 @@ And there it is: $O(\sqrt{N})$ iterations. Since $k$ must be a whole number, we 
 
 (The classical column is the best you can do with $k$ queries: test $k$ keys, and if none works, guess one of the rest. That succeeds with probability exactly $\frac{k+1}{N}$.)
 
-Grover's algorithm solves unsorted search with $O(\sqrt{N})$ oracle queries, a **quadratic speedup** over the classical $O(N)$. And this is optimal: Bennett, Bernstein, Brassard and Vazirani proved that no quantum algorithm can do better than $\Omega(\sqrt{N})$. The small-angle approximation from your Calc 2 Taylor series is doing real work here.
+Grover's algorithm solves unsorted search with $O(\sqrt{N})$ oracle queries, a **quadratic speedup** over the classical $O(N)$. And this is optimal: Bennett, Bernstein, Brassard and Vazirani proved that every quantum algorithm for this problem needs $\Omega(\sqrt{N})$ queries (at least a constant times $\sqrt{N}$). The small-angle approximation from your Calc 2 Taylor series is doing real work here.
 
 ---
 
 # The Overshoot: Why Grover's Algorithm Must Be Halted
 
-Now we arrive at the strangest part, and the place where the calculus bridge pays off most beautifully.
+Now we arrive at the strangest part, where the calculus bridge pays off most.
 
 In classical search, more work always helps. If you have tried 500 keys and not found the right one, trying 100 more can only improve your situation. You are monotonically narrowing down the possibilities.
 
@@ -822,7 +822,7 @@ After $k$ iterations of Grover's algorithm, the probability of measuring the cor
 
 $$P(k) = \sin^2\!\big((2k+1)\theta\big)$$
 
-This is a **sinusoidal oscillation**. It peaks at $P \approx 1$ when $(2k+1)\theta = \frac{\pi}{2}$, which gives the optimal $k^* \approx \frac{\pi}{4}\sqrt{N}$.
+This is a **sinusoidal oscillation**. It peaks at $P \approx 1$ when $(2k+1)\theta = \frac{\pi}{2}$, which gives the optimal $k^{\ast} \approx \frac{\pi}{4}\sqrt{N}$.
 
 But look at what happens if you keep going:
 
@@ -834,9 +834,9 @@ But look at what happens if you keep going:
 | $\frac{3\pi}{8}\sqrt{N}$ | $\frac{3\pi}{4}$ | $0.5$ | Overshooting... |
 | $\frac{\pi}{2}\sqrt{N}$ | $\pi$ | $\approx 0$ | **Back to zero!** |
 
-The vector has rotated **past** the solution and is now pointing away from it. Just like a stepper that overshoots a curve, over-iterating Grover's sends the state vector past the target. And it keeps going: the probability is periodic, oscillating forever. You had the answer and then you lost it by doing more work. There is no classical analogue to this.
+The vector has rotated **past** the solution and is now pointing away from it. Just like the Euler stepper that takes too many steps, over-iterating Grover's algorithm sends the state vector past the target. And it keeps going: the probability is periodic, oscillating forever. You had the answer and then you lost it by doing more work. No classical search behaves this way.
 
-In the bars picture, you can see *why*: once the answer's amplitude is large, it drags the mean up with it, and the wrong keys, now far below the mean, get reflected *up* at the answer's expense. The amplifier starts amplifying the wrong thing.
+In the bars picture, you can see *why*: once the answer's amplitude is large, the oracle's sign flip drags the mean below zero. Reflecting about a negative mean pulls the answer's bar back *down* and pushes the wrong keys' bars down too, ending below zero, so they gain probability at the answer's expense. The amplifier starts amplifying the wrong thing.
 
 ## The Grover Overshoot Explorer
 
@@ -929,19 +929,19 @@ Use the sliders below to see this for yourself. Adjust $N$ (database size) and $
 **What to notice** (go on, play with it):
 - Set $N = 64$ and slowly drag $k$ up. The probability rises to nearly 1 at $k = 6$, then **falls back toward 0**. You had the answer and kept going.
 - Set $N = 1024$ and watch the slower, smoother rise peaking at $k = 25$, then the decline. The classical line has barely left the floor.
-- The probability is periodic. It will rise again later, but the first peak at $k^* \approx \frac{\pi}{4}\sqrt{N}$ is where you should measure.
+- The probability is periodic. It will rise again later, but the first peak at $k^{\ast} \approx \frac{\pi}{4}\sqrt{N}$ is where you should measure.
 
-This is the deep lesson, and it has no classical analogue: **quantum algorithms have a rhythm**. Unlike classical computation where more work monotonically improves the result, quantum interference creates oscillations. The art of quantum algorithm design is knowing exactly when to stop. One iteration too many and you start losing what you had.
+This is the lesson: **quantum algorithms have a rhythm**. Unlike classical search, where more work never hurts, quantum interference creates oscillations. Part of the art of quantum algorithm design is knowing exactly when to stop. One iteration too many and you start losing what you had.
 
 Recall our calculus bridge: each Grover iteration is a small angular kick of $2\theta$. At the optimal number of kicks, the vector aligns with the answer. One kick too many and you start moving away. The vector swings past $\frac{\pi}{2}$ and the $\sin^2$ probability decreases. The algorithm has overshot.
 
-A practical footnote: knowing when to stop requires knowing $N$. If there are $M$ correct answers instead of one, it requires knowing $M$ too, since then $\sin\theta = \sqrt{M/N}$ and $k^* \approx \frac{\pi}{4}\sqrt{N/M}$. When $M$ is unknown, there are variants that guess iteration counts from a growing random schedule and still finish in $O(\sqrt{N/M})$ expected queries.
+A practical footnote: knowing when to stop requires knowing $N$. If there are $M$ correct answers instead of one, it requires knowing $M$ too, since then $\sin\theta = \sqrt{M/N}$ and $k^{\ast} \approx \frac{\pi}{4}\sqrt{N/M}$. When $M$ is unknown, a variant due to Boyer, Brassard, Høyer and Tapp picks iteration counts from a growing random schedule and still finishes in $O(\sqrt{N/M})$ expected queries.
 
 ---
 
 # Quantum Circuits
 
-A full treatment of quantum circuit gates is beyond this post, but here is the circuit for Grover's search, for readers who want to see how the abstract procedure maps to hardware-level operations. Read it left to right: a column of Hadamards prepares $\lvert \phi \rangle$; then each repeated block is the oracle $U_f$ followed by the diffusion operator $H^{\otimes n}(2\lvert 0 \rangle\langle 0 \rvert - I)H^{\otimes n}$; measurement comes last.
+A full treatment of quantum circuit gates is beyond this post, but here is the circuit for Grover's search, for readers who want to see how the abstract procedure maps to hardware-level operations. Read it left to right: a column of Hadamards prepares $\lvert \phi \rangle$; then each iteration is the oracle $U_f$ followed by the diffusion operator, drawn as $H$, $U_0$, $H$. The gate $U_0 = I - 2\lvert 0 \rangle\langle 0 \rvert$ is our mirror $2\lvert 0 \rangle\langle 0 \rvert - I$ up to an overall sign, which Step 4 showed is unobservable. The bottom wire is a helper qubit in $\lvert - \rangle = \frac{\lvert 0 \rangle - \lvert 1 \rangle}{\sqrt{2}}$: each $\oplus$ flips it when that gate's condition holds ($f(x) = 1$ for $U_f$, $x = 0$ for $U_0$), and flipping $\lvert - \rangle$ multiplies it by $-1$, a standard way to produce the sign flip. Measuring the top $n$ wires after the last iteration (not drawn) gives $s$ with high probability.
 
 ![Grover's search circuit diagram](/blog/assets/2024/grovers/grove5.png)
 
@@ -964,7 +964,7 @@ For a condensed, hand-written sketch of the derivation based on Nielsen and Chua
 - [3Blue1Brown: But what is quantum computing? (Grover's Algorithm)](https://www.youtube.com/watch?v=RQWpF2Gb-gU) (2025), and the companion post [Where my explanation of Grover's algorithm failed](https://3blue1brown.substack.com/p/where-my-explanation-of-grovers-algorithm). The best visual treatment there is, and a thorough dismantling of the "tries everything in parallel" myth.
 - [IBM Quantum Learning: Grover's algorithm](https://quantum.cloud.ibm.com/learning/en/modules/computer-science/grovers): build and run it in Qiskit.
 - [Quirk](https://algassert.com/quirk): an in-browser circuit simulator with live amplitude displays.
-- [Gordan Ma: Grover's Algorithm Explained (Video)](https://www.youtube.com/watch?v=c30KrWjHaw4)
+- [Gordon Ma: A Visual Introduction to Grover's Algorithm and Reflections](https://www.youtube.com/watch?v=c30KrWjHaw4) (video)
 
 ### Sources
 

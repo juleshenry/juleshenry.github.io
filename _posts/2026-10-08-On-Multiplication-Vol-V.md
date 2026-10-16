@@ -2,6 +2,7 @@
 layout: post
 title: "On Multiplication, Vol. V: Below n log n"
 date: 2026-10-08 12:00:00
+description: "An unrefereed OpenAI preprint claims integer multiplication below n log n on a multitape Turing machine: how its swap gadget works and how far to trust it."
 mathjax: true
 ---
 
@@ -33,7 +34,7 @@ $$
 
 Three things about that statement deserve attention.
 
-**It is the same model as before.** Bit operations on a multitape Turing machine is the setting in which Schönhage and Strassen proved $O(n \log n \log \log n)$ in 1971, in which they conjectured $n \log n$ to be optimal, and in which Harvey and van der Hoeven reached $O(n \log n)$ in 2019. No random-access memory, no unit-cost arithmetic on big words. (Those models were never bound by $n \log n$ in the first place: Schönhage showed in 1980 that a pointer machine multiplies in linear time. The $n \log n$ conjecture was always a statement about tapes.)
+**It is the same model as before.** Bit complexity on a multitape Turing machine is the setting in which Schönhage and Strassen proved $O(n \log n \log \log n)$ in 1971, in which they conjectured $n \log n$ to be optimal, and in which Harvey and van der Hoeven reached $O(n \log n)$ in 2019. No random-access memory, no unit-cost arithmetic on big words. (Those models were never bound by $n \log n$ in the first place: Schönhage showed in 1980 that a pointer machine multiplies in linear time. The $n \log n$ conjecture was always a statement about tapes.)
 
 **It is a power of the logarithm.** The saving is not a $\log \log n$ or a $\log^{\ast} n$ shaved off the side. The exponent on $\lg n$ itself drops below 1, so the ratio of the new bound to $n \log n$ is $(\lg n)^{-\kappa}$, which tends to zero. That is exactly what it takes to refute a conjectured $\Omega(n \log n)$.
 
@@ -41,7 +42,7 @@ Three things about that statement deserve attention.
 
 ## Where the $n \log n$ was hiding
 
-Recall the shape of Harvey-van der Hoeven from [Vol. III](/blog/2025/12/19/On-Multiplication-Vol-III). Chop the integers into chunks, lay the chunks out on a $d$-dimensional grid with prime side lengths via the Chinese Remainder Theorem, use Gaussian resampling to trade the prime lengths for powers of two, and compute the resulting transforms over a ring $\mathbb{C}[y]/(y^r + 1)$ in which the roots of unity are powers of $y$, so that multiplying by one is a cyclic shift with a sign. By the end, the transform involves no real multiplications. It consists of three kinds of work:
+Recall the shape of Harvey-van der Hoeven from [Vol. III](/blog/2025/12/19/On-Multiplication-Vol-III). Chop the integers into chunks, lay the chunks out on a $d$-dimensional grid with prime side lengths via the Chinese Remainder Theorem, use Gaussian resampling to trade the prime lengths for powers of two, and compute the resulting transforms over a ring $\mathbb{C}[y]/(y^r + 1)$ in which the roots of unity are powers of $y$, so that multiplying by one of them is a cyclic shift with a sign. By the end, the transform involves no real multiplications. It consists of three kinds of work:
 
 1. **rearranging addresses** (getting the right coordinates of the grid next to each other on the tape),
 2. **signed shifts**, and
@@ -74,7 +75,7 @@ $$
 D \leftarrow D - H, \qquad H \leftarrow H + D, \qquad D \leftarrow H - D
 $$
 
-send $(H, D)$ to $(D, H)$. On a tape, the first and third are cheap: they adjust a *later* field using an *earlier* one, which amounts to rotating blocks during a single left-to-right pass. Only the middle one, which updates an earlier field from a later one, is hard. So the whole problem of **moving** data across the tape collapses into one **shear**, $H \leftarrow H + D$.
+send $(H, D)$ to $(D, H)$. On a tape, the first and third are cheap: they adjust a *later* field using an *earlier* one, which amounts to rotating blocks in a constant number of left-to-right passes. Only the middle one, which updates an earlier field from a later one, is hard. So the whole problem of **moving** data across the tape collapses into one **shear**, $H \leftarrow H + D$.
 
 ## A gadget that swaps by mixing
 
@@ -82,7 +83,7 @@ The shear is carried out by a fixed, finite **linear network**. Call it the gadg
 
 The ingredients are borrowed, and the preprint says from where:
 
-- **Index coding.** If one receiver already knows $a$ and another already knows $b$, a broadcaster can serve both with the single message $a \oplus b$. A low-rank summary, plus what you already hold, yields what you wanted. The gadget's gather and scatter steps squeeze a whole bank through a narrow set of central wires, and its side wires subtract the cross-talk.
+- **Index coding.** If one receiver wants $a$ and already knows $b$, and another wants $b$ and already knows $a$, a broadcaster can serve both with the single message $a \oplus b$. A low-rank summary, plus what you already hold, yields what you wanted. The gadget's gather and scatter steps squeeze a whole bank through a narrow set of central wires, and its side wires subtract the cross-talk.
 - **Set-intersection designs.** The wires are indexed by 3-element subsets of $\lbrace 1, \ldots, 100 \rbrace$, and how strongly wire $T$ leaks into wire $S$ depends only on the size of $S \cap T$. This is the Frankl-Wilson construction, which reached the paper by way of Alon's work on Shannon capacity.
 - **Borrowed memory.** Scratch space that arrives full of someone else's data and is handed back unchanged is the signature of *catalytic* computation, due to Buhrman, Cleve, Koucký, Loff and Speelman.
 
@@ -103,9 +104,9 @@ So far the gadget swaps single values. Now promote every wire to an entire array
 
 The idea that makes this useful is the **frame**. At each point in the schedule, a wire's array may be stored in a different coordinate system, with its addresses sheared by some matrix. Gates work entrywise, so they do not care what frame the arrays are in, as long as all the arrays meeting at one gate share the *same* frame. Between consecutive gates, a wire has to be converted from one frame to the next, and each unit of conversion is a smaller instance of the original problem: a swap on address fields $1/m$ as wide.
 
-Arrange the frames so that when the gadget finishes, every wire has travelled from "no shear" to "full shear." If each wire made that journey alone, it would need $m$ small conversions: $W \cdot m$ in total, which is just the obvious algorithm again. But the bank wires do not make the journey alone. The gadget *exchanges* them, and the exchange covers part of the distance for free, since gates carry it out pointwise in a constant number of passes. The scratch wires give some of that back (the central wires have to retreat one step in mid-schedule), but not all of it.
+Arrange the frames so that when the gadget finishes, every wire has traveled from "no shear" to "full shear." If each wire made that trip alone, it would need $m$ small conversions: $W \cdot m$ in total, which is just the obvious algorithm again. But the bank wires do not make the trip alone. The gadget *exchanges* them, and the exchange covers part of the distance for free, since gates carry it out pointwise in a constant number of passes. The scratch wires give some of that back (the central wires have to retreat one step in mid-schedule), but not all of it.
 
-The final count, with $m = 10^6$:
+The final count, with $m = 10^6$ and $s$ the total number of conversions:
 
 $$
 W = 177{,}176{,}569{,}091{,}445{,}000{,}000 \ \text{wires}, \qquad
@@ -158,7 +159,7 @@ The second gadget, for butterflies, has the same skeleton with complex scalars i
 
 ## From $10^{-11}$ to $2^{-182}$
 
-Why is the final $\kappa$ so much smaller than the gadget's deficit? Because three small numbers get multiplied together. The paper rounds the gadget exponent to a convenient $\tau = 1 - 2^{-50}$. The transform is spread over $d \approx (\lg n)^{\epsilon}$ dimensions with $\epsilon = 2^{-75}$. The address chunks being swapped have width $K \approx d^c$ with $c = 2^{-56}$. The tightest line of the cost table is the chunk exchanges, whose exponent sits below 1 by
+Why is the final $\kappa$ so much smaller than the gadget's deficit? Because three small numbers get multiplied together. The paper rounds the gadget exponent to a convenient $\tau = 1 - 2^{-50}$. The transform is spread over $d \approx (\lg n)^{\epsilon}$ dimensions with $\epsilon = 2^{-75}$. The address chunks being swapped have width $K \approx d^c$ with $c = 2^{-56}$. The tightest line of the paper's cost table is the chunk exchanges, whose exponent sits below 1 by
 
 $$
 \epsilon \cdot c \cdot (1 - \tau) \;=\; 2^{-75} \cdot 2^{-56} \cdot 2^{-50} \;=\; 2^{-181},
@@ -194,7 +195,7 @@ But read the model carefully, because it is doing real work. Operations are **ex
 
 After Fürer first got under Schönhage-Strassen in 2007, it took twelve years and a string of papers to grind his leftover factor of $2^{O(\log^{\ast} n)}$ down to $8^{\log^{\ast} n}$, then $4^{\log^{\ast} n}$, then nothing. The sequel ran on a different clock.
 
-A day after OpenAI's release, a community repository began treating the preprint's framework as given and optimizing inside it. `CrocSwap/integer-mult-bounds` is maintained by Douglas Colkitt, with dozens of contributors and a good deal of AI assistance. Its ledger of successive witnesses reads like a countdown:
+Within hours of OpenAI's release, a community repository began treating the preprint's framework as given and optimizing inside it. `CrocSwap/integer-mult-bounds` is maintained by Douglas Colkitt, with dozens of contributors and a good deal of AI assistance. Its ledger of successive witnesses reads like a countdown:
 
 | Conditional $\kappa$ | Scope of the witness, as the repository describes it |
 |---|---|
@@ -217,7 +218,7 @@ The original gadget's $10^{20}$ wires turned out to be wildly more than the idea
 
 The shape of the race is clearest on [Beyond n log n](https://beyond-n-log-n.netlify.app/), a live dashboard of the effort whose footer points to Paureel, one of the repository's contributors. It charts every reviewed checkpoint, every open claim and every fork. In UTC days, the reviewed figure reached $2^{-59}$ by the end of October 7, $2^{-14}$ by the end of October 8, about $2^{-10.6}$ by the end of October 9, and $2^{-10.4}$ on October 10. That is, $\kappa \approx 7.2 \times 10^{-4}$, more than $2^{171}$ times the original. The first day was worth 123 binary orders of magnitude, the second 45, the third fewer than 4, and the fourth about an eighth of one.
 
-The curve is a familiar one. The enormous early gains were slack that the original paper left on the table on purpose. Once that was gone, the race became what the hunt for a last factor always becomes: many people fighting for a few percent at a time. The previous era spent twelve years on that stretch. This one reached it in four days. The crowd did not thin: by October 11 the repository had drawn 505 pull requests from 73 authors, 158 of them opened that day alone, and the strongest open ones claimed roughly twice the reviewed figure.
+The curve is a familiar one. The large early gains were slack that the original paper left on the table on purpose. Once that was gone, the race became what the hunt for a last factor always becomes: many people fighting for a few percent at a time. The previous era spent twelve years on that stretch. This one reached it in four days. The crowd did not thin: by October 11 the repository had drawn 505 pull requests from 73 authors, 158 of them opened that day alone, and the strongest open ones claimed roughly twice the reviewed figure.
 
 The word *conditional* is load-bearing throughout, and the repository is scrupulous about it. Its README calls the work "conditional on the original OpenAI #109 framework" and says it is "not full formal verification, independent human peer review, a worldwide priority claim, or a practical multiplication benchmark." It adds that its "finite replay and written review do not formally verify the multiplication theorem." The dashboard's methodology note is just as blunt: "No full-theorem verification is inferred from tests or certificates." If the foundation moves, the whole tower moves with it.
 
@@ -232,13 +233,13 @@ Not yet sure. Here is the state of the evidence on October 11, 2026, five days a
 - **Track record.** The day after release, three manuscripts in the collection were withdrawn over a sign error and fourteen more were revised. The README warns that "some of the unformalized results could have issues." That is the process working as intended, and also a reminder of which category the multiplication paper is in.
 - **Scrutiny.** The proof is public, explicit about every constant, and being picked over by a great many people at once. The finite combinatorics is easy to recheck (the snippet above reproduces the paper's numbers). The hard part is the other sixty pages: the claim that the gadget's saving survives contact with an actual tape machine (padding, precision, descriptors, cleanup) at every depth of the recursion.
 
-If the multiplication proof breaks, the Fourier result still stands in its own model. And notice that the conclusion below does not depend on the outcome. Its main point is that the $n \log n$ floor was never proved, and that is true either way.
+If the multiplication proof breaks, the Fourier result, which rebuilds the gadget for itself and is formalized in Lean, still stands in its own model. And notice that the conclusion below does not depend on the outcome. Its main point is that the $n \log n$ floor was never proved, and that is true either way.
 
 # Still Galactic
 
 To be fair to anyone hoping for a faster `BigInt`: no.
 
-Harvey-van der Hoeven only pulls ahead beyond $2^{1729^{12}}$ digits, and $1729^{12} \approx 2^{129}$, so call it $2^{2^{129}}$. The new algorithm needs at least two dimensions before it can do anything at all, and with $d = \lfloor (\lg n)^{\epsilon} \rfloor$ and $\epsilon = 2^{-75}$ that requires
+Harvey-van der Hoeven's proof only applies beyond $2^{1729^{12}}$ bits, and $1729^{12} \approx 2^{129}$, so call it $2^{2^{129}}$. The new algorithm needs at least two dimensions before it can do anything at all, and with $d = \lfloor (\lg n)^{\epsilon} \rfloor$ and $\epsilon = 2^{-75}$ that requires
 
 $$
 \lg n \;\ge\; 2^{2^{75}}, \qquad\text{that is,}\qquad n \;\ge\; 2^{2^{2^{75}}} \ \text{bits.}
@@ -246,7 +247,7 @@ $$
 
 The paper says so explicitly: below its cutoff, the machine in the theorem uses **schoolbook multiplication**. And for the saving $(\lg n)^{\kappa}$ to amount to a mere factor of two, constants aside, you would need $n \approx 2^{2^{2^{182}}}$.
 
-For Harvey-van der Hoeven, the *input* does not fit in the universe. Here, the *length of the input*, written out in decimal, does not fit in the universe. Even the community's reviewed $\kappa$ of about $7.2 \times 10^{-4}$ would want $n \approx 2^{2^{1382}}$ before it bought that factor of two.
+For Harvey-van der Hoeven, the *input* does not fit in the universe. Here, the *length of the input*, written out in decimal, does not fit in the universe. Even the community's reviewed $\kappa$ of October 10, about $7.2 \times 10^{-4}$, would want $n \approx 2^{2^{1382}}$ before it bought that factor of two.
 
 None of this is a criticism. Galactic algorithms are not for running. The arc reads:
 
@@ -280,13 +281,13 @@ It also runs through the conjecture that followed. Kolmogorov looked at the best
 
 Each breakthrough in this story didn't just produce a faster algorithm; it changed the *mathematical language* in which multiplication is expressed.
 
-**Karatsuba** spoke the language of **algebra**: a single polynomial identity turns four sub-problems into three, and the Master Theorem does the rest. The savings are modest, $O(n^{1.585})$ versus $O(n^2)$, but the conceptual leap is enormous. For the first time, the exponent on multiplication was negotiable.
+**Karatsuba** spoke the language of **algebra**: a single polynomial identity turns four sub-problems into three, and the Master Theorem does the rest. The savings are modest, $O(n^{1.585})$ versus $O(n^2)$, but for the first time the exponent on multiplication was negotiable.
 
-**Toom-Cook** generalized this into the language of **polynomial interpolation**. If splitting a number in two and evaluating at three points (Karatsuba) drops the exponent to $\log_2 3$, then splitting into $k$ pieces and evaluating at $2k - 1$ points drops it to $\log_k (2k - 1)$. As $k$ grows, the exponent approaches $1 + \varepsilon$ for any $\varepsilon > 0$. This was the first hint that $O(n^{1+\varepsilon})$ was not the floor. Perhaps the true cost of multiplication is not polynomial in $n$ at all, but something closer to $n$ times a slowly growing function.
+**Toom-Cook** generalized this into the language of **polynomial interpolation**. If splitting a number in two and evaluating at three points (Karatsuba) drops the exponent to $\log_2 3$, then splitting into $k$ pieces and evaluating at $2k - 1$ points drops it to $\log_k (2k - 1)$. As $k$ grows, the exponent tends to 1, so for any $\varepsilon > 0$ some $k$ gives $O(n^{1+\varepsilon})$. This was the first hint that no fixed power $n^{c}$ with $c > 1$ was the floor. Perhaps the true cost of multiplication is not a power of $n$ at all, but something closer to $n$ times a slowly growing function.
 
 **Schönhage-Strassen** rewrote multiplication in the language of **harmonic analysis**. The Convolution Theorem says that convolution in the time domain becomes pointwise multiplication in the frequency domain, and it transforms the entire problem. Instead of asking "how do I combine digits?", we ask "how do I move between representations of a polynomial?" The Fast Fourier Transform answers that question in $O(n \log n)$ time. But the need for exact integer arithmetic, not floating-point approximations, forced Schönhage and Strassen into the ring $\mathbb{Z}/(2^m + 1)\mathbb{Z}$, where roots of unity are powers of two and "multiplication by a twiddle factor" is just a bit-shift. The cost of this exactness was a recursive structure $\log \log n$ levels deep, which contributed a stubborn extra factor.
 
-**Harvey and van der Hoeven** changed the *shape* of the transform. Their insight was architectural: by lifting the one-dimensional convolution into an array of 1,729 dimensions with coprime prime side lengths, resampling those lengths to powers of two, and using Nussbaumer's synthetic roots of unity so that the transform itself needs no multiplications, they made each level of the recursion cheaper than the one above it. The levels sum like a geometric series, and the $\log \log n$ is gone. The $O(n \log n)$ bound, conjectured for decades to be the end of the road and tantalizingly close since 1971, was finally reached.
+**Harvey and van der Hoeven** changed the *shape* of the transform. Their insight was architectural: by lifting the one-dimensional convolution into an array of 1,729 dimensions with distinct prime side lengths, resampling those lengths to powers of two, and using Nussbaumer's synthetic roots of unity so that the transform itself needs no multiplications, they made each level of the recursion cheaper than the one above it. The levels sum like a geometric series, and the $\log \log n$ is gone. The $O(n \log n)$ bound, conjectured for decades to be the end of the road and within a $\log \log n$ factor since 1971, was finally reached.
 
 **The 2026 preprint**, if it stands, speaks the language of **coding theory**. Its raw material is not arithmetic at all: index codes, set-intersection designs, scratch memory that is borrowed and returned. Its insight is that a machine asked to *move* data may instead *mix* it, and that mixing, organized around a finite gadget with a deficit of a few parts in a trillion, gets the data where it is going in fewer passes than moving does.
 
@@ -316,7 +317,7 @@ and for now no theorem says where. It might be $n \log \log n$. It might be $n$,
 
 ## Sorting Was a Different Problem
 
-It was long natural to think that sorting and multiplication were related: that the $n \log n$ they shared was a single barrier seen from two sides. [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV) lays out the case: the same bound, the same divide-and-conquer recurrence, the same hypercube-shaped network, with merge sort's compare-exchanges on one side and the FFT's butterflies on the other.
+It was long natural to think that sorting and multiplication were related: that the $n \log n$ they shared was a single barrier seen from two sides. [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV) lays out the case: the same bound, the same divide-and-conquer recurrence, the same hypercube-shaped network, with bitonic sort's compare-exchanges on one side and the FFT's butterflies on the other.
 
 What that resemblance actually established is that the best *algorithms* we had for the two problems were built alike. It said nothing about the problems. Underneath, they are different in kind.
 
@@ -326,15 +327,15 @@ What that resemblance actually established is that the best *algorithms* we had 
 
 So the two are not intertwined at all. Sorting is provably $\Theta(n \log n)$ in its model. Multiplication sits somewhere between $n$ and $n (\log n)^{1-\kappa}$, with no lower bound in sight. Yet.
 
-The specific intuition that failed deserves to be named: that rearranging $n$ things across $\log n$ dimensions costs $n \log n$, and not a single operation less. That is true of sealed envelopes. It is not true of bits, because bits can be *added together*. The preprint's address swap ends as a pure permutation, with every bit exactly where it was supposed to go. In between, though, the tape holds XORs of data that no routing argument can follow. The paper is explicit that its procedure "lies outside models restricted to moving data." In 2025, Harvey and van der Hoeven proved that multiplication is at least as hard as transposing a matrix on tape, so that an $n \log n$ lower bound for transposition would have settled the conjecture. The implication now gets used in the other direction: multiplication got faster, and transposition came down with it.
+The intuition that failed was this: that rearranging $n$ things across $\log n$ dimensions costs $n \log n$, and not a single operation less. That is true of sealed envelopes. It is not true of bits, because bits can be *added together*. The preprint's address swap ends as a pure permutation, with every bit exactly where it was supposed to go. In between, though, the tape holds XORs of data that no routing argument can follow. The paper is explicit that its procedure "lies outside models restricted to moving data." In 2025, Harvey and van der Hoeven proved that multiplication is at least as hard as transposing a matrix on tape, so that an $n \log n$ lower bound for transposing $n$ bits would have settled the conjecture. The implication now gets used in the other direction: multiplication got faster, and transposition came down with it.
 
 ## Galactic Algorithms and the Nature of Truth
 
-We should be honest about the practical situation. Karatsuba's algorithm overtakes schoolbook multiplication at around 20-40 digits, depending on the implementation. Toom-Cook-3 wins around 100-200 digits. Schönhage-Strassen becomes competitive at tens of thousands of digits, the scale used by modern big-integer libraries like GMP. But Harvey-van der Hoeven? Its proof only applies to numbers with more than $2^{1729^{12}}$ bits, far more bits than there are atoms in the observable universe. No computer that will ever exist will multiply numbers that large. The Harvey-van der Hoeven algorithm will never be *run*.
+We should be honest about the practical situation. Counting in 64-bit machine words, Karatsuba's algorithm overtakes schoolbook multiplication at around 15-40 words, depending on the implementation. Toom-Cook-3 wins around 60-120 words. Schönhage-Strassen becomes competitive at several thousand words (around a hundred thousand decimal digits), the scale at which modern big-integer libraries like GMP switch to it. But Harvey-van der Hoeven? Its proof only applies to numbers with more than $2^{1729^{12}}$ bits, far more bits than there are atoms in the observable universe. No computer that will ever exist will multiply numbers that large. The Harvey-van der Hoeven algorithm will never be *run*.
 
 The 2026 algorithm is further out still. By its own parameter choices it does not switch on until the length of the input, written out in decimal, would overflow the universe.
 
-And yet it matters enormously.
+And yet it matters.
 
 It matters because mathematics is not engineering. The question "what is the true complexity of integer multiplication?" is a question about the structure of arithmetic itself, not about what silicon can compute before the heat death of the universe. An algorithm, even a galactically impractical one, is a *proof*: a proof that the cost of multiplying is not quadratic, not $n^{1.585}$, not $n \log n \log \log n$, and now, if the preprint holds, not $n \log n$ either. An upper bound is a theorem about reality. A floor that nobody has proved is only a rumor about it.
 
@@ -342,9 +343,7 @@ Galactic algorithms are the astronomer's telescope pointed at the foundations of
 
 ## The Punchline
 
-Here is the thought to carry away.
-
-Kolmogorov looked at schoolbook multiplication and saw $n^2$: a grid of partial products, rigid and inescapable. Karatsuba looked at the same grid and saw that some cells were redundant. Toom and Cook saw that the grid was really a polynomial, and polynomials can be evaluated at fewer points than their degree suggests. Schönhage and Strassen saw that the polynomial was really a signal, and signals can be decomposed into frequencies. Harvey and van der Hoeven saw that the signal lived in a multi-dimensional space whose geometry could be exploited to eliminate every last bit of overhead.
+Kolmogorov looked at schoolbook multiplication and saw $n^2$: a grid of partial products, rigid and inescapable. Karatsuba looked at the same grid and saw that some cells were redundant. Toom and Cook saw that the grid was really a polynomial, and a polynomial is pinned down by its values at a handful of points. Schönhage and Strassen saw that the polynomial was really a signal, and signals can be decomposed into frequencies. Harvey and van der Hoeven saw that the signal lived in a multi-dimensional space whose geometry could be exploited to eliminate every last bit of overhead.
 
 And then, by OpenAI's account, a machine looked at what was left, the bare sweeps over the data that every earlier generation had filed under *unavoidable*, and saw that even those could be shared.
 
@@ -362,11 +361,11 @@ That is the lesson. $n \log n$ was never a fact about multiplication. It was a f
 
 - [Multiplication algorithm](https://en.wikipedia.org/wiki/Multiplication_algorithm), Wikipedia. A good map of the whole territory.
 - M. Scott, [Missing a trick: Karatsuba variations](https://miracl.com/blog/missing-a-trick-karatsuba-variations-michael-scott/), MIRACL. Varying the radix on an Intel i3-4025U.
-- [Karatsuba's paper](https://ieeexplore.ieee.org/document/4402691) on IEEE Xplore.
+- A. Karatsuba and Yu. Ofman, "Multiplication of Multidigit Numbers on Automata," *Soviet Physics Doklady* 7 (1963), pp. 595--596.
 - A. L. Toom, "The Complexity of a Scheme of Functional Elements Realizing the Multiplication of Integers" (1963); S. A. Cook, "On the Minimum Computation Time of Functions" (PhD thesis, Harvard, 1966).
 - A. Schönhage and V. Strassen, "[Schnelle Multiplikation großer Zahlen](https://doi.org/10.1007/BF02242355)," *Computing* 7 (1971), pp. 281--292.
 - R. Saptharishi, [an exposition of the Schönhage-Strassen algorithm](https://www.tcs.tifr.res.in/~ramprasad/assets/pubs/expositions/Schonhage-Strassen.pdf) (PDF).
-- D. Harvey and J. van der Hoeven, "[Integer multiplication in time O(n log n)](https://hal.archives-ouvertes.fr/hal-03182372/document)," *Annals of Mathematics* 193 (2021).
+- D. Harvey and J. van der Hoeven, "[Integer multiplication in time O(n log n)](https://hal.science/hal-02070778/document)," *Annals of Mathematics* 193 (2021).
 - [Strassen's algorithm and the astounding conjecture](https://www.youtube.com/watch?v=m5VZnlVU2n4), Mathnet Korea (video).
 - [Schönhage-Strassen algorithm](https://www.youtube.com/watch?v=OGUMsBkZqkc), NPTEL lecture 26 (video).
 

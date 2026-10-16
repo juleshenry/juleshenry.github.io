@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Black-Scholes-Merton, Vol. I: Options, Explained"
 date: 2024-07-24 12:00:00
+description: "Calls and puts from both sides of the trade; European, American and Bermudan exercise; and the assumptions the Black-Scholes-Merton formula rests on."
 categories: wealth
 mathjax: true
 ---
@@ -10,18 +11,18 @@ mathjax: true
 
 Is it optional to know what an "option" is? No!
 
-Many people have heard of this financial instrument but don't know how it's priced. If you can do calculus, differential equations, and remember a stats course, this series builds that price from scratch, in three volumes, taken in order.
+Many people have heard of this financial instrument but don't know how it's priced. If you know calculus and differential equations and remember a stats course, this series builds that price from scratch, in three volumes, taken in order.
 
 <div class="note">
 <p><strong>Roadmap</strong></p>
 <ol>
 <li><strong>Options, explained</strong> (this volume). Calls and puts, bought and written. European, American, and Bermudan exercise. The list of assumptions Black, Scholes, and Merton make, in plain language, before any of them is used.</li>
 <li><strong><a href="/blog/2024/07/24/Black-Scholes-Merton-Vol-II">Deriving BSM from scratch</a>.</strong> A Wiener process is the noise, a martingale is a fair game. The lognormal, set against the normal. A stock built as a lognormal process, then the formula from elementary statistics and calculus: completing the square, twice.</li>
-<li><strong><a href="/blog/2024/07/24/Black-Scholes-Merton-Vol-III">Nuance, and other approaches</a>.</strong> The same answer as the heat equation. The same answer as a change of numeraire, where $\Phi(d_1)$ and $\Phi(d_2)$ become ordinary probabilities. Then the assumptions, revisited: the risk-free rate, dividends, the smile.</li>
+<li><strong><a href="/blog/2024/07/24/Black-Scholes-Merton-Vol-III">Nuance, and other approaches</a>.</strong> The same answer from the heat equation. The same answer from a change of numeraire, where $\Phi(d_1)$ and $\Phi(d_2)$ become ordinary probabilities. Then the assumptions, revisited: the risk-free rate, dividends, the smile.</li>
 </ol>
 </div>
 
-Volumes I and II use nothing but algebra, calculus, and the Central Limit Theorem. Every step is proved on the page, with one exception: Itô's lemma is motivated by Taylor's theorem and checked by hand on one path, not proved in general. Volume III uses Girsanov's theorem, motivated by finite trees and a ratio of Gaussian densities, not proved in full generality. Where an argument is a heuristic rather than a proof, it is flagged as one.
+Volumes I and II use nothing but algebra, calculus, and the Central Limit Theorem. Every step is proved on the page, with two exceptions: Itô's lemma is motivated by Taylor's theorem and checked by hand on one path, not proved in general; and the continuous-time switch from the stock's expected return to the interest rate, with volatility unchanged, is carried over from a binomial tree by analogy. Volume III justifies that switch with Girsanov's theorem, motivated by finite trees and a ratio of Gaussian densities, not proved in full generality. Where an argument is a heuristic rather than a proof, it is flagged as one.
 
 - [Puts and calls](#1-puts-and-calls)
 - [European, American, Bermudan](#2-european-american-bermudan)
@@ -37,7 +38,7 @@ In ordinary English, optional means you do not have to. In finance that is almos
 
 An **option** is a contract that gives its owner the *right*, and not the obligation, to buy or sell something at a pre-agreed price. The something is the **underlying**: a share of stock, a bushel of wheat. The pre-agreed price is the **strike**, written $K$. The deadline is **expiry**, written $T$. For that right you pay money up front, the **premium**. The rest of this series is the question: what must the premium be?
 
-You already know the everyday version. A rain check that lets you buy a TV at today's price next month is a call option on the TV. If the store drops the price, you ignore the rain check and buy cheaper. If the store raises the price, you use the rain check. You will only exercise when it helps you. That one-sidedness is the whole point.
+You already know the everyday version. A rain check that lets you buy a TV at today's price next month is a call option on the TV. If the store drops the price, you ignore the rain check and buy cheaper. If the store raises the price, you use the rain check. You exercise only when it helps you. That one-sidedness is the whole point.
 
 ## Calls and puts
 
@@ -63,12 +64,12 @@ Someone took the other side. They received your $10$ today and promised: if you 
 
 - If $S_T=80$ or $S_T=100$, the buyer walks away. You keep the $10$. **Net $+10$**. Collect premium, option expires worthless: the writer's dream.
 - If $S_T=130$, the buyer knocks. You must sell a $130$ share for $100$.
-  - If you already owned the share (**covered call**): you hand it over at $100$ instead of selling it in the market at $130$. You missed $30$ of upside, but you had pocketed $10$, so **net $-20$**.
+  - If you already owned the share (**covered call**): you hand it over at $100$ instead of selling it in the market at $130$. You missed $30$ of upside, but you had pocketed $10$, so **net $-20$** against simply holding the share.
   - If you did not own it (**naked call**): you buy at $130$, sell to the buyer at $100$, lose $30$, offset by the $10$. **Net $-20$**.
 
 Limited upside (the premium is the most you can make). Unlimited downside (the stock can go to the moon, and you still have to sell at $100$). Writing naked calls is a dangerous way to “collect premium.” A covered call is the version to picture first: you already own the stock, you are willing to let it get called away, and the premium is extra income if it does not.
 
-Break-even for both sides is $S_T=110$: the stock has to rally $10$ just to recoup the $10$ you paid (or, for the writer, that is where the obligation starts to eat the premium).
+Break-even for both sides is $S_T=110$: the stock has to rally $10$ just to recoup the $10$ you paid (or, for the writer, that is where the obligation has eaten the whole premium).
 
 <table>
   <thead>
@@ -117,7 +118,7 @@ The series prices the *call*. The put will fall out later from an accounting ide
 
 ### Payoff versus profit
 
-The **payoff** is what the contract hands you at expiry, *before* subtracting the premium. For the call buyer that is $\max(S_T-K,\,0)$; for the put buyer, $\max(K-S_T,\,0)$:
+The **payoff** is what the contract hands you at expiry, *before* subtracting the premium. For the call buyer that is $\max(S_T-K,\,0)$; for the put buyer, $\max(K-S_T,\,0)$. The rest of the series writes the call payoff with a plus sign:
 
 $$
 (S_T - K)^+ \;=\; \max(S_T - K,\, 0).
@@ -170,7 +171,7 @@ The interesting question is whether the inequalities are strict: whether the ext
 
 Take the call from above, $K=100$, one year left, and suppose the stock has already rallied to $S=130$. Exercising now pockets $30$. Should you?
 
-Compare two portfolios. **A**: one call plus $Ke^{-r\tau}$ in the bank, where $r$ is the interest rate and $\tau=T-t$ is the time left. **B**: one share. At expiry the bank has grown to $K$. If $S_T>K$, portfolio A exercises and holds a share, like B. If $S_T\le K$, A holds $K\ge S_T$ in cash. A is worth at least as much as B in every state, so it cannot cost less today (else buy A, sell B, and pocket the difference for free):
+Compare two portfolios. **A**: one call plus $Ke^{-r\tau}$ in the bank, where $r$ is the interest rate (continuously compounded), $t$ is today, and $\tau=T-t$ is the time left. **B**: one share. At expiry the bank has grown to $K$. If $S_T>K$, portfolio A exercises and holds a share, like B. If $S_T\le K$, A holds $K\ge S_T$ in cash. A is worth at least as much as B in every state, so it cannot cost less today (else buy A, sell B, and pocket the difference for free). With $C$ the call's price today, that says $C+Ke^{-r\tau}\ge S$, so
 
 $$
 C \;\ge\; S - K e^{-r\tau} \;>\; S - K \qquad (r>0).
@@ -188,7 +189,7 @@ So the American put is *strictly* more valuable than the European one, and there
 
 ## Dividends break the call argument
 
-A dividend is cash paid to whoever holds the share. The option holder does not get it, and the share price drops by about the dividend when it is paid. If a large dividend is about to go out, exercising the call just before it, to become a shareholder in time to collect, can be optimal. Merton's theorem needs no dividends. That is one of the assumptions in the next section.
+A dividend is cash paid to whoever holds the share. The option holder does not get it, and the share price drops by about the dividend when the share goes ex-dividend (starts trading without it). If a large dividend is about to go out, exercising the call just before it, to become a shareholder in time to collect, can be optimal. Merton's theorem assumes no dividends. That is one of the assumptions in the next section.
 
 ---
 
@@ -202,10 +203,10 @@ Black–Scholes–Merton is a theorem, and a theorem has hypotheses. Here they a
 3. **The stock pays no dividends** during the life of the option. *Often false*, and easy to repair (Vol. III).
 4. **The option is European.** For a call, §2 showed this costs nothing when assumption 3 holds.
 5. **Frictionless trading.** No commissions, no bid–ask spread, no taxes. You may trade continuously, in any fraction of a share, and short-sell freely with full use of the proceeds. *False*, but small for large traders in liquid stocks.
-6. **No arbitrage.** There is no portfolio that costs nothing, can never lose money, and sometimes makes money. This is the engine: every price in the series is pinned by showing that any other price hands someone a free lunch, as the call's lower bound in §2 did.
+6. **No arbitrage.** There is no portfolio that costs nothing, can never lose money, and sometimes makes money. This is the engine: every price in the series is pinned by showing that any other price hands someone a free lunch, the argument that gave the call's lower bound in §2.
 7. **The market is complete.** One source of randomness drives the stock, and there are two assets to trade (the stock and the bank). With as many assets as sources of noise plus one, any payoff can be manufactured by trading. Its price is then the cost of manufacturing it.
 
-What is *not* on the list is just as important. There is no assumption about $\mu$: the formula will not care whether you think the stock is going up. There is no assumption about anyone's appetite for risk. These two omissions are the surprise of the derivation.
+What is *not* on the list is just as important. There is no assumption about the value of $\mu$: the formula will not care whether you think the stock is going up. There is no assumption about anyone's appetite for risk. These two omissions are the surprise of the derivation.
 
 <table>
   <thead>

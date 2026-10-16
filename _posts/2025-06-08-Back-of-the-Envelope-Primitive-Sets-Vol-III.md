@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Primitive Sets, Vol. III: Territories and the e^γ Bound"
 date: 2025-06-08 12:02:00
+description: "How disjoint territories, a density budget of 1 and Mertens' theorem prove Erdős's 1935 bound for primitive sets, sharpened by Lichtman and Pomerance to e^γ."
 categories: number-theory
 mathjax: true
 ---
@@ -59,7 +60,7 @@ Walk through a few membership tests, writing factorizations in nondecreasing ord
 
 Recall from [Vol. I](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets) that the natural density $d(S)$ is the long-run proportion of integers in $S$. The even numbers have density $1/2$. The multiples of $a$ have density $1/a$.
 
-For $L_a$, a number $n$ lies in $L_a$ when $a$ divides $n$ *and* the cofactor $n/a$ is not divisible by any prime smaller than $P(a)$. So we need two things: "multiple of $a$", which has density $1/a$, and "avoids the primes $< P(a)$."
+For $L_a$, a number $n$ lies in $L_a$ when $a$ divides $n$ *and* the cofactor $n/a$ is not divisible by any prime smaller than $P(a)$. So we need two things: "multiple of $a$," which has density $1/a$, and "avoids the primes $< P(a)$."
 
 Why is the proportion of integers not divisible by any prime in a list $q_1, \ldots, q_k$ equal to $\prod_i (1-1/q_i)$? For one prime, the proportion not divisible by $2$ is $1-1/2$. For two primes, inclusion-exclusion:
 
@@ -67,7 +68,7 @@ $$
 1 - \frac12 - \frac13 + \frac16 \;=\; \frac13 \;=\; \Bigl(1-\frac12\Bigr)\Bigl(1-\frac13\Bigr).
 $$
 
-The same pattern continues for any finite list (the sieve of Eratosthenes): the events "divisible by $q$" for distinct primes $q$ multiply, because a number is divisible by $q$ and $q'$ if and only if it is divisible by $qq'$. In probability language, divisibility by distinct primes are *independent events*. Hence
+The same pattern continues for any finite list (the sieve of Eratosthenes): the events "divisible by $q$" for distinct primes $q$ multiply, because a number is divisible by $q$ and $q'$ if and only if it is divisible by $qq'$. In probability language, divisibility by distinct primes gives *independent events*. Hence
 
 $$
 d(L_a) \;=\; \frac{1}{a} \prod_{q < P(a)}\Bigl(1 - \frac{1}{q}\Bigr).
@@ -100,7 +101,7 @@ See them. Each chosen generator paints its territory. A cell hit by two territor
     <span class="pv-key">click any number to toggle it as a generator<b style="background:#e5484d"></b>overlap</span>
   </div>
 </div>
-<p class="pv-cap">$\lbrace 6,18\rbrace$ is not primitive, and $L_6$ and $L_{18}$ collide at $18$, $54$ and $90$. $\lbrace 6,9\rbrace$ is primitive, yet ordinary multiples would collide at $18$; the L-territories do not, because $18 = 6\cdot 3$ is claimed by $6$, and $18 = 9\cdot 2$ carries a $2\lt P(9)$. The count column compares what you see in $1..120$ with $120\cdot d(L_a)$.</p>
+<p class="pv-cap">$\lbrace 6,18\rbrace$ is not primitive, and $L_6$ and $L_{18}$ collide at $18$, $54$ and $90$. $\lbrace 6,9\rbrace$ is primitive, yet ordinary multiples would collide at $18$; the L-territories do not, because $18 = 6\cdot 3$ is claimed by $6$, and $18 = 9\cdot 2$ carries a $2\lt P(9)$. The readout under the grid compares what you see in $1..120$ with $120\cdot d(L_a)$.</p>
 <script>
 (function () {
   var root = document.getElementById('pv-terr');
@@ -180,11 +181,11 @@ Before the proof, a picture of what the lemma is saying. Take $n = 90$. Is $90$ 
 - $90 = 10 \cdot 9$ and $9 = 3^2$, but $3 < P(10) = 5$. So $90 \notin L_{10}$.
 - $90 = 18 \cdot 5$ and $5 \ge P(18) = 3$. So $90 \in L_{18}$.
 
-Thus $90 \in L_6 \cap L_{18}$. But $\lbrace 6, 18\rbrace$ is *not* primitive, because $6 \mid 18$. That is the lemma in one direction: if the territories meet, one generator divides the other.
+Thus $90 \in L_6 \cap L_{18}$. But $\lbrace 6, 18\rbrace$ is *not* primitive, because $6 \mid 18$. That is the lemma in contrapositive form: if the territories meet, one generator divides the other.
 
-The other direction, a primitive pair whose territories do *not* meet: $\lbrace 6,10\rbrace$. Here $P(6)=3 < 5=P(10)$. Suppose some $n = 6s = 10 s'$ were in both, with every prime of $s$ at least $3$ and every prime of $s'$ at least $5$. Then every prime of $6$ is $\le 3 < 5$, so $6$ shares no prime with $s'$. Euclid's lemma would force $6$ to divide $10$. It does not, so no such $n$ exists.
+Now the lemma as stated, on a primitive pair whose territories do *not* meet: $\lbrace 6,10\rbrace$. Here $P(6)=3 < 5=P(10)$. Suppose some $n = 6s = 10 s'$ were in both, with every prime of $s$ at least $3$ and every prime of $s'$ at least $5$. Then every prime of $6$ is $\le 3 < 5$, so $6$ shares no prime with $s'$. Euclid's lemma would force $6$ to divide $10$. It does not, so no such $n$ exists.
 
-A same-largest-prime illustration, again not primitive: $\lbrace 9,27\rbrace$. Both have $P=3$, and $27 = 9\cdot 3$ with cofactor $3 \ge 3$, so $27 \in L_9$. The smaller exponent of $3$ divides the larger. That is the second case of the proof.
+A same-largest-prime illustration, again not primitive: $\lbrace 9,27\rbrace$. Both have $P=3$, and $81 = 9\cdot 9 = 27\cdot 3$, where both cofactors use only primes $\ge 3$, so $81 \in L_9 \cap L_{27}$. The smaller power of $3$ divides the larger. That is the case $P(a) = P(a')$ of the proof.
 
 **Proof.** Suppose $n \in L_a \cap L_{a'}$ with $a \neq a'$ both in $A$. Write $n = a\cdot s = a'\cdot s'$, where every prime factor of $s$ is $\ge P(a)$ and every prime factor of $s'$ is $\ge P(a')$. Swap names if needed so that $P(a) \le P(a')$.
 
@@ -193,11 +194,11 @@ If $s' = 1$, then $n = a'$, so $a$ divides $a'$, contradicting primitivity.
 Now suppose $s' > 1$. Every prime factor of $a$ is $\le P(a) \le P(a')$, and every prime factor of $s'$ is $\ge P(a')$.
 
 - If $P(a) < P(a')$, these two ranges of primes do not overlap. So $a$ and $s'$ share no prime factors: $\gcd(a, s') = 1$. But $a$ divides $a s = a' s'$. Euclid's lemma: an integer that divides a product and is coprime to one factor must divide the other, so $a$ divides $a'$. Contradiction.
-- If $P(a) = P(a') = p$, write $a = p^{\alpha} m$ and $a' = p^{\beta} m'$ with $p$ dividing neither $m$ nor $m'$. Then $m$ and $m'$ are built from primes $< p$, while $s$ and $s'$ are built from primes $\ge p$. From $p^{\alpha} m s = p^{\beta} m' s'$ we get that $m$ divides $m' s'$. But $m$ shares no primes with $s'$, so Euclid again: $m$ divides $m'$. The same argument the other way gives $m'$ divides $m$. Thus $m = m'$, and $a, a'$ are $p^{\alpha} m$ and $p^{\beta} m$: the one with the smaller exponent divides the other. Contradiction.
+- If $P(a) = P(a') = p$, write $a = p^{\alpha} m$ and $a' = p^{\beta} m'$ with $p$ dividing neither $m$ nor $m'$. Then $m$ and $m'$ are built from primes $< p$, while $s$ and $s'$ are built from primes $\ge p$. From $p^{\alpha} m s = p^{\beta} m' s'$ we get that $m$ divides $m' s'$ (as $p \nmid m$). But $m$ shares no primes with $s'$, so Euclid again: $m$ divides $m'$. The same argument the other way gives $m'$ divides $m$. Thus $m = m'$, and $a, a'$ are $p^{\alpha} m$ and $p^{\beta} m$: the one with the smaller exponent divides the other. Contradiction.
 
 So no such $n$ exists. $\blacksquare$
 
-In the prefix language the proof is one line: if two words both begin with prefixes $a$ and $a'$, one prefix is a prefix of the other, and a prefix of a factorization is a divisor. The argument used only finite arithmetic (unique factorization and Euclid's lemma): not density, not primes being infinite, nothing. It is the engine of everything that follows.
+In the prefix language the proof is one line: if one word begins with both $a$ and $a'$, one of the two is a prefix of the other, and a prefix of a factorization is a divisor. The argument used only finite arithmetic (unique factorization and Euclid's lemma): not density, not the infinitude of the primes, nothing else. It is the engine of everything that follows.
 
 ---
 
@@ -215,7 +216,7 @@ $$
 \sum_{a \in A} d(L_a) \;=\; \sum_{a \in A} \frac{1}{a} \prod_{q < P(a)}\Bigl(1 - \frac{1}{q}\Bigr) \;\le\; 1.
 $$
 
-This is a **budget**. Each $a \in A$ spends $d(L_a)$ of a total of at most $1$. The primes spend it all: $\sum_p d(L_p) = 1$, because the $L_p$ tile the integers $\ge 2$.
+This is a **budget**. Each $a \in A$ spends $d(L_a)$ of a total of at most $1$. The primes spend it all: $\sum_p d(L_p) = 1$. This does not follow from the $L_p$ tiling the integers $\ge 2$, which would be adding infinitely many densities. Instead the partial sums telescope, $\sum_{p\le x} d(L_p) = 1 - \prod_{p\le x}(1-1/p)$, and the product tends to $0$ (Mertens' theorem, below).
 
 ---
 
@@ -230,7 +231,7 @@ $$
 \exp\bigl(-\log\log x\bigr) \;=\; \frac{1}{\log x}.
 $$
 
-The constant that makes the $\sim$ true, rather than just "about," is $e^{-\gamma}$. Here $\gamma = 0.57721\ldots$ is the Euler–Mascheroni constant
+The constant that turns "about" into a true asymptotic $\sim$ is $e^{-\gamma}$. Here $\gamma = 0.57721\ldots$ is the Euler–Mascheroni constant
 
 $$
 \gamma \;=\; \lim_{N \to \infty} \Bigl( \sum_{n=1}^{N} \frac{1}{n} - \log N \Bigr),
@@ -252,7 +253,7 @@ The harmonic sum and $\log N$ differ by $\gamma$ in the limit; Mertens is the pr
 
 ![Mertens' product versus $e^{-\gamma}/\log x$](/blog/assets/2025/primitivos/mertens.png)
 
-Apply this with $x = P(a)$. The off-by-one between "primes $< P(a)$" and "primes $\le P(a)$" is absorbed in the $\sim$, and we get
+Apply this with $x = P(a)$. The off-by-one between "primes $< P(a)$" and "primes $\le P(a)$" is a factor $1 - 1/P(a)$, which tends to $1$ and so disappears into the $\sim$. We get
 
 $$
 d(L_a) \;\sim\; \frac{e^{-\gamma}}{a \log P(a)},
@@ -276,7 +277,9 @@ $$
 f(A) \;\approx\text{at most}\; e^{\gamma} \sum_{a \in A} d(L_a) \;\le\; e^{\gamma} \cdot 1 \;=\; e^{\gamma} \approx 1.781.
 $$
 
-Lichtman and Pomerance (2019) turn the $\approx$ into a strict inequality $f(A) < e^{\gamma}$. Two ingredients: explicit numerical bounds on Mertens' product in place of the $\sim$, and the fact that a composite $a$ satisfies $a \ge 2P(a)$, hence $\log a \ge \log P(a) + \log 2$. (Equality holds for $a=4$ and for every $a=2p$; the strictness of $f(A)<e^{\gamma}$ comes from the explicit Mertens bounds as well as from this gap when it is present.)
+Even with the $\approx$, this proves Erdős's theorem, because the constant hidden in it does not depend on $A$. The ratio $a\log P(a)\, d(L_a) = \log p \prod_{q<p}(1-1/q)$ depends only on $p = P(a)$, is positive, and tends to $e^{-\gamma}$, so it is at least some fixed $c > 0$ (the smallest value is about $0.519$, at $p = 7$). Then $1/(a\log a) \le d(L_a)/c$ for every $a$, and $f(A) \le 1/c \approx 1.93$ for every primitive $A$.
+
+Lichtman and Pomerance (2019) turn the $\approx$ into a strict inequality $f(A) < e^{\gamma}$. For composites, two ingredients suffice: an explicit form of Mertens in place of the $\sim$, namely $\prod_{p\le x}(1-1/p) > e^{-\gamma}/\log(2x)$ for all $x \ge 1$, and the fact that a composite $a$ satisfies $a \ge 2P(a)$. Taking $x = P(a)$, the two together give $1/(a\log a) < e^{\gamma}\, d(L_a)$ for every composite $a$. Primes need more care: for every odd prime up to $2\times 10^9$ the exchange rate is slightly *above* $e^{\gamma}$ (by at most about $8\%$, at $p = 7$; see the box below), and the paper absorbs that excess by treating the even elements of $A$ separately.
 
 <div class="pv-def"><strong>Theorem (Erdős 1935; Lichtman–Pomerance 2019).</strong> For every primitive set $A$, $f(A) < e^{\gamma} = 1.781\ldots$</div>
 
@@ -286,7 +289,7 @@ The primes score $1.6366$. The bound $1.781$ is about $9\%$ too large. That gap 
 <p>Because Mertens is an asymptotic, and small primes dominate the score. For $p = 2$ the exchange rate is exactly $f(2)/d(L_2) = 0.7213/0.5 = 1.443 = 1/\log 2$, well below $e^\gamma \approx 1.781$. For $p=3$ it is $0.3034/(1/6) = 1.820$, slightly above. Only as $p\to\infty$ does the rate settle at $e^\gamma$. The primes' total is a weighted average of these rates, and the heavy weight on $2$ drags it down.</p>
 </details>
 
-Look back at the inequality $1/(a\log a) \le 1/(a\log P(a))$. This is an **equality** when $a$ is prime ($P(a) = a$), and a **loss** when $a$ is composite ($P(a) < a$). The 1935 argument treats every integer as if it were a prime. Lichtman's idea is to charge composites for that loss, and to prove they cannot dodge the charge by clustering just below the primes.
+Look back at the inequality $1/(a\log a) \le 1/(a\log P(a))$. This is an **equality** when $a$ is prime ($P(a) = a$), and a **loss** when $a$ is composite ($P(a) < a$). The 1935 argument treats every integer as if it were a prime. Lichtman's idea is to charge composites for that loss, and to prove that few of them can dodge it by being nearly prime, with $P(a)$ almost as large as $a$.
 
 ---
 
@@ -295,8 +298,8 @@ Look back at the inequality $1/(a\log a) \le 1/(a\log P(a))$. This is an **equal
 
 Three things to carry forward:
 
-1. **Territories.** $L_a$ is $a$ followed by primes $\ge P(a)$, with density $d(L_a) = \frac1a\prod_{q\lt P(a)}(1-1/q)$. The $L_p$ are "smallest prime factor $p$" and tile the integers.
-2. **The budget.** Primitive means disjoint territories, so $\sum_{a\in A} d(L_a) \le 1$. And if every $a$ lies inside some bigger territory $L_n$, the same argument gives $\sum d(L_a) \le d(L_n)$: a *local* budget.
+1. **Territories.** $L_a$ is $a$ followed by primes $\ge P(a)$, with density $d(L_a) = \frac1a\prod_{q\lt P(a)}(1-1/q)$. The $L_p$ are "smallest prime factor $p$" and tile the integers $\ge 2$.
+2. **The budget.** Primitive means disjoint territories, so $\sum_{a\in A} d(L_a) \le 1$. And if all of $A$ lies inside one bigger territory $L_n$, then each $L_a \subseteq L_n$ and the same argument gives $\sum d(L_a) \le d(L_n)$: a *local* budget.
 3. **The exchange rate.** Mertens: density buys score at rate about $e^\gamma$ for primes, and at rate $e^\gamma \cdot \log P(a)/\log a$ for composites. The 1935 argument ignores that discount.
 
 [Vol. IV](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-IV) stops competing globally and competes slot by slot, prime by prime, using the local budget. It then puts a number on the composite discount, and proves that the composites which barely pay it cannot come in crowds.

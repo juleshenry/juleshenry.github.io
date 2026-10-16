@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Primitive Sets, Vol. II: The Erdős Sum"
 date: 2025-06-08 12:01:00
+description: "Builds the Erdős sum, which weighs each integer a by 1/(a log a), shows why that weight sits at the edge of convergence, and why the primes score 1.6366."
 categories: number-theory
 mathjax: true
 ---
@@ -30,9 +31,9 @@ mathjax: true
 # Infinite sums
 {: #infinite-sums}
 
-We will compare primitive sets by adding infinitely many positive numbers. Two facts from calculus, and two applications, are the entire analytic toolkit.
+We will compare primitive sets by adding infinitely many positive numbers. Two facts from calculus, and two applications, are most of the analytic toolkit.
 
-A series of *positive* terms has only two possible fates. Its partial sums increase, so either they stay below some fixed number (and then they settle to a limit: the series **converges**), or they do not (and then they grow past every bound: the series **diverges**, and we write $\sum = \infty$). There is no oscillation to worry about. That is why every sum in this series can be manipulated freely: rearranged, grouped, split into pieces.
+A series of *positive* terms has only two possible fates. Its partial sums increase, so either they stay below some fixed number (and then they settle to a limit: the series **converges**), or they do not (and then they grow past every bound: the series **diverges**, and we write $\sum = \infty$). There is no oscillation to worry about. That is why every sum in these posts can be manipulated freely: rearranged, grouped, split into pieces.
 
 **The harmonic series diverges.** Group the terms of $\sum 1/n$ into blocks whose lengths are powers of two:
 
@@ -42,7 +43,7 @@ $$
 
 There are infinitely many blocks, each at least $1/2$, so the sum is infinite. We write $\sum 1/n = \infty$. It diverges *slowly*: the first $N$ terms add up to about $\log N$.
 
-**The integral test.** If $g(x)$ is positive and decreasing, the series $\sum_{n \ge N} g(n)$ and the integral $\int_N^\infty g(x)\,dx$ either both settle to a finite number or both run off to infinity. The picture is that the sum is a staircase of rectangles of height $g(n)$ and width $1$, and the integral is the area under the curve. The curve sits under the staircase starting at $N$ and over the staircase starting at $N+1$, so they sandwich each other.
+**The integral test.** If $g(x)$ is positive and decreasing, the series $\sum_{n \ge N} g(n)$ and the integral $\int_N^\infty g(x)\,dx$ either both settle to a finite number or both run off to infinity. The picture is that the sum is a staircase of rectangles, height $g(n)$ on $[n, n+1]$, and the integral is the area under the curve. Because $g$ decreases, the curve sits under that staircase and over the same staircase slid one unit left, so $\sum_{n \ge N+1} g(n) \le \int_N^\infty g(x)\,dx \le \sum_{n \ge N} g(n)$.
 
 Two integrals we will use. Substitute $u = \log x$, so $du = dx/x$:
 
@@ -69,10 +70,10 @@ A word on notation: we write $g(x) \sim h(x)$ to mean $g(x)/h(x) \to 1$ as $x \t
 $$ f(A) \;=\; \sum_{a \in A} \frac{1}{a \log a}. $$
 We also write $f(a) = 1/(a\log a)$ for a single integer.</div>
 
-Each integer $a$ is given a positive weight that gets smaller as $a$ gets larger, but slowly. (Reminder: $\log$ is $\ln$, so $\log 6 \approx 1.792$, not $\log_{10} 6$.)
+Each integer $a$ is given a positive weight that gets smaller as $a$ gets larger, only slightly faster than $1/a$. (Reminder: $\log$ is $\ln$, so $\log 6 \approx 1.792$, not $\log_{10} 6$.)
 
 <div class="pv-q"><strong>Student.</strong> Why the natural log? Would base $10$ change the answer?</div>
-<div class="pv-a"><strong>Teacher.</strong> No. $\log_{10} a = \log a / \log 10$, so switching base multiplies every weight, and therefore every $f(A)$, by the same constant $\log 10$. Rankings do not change, and the theorem "the primes are heaviest" is true in every base. The numbers $1.6366$ and $e^\gamma$ are the natural-log versions.</div>
+<div class="pv-a"><strong>Teacher.</strong> No. $\log_{10} a = \log a / \log 10$, so switching base multiplies every weight, and therefore every $f(A)$, by the same constant $\log 10$. Rankings do not change, and the theorem "the primes are heaviest" is true in every base. The constants in this series, such as $1.6366$ below and the bound $e^\gamma \approx 1.781$ of Vol. III, are the natural-log versions.</div>
 
 **A small set, computed by hand.** For $A = \lbrace 6, 10, 15\rbrace$:
 
@@ -99,13 +100,13 @@ So $f(\lbrace 6,10,15\rbrace) \approx 0.161$. Tiny.
 | $17$ | $0.0208$ | $1.3111$ |
 | $19$ | $0.0179$ | $1.3290$ |
 
-The first two primes already contribute more than $1$. The first eight already contribute $1.33$, against $0.161$ for $\lbrace 6,10,15\rbrace$. Henri Cohen computed the full sum:
+The first two primes already contribute more than $1$. The first eight contribute $1.33$, against $0.161$ for $\lbrace 6,10,15\rbrace$. Henri Cohen computed the full sum:
 
 $$
 f(\mathcal{P}) \;=\; 1.6366\ldots
 $$
 
-(That the infinite sum settles at all is not obvious. We prove it at the end of this volume.) This is the score to beat, and the theorem of the series is that nobody beats it.
+(That the infinite sum settles at all is not obvious. We prove it at the end of this volume.) This is the score to beat, and the theorem of the series is that no primitive set beats it.
 
 <div class="pv-def"><strong>Theorem (Lichtman, 2022; conjectured by Erdős).</strong> For every primitive set $A$,
 $$ f(A) \;\le\; f(\mathcal{P}) \;=\; 1.6366\ldots $$</div>
@@ -117,11 +118,11 @@ $$ f(A) \;\le\; f(\mathcal{P}) \;=\; 1.6366\ldots $$</div>
 
 Why $1/(a\log a)$, and not another weight? Try the neighbours.
 
-- **Weight $1/a$.** The primes score $\sum 1/p = \infty$. The numbers with $\Omega(n) = 2$ score infinity too: their sum $\sum_{p\le q} 1/(pq)$ contains $\frac12\bigl((\sum 1/p)^2 - \sum 1/p^2\bigr)$. The scale cannot tell the contestants apart.
-- **Weight $1/a^2$.** Everything converges too easily. The primes score only $\sum_p 1/p^2 \approx 0.452$, and a pile of small composites can compete. The scale no longer sees the primes as special.
+- **Weight $1/a$.** The primes score $\sum 1/p = \infty$. The numbers with $\Omega(n) = 2$ score infinity too: their sum $\sum_{p\le q} 1/(pq)$ equals $\frac12\bigl((\sum 1/p)^2 + \sum 1/p^2\bigr)$. The scale cannot tell the contestants apart.
+- **Weight $1/a^2$.** Everything converges too easily. The primes score only $\sum_p 1/p^2 \approx 0.452$, more than half of it from the prime $2$, and all the composites together score about $0.193$. A few small numbers settle the contest.
 - **Weight $1/(a(\log a)^2)$.** The primes still converge, but for a bad reason: the integral test already says $\sum_n 1/(n(\log n)^2)$ converges, so *every* set of integers has a finite score. Primitivity is no longer the constraint that keeps the sum finite, and the contest stops being about the divisibility structure.
 
-The weight $1/(a\log a)$ sits on the knife-edge: $\sum_n 1/(n\log n)$ diverges, while $\sum_p 1/(p\log p)$ converges. The scale is sensitive enough to see the primes as a finite budget, but not so harsh that composites become irrelevant. Primitivity is exactly what makes the sum finite. That is Erdős's theorem of 1935, and it is [Vol. III](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-III).
+The weight $1/(a\log a)$ sits on the knife-edge: $\sum_n 1/(n\log n)$ diverges, while $\sum_p 1/(p\log p)$ converges. The scale is harsh enough that the primes have a finite score, but not so harsh that every set does. Primitivity is exactly what makes the sum finite. That is Erdős's theorem of 1935, and it is [Vol. III](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-III).
 
 Watch the knife-edge. Pick a weight and drag the cutoff. The two curves are the partial sums over all integers $2\le n\le x$ and over the primes $p \le x$.
 
@@ -224,7 +225,7 @@ $$
 \int_1^{\infty} e^{-t\log a}\,dt \;=\; \frac{1}{\log a} \int_{\log a}^{\infty} e^{-u}\,du \;=\; \frac{1}{\log a}\cdot e^{-\log a} \;=\; \frac{1}{a\log a}.
 $$
 
-So $1/(a\log a)$ is the $t$-average of the scores $a^{-t}$. We will not need this identity for the proof. It is here because it is where the weight comes from, and because it explains a warning: if you ask for the stronger comparison $\sum_{a \in A} a^{-t} \le \sum_p p^{-t}$ at *every* $t > 1$, the answer is no. That holds only for $t \ge \tau \approx 1.1403$. Shift the original weight slightly to $1/(a(\log a+h))$ and the primes stop winning as soon as $h \ge 1.04$. The theorem, once proved, is only just true.
+So $1/(a\log a)$ is the integral over $t \ge 1$ of the scores $a^{-t}$. We will not need this identity for the proof. It is how Henri Cohen computed $f(\mathcal{P})$ (integrate $\sum_p p^{-t}$ over $t$; adding up the primes directly converges far too slowly). It also explains a warning. If the stronger comparison $\sum_{a \in A} a^{-t} \le \sum_p p^{-t}$ held at *every* $t > 1$, integrating it would prove the theorem. It does not: it holds only for $t \ge \tau \approx 1.1403$. Shift the original weight slightly to $1/(a(\log a+h))$ and the primes lose for every $h$ above $0.8035\ldots$: the integers with exactly $k$ prime factors, for large $k$, beat them ([Lichtman](https://arxiv.org/abs/2110.10146)). The theorem, once proved, is only just true.
 
 ---
 
@@ -245,7 +246,7 @@ $$
 \frac{1}{p_n \log p_n} \;\sim\; \frac{1}{n(\log n)^2}.
 $$
 
-We already know $\sum 1/(n(\log n)^2)$ converges, by the integral test. By the **limit comparison test**, a series of positive terms that behaves like a convergent series converges. So $\sum_p 1/(p\log p)$ converges.
+We already know $\sum 1/(n(\log n)^2)$ converges, by the integral test. By the **limit comparison test**, a series of positive terms that are $\sim$ the terms of a convergent series also converges. So $\sum_p 1/(p\log p)$ converges.
 
 The same integral explains the tail. The amount contributed by primes larger than $x$ is about
 
@@ -262,7 +263,7 @@ where the second factor $dt/\log t$ is the prime number theorem's "number of pri
 | $10^6$ | $1.5642$ | $0.072$ | $0.072$ |
 | $10^8$ | $1.5823$ | $0.054$ | $0.054$ |
 
-Each extra two orders of magnitude in the cutoff trims the gap by a factor of about $2/3$, not by an order of magnitude. That is what a $1/\log x$ tail looks like. It is also why the conjecture cannot be checked by adding up primitive sets until $10^{12}$ and comparing: the tail is large enough to hide a counterexample sitting out at infinity.
+Each row multiplies the cutoff by $100$, yet the gap shrinks only by a factor of about $1/2$, then $2/3$, then $3/4$. That is what a $1/\log x$ tail looks like. It is also why the conjecture cannot be checked by adding up primitive sets until $10^{12}$ and comparing: the tail is large enough to hide a counterexample sitting out at infinity.
 
 Where the sum sits among its neighbours:
 
@@ -286,4 +287,4 @@ The extra $\log$ in the denominator is not enough to make the sum over *all* int
 
 We have the ruler, $f(A) = \sum 1/(a\log a)$. We know it sits on the knife-edge: over all integers it diverges, over the primes it converges to $1.6366$. And we know experiments cannot settle anything here, because tails decay like $1/\log x$.
 
-The first real question is whether *every* primitive set has a finite score. It does, and the proof is the most beautiful idea in the series: give each element of $A$ a private territory of integers, show that primitivity keeps the territories from overlapping, and let the size of the number line pay the bill. That is [Vol. III](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-III).
+The first real question is whether *every* primitive set has a finite score. It does, and the proof is the idea the rest of the series builds on: give each element of $A$ a private territory of integers, show that primitivity keeps the territories from overlapping, and let the size of the number line pay the bill. That is [Vol. III](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-III).

@@ -3,8 +3,9 @@
 
 Star-sorted within each category. Blacklist + category map live beside this
 script; the category map can also point a repo at its blog write-up, replace
-its GitHub description with a better one, and correct its language label.
-Live sites that are not repos are listed first, from selected_works_sites.txt.
+its GitHub description with a better one, correct its language label, and
+give the card a thumbnail. Live sites that are not repos are listed first,
+from selected_works_sites.txt.
 """
 
 from __future__ import annotations
@@ -52,31 +53,34 @@ def load_blacklist() -> set[str]:
     return names
 
 
-def load_sites() -> list[tuple[str, str, str]]:
-    """Return [(name, url, description), ...] in file order."""
-    sites: list[tuple[str, str, str]] = []
+def load_sites() -> list[tuple[str, str, str, str]]:
+    """Return [(name, url, description, image), ...] in file order."""
+    sites: list[tuple[str, str, str, str]] = []
     if not SITES_FILE.exists():
         return sites
     for line in SITES_FILE.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if not line or line.startswith("#"):
             continue
-        name, url, description = ([part.strip() for part in line.split("|", 2)] + ["", ""])[:3]
-        sites.append((name, url, description))
+        name, url, description, image = (
+            [part.strip() for part in line.split("|", 3)] + ["", "", ""]
+        )[:4]
+        sites.append((name, url, description, image))
     return sites
 
 
 def load_categories() -> tuple[
-    list[str], dict[str, str], dict[str, str], dict[str, str], dict[str, str]
+    list[str], dict[str, str], dict[str, str], dict[str, str], dict[str, str], dict[str, str]
 ]:
-    """Return ([title, ...], and per repo name: title, writeup_url, description, language)."""
+    """Return ([title, ...], and per repo name: title, writeup_url, description, language, image)."""
     order: list[str] = []
     mapping: dict[str, str] = {}
     writeups: dict[str, str] = {}
     descriptions: dict[str, str] = {}
     languages: dict[str, str] = {}
+    images: dict[str, str] = {}
     if not CATEGORIES_FILE.exists():
-        return order, mapping, writeups, descriptions, languages
+        return order, mapping, writeups, descriptions, languages, images
     current: str | None = None
     for line in CATEGORIES_FILE.read_text(encoding="utf-8").splitlines():
         line = line.strip()
@@ -91,9 +95,9 @@ def load_categories() -> tuple[
             continue
         if current is None:
             continue
-        fields = [part.strip() for part in line.split("|", 3)] + ["", "", ""]
-        repo, writeup, description, language = (
-            fields[0].split("/")[-1], fields[1], fields[2], fields[3]
+        fields = [part.strip() for part in line.split("|", 4)] + ["", "", "", ""]
+        repo, writeup, description, language, image = (
+            fields[0].split("/")[-1], fields[1], fields[2], fields[3], fields[4]
         )
         mapping[repo] = current
         if writeup:
@@ -102,7 +106,9 @@ def load_categories() -> tuple[
             descriptions[repo] = description
         if language:
             languages[repo] = language
-    return order, mapping, writeups, descriptions, languages
+        if image:
+            images[repo] = image
+    return order, mapping, writeups, descriptions, languages, images
 
 
 def is_notes_repo(name: str) -> bool:
@@ -154,8 +160,18 @@ def lang_badge(language: str | None) -> str:
     )
 
 
-def render_site_card(name: str, url: str, description: str) -> str:
-    return f"""    <li class="work">
+def thumb(image: str, href: str) -> str:
+    """Card thumbnail. A duplicate of the title link, so hidden from keyboard and screen readers."""
+    if not image:
+        return ""
+    return (
+        f'\n      <a class="work-thumb" href="{html.escape(href)}" tabindex="-1" aria-hidden="true">'
+        f'<img src="{html.escape(image)}" alt="" width="160" height="120" loading="lazy" decoding="async"></a>'
+    )
+
+
+def render_site_card(name: str, url: str, description: str, image: str) -> str:
+    return f"""    <li class="work{' has-thumb' if image else ''}">{thumb(image, url)}
       <h3 class="work-title"><a href="{html.escape(url)}">{html.escape(name)}</a></h3>
       <p class="work-desc">{html.escape(description)}</p>
       <p class="work-meta">
@@ -165,7 +181,11 @@ def render_site_card(name: str, url: str, description: str) -> str:
 
 
 def render_card(
-    repo: dict, writeup: str | None, description: str | None, language: str | None
+    repo: dict,
+    writeup: str | None,
+    description: str | None,
+    language: str | None,
+    image: str | None,
 ) -> str:
     name = repo["name"]
     url = repo["html_url"]
@@ -177,7 +197,7 @@ def render_card(
     meta = lang_badge(language or repo.get("language"))
     if writeup:
         meta += f'\n        <a href="{html.escape(writeup)}">Read the write-up</a>'
-    return f"""    <li class="work">
+    return f"""    <li class="work{' has-thumb' if image else ''}">{thumb(image or "", writeup or url)}
       <h3 class="work-title"><a href="{html.escape(url)}">{html.escape(name)}</a></h3>
       <p class="work-desc">{html.escape(desc)}</p>
       <p class="work-meta">
@@ -192,6 +212,7 @@ def render_section(
     writeups: dict[str, str],
     descriptions: dict[str, str],
     languages: dict[str, str],
+    images: dict[str, str],
 ) -> str:
     cards = "\n\n".join(
         render_card(
@@ -199,6 +220,7 @@ def render_section(
             writeups.get(r["name"]),
             descriptions.get(r["name"]),
             languages.get(r["name"]),
+            images.get(r["name"]),
         )
         for r in repos
     )
@@ -218,12 +240,13 @@ def wrap_section(title: str, cards: str) -> str:
 
 def render_page(
     repos: list[dict],
-    sites: list[tuple[str, str, str]],
+    sites: list[tuple[str, str, str, str]],
     cat_order: list[str],
     cat_map: dict[str, str],
     writeups: dict[str, str],
     descriptions: dict[str, str],
     languages: dict[str, str],
+    images: dict[str, str],
 ) -> str:
     buckets: dict[str, list[dict]] = {title: [] for title in cat_order}
     other: list[dict] = []
@@ -250,11 +273,13 @@ def render_page(
     for title in cat_order:
         if buckets[title]:
             sections.append(
-                render_section(title, buckets[title], writeups, descriptions, languages)
+                render_section(
+                    title, buckets[title], writeups, descriptions, languages, images
+                )
             )
     if other:
         sections.append(
-            render_section("Other", other, writeups, descriptions, languages)
+            render_section("Other", other, writeups, descriptions, languages, images)
         )
 
     body = "\n\n".join(sections)
@@ -277,7 +302,7 @@ description: Live sites, open-source tools and experiments by Julian Henry, grou
 def main() -> int:
     blacklist = load_blacklist()
     sites = load_sites()
-    cat_order, cat_map, writeups, descriptions, languages = load_categories()
+    cat_order, cat_map, writeups, descriptions, languages, images = load_categories()
     try:
         raw = fetch_repos()
     except urllib.error.HTTPError as e:
@@ -296,7 +321,7 @@ def main() -> int:
         selected.append(r)
 
     page = render_page(
-        selected, sites, cat_order, cat_map, writeups, descriptions, languages
+        selected, sites, cat_order, cat_map, writeups, descriptions, languages, images
     )
     if PAGE.exists() and PAGE.read_text(encoding="utf-8") == page:
         print(

@@ -6,7 +6,7 @@ layout: default
 <article class="post-page">
   <header class="post-head">
     {%- if series_name != "" %}
-    <p class="kicker"><a href="/blog/#series-{{ series_name | slugify }}">{{ series_name }}</a> <span aria-hidden="true">·</span> Vol. {{ series_num }}</p>
+    <p class="kicker"><a href="/blog/series/{{ series_name | slugify }}">{{ series_name }}</a> <span aria-hidden="true">·</span> Vol. {{ series_num }}</p>
     {%- elsif title_label != "" %}
     <p class="kicker">{{ title_label }}</p>
     {%- endif %}
@@ -72,8 +72,8 @@ layout: default
       </a>
       {%- else %}
       <a class="vol-nav-next" href="/blog/#h-series">
-        <span class="kicker">End of series <span aria-hidden="true">→</span></span>
-        <span class="vol-nav-title">Pick another one</span>
+        <span class="kicker">End of {{ series_name }} <span aria-hidden="true">→</span></span>
+        <span class="vol-nav-title">Pick another series</span>
       </a>
       {%- endif %}
     </nav>

@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Abel–Ruffini, Vol. I: The Short Proof"
 date: 2026-08-22 12:00:00
+description: "Arnold's topological proof that no radical formula solves the general quintic, using loops of coefficients, winding numbers and nested commutators in S₅."
 categories: algebra
 mathjax: true
 ---
@@ -20,9 +21,9 @@ That statement does **not** mean quintics have no roots. Every degree-five polyn
 
 # The idea in one paragraph
 
-Wiggle the coefficients of a quintic around a closed loop and bring them back to where they started. The polynomial comes back, so its set of five roots comes back too. The individual roots, though, may have traded places. A radical formula can also trade places: $\sqrt{z}$ swaps its two values when $z$ circles the origin once. But radicals are **commutative bookkeepers**. The only thing an $n$th root remembers about a loop is how many times its argument wound around $0$, and winding numbers add. So a loop of the form "go around $A$, then $B$, then $A$ backwards, then $B$ backwards" leaves every radical where it started. Nest the roots $k$ deep and you need commutators nested $k$ deep, but the effect is the same. The roots of a quintic are *not* commutative bookkeepers. There are commutators of commutators of commutators, to any depth, that still move them. At some depth the formula stays put while the roots move, so the formula was never a root.
+Wiggle the coefficients of a quintic around a closed loop and bring them back to where they started. The polynomial comes back, so its set of five roots comes back too. The individual roots, though, may have traded places. A radical formula's values can also trade places: $\sqrt{z}$ swaps its two values when $z$ circles the origin once. But radicals are **commutative bookkeepers**. The only thing an $n$th root remembers about a loop is how many times its radicand wound around $0$, and winding numbers add. So a loop of the form "go around $A$, then $B$, then $A$ backwards, then $B$ backwards" leaves every radical where it started. Nest the roots $k$ deep and you need commutators nested $k$ deep, but the effect is the same. The roots of a quintic are *not* commutative bookkeepers. There are commutators of commutators of commutators, to any depth, that still move them. At the formula's own depth, the formula stays put while the roots move, so it was never a root.
 
-This is V. I. Arnold's proof, from his 1963 lectures to Moscow high-school students. The rest of this volume makes each sentence of that paragraph precise.
+This is V. I. Arnold's proof, from his 1963–64 lectures to Moscow high-school students. The rest of this volume makes each sentence of that paragraph precise.
 
 ---
 
@@ -34,7 +35,7 @@ $$
 p_a(x) = x^5 + a_1x^4 + a_2x^3 + a_3x^2 + a_4x + a_5, \qquad a=(a_1,\ldots,a_5)\in\mathbb{C}^5.
 $$
 
-A **radical formula** is an expression built from $a_1,\ldots,a_5$ and complex constants using $+,-,\times,\div$ and $n$th roots $\sqrt[n]{\;\cdot\;}$. Its **depth** is the largest number of radical signs nested inside one another. The quadratic formula has depth $1$, Cardano's cubic formula has depth $2$ (a cube root of something containing a square root), and Ferrari's quartic formula has depth $3$.
+A **radical formula** is an expression built from $a_1,\ldots,a_5$ and complex constants using $+,-,\times,\div$ and $n$th roots $\sqrt[n]{\;\cdot\;}$. Its **depth** is the largest number of radical signs nested inside one another. The quadratic formula has depth $1$, Cardano's cubic formula has depth $2$ (a cube root of something containing a square root), and the quartic can be solved at depth $3$ (Ferrari's formula, as usually written, nests one square root more than it needs).
 
 A formula is **multivalued**, because each $\sqrt[n]{w}$ with $w\neq 0$ has $n$ values. What we can do is **follow a value continuously**. If the coefficients move along a path $a(t)$, pick one value of the formula at the start and let it move continuously with $t$. This works as long as no radicand passes through $0$ and no denominator vanishes. Near a nonzero $w$, each of the $n$ values of $\sqrt[n]{w}$ moves continuously and uniquely with $w$.
 
@@ -50,7 +51,7 @@ The formula **solves the quintic** if the value we follow is always a root: $p_{
 
 Start at coefficients $a$ with five distinct roots $r_1,\ldots,r_5$. Move $a$ around a closed loop $\gamma$ that avoids the bad set. Each root moves continuously, and at the end the polynomial is $p_a$ again, so the roots land on $\lbrace r_1,\ldots,r_5\rbrace$ again, perhaps in a different order. The loop $\gamma$ therefore defines a permutation $\pi(\gamma)\in S_5$.
 
-**Every permutation is achievable.** Run the argument backwards. Choose any continuous motion of five points in the plane that never collide and that ends with the points permuted the way you want: for a swap, rotate $r_1$ and $r_2$ half a turn around their midpoint while the others stay still. Then define
+**Every permutation is achievable.** Run the argument backwards. Choose any continuous motion of five points in the plane that never collide and that ends with the points permuted the way you want: for a swap, rotate $r_1$ and $r_2$ half a turn around their midpoint, detouring around any other root on their circle, while the others stay still. Then define
 
 $$
 p_{a(t)}(x) = \bigl(x-r_1(t)\bigr)\cdots\bigl(x-r_5(t)\bigr).
@@ -96,9 +97,9 @@ $$
 
 **Claim.** Every value of a formula of depth at most $k$ returns to itself after every loop in $\Gamma_k$.
 
-*Proof, by induction on $k$.* Depth $0$ is done. Suppose the claim holds up to depth $k$. (Note that $\Gamma_k\subseteq\Gamma_{k-1}$ in effect: every loop in $\Gamma_k$ is a concatenation of loops in $\Gamma_{k-1}$ and their reverses.) A depth-$(k+1)$ formula is built by arithmetic from depth-$\le k$ pieces and radicals $\sqrt[n]{R}$ whose radicands $R$ have depth $\le k$. Every loop in $\Gamma_{k+1}$ is a concatenation of loops in $\Gamma_k$ and their reverses. By induction, each of those returns every value of the depth-$\le k$ pieces, so the concatenation does too. That leaves the new radicals. Take $\gamma,\delta\in\Gamma_k$ and follow a value of $R$. By induction it returns after $\gamma$ and after $\delta$. So along $[\gamma,\delta]$ it traces four closed curves in $\mathbb{C}\setminus\lbrace 0\rbrace$, and each segment starts from exactly the configuration that $\gamma$ started from. The four windings are $w(\gamma)$, $w(\delta)$, $-w(\gamma)$, $-w(\delta)$, which sum to $0$. So each value of $\sqrt[n]{R}$ returns, exactly as at depth $1$. $\square$
+*Proof, by induction on $k$.* Depth $0$ is done. Suppose the claim holds up to depth $k$. A depth-$(k+1)$ formula is built by arithmetic from depth-$\le k$ pieces and radicals $\sqrt[n]{R}$ whose radicands $R$ have depth $\le k$. Every loop in $\Gamma_{k+1}$ is a concatenation of loops in $\Gamma_k$ and their reverses. By induction, each of those returns every value of the depth-$\le k$ pieces, so the concatenation does too. That leaves the new radicals. Take $\gamma,\delta\in\Gamma_k$ and follow a value of $R$. By induction it returns after $\gamma$ and after $\delta$. So along $[\gamma,\delta]$ it traces four closed curves in $\mathbb{C}\setminus\lbrace 0\rbrace$, and each segment starts from exactly the configuration that $\gamma$ started from. The four windings are $w(\gamma)$, $w(\delta)$, $-w(\gamma)$, $-w(\delta)$, which sum to $0$. So each value of $\sqrt[n]{R}$ returns, exactly as at depth $1$. $\square$
 
-The claim needs only that each building block is continuous and single-valued. So you can add $e^{z}$, $\sin z$, or any other entire function to the toolkit, and the proof goes through unchanged. What it rules out is the combination of arithmetic and roots, not some limitation of polynomials.
+The claim needs only that every building block other than the roots is continuous and single-valued. So you can add $e^{z}$, $\sin z$, or any other entire function to the toolkit, and the proof goes through unchanged. The obstruction comes from the roots, not from limiting the other operations to arithmetic.
 
 ---
 
@@ -142,7 +143,7 @@ and $[\gamma,\delta]\in\Gamma_{k+1}$. $\square$
 
 # Step 4: the contradiction
 
-Suppose a radical formula of depth $k$ solves the general quintic. Start at a base point, and follow the value of the formula that equals the root $r_1$. By the corollary, some loop $\gamma\in\Gamma_k$ has permutation $(1\,2\,3)$. Go around it.
+Suppose a radical formula of depth $k$ solves the general quintic. Start at a base point, follow one value of the formula, and label the roots so that this value is $r_1$. By the corollary, some loop $\gamma\in\Gamma_k$ has permutation $(1\,2\,3)$. Go around it.
 
 - The followed value is always a root and moves continuously, so it rides along with $r_1$ and ends at $r_2$.
 - The formula has depth $k$ and $\gamma\in\Gamma_k$, so by Step 2 the followed value returns to $r_1$.
@@ -199,7 +200,7 @@ For $S_5$, the set of single commutators already has size $60$, so here it equal
 
 - **Degree 2:** $S_2\to\lbrace 1\rbrace$ in one step. Commutators already fix both roots, so nothing rules out depth $1$, and the quadratic formula has depth $1$.
 - **Degree 3:** $S_3\to A_3\to\lbrace 1\rbrace$. One layer of commutators still moves the roots, since $[(1\,2),(1\,3)]$ is a $3$-cycle, so no depth-$1$ formula exists. Two layers kill everything. So the formula needs a root inside a root, and Cardano's cube root of a square root is exactly that.
-- **Degree 4:** $S_4\to A_4\to V_4\to\lbrace 1\rbrace$, where $V_4$ consists of the three double transpositions and the identity. Two $3$-cycles in $S_4$ share at least two letters, and their commutator lands in $V_4$, which is commutative. So the quartic needs depth $3$, which is Ferrari.
+- **Degree 4:** $S_4\to A_4\to V_4\to\lbrace 1\rbrace$, where $V_4$ consists of the three double transpositions and the identity. Two $3$-cycles in $S_4$ share at least two letters, and their commutator lands in $V_4$, which is commutative. Two layers still move the roots and a third kills everything. So the quartic needs depth $3$, and depth $3$ suffices: each root is built by arithmetic from square roots of the roots of a resolvent cubic, which Cardano solves at depth $2$.
 - **Degree 5:** $S_5\to A_5\to A_5\to\cdots$ never reaches $\lbrace 1\rbrace$.
 
 That chain of groups is the **derived series**, and "reaches $\lbrace 1\rbrace$" is the definition of a **solvable group** ([Vol. III](/blog/2026/08/22/Abel-Ruffini-Theorem-Vol-III)). The topological proof and the Galois proof are the same obstruction seen from two sides: loops of coefficients here, automorphisms of fields there.

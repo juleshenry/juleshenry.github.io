@@ -7,9 +7,8 @@
     <meta name="theme-color" content="#000000">
     {% include meta.html %}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&display=swap">
+    <link rel="preload" href="/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/stylesheets/site.css">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="/blog/atom.xml">
     <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg">
@@ -37,7 +36,7 @@
       }
     };
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js" id="MathJax-script" async></script>
     {% endif %}
   </head>
 
@@ -67,6 +66,11 @@
         <li><a href="{{ site.resume_url }}">CV</a></li>
       </ul>
     </footer>
+
+    {%- assign cf_token = site.cf_web_analytics_token | strip -%}
+    {%- if jekyll.environment == "production" and cf_token != "" %}
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ cf_token }}"}'></script>
+    {%- endif %}
 
     {% if content contains 'language-mermaid' %}
     <!-- Mermaid: render ```mermaid code blocks as diagrams -->

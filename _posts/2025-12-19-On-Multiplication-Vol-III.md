@@ -2,6 +2,7 @@
 layout: post
 title: "On Multiplication, Vol. III: Schönhage-Strassen and Harvey-van der Hoeven"
 date: 2025-12-19 12:02:00
+description: "Schönhage-Strassen multiplication modulo 2ᵐ + 1, where its log log n factor comes from, and how Harvey and van der Hoeven reached O(n log n) in 2019."
 mathjax: true
 ---
 
@@ -17,7 +18,7 @@ For multiplying two numbers with $n$ digits, the convolution coefficients can be
 
 This creates a vicious circle: to multiply $n$-digit numbers, we use the FFT, but the FFT internally needs high-precision multiplications, which are themselves expensive. The complex-number FFT approach does not, by itself, yield a clean $O(n \log n)$ integer multiplication algorithm.
 
-Schönhage and Strassen's 1971 breakthrough was to eliminate this precision problem entirely by moving from the complex numbers to an **exact algebraic setting** where roots of unity exist but rounding errors do not.
+Schönhage and Strassen's 1971 breakthrough (the second of two algorithms in their paper; the first used the complex FFT) was to eliminate this precision problem entirely by moving from the complex numbers to an **exact algebraic setting** where roots of unity exist but rounding errors do not.
 
 ## From $\mathbb{C}$ to $\mathbb{Z}/(2^m + 1)\mathbb{Z}$: The Number Theoretic Transform
 
@@ -25,7 +26,7 @@ Schönhage and Strassen's 1971 breakthrough was to eliminate this precision prob
 
 The FFT algorithm does not actually require the complex numbers. It requires only a ring $R$ that contains:
 
-1. An element $\omega$ of multiplicative order $N$ (an "$N$-th root of unity"), meaning $\omega^N = 1$ and $\omega^k \neq 1$ for $0 < k < N$.
+1. An element $\omega$ of multiplicative order $N$ (an "$N$-th root of unity"), meaning $\omega^N = 1$ and $\omega^k \neq 1$ for $0 < k < N$. In a ring with zero divisors this is not quite enough: the inverse transform also needs $\sum_{j=0}^{N-1} \omega^{jk} = 0$ for $0 < k < N$, which holds automatically when $N$ is a power of two and $\omega^{N/2} = -1$.
 2. An inverse of $N$ in $R$ (for the inverse transform).
 
 If $R$ is a finite ring (like $\mathbb{Z}/p\mathbb{Z}$ for a prime $p$), then all arithmetic is exact: no rounding, no precision issues. An FFT performed in such a ring is called a **Number Theoretic Transform (NTT)**.
@@ -40,11 +41,11 @@ $$
 R = \mathbb{Z} / (2^m + 1)\mathbb{Z}
 $$
 
-for a carefully chosen $m$. This ring has a remarkable property: the element $\omega = 2$ (or more precisely, a small power of $2$) serves as a root of unity, and **multiplication by powers of 2 in this ring is just a bit-shift followed by a reduction modulo $2^m + 1$**, an operation that costs $O(m)$, which is essentially free.
+for a carefully chosen $m$. In this ring the element $\omega = 2$ (or more precisely, a small power of $2$) serves as a root of unity, and **multiplication by powers of 2 is just a bit-shift followed by a reduction modulo $2^m + 1$**, an operation that costs $O(m)$, which is essentially free.
 
-Why does $2$ behave as a root of unity here? Note that $2^m \equiv -1 \pmod{2^m + 1}$, so $2^{2m} \equiv 1 \pmod{2^m + 1}$. Thus $2$ has multiplicative order dividing $2m$ in this ring. With an appropriate choice of $m$, we can ensure that $2$ (or a power of it) is a primitive $N$-th root of unity for the $N$ we need.
+Why does $2$ behave as a root of unity here? Note that $2^m \equiv -1 \pmod{2^m + 1}$, so $2^{2m} \equiv 1 \pmod{2^m + 1}$. Thus $2$ is a $2m$-th root of unity in this ring. For any power of two $N$ dividing $2m$, the element $\omega = 2^{2m/N}$ is then a primitive $N$-th root of unity with $\omega^{N/2} = 2^m = -1$, which is exactly the condition above. Choosing $m$ appropriately gives us the $N$ we need.
 
-The critical advantage: all the "twiddle factor multiplications" in the FFT butterfly, which in the complex-number FFT require expensive multi-precision multiplications, reduce to **bit-shifts and additions** in $\mathbb{Z}/(2^m + 1)\mathbb{Z}$. This makes the per-butterfly cost $O(m)$ instead of $O(m \log m \cdots)$, dramatically simplifying the recursion.
+The payoff: all the "twiddle factor multiplications" in the FFT butterfly, which in the complex-number FFT require expensive multi-precision multiplications, reduce to **bit-shifts and additions** in $\mathbb{Z}/(2^m + 1)\mathbb{Z}$. This makes the per-butterfly cost $O(m)$ instead of $O(m \log m \cdots)$, which simplifies the recursion.
 
 ## The Algorithm in Detail
 
@@ -58,7 +59,7 @@ Given two $n$-bit integers $x$ and $y$, choose parameters:
 
 Why is $m$ about *twice* $\ell$? Because the ring has to hold the answer, not just the input. A convolution coefficient is a sum of up to $K$ products of two $\ell$-bit chunks, so it can be as large as $K \cdot 2^{2\ell} = 2^{2\ell + k}$. The modulus must exceed that, or the coefficients wrap around and are lost. This factor of two looks like bookkeeping. It turns out to be the entire source of the $\log \log n$, as we will see below.
 
-The parameters are chosen so that $K \approx \sqrt{n}$ (roughly), meaning we split each input into about $\sqrt{n}$ chunks of about $\sqrt{n}$ bits each, held in a ring whose elements are about $2\sqrt{n}$ bits wide.
+The parameters are chosen so that $K \approx \sqrt{n}$, meaning we split each input into about $\sqrt{n}$ chunks of about $\sqrt{n}$ bits each, held in a ring whose elements are about $2\sqrt{n}$ bits wide.
 
 ### Step 1: Decomposition
 
@@ -76,7 +77,7 @@ Compute $\hat{\mathbf{a}} = \text{NTT}_N(\mathbf{a})$ and $\hat{\mathbf{b}} = \t
 
 The NTT is the same Cooley-Tukey FFT algorithm, but:
 - All arithmetic is modular (mod $2^m + 1$).
-- Twiddle factor multiplications $\omega^k \cdot v$ are implemented as **cyclic bit-shifts** of $v$, costing $O(m)$.
+- Twiddle factor multiplications $\omega^k \cdot v$ are implemented as **bit-shifts** of $v$, with the bits pushed past position $m$ subtracted back in at the bottom (since $2^m \equiv -1$), costing $O(m)$.
 - Each butterfly costs $O(m)$: one bit-shift plus two modular additions.
 - Total: $N/2 \cdot \log_2 N$ butterflies, each $O(m)$, giving $O(Nm \log N)$ bit operations.
 
@@ -102,7 +103,7 @@ The complexity breaks down as follows. At the top level we have:
 - NTT and INTT: $O(Nm \log N)$ bit operations for the transforms, which is $O(n \log n)$.
 - Pointwise multiplications: recursive multiplications on $m$-bit inputs.
 
-How many recursive multiplications? One more detail matters here. A plain convolution of two length-$K$ sequences has $2K - 1$ coefficients, which is why the pipeline above pads the transform to length $N \geq 2K$. Schönhage and Strassen avoid the padding: they compute the product modulo $2^n + 1$, which turns the convolution into a *wrapped* one of length exactly $K$. So only $K$ pointwise products are needed, each on ring elements of $m \approx 2n/K$ bits.
+How many recursive multiplications? One more detail matters here. A plain convolution of two length-$K$ sequences has $2K - 1$ coefficients, which is why the pipeline above pads the transform to length $N \geq 2K$. Schönhage and Strassen avoid the padding: they compute the product modulo $2^n + 1$, which turns the convolution into a *negatively wrapped* one of length exactly $K$ (terms that wrap around come back with a minus sign, because $2^n \equiv -1$). So only $K$ pointwise products are needed, each on ring elements of $m \approx 2n/K$ bits.
 
 With $K \approx \sqrt{n}$, the recurrence is:
 
@@ -128,7 +129,7 @@ $$
 T(n) = O(n \log n \cdot \log \log n)
 $$
 
-This is the Schönhage-Strassen bound, and it sits on a knife-edge. Without the doubling, the recurrence would be $T(n) = \sqrt{n} \cdot T(\sqrt{n}) + O(n \log n)$, and the levels would shrink geometrically, $n \log n \,(1 + \tfrac12 + \tfrac14 + \cdots)$, and the total would be a clean $O(n \log n)$. With slightly *more* than doubling ($2K$ pointwise products instead of $K$), the levels would grow geometrically and the total would be $O(n \log^2 n)$. The $\log \log n$ lives exactly at the balance point between the two. Harvey and van der Hoeven make the same observation about this recurrence in their own paper: the constant 2 "plays a crucial role in the complexity analysis," because it keeps the cost of the transforms the same at every level.
+This is the Schönhage-Strassen bound, and it sits on a knife-edge. Without the doubling, the recurrence would be $T(n) = \sqrt{n} \cdot T(\sqrt{n}) + O(n \log n)$, the levels would shrink geometrically, $n \log n \,(1 + \tfrac12 + \tfrac14 + \cdots)$, and the total would be a clean $O(n \log n)$. With *more* than doubling (say $2K$ pointwise products instead of $K$, which quadruples the bits in play), the levels would grow geometrically and the total would be $O(n \log^2 n)$. The $\log \log n$ lives exactly at the balance point between the two. Harvey and van der Hoeven make the same observation about this recurrence in their own paper: the constant 2 "plays a crucial role in the complexity analysis," because it keeps the cost of the transforms the same at every level.
 
 So the $\log \log n$ factor is not a deficiency of the FFT itself, which is $O(n \log n)$. It is the cost of the **recursive multiplications** needed at each level of the NTT, on numbers that are twice as wide as the chunks they came from.
 
@@ -140,23 +141,23 @@ So the $\log \log n$ factor is not a deficiency of the FFT itself, which is $O(n
 | Karatsuba             | $O(n^{1.585})$                 | 4 multiplications $\to$ 3            |
 | Toom-3                | $O(n^{1.465})$                 | 9 multiplications $\to$ 5            |
 | Schönhage-Strassen    | $O(n \log n \log \log n)$      | NTT in $\mathbb{Z}/(2^m+1)$         |
-| Harvey-van der Hoeven | $O(n \log n)$                  | Multi-dimensional NTT (see below)    |
+| Harvey-van der Hoeven | $O(n \log n)$                  | Multi-dimensional FFT (see below)    |
 
-The jump from Toom-Cook to Schönhage-Strassen is qualitatively different from all previous improvements. Karatsuba and Toom-Cook are algebraic tricks that reduce the exponent toward 1 but never reach it. Schönhage-Strassen breaks through to a *nearly-linear* bound by replacing polynomial interpolation at finitely many points with Fourier analysis at the roots of unity. Crucially, it does so in an exact algebraic ring where the symmetry of the roots makes the transform cheap.
+The jump from Toom-Cook to Schönhage-Strassen is qualitatively different from all previous improvements. Karatsuba and Toom-Cook are algebraic tricks that reduce the exponent toward 1 but never reach it. Schönhage-Strassen breaks through to a *nearly linear* bound by replacing interpolation at a fixed handful of points with evaluation at a number of roots of unity that grows with $n$. It does so in an exact algebraic ring where the symmetry of the roots makes the transform cheap.
 
-The remaining $\log \log n$ factor is the residue of recursive nesting. Eliminating it required the multi-dimensional approach of Harvey and van der Hoeven (2019), which comes next.
+The remaining $\log \log n$ factor is the residue of recursive nesting. Getting all the way down to $O(n \log n)$ required the multi-dimensional approach of Harvey and van der Hoeven (2019), which comes next.
 
 # Harvey-van der Hoeven: $O(n \log n)$
 
 ## The Last Factor Standing
 
-We have arrived at the algorithm that reaches $O(n \log n)$. Let us take stock of where we are.
+We have arrived at the algorithm that reaches $O(n \log n)$. First, a recap.
 
-You now understand that multiplying two $n$-digit integers is really computing a convolution of their digits. You understand that the FFT evaluates a polynomial at all $N$-th roots of unity in $O(N \log N)$ time, and that the Convolution Theorem lets us turn this evaluation into multiplication. You understand that Schönhage and Strassen sidestepped floating-point precision by working in the ring $\mathbb{Z}/(2^m + 1)\mathbb{Z}$, where twiddle factors are just bit-shifts.
+You now understand that multiplying two $n$-digit integers is really computing a convolution of their digits. You understand that the FFT evaluates a polynomial at all $N$-th roots of unity in $O(N \log N)$ time, and that the Convolution Theorem turns convolution into pointwise multiplication of those values. You understand that Schönhage and Strassen sidestepped floating-point precision by working in the ring $\mathbb{Z}/(2^m + 1)\mathbb{Z}$, where twiddle factors are just bit-shifts.
 
 And you understand the one blemish: the $\log \log n$ factor. It comes from the fact that the NTT's pointwise multiplications are themselves multiplications on smaller numbers, requiring their own NTTs, which require their own pointwise multiplications, and so on. The recursion bottoms out after $\log \log n$ levels, each contributing $O(n \log n)$ work. Multiply those together: $O(n \log n \log \log n)$.
 
-For 48 years, from 1971 to 2019, nobody could kill that last factor. Then David Harvey and Joris van der Hoeven did.
+For 48 years, from 1971 to 2019, nobody could remove the extra factor entirely. In 2007 Martin Fürer shrank it from $\log \log n$ to the even slower-growing $2^{O(\log^{\ast} n)}$. Then David Harvey and Joris van der Hoeven removed it.
 
 ## The Intuition: Why $\log \log n$ Exists and How to Eliminate It
 
@@ -194,7 +195,7 @@ $$
 
 Each level would cost $K/d$ times the one above. If $d$ can be made larger than $K$, the ratio drops below one and the $\log \log n$ disappears.
 
-So the whole problem becomes: find a way to cut the problem size to a $d$-th root, for $d$ as large as we like, **without the expansion $K$ growing along with $d$**. Schönhage-Strassen cannot do it. In $\mathbb{Z}/(2^m+1)$ the number $2$ is a root of unity of order only $2m$, so a transform can have at most $2m$ points, and that ties the number of chunks to the size of each chunk. The split is stuck at $\sqrt{n}$. Getting unstuck is what the rest of the paper is for.
+So the whole problem becomes: find a way to cut the problem size to a $d$-th root, for $d$ as large as we like, **without the expansion $K$ growing along with $d$**. Schönhage-Strassen cannot do it. In $\mathbb{Z}/(2^m+1)$ the number $2$ is a root of unity of order only $2m$, so a transform can have at most $2m$ points, and that ties the number of chunks to the size of each chunk. The split is stuck at $\sqrt{n}$. Getting unstuck is what the rest of Harvey and van der Hoeven's paper is for.
 
 ## The Architecture: Three Key Ideas
 
@@ -216,24 +217,24 @@ The coefficients are treated as complex numbers in fixed-point arithmetic, carri
 
 ### Idea 2: Use Gaussian resampling to make primes act like powers of 2
 
-Fast transforms want power-of-two lengths. The sides $s_i$ are primes, because coprimality demanded it. How do we bridge the gap?
+Fast transforms want power-of-two lengths. The sides $s_i$ are primes, because the Chinese Remainder Theorem needs them coprime, and no two powers of two are. How do we bridge the gap?
 
-For each $i$, let $t_i$ be a power of two larger than $s_i$. Harvey and van der Hoeven introduce a technique they call **Gaussian resampling**, which converts a DFT of length $s_i$ into a DFT of length $t_i$. The input is spread onto the longer grid with Gaussian weights, transformed there, and the spreading is then undone on the other side. It works because a Gaussian is its own Fourier transform, up to scaling: the weights stay sharply concentrated on both sides of the transform, so the conversion is cheap and loses only a controlled amount of precision.
+For each $i$, let $t_i$ be a power of two slightly larger than $s_i$. Harvey and van der Hoeven introduce a technique they call **Gaussian resampling**, which converts a DFT of length $s_i$ into a DFT of length $t_i$. The input is spread onto the longer grid with Gaussian weights, transformed there, and the spreading is then undone on the other side. It works because a Gaussian is its own Fourier transform, up to scaling: the weights stay sharply concentrated on both sides of the transform, so the conversion is cheap and loses only a controlled amount of precision.
 
-The classical way to handle an awkward transform length is Bluestein's chirp trick, which re-expresses the DFT as a convolution. Gaussian resampling is a different tool for the same kind of problem, and it is one of the genuinely new ideas in the paper.
+The classical way to handle an awkward transform length is Bluestein's chirp trick, which re-expresses the DFT as a convolution. Gaussian resampling is a different tool for the same kind of problem, and it is the main new idea in the paper. (Bluestein's trick still has a job, as Idea 3 shows.)
 
 The net effect: a transform on an $s_1 \times \cdots \times s_d$ grid is replaced by a transform on a $t_1 \times \cdots \times t_d$ grid whose sides are all powers of two.
 
 ### Idea 3: Use synthetic roots of unity to make transforms multiplication-free
 
-With power-of-two sides, the transform can be computed over a ring built to make it cheap. Take $R = \mathbb{C}[y]/(y^r + 1)$ for $r$ a power of two. In this ring:
+With power-of-two sides, Bluestein's trick comes back: because every $t_i$ is even, the chirp repeats with period $t_i$, so it turns the DFT into a cyclic convolution on the same $t_1 \times \cdots \times t_d$ grid, with no padding. That convolution can be computed over a ring built to make transforms cheap. Take $R = \mathbb{C}[y]/(y^r + 1)$ for $r$ a power of two. In this ring:
 
 - $y$ is a root of unity of order $2r$, since $y^r = -1$.
 - Multiplying an element of $R$ by a power of $y$ is a **cyclic shift** of its coefficients with some sign changes (free, just as multiplying by $2$ in $\mathbb{Z}/(2^m + 1)$ was free for Schönhage-Strassen).
 
-This is the same idea as Schönhage and Strassen's bit-shift roots of unity, in the polynomial form of Nussbaumer's fast polynomial transforms. In one dimension it runs into the wall described above: the transform can be no longer than the order of the root. In $d$ dimensions the wall is much further away. Each axis only needs roots of order $t_i$, so one ring $R$ with $r$ about the side length serves every axis, even though the whole grid has about $r^d$ points.
+This is the same idea as Schönhage and Strassen's bit-shift roots of unity, in the polynomial form of Nussbaumer's fast polynomial transforms. In one dimension it runs into the wall described above: the transform can be no longer than the order of the root. In $d$ dimensions the wall is much further away. Each axis only needs roots of order $t_i$, so one ring $R$, with $r$ about the side length, covers the whole grid of about $r^d$ points: one axis becomes the variable $y$ itself, and the other $d - 1$ are transformed over $R$.
 
-So the transforms themselves use **no multiplications** in the traditional sense, only additions, subtractions and shifts. The genuine multiplications that remain are the pointwise products of elements of $R$. Each is a product of two polynomials with about $r$ coefficients of about $\log n$ bits, which is an integer multiplication of roughly $n^{1/d}$ bits. Those are the recursive calls.
+So the transforms themselves use **no multiplications** in the traditional sense, only additions, subtractions and shifts. The expensive multiplications that remain are the pointwise products of elements of $R$. Each is a product of two polynomials with about $r$ coefficients of about $\log n$ bits, which is an integer multiplication of roughly $n^{1/d}$ bits. Those are the recursive calls.
 
 Note what has and has not changed. The recursion is still there. Harvey and van der Hoeven did not cut the chain; they changed how fast it shrinks. The sub-problems are now $d$-th roots of the input, not square roots.
 
@@ -247,7 +248,7 @@ The full algorithm, stripped to its skeleton:
 
 3. **Resample** along each axis, replacing the transform of size $s_1 \times \cdots \times s_d$ with one of size $t_1 \times \cdots \times t_d$, all powers of two.
 
-4. **Transform** over $R = \mathbb{C}[y]/(y^r + 1)$, where multiplying by a root of unity is a cyclic shift.
+4. **Transform**: Bluestein's trick turns the power-of-two DFT into a cyclic convolution, computed with transforms over $R = \mathbb{C}[y]/(y^r + 1)$, where multiplying by a root of unity is a signed cyclic shift.
 
 5. **Pointwise multiply** in $R$. Each product is an integer multiplication of about $n^{1/d}$ bits, done by a recursive call.
 
@@ -269,27 +270,28 @@ $$
 
 ## Why 1729?
 
-Because it is $1728 + 1$. The dimension has to be larger than the expansion constant $K = 1728$, and $1729$ is the first integer that is. The authors made no attempt to optimize the constant, and they note that a more careful analysis would allow a much smaller dimension.
+Because it is $1728 + 1$. The dimension has to be larger than the expansion constant $K = 1728$, and $1729$ is the first integer that is. The authors chose the simplest proof over the smallest constant, and they [outline refinements](https://hal.science/hal-02070778) (Section 5.4) that bring $K$ down to about $8$, so that any $d \ge 9$ would do.
 
-The appearance of **1729**, Ramanujan's famous "taxicab number" and the smallest number expressible as the sum of two cubes in two different ways, is a coincidence, but a poetic one. It comes about only because $1728$ happens to be $12^3$, so that $1729 = 12^3 + 1^3$, which is also $10^3 + 9^3$. But it is fitting that the algorithm that seemed, for a while, to close the book on multiplication complexity should bear, in its constant, an echo of one of mathematics' most beautiful stories.
+The appearance of **1729**, Ramanujan's famous "taxicab number" and the smallest number expressible as the sum of two cubes in two different ways, is a coincidence, but a poetic one. It comes about only because $1728$ happens to be $12^3$, so that $1729 = 12^3 + 1^3$, which is also $10^3 + 9^3$. But it is fitting that the algorithm that seemed, for a while, to close the book on multiplication complexity should bear, in its constant, an echo of Hardy's taxi ride to visit Ramanujan.
 
 The price of all this machinery is the size at which it starts to work. The proof as written applies only to inputs of at least $2^{1729^{12}}$ bits. To put that number in perspective:
 - The observable universe contains roughly $10^{80}$ atoms.
 - The exponent $1729^{12}$ alone is a 39-digit number, so $2^{1729^{12}}$ written out in decimal would run to about $2 \times 10^{38}$ digits.
-- If every atom in the universe were a hard drive, and every hard drive stored $10^{15}$ digits, you could store roughly $10^{95}$ digits. This is *nothing* compared to $2^{1729^{12}}$.
+- If every atom in the universe were a hard drive, and every hard drive stored $10^{15}$ digits, you could store roughly $10^{95}$ digits. This is *nothing* compared to the $2^{1729^{12}}$ bits of a single input.
 
-This is a **galactic algorithm**: correct, and useless for any computation that will ever be performed in the physical universe. But its existence answers a question that stood open for sixty years: **can multiplication be done in $O(n \log n)$?** The answer is yes.
+This is a **galactic algorithm**: correct, and useless for any computation that will ever be performed in the physical universe. But its existence answers a question that had stood open since Schönhage and Strassen's 1971 conjecture: **can multiplication be done in $O(n \log n)$?** The answer is yes.
 
 ## The View from the Summit
 
-Let us look back at the full arc:
+Looking back at the full arc:
 
 | Year | Algorithm | Complexity | Key Insight |
 |------|-----------|-----------|-------------|
 | antiquity | Schoolbook | $O(n^2)$ | Every digit meets every digit |
 | 1960 | Karatsuba | $O(n^{1.585})$ | One clever identity saves 25% per level |
-| 1963 | Toom-Cook | $O(n^{1+\varepsilon})$ for any $\varepsilon > 0$ | Polynomial interpolation at $k$ points |
+| 1963 | Toom-Cook | $O(n^{1+\varepsilon})$ for any $\varepsilon > 0$ | Split into $k$ parts; interpolate at $2k-1$ points |
 | 1971 | Schönhage-Strassen | $O(n \log n \log \log n)$ | NTT in $\mathbb{Z}/(2^m+1)$; roots of unity via bit-shifts |
+| 2007 | Fürer | $n \log n \cdot 2^{O(\log^{\ast} n)}$ | Cheap synthetic roots of unity inside a complex FFT |
 | 2019 | Harvey-van der Hoeven | $O(n \log n)$ | A 1,729-dimensional transform; each recursion level cheaper than the last |
 
 Each breakthrough changed the *kind* of mathematics being used. Karatsuba's was an algebraic identity. Toom-Cook was polynomial algebra. Schönhage-Strassen was number-theoretic harmonic analysis. Harvey-van der Hoeven is multi-dimensional Fourier analysis carried out in carefully bounded approximate arithmetic.

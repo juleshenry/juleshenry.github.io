@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Black-Scholes-Merton, Vol. II: Deriving BSM from Scratch"
 date: 2024-07-24 12:01:00
+description: "Builds Brownian motion from coin flips, shows with Itô's lemma that a stock is lognormal, and integrates the call payoff to derive the Black-Scholes formula."
 categories: wealth
 mathjax: true
 ---
@@ -26,7 +27,7 @@ Two objects: a source of noise, and a notion of a fair game. §3 builds the stoc
 
 ## Wiener process
 
-A **Wiener process** (also called **Brownian motion**, written $W_t$) is the model of pure noise used in this series. Picture a pollen grain on a water surface, or a walker who at every instant takes a tiny random step up or down. The walker's height at time $t$ is $W_t$.
+A **Wiener process** (also called **Brownian motion**, written $W_t$) is the model of pure noise used in this series. Picture a speck of dust suspended in water, or a walker who at every instant takes a tiny random step up or down. The walker's height at time $t$ is $W_t$.
 
 It is *not* a stock price. It starts at $0$, it is as likely to be negative as positive, and its typical size at time $t$ is $\sqrt{t}$, not $t$.
 
@@ -43,7 +44,7 @@ Each step has mean $0$ and variance $\Delta t$, so $k$ steps have mean $0$ and v
 **Four properties.** A standard Wiener process satisfies:
 
 1. $W_0=0$.
-2. **Independent increments.** For $t>s$, $W_t-W_s$ does not depend on the path before time $s$.
+2. **Independent increments.** For $t>s$, $W_t-W_s$ is independent of the path up to time $s$.
 3. **Gaussian increments.** $W_t-W_s\sim\mathcal{N}(0,\,t-s)$. In particular $W_t\sim\mathcal{N}(0,t)$, so $\mathbb{E}[W_t]=0$ and $\mathrm{Var}(W_t)=t$. The typical size is $\sqrt{t}$. Over a short interval the typical move is $\sqrt{\Delta t}$, much larger than $\Delta t$ when $\Delta t$ is small.
 4. **Continuous paths.** No jumps. A jagged scribble with no breaks.
 
@@ -59,7 +60,7 @@ $$
 
 ## Martingales
 
-A **stochastic process** is a family of random variables indexed by time: a random path. A process $M_t$ is a **martingale** if
+A **stochastic process** is a family of random variables indexed by time: a random path. A process $M_t$ is a **martingale** if, for every $t\le T$,
 
 $$
 \mathbb{E}[M_T\mid \text{information up to time }t] \;=\; M_t.
@@ -104,9 +105,9 @@ Careful with the letters: $\mu$ and $\sigma$ are the mean and standard deviation
 
 **Support.** $e^x>0$, so $Y>0$. The normal lives on $(-\infty,\infty)$; the lognormal on $(0,\infty)$.
 
-**Median.** $e^x$ is increasing, so it preserves order, and order statistics come along for free. The median of $X$ is $\mu$, so the median of $Y$ is $e^{\mu}$.
+**Median.** $e^x$ is increasing, so it preserves order, and quantiles come along for free. The median of $X$ is $\mu$, so the median of $Y$ is $e^{\mu}$.
 
-**Mean.** Not $e^{\mu}$. The curve $e^x$ bends upward: a swing of $+\sigma$ in $X$ multiplies $Y$ by $e^{\sigma}$, a swing of $-\sigma$ only by $e^{-\sigma}$, and $e^{\sigma}-1>1-e^{-\sigma}$. Symmetric swings in $X$ become lopsided swings in $Y$, and the average is dragged up. By exactly how much is the moment-generating function of $Z$. Completing the square,
+**Mean.** Not $e^{\mu}$. The curve $e^x$ bends upward: a swing of $+\sigma$ in $X$ multiplies $Y$ by $e^{\sigma}$, a swing of $-\sigma$ only by $e^{-\sigma}$, and $e^{\sigma}-1>1-e^{-\sigma}$. Symmetric swings in $X$ become lopsided swings in $Y$, and the average is dragged up. Exactly how much is given by the moment-generating function of $Z$. Completing the square,
 
 $$
 \mathbb{E}[e^{aZ}]
@@ -140,7 +141,7 @@ $$
 \text{mode } e^{\mu-\sigma^2} \;<\; \text{median } e^{\mu} \;<\; \text{mean } e^{\mu+\sigma^2/2}.
 $$
 
-Picture: $\sigma=0.20$, $\mu=\ln 100+0.03$. Mode $\approx 99.0$, median $\approx 103.0$, mean $\approx 105.1$, standard deviation $\approx 21.2$. The most likely neighbourhood is just under $100$; the typical draw lands near $103$; the average is pulled up to $105$ by the right tail. That $e^{\sigma^2/2}$ is Itô's correction, first as an MGF. §3 recovers it from Taylor.
+Picture: $\sigma=0.20$, $\mu=\ln 100+0.03$. Mode $\approx 99.0$, median $\approx 103.0$, mean $\approx 105.1$, standard deviation $\approx 21.2$. The most likely neighborhood is just under $100$; the typical draw lands near $103$; the average is pulled up to $105$ by the right tail. That $e^{\sigma^2/2}$ is Itô's correction, first as an MGF. §3 recovers it from Taylor.
 
 ## Side by side
 
@@ -153,7 +154,7 @@ Picture: $\sigma=0.20$, $\mu=\ln 100+0.03$. Mode $\approx 99.0$, median $\approx
     </tr>
   </thead>
   <tbody>
-    <tr><td>arises from</td><td>sum of many small pieces</td><td>product of many small positive pieces</td></tr>
+    <tr><td>arises from</td><td>sum of many small pieces</td><td>product of many positive factors near 1</td></tr>
     <tr><td>support</td><td>\((-\infty,\infty)\)</td><td>\((0,\infty)\)</td></tr>
     <tr><td>shape</td><td>symmetric</td><td>right-skewed, long upper tail</td></tr>
     <tr><td>mode / median / mean</td><td>\(\mu\) / \(\mu\) / \(\mu\)</td><td>\(e^{\mu-\sigma^2}\) / \(e^{\mu}\) / \(e^{\mu+\sigma^2/2}\)</td></tr>
@@ -172,7 +173,7 @@ $$
 S_T \;=\; S \prod_{i=1}^{N}(1+R_i), \qquad \ln S_T \;=\; \ln S + \sum_{i=1}^{N}\ln(1+R_i).
 $$
 
-The logs **add**. If the daily log-returns are independent with finite mean and variance, the CLT says their sum is approximately normal. So $\ln S_T$ is normal, and $S_T$ is lognormal. The normal is what the CLT gives you for a *sum* of many small independent pieces; the lognormal is what it gives you for a *product* of many small independent positive pieces. Prices compound, so prices are products.
+The logs **add**. If the daily log-returns are independent and identically distributed with finite variance, the CLT says their sum is approximately normal. So $\ln S_T$ is normal, and $S_T$ is lognormal. The normal is what the CLT gives you for a *sum* of many small independent pieces; the lognormal is what it gives you for a *product* of many independent positive factors near $1$. Prices compound, so prices are products.
 
 ![A Gaussian for the price spills below zero; a lognormal cannot](/blog/assets/2024/bsm/normal-vs-lognormal.png)
 
@@ -224,7 +225,7 @@ The chain rule you already know is first-order Taylor. If $x$ moves by $dx$, the
 
 A Wiener path has no tangent. Each increment satisfies $(dW)^2=dt$, the same size as the clock, so the second-order term survives. In 1942 Kiyosi Itô put it back.
 
-**Quadratic variation, by hand.** Chop a year into four steps. Each step is $\pm\sqrt{1/4}=\pm 1/2$. Four heads ends at $+2$. Four tails ends at $-2$. Mixed paths end at $0$. The *ending* points disagree. The sum of the squared steps does not:
+**Quadratic variation, by hand.** Chop a year into four steps. Each step is $\pm\sqrt{1/4}=\pm 1/2$. Four heads ends at $+2$. Four tails ends at $-2$. Mixed paths end at $+1$, $0$ or $-1$. The *ending* points disagree. The sum of the squared steps does not:
 
 $$
 \bigl(\tfrac12\bigr)^2+\bigl(\tfrac12\bigr)^2+\bigl(\tfrac12\bigr)^2+\bigl(\tfrac12\bigr)^2 \;=\; 1
@@ -234,7 +235,7 @@ on **every** path.
 
 ![Four coin-flip paths; every one has quadratic variation 1](/blog/assets/2024/bsm/quadratic-variation.png)
 
-In the limit this is a theorem, and an elementary one. Chop $[0,t]$ into $n$ steps $\Delta t=t/n$. Each increment satisfies $\mathbb{E}[(\Delta W_i)^2]=\Delta t$ and, because $\Delta W_i\sim\mathcal{N}(0,\Delta t)$, $\mathrm{Var}((\Delta W_i)^2)=2(\Delta t)^2$. The sum of squares has mean $t$ and variance $2t^2/n\to 0$. Convergence in $L^2$ to the constant $t$: $(dW_t)^2=dt$. Keep them.
+In the limit this is a theorem, and an elementary one. Chop $[0,t]$ into $n$ steps $\Delta t=t/n$. Each increment satisfies $\mathbb{E}[(\Delta W_i)^2]=\Delta t$ and, because $\Delta W_i\sim\mathcal{N}(0,\Delta t)$, $\mathrm{Var}((\Delta W_i)^2)=2(\Delta t)^2$. The sum of squares has mean $t$ and variance $2t^2/n\to 0$. Convergence in $L^2$ to the constant $t$: $(dW_t)^2=dt$, so second-order terms in $dW$ must be kept.
 
 **Itô on $W^2$.** The chain rule on $f(x)=x^2$ says $\Delta f=2x\,\Delta x$. Taylor keeps the next term $(\Delta x)^2$. On the four-step path of four heads, $W=0,0.5,1,1.5,2$, so $W^2$ ends at $4$. The chain-rule running sum $\sum 2W\,\Delta W$ is
 
@@ -264,14 +265,16 @@ The first two terms in the $dt$ coefficient are the ordinary chain rule. The thi
 
 ## The stock is lognormal
 
-Apply $(3)$ to $f(s)=\ln s$ and to the stock $(2)$. Then $f_s=1/s$, $f_{ss}=-1/s^2$, and the leftover is $-\tfrac12\sigma^2\,dt$:
+Apply $(3)$ to $f(x)=\ln x$ and to the stock $(2)$. Then $f_x=1/x$, $f_{xx}=-1/x^2$, and the leftover is $-\tfrac12\sigma^2\,dt$:
 
-\begin{align*}
+$$
+\begin{aligned}
 d\ln S_t
 &= \frac{1}{S_t}\,dS_t + \tfrac12\Bigl(-\frac{1}{S_t^2}\Bigr)(\sigma S_t\,dW_t)^2 \\
 &= \mu\,dt + \sigma\,dW_t - \tfrac12\sigma^2\,dt \\
 &= \bigl(\mu - \tfrac12\sigma^2\bigr)dt + \sigma\,dW_t.
-\end{align*}
+\end{aligned}
+$$
 
 The right side has constant coefficients, so integrating is just adding. Integrate from $t$ to $T$. Write $\tau=T-t$, and $W_T-W_t\stackrel{d}{=}\sqrt{\tau}\,Z$ with $Z\sim\mathcal{N}(0,1)$:
 
@@ -307,7 +310,7 @@ P(\ln S_T>\ln K)
 \Phi\Bigl(\frac{-\ln K+m}{s}\Bigr).
 $$
 
-The first term is a **partial expectation**: the contribution of the upper tail, not divided by the tail probability. The $x$ in the integrand cancels the $1/x$ in the lognormal density:
+The first term is a **partial expectation**: the contribution of the upper tail, not divided by the tail probability. Write $S_T=e^{y}$ with $y=\ln S_T$, and integrate against the normal density $\varphi_{m,s}$ of $\ln S_T$:
 
 $$
 \mathbb{E}\bigl[S_T\,1_{\{S_T>K\}}\bigr]
@@ -317,11 +320,11 @@ $$
 
 The exponent is $y-(y-m)^2/(2s^2)$. Expand and complete the square, the same move as $\mathbb{E}[e^{aZ}]$:
 
-\begin{align*}
+$$
 y - \frac{(y-m)^2}{2s^2}
-&= \frac{2s^2 y - (y^2-2my+m^2)}{2s^2}
+= \frac{2s^2 y - (y^2-2my+m^2)}{2s^2}
 = \frac{-y^2 + 2(m+s^2)y - m^2}{2s^2}.
-\end{align*}
+$$
 
 The identity $y^2-2(m+s^2)y=\bigl(y-(m+s^2)\bigr)^2-(m+s^2)^2$ turns the numerator into $-\bigl(y-(m+s^2)\bigr)^2+2ms^2+s^4$. Divide by $2s^2$:
 
@@ -339,7 +342,7 @@ $$
 e^{m+s^2/2}\,\Phi\Bigl(\frac{-\ln K+m+s^2}{s}\Bigr). \tag{14}
 $$
 
-The cutoff turned the full MGF factor into that factor times a $\Phi$. The mean-shift $m\mapsto m+s^2$ is the gap between the two $\Phi$ arguments. Combining,
+The cutoff turned the full MGF factor into that factor times a $\Phi$. The mean-shift $m\mapsto m+s^2$ is the only difference between the two $\Phi$ arguments. Combining,
 
 $$
 \mathbb{E}[(S_T-K)^+]
@@ -387,11 +390,11 @@ Subtract: $\Delta=2/3$, then $B=-33.33$. Today the portfolio costs $\tfrac23\cdo
 
 A free lunch if the quote is not $33.33$. The physical probability that the stock doubles never entered. Two linear equations.
 
-Now run it backwards. Is there a probability $p^{\ast}$ of the up-move under which the call's price is simply its expected payoff? Only one makes the *stock* a fair game (expected value $100$, no drift): $200p^{\ast}+50(1-p^{\ast})=100$, so $p^{\ast}=1/3$. And $C=p^{\ast}\cdot 100=33.33$ again. With interest, a dollar grows by a factor $R$ over the step, the fair-game condition becomes $\mathbb{E}^{\ast}[S_1]=R\,S_0$, i.e. $p^{\ast}=(R-d)/(u-d)$, and the call is the discounted $\mathbb{E}^{\ast}$ of its payoff. That $p^{\ast}$ is not the real-world chance of the up-move. It is the probability that makes the discounted stock a martingale, in the sense of §1. It is called **risk-neutral** because under it the stock earns only what the bank does.
+Now run it backwards. Is there a probability $p^{\ast}$ of the up-move under which the call's price is simply its expected payoff? Only one makes the *stock* a fair game (expected value $100$, no drift): $200p^{\ast}+50(1-p^{\ast})=100$, so $p^{\ast}=1/3$. And $C=p^{\ast}\cdot 100=33.33$ again. With interest, a dollar grows by a factor $R$ over the step. If the stock moves up by a factor $u$ or down by a factor $d$ ($u=2$, $d=\tfrac12$ here), the fair-game condition becomes $\mathbb{E}^{\ast}[S_1]=R\,S_0$, i.e. $p^{\ast}=(R-d)/(u-d)$, and the call is the discounted $\mathbb{E}^{\ast}$ of its payoff. That $p^{\ast}$ is not the real-world chance of the up-move. It is the probability that makes the discounted stock a martingale, in the sense of §1. It is called **risk-neutral** because under it the stock earns only what the bank does.
 
 Notice what changing $p$ to $p^{\ast}$ did *not* touch: the two leaves, $200$ and $50$. The step sizes set the spread; the probabilities set the drift. That is why $\sigma$ will survive the switch and $\mu$ will not.
 
-A tree calibrated to $r=5\%$, $\sigma=20\%$, one year, $S=K=100$, with Cox–Ross–Rubinstein $u=e^{\sigma\sqrt{\Delta t}}$, $d=1/u$, walks from $12.16$ ($n=1$) to $10.45$ ($n\to\infty$):
+A tree calibrated to $r=5\%$, $\sigma=20\%$, one year, $S=K=100$, with Cox–Ross–Rubinstein $u=e^{\sigma\sqrt{\Delta t}}$, $d=1/u$ and $R=e^{r\Delta t}$, walks from $12.16$ ($n=1$) to $10.45$ ($n\to\infty$):
 
 <table>
   <thead>
@@ -408,7 +411,7 @@ A tree calibrated to $r=5\%$, $\sigma=20\%$, one year, $S=K=100$, with Cox–Ros
 
 ![n-step Cox–Ross–Rubinstein tree walking to 10.45](/blog/assets/2024/bsm/crr-convergence.png)
 
-The $n=2$ dip is a coarse histogram of a bell curve. From $n=4$ the walk is toward $10.45$. That is the number. The closed form is the integral $(15)$, with the *fair-game* $(m,s)$.
+The $n=2$ dip is a coarse histogram of a bell curve. From $n=2$ on, the values climb steadily toward $10.45$. That is the number. The closed form is the integral $(15)$, with the *fair-game* $(m,s)$.
 
 ## Pinning $m$ by elementary statistics
 
@@ -440,7 +443,7 @@ The claim that $\sigma$ is untouched, in continuous time, is **Girsanov's theore
 
 ## Plug in
 
-Feed the risk-neutral $(m,s)$ into $(15)$. Then $e^{m+s^2/2}=S_t e^{r\tau}$, so the discounted share-piece is $S_t\Phi(d_1)$ and the discounted cash-piece is $K e^{-r\tau}\Phi(d_2)$:
+Feed the risk-neutral $(m,s)$ into $(15)$. Then $e^{m+s^2/2}=S_t e^{r\tau}$, so the discounted share-piece is $S_t\Phi(d_1)$ and the discounted cash-piece is $K e^{-r\tau}\Phi(d_2)$, where $d_1$ and $d_2$ are $d_{+}$ and $d_{-}$ written out:
 
 $$
 C \;=\; S_t\,\Phi(d_1) - K e^{-r\tau}\,\Phi(d_2), \tag{1}
@@ -450,13 +453,13 @@ $$
 d_1 \;=\; \frac{\ln(S_t/K)+\bigl(r+\tfrac12\sigma^2\bigr)\tau}{\sigma\sqrt{\tau}}, \qquad d_2 \;=\; d_1 - \sigma\sqrt{\tau}.
 $$
 
-That is the Black–Scholes–Merton formula. For the rain check: $S=K=100$, $\tau=1$, $r=0.05$, $\sigma=0.20$. Then $d_2=0.15$, $d_1=0.35$, $\Phi(0.15)\approx 0.560$, $\Phi(0.35)\approx 0.637$, and
+That is the Black–Scholes–Merton formula. For the rain check: $S=K=100$, $\tau=1$, $r=0.05$, $\sigma=0.20$. Then $d_2=0.15$, $d_1=0.35$, $\Phi(0.15)\approx 0.5596$, $\Phi(0.35)\approx 0.6368$, and
 
 $$
-C \;=\; 100\cdot 0.637 - 100\cdot e^{-0.05}\cdot 0.560 \;\approx\; 63.68-53.23 \;=\; 10.45.
+C \;=\; 100\cdot 0.6368 - 100\cdot e^{-0.05}\cdot 0.5596 \;\approx\; 63.68-53.23 \;=\; 10.45.
 $$
 
-Vol. I guessed a working premium of $10$. The formula charges $10.45$. Close, for a rain check. $\Phi(d_1)\approx 0.637$ is the **delta**: you manufacture this call by holding about two-thirds of a share, the $\Delta=2/3$ of the tree, smeared across spots. $\Phi(d_2)\approx 0.560$ is the risk-neutral chance of exercise.
+Vol. I guessed a working premium of $10$. The formula charges $10.45$. Close, for a rain check. $\Phi(d_1)\approx 0.637$ is the **delta**: you manufacture this call by holding about $0.64$ of a share, the continuous counterpart of the tree's $\Delta=2/3$. $\Phi(d_2)\approx 0.560$ is the risk-neutral chance of exercise.
 
 ![A European call: the kink at expiry, the smooth price today](/blog/assets/2024/bsm/call-payoff.png)
 
@@ -492,7 +495,7 @@ Volatility is the only input you cannot read off a newspaper.
     <tr><td>\(10\%\)</td><td>\(6.80\)</td><td></td></tr>
     <tr><td>\(20\%\)</td><td>\(10.45\)</td><td>the rain check</td></tr>
     <tr><td>\(40\%\)</td><td>\(18.02\)</td><td></td></tr>
-    <tr><td>\(100\%\)</td><td>\(39.84\)</td><td>almost a coin-flip on the stock itself</td></tr>
+    <tr><td>\(100\%\)</td><td>\(39.84\)</td><td>two-fifths of the stock; as \(\sigma\to\infty\) the call tends to \(S\)</td></tr>
   </tbody>
 </table>
 

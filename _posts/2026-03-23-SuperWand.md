@@ -23,7 +23,7 @@ Each pixel gets a label: region 0, region 1, region 2, region 3, ordered from la
 
 The choice of `k` is the main creative knob. On flat vector art, each step up peels off another layer of detail:
 
-![k sweep](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/k_sweep.png)
+![k sweep](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/k_sweep.webp)
 
 ### 2. Theme Injection
 
@@ -42,9 +42,9 @@ Each region gets mapped to a color from the chosen theme. The 18 themes are hand
 There are two ways to pair regions with colors:
 
 - **`order`** (the default for themes): the largest region gets the theme's first color, the second largest the second color, and so on. It is blunt, and often that is the point: a bright sky can turn midnight navy.
-- **`luminance`**: regions and theme colors are both sorted by brightness, and the darkest region gets the darkest color. This preserves the image's light and shadow structure, so a silhouetted skyline stays a silhouette.
+- **`luminance`**: the regions and the theme's first `k` colors are both sorted by brightness, and the darkest region gets the darkest color. This preserves the image's light and shadow structure, so a silhouetted skyline stays a silhouette.
 
-![Order vs luminance matching](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/match_modes.png)
+![Order vs luminance matching](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/match_modes.webp)
 
 Either way, the result is a recolored image that keeps the original's edges and shapes but wears an entirely different color palette.
 
@@ -58,11 +58,11 @@ Flat color replacement looks... flat. So SuperWand supports five gradient styles
 - **Left-right** / **Right-left**: horizontal gradient
 - **Radial**: gradient radiating from the center of the image outward
 
-When a theme is applied, each region's gradient runs from its theme color to the next color in the theme. The gradient poles span the whole image rather than each region, so neighbouring regions line up into one continuous sweep instead of restarting at every edge.
+When a theme is applied, each region's gradient runs from its theme color to the next region's theme color. The gradient poles span the whole image rather than each region, so neighbouring regions line up into one continuous sweep instead of restarting at every edge.
 
 Each gradient has a polarity parameter that controls where the 50/50 blend lands. Every pixel's position along the gradient, `t` in [0, 1], is raised to the power `p = log(0.5) / log(polarity)`, which puts the midpoint exactly at `t = polarity`. Low polarity reaches the end color early; high polarity holds on to the start color:
 
-![Polarity sweep](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/polarity_sweep.png)
+![Polarity sweep](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/polarity_sweep.webp)
 
 ![Gradient Examples](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/charizards/gradient_radial_charizard.png)
 
@@ -70,7 +70,7 @@ Each gradient has a polarity parameter that controls where the 50/50 blend lands
 
 Eighteen themes is a lot, but the best palettes are already out there in photographs. `-palette-from` runs the same KMeans region finder on a reference image, takes its `k` cluster centers as a custom theme and applies it with luminance matching. Here a flat vector illustration borrows the palette of a mantis shrimp, and then of plankton from Austin's Lady Bird Lake:
 
-![Palette transfer](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/palette_transfer.png)
+![Palette transfer](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/palette_transfer.webp)
 
 ```bash
 superwand rocket.jpeg -palette-from mantis_shrimp.jpeg -k 6
@@ -78,7 +78,7 @@ superwand rocket.jpeg -palette-from mantis_shrimp.jpeg -k 6
 
 ## SuperWand Studio
 
-The CLI is fine for scripting, but the real fun is the Studio, a Flask-based web UI served locally at `http://127.0.0.1:5001`. Upload an image, and you get an interactive workspace:
+The CLI is fine for scripting, but the real fun is the Studio, a Flask-based web UI served locally at `http://127.0.0.1:5001`. Install it with `pip install "superwand[studio]"`, run `superwand` with no arguments, and upload an image to get an interactive workspace:
 
 - Pick a theme or set custom per-region colors
 - Adjust the number of KMeans clusters (more clusters = finer region detection)
@@ -88,7 +88,7 @@ The CLI is fine for scripting, but the real fun is the Studio, a Flask-based web
 
 ![Studio Preview](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/studio-preview.png)
 
-The Studio also handles CSS retheming, and so does a standalone `css-retheme` command. SuperWand finds every color value in the stylesheet's declarations (`#rgb`, `#rrggbb`, 4- and 8-digit hex with alpha, `rgb()` and `rgba()`), clusters them with KMeans, and maps the most-used cluster to the theme's first color, the next to the second, and so on. Selectors like `#header`, comments, indentation and alpha channels are left alone. The before/after is surprisingly dramatic:
+The Studio also handles CSS retheming, and so does a standalone `css-retheme` command. SuperWand finds every color value in the stylesheet's declarations (`#rgb`, `#rrggbb`, 4- and 8-digit hex with alpha, `rgb()`, `rgba()`, `hsl()`, `oklch()`, `oklab()` and named colors), clusters them with KMeans, and maps the most-used cluster to the theme's first color, the next to the second, and so on. Selectors like `#header`, comments, indentation and alpha channels are left alone. The before/after is surprisingly dramatic:
 
 ![CSS Before](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/css/before.png)
 ![CSS After Tropical](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/css/after_tropical.png)
@@ -121,7 +121,7 @@ css-retheme site.css Tropical -o site_tropical.css
 
 ## Python API
 
-Everything the CLI does is also a function that returns a PIL image:
+Everything the CLI does is also a Python function; `retheme` and `transfer_palette` return a PIL image:
 
 ```python
 from superwand import retheme, transfer_palette, extract_palette, theme_cycle_gif
@@ -136,6 +136,6 @@ theme_cycle_gif("charizard.png", "charizard_themes.gif")
 
 The NumPy optimization was worth the effort. The naive approach, iterating over each pixel in a Python loop to check its cluster assignment and replace its color, is painfully slow for large images. The vectorized approach uses fancy indexing: `arr[rows, cols] = theme_color` replaces an entire region in one operation. Gradients are vectorized the same way: compute every region pixel's position along the gradient as one array, apply the polarity exponent, and blend the start and end colors in a single broadcast. The standalone `gradient-enforce` command runs on the same vectorized path. Against painting pixel by pixel with `ImageDraw.point`, that is 25x faster on a 1120x1120 Charizard and 33x faster on a 12-megapixel photo (50 seconds down to 1.5), with pixel-identical output. No Python loops touch individual pixels.
 
-The morphological flood filling (optional, via SciPy) addresses a visual artifact of KMeans clustering: speckled regions. KMeans assigns each pixel independently, so a region can be riddled with pinholes: a few pixels whose color was ambiguous went to a neighbour. Binary closing fills those holes, then a slight dilation grows the region's mask so it envelopes its ragged edge. It is a post-processing step borrowed from medical image segmentation, applied here to make Charizards look better.
+The morphological flood filling (optional, via SciPy) addresses a visual artifact of KMeans clustering: speckled regions. KMeans assigns each pixel independently, so a region can be riddled with pinholes: a few pixels whose color was ambiguous went to a neighbour. Binary closing fills those holes, then a slight dilation grows the region's mask so it envelops its ragged edge. It is a standard post-processing step in medical image segmentation, applied here to make Charizards look better.
 
 The CSS retheming feature came from a practical itch. I was reskinning a web project and manually hunting for every hex code in the stylesheets. SuperWand automates this: it finds every color in the stylesheet's declarations, clusters them (because many similar shades should map to the same theme color), gives each cluster a theme color, and writes the new stylesheet. It is the kind of thing that saves you two hours of find-and-replace.

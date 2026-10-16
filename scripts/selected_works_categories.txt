@@ -1,27 +1,28 @@
 # Category map for the Projects page.
 # Section order = first appearance order below.
 # Repos not listed land in "Other".
-# Format (the second, third and fourth fields are optional):
+# Format (every field after the repo name is optional; leave a field empty to skip it):
 #   ## Section Title
-#   repo-name | /blog/url-of-its-write-up | Description shown on the card | Language label
+#   repo-name | /blog/url-of-its-write-up | Description shown on the card | Language label | /images/projects/thumb.webp
 # With no description here, the card shows the repo's description on GitHub.
 # With no language label here, the card shows the language GitHub detected.
+# Thumbnails are 320×240 WebP in images/projects/, shown at 160×120.
 
 ## Language
-mr.worldwide | /blog/2026/03/30/Mr-Worldwide | Turns one word into a looping GIF of its translations in 80+ languages.
+mr.worldwide | /blog/2026/03/30/Mr-Worldwide | Turns one word into a looping GIF of its translations in 80+ languages. |  | /images/projects/mr.worldwide.webp
 readme_rosetta | /blog/2026/04/06/README-Rosetta | Translates READMEs and Sphinx docs into 70+ languages with a local LLM.
 polyglot-poster | | Turns photos of a French textbook into a wall poster in six languages: English, Spanish, Portuguese, Italian, French and Korean.
 vulgultra | | Vulgar Latin in reverse: a Romance conlang optimized with simulated annealing.
 
 ## Math and science
-intersekt | /blog/2026/01/10/WebAssembly-Fast-Fourier-Transform | Karatsuba and FFT big-integer multiplication in WebAssembly, benchmarked against V8's BigInt.
+intersekt | /blog/2026/01/10/WebAssembly-Fast-Fourier-Transform | Karatsuba and FFT big-integer multiplication in WebAssembly, benchmarked against V8's BigInt. |  | /images/projects/intersekt.webp
 rafaga | /blog/2026/03/09/rafaga | Mean-reverting logarithmic models of the VIX in Julia: futures, options, and calibration to a live option chain.
 vakyume | /blog/2025/02/18/vakyume | Turns the equations in a textbook PDF into verified Python and C++17 solvers.
-quantum-plankton-ml | /blog/2026/03/07/Quantum-Plankton-ML | Quantum and classical classifiers on lake-plankton images, with fairly tuned baselines.
+quantum-plankton-ml | /blog/2026/03/07/Quantum-Plankton-ML | Quantum and classical classifiers on lake-plankton images, with fairly tuned baselines. |  | /images/projects/quantum-plankton-ml.webp
 
 ## Images and video
-superwand | /blog/2026/03/23/SuperWand | Recolors an image by clustering its colors and swapping in a theme or another photo's palette.
-zooplankton-image-tool | /blog/2026/03/16/ZIT | Composites video frames into one image of where the animals moved, and links detections into tracks.
+superwand | /blog/2026/03/23/SuperWand | Recolors an image by clustering its colors and swapping in a theme or another photo's palette. |  | /images/projects/superwand.webp
+zooplankton-image-tool | /blog/2026/03/16/ZIT | Composites video frames into one image of where the animals moved, and links detections into tracks. |  | /images/projects/zooplankton-image-tool.webp
 
 ## Developer tools
 ghee | /blog/2026/04/13/ghee | 617 shell aliases and functions for Git, Docker, Kubernetes and more, with fuzzy search.

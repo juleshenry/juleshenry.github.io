@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Sphere Eversion, Vol. VI: Seeing the Eversion"
 date: 2026-08-17 12:05:00
+description: "Corrugations that give a sphere slack, the Bednorz ruled surface formula for the halfway model, and signed volume as a test for halfway."
 categories: differential topology
 mathjax: true
 ---
@@ -12,7 +13,7 @@ mathjax: true
 
 *The existence proof is done. This volume is about seeing it: slack, a formula you can type, and an honest way to say "halfway".*
 
-[Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) proved that $\iota(p)=p$ and $\alpha(p)=-p$ lie in the same path-component of $\operatorname{Imm}(S^2,\mathbb{R}^3)$. It did not produce a path. Nobody could picture one at first. The first explicit eversions came from Arnold Shapiro (published by Tony Phillips, 1966) and Bernard Morin (late 1960s), who was blind. Here are three windows onto what they saw.
+[Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) proved that $\iota(p)=p$ and $\alpha(p)=-p$ lie in the same path-component of $\operatorname{Imm}(S^2,\mathbb{R}^3)$. It did not produce a path. Nobody could picture one at first. The first explicit eversions came from Arnold Shapiro (around 1960, unpublished), Tony Phillips (published 1966), and Bernard Morin (late 1960s), who was blind. Here are three windows onto such a path.
 
 <p style="text-align:center;">
   <img src="/blog/assets/2024/eversion/eversion.gif" alt="Sphere eversion through the Morin halfway model" style="max-width:100%;">
@@ -38,16 +39,16 @@ mathjax: true
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> There is no such formula, and Thurston did not prove existence. Smale did. What Thurston gave, in the 1970s (animated in the 1994 film <em>Outside In</em>), is a <em>construction</em>: corrugate the surface so that it has slack, pass the ripples through one another, then iron the ripples out. No condition like $\det J(g&#95;{t})>0$ comes into it. The actual local move is a normal oscillation.
+<strong>Teacher.</strong> There is no such formula, and the first existence proof is Smale's. What Thurston gave, in the 1970s (animated in the 1994 film <em>Outside In</em>), is a <em>construction</em>, which is itself a proof of Smale's theorem: corrugate the surface so that it has slack, pass the ripples through one another, then iron the ripples out. No condition like $\det J(g&#95;{t})>0$ comes into it. The actual local move is a normal oscillation.
 </div>
 
 $$
 \mathbf{f}_\varepsilon(\theta,\varphi)=\bigl(1+\varepsilon\sin\theta\sin(k\varphi)\bigr)\,\mathbf{r}(\theta,\varphi).
 $$
 
-The amplitude $\varepsilon\sin\theta$ dies at the poles, so the chart singularities of $\mathbf{r}$ stay chart singularities. For $\lvert\varepsilon\rvert<1$ the radial factor never vanishes, and a computation of $\mathbf{f}&#95;{\theta}\times\mathbf{f}&#95;{\varphi}$ shows that its component along $\mathbf{r}$ is $\rho^2\sin\theta$ with $\rho=1+\varepsilon\sin\theta\sin(k\varphi)>0$, while the ripple only adds tangential terms. So it is never zero away from the chart poles. This is an immersion for every $\varepsilon$ in that range (an embedding, even: each ray from the origin meets it once). It is **not** an eversion. It is the ingredient that makes an eversion possible: extra wiggles so that later, when you try to pass sheets through each other, you have room.
+The amplitude $\varepsilon\sin\theta$ dies at the poles, so the poles do not move. For $\lvert\varepsilon\rvert<1$ the radial factor never vanishes, and a computation of $\mathbf{f}&#95;{\theta}\times\mathbf{f}&#95;{\varphi}$ shows that its component along $\mathbf{r}$ is $\rho^2\sin\theta$ with $\rho=1+\varepsilon\sin\theta\sin(k\varphi)>0$, while the ripple only adds tangential terms. So the cross product is never zero away from the chart poles. This is an immersion for every $\varepsilon$ in that range (an embedding, even: each ray from the origin meets it once), except at the poles themselves: for $k\ge2$ the factor $\sin\theta\sin(k\varphi)$ has a conical kink there. The amplitude $\varepsilon\sin^k\theta$ removes it (it makes $\rho$ a polynomial in $x$ and $y$), and the rest of the argument is unchanged. It is **not** an eversion. It is the ingredient that makes Thurston's eversion work: extra wiggles so that later, when you try to pass sheets through each other, you have room.
 
-A tempting shortcut is to corrugate and then multiply $z$ by a factor passing through zero. That second step is $F&#95;{s}$ again, crease and all. Here there is no second step. The two colours are the two sides of the surface. Drag both sliders as far as they go: the colours never trade places, and $\min\rho$ stays positive.
+A tempting shortcut is to corrugate and then multiply $z$ by a factor passing through zero. That second step is $F&#95;{s}$ from [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III) again, crease and all. Here there is no second step. The two colours are the two sides of the surface. Drag both sliders as far as they go: the colours never trade places, and $\min\rho$ stays positive.
 
 <div id="cs-corr" class="cs-stage" style="height:460px;">
   <div class="cs-hud cs-hud-tl" id="cs-corr-hud">corrugation</div>
@@ -57,7 +58,7 @@ A tempting shortcut is to corrugate and then multiply $z$ by a factor passing th
     <label>k <input type="range" id="cs-k" min="2" max="10" value="4"> <span id="cs-k-v">4</span></label>
   </div>
 </div>
-<p class="cs-cap">$\mathbf{f}&#95;{\varepsilon}=(1+\varepsilon\sin\theta\sin(k\varphi))\,\hat{\mathbf{r}}$. Blue is the outside, orange the inside. Increase $\varepsilon$: petals, no fold. This is slack, not eversion.</p>
+<p class="cs-cap">$\mathbf{f}&#95;{\varepsilon}=(1+\varepsilon\sin\theta\sin(k\varphi))\,\mathbf{r}$. Blue is the outside, orange the inside. Increase $\varepsilon$: petals, no fold. This is slack, not eversion.</p>
 
 <script>
 CS.mount({
@@ -119,7 +120,7 @@ CS.mount({
 
 # A formula that actually everts a band
 {: #a-formula-that-actually-everts-a-band}
-Existence is not a picture. Morin gave the first explicit halfway model, a four-lobed immersion with a single quadruple point, and later Apéry wrote algebraic formulae. A family you can type into a shader is due to Adam and Witold Bednorz, *Analytic sphere eversion using ruled surfaces*, arXiv:1711.10466. They evert a cylinder (the sphere minus two polar caps) by a ruled surface, then close the caps by a damped inversion. We draw only the cylinder, so that every vertex is the displayed equation.
+Existence is not a picture. Shapiro and Phillips used a doubly covered Boy surface as the halfway model; Morin found a four-lobed one with a single quadruple point, and later Apéry gave an algebraic halfway model. A family you can type into a shader is due to Adam and Witold Bednorz, *Analytic sphere eversion using ruled surfaces*, arXiv:1711.10466. They evert a cylinder (the sphere minus two polar caps) through a family of ruled surfaces, then close the caps by a damped inversion. We draw only the cylinder, so that every vertex is the displayed equation, up to one overall scale.
 
 $$
 \begin{aligned}
@@ -129,11 +130,11 @@ z&= h\sin(n\varphi) - \frac{t}{n}\cos(n\varphi) - q\,t\,h.
 \end{aligned}
 $$
 
-Parameters: $n=2$ (Morin band) or $n=3$ (Boy band), $q=\tfrac23$, and $p=1-\lvert qt\rvert$, which is exactly the choice that keeps their smoothness inequality
+Parameters: $n=2$ (Morin band) or $n=3$ (Boy band), $q=\tfrac23$, and $p=1-\lvert qt\rvert$, the paper's choice, which always satisfies their smoothness inequality
 
 $$(n-1)p\bigl(1-q\lvert t\rvert\bigr)+qt^2>0.$$
 
-The coordinates are $(\varphi,h)\in S^1\times\mathbb{R}$. At $t=0$, $n=2$ this is the ruled halfway model: four sheets through the origin (the quadruple point $Q$), and no preferred side. Sliding $t$ from $-3/2$ to $3/2$ swaps the two rims of the cylinder. That swap, once the poles are sewn back on, is the eversion of the band.
+The coordinates are $(\varphi,h)\in S^1\times\mathbb{R}$. At $t=0$, $n=2$ this is the ruled halfway model: four sheets through the origin (the quadruple point $Q$), and no preferred side. Sliding $t$ from $-3/2$ to $3/2$ swaps the two rims of the cylinder. That swap, once the poles are sewn back on, is the central step of the sphere eversion.
 
 <div id="cs-bednorz" class="cs-stage" style="height:500px;">
   <div class="cs-hud cs-hud-tl" id="cs-bed-hud">Bednorz ruled band</div>
@@ -222,7 +223,7 @@ CS.mount({
 });
 </script>
 
-To finish the sphere one maps $h=\omega\sin\theta/\cos^n\theta$ and applies Bednorz's damped inversion (their (7)--(8)). That is a page of algebra and a second rendering pass. The point of this canvas is narrower: a halfway model you can audit against a paper.
+To finish the sphere one maps $h=\omega\cos\theta/\sin^n\theta$ (the paper writes $\omega\sin\theta/\cos^n\theta$, measuring $\theta$ from the equator) and applies the damped inversion of their equations (7)--(8). That is a page of algebra and a second rendering pass. The point of this canvas is narrower: a halfway model you can audit against a paper.
 
 ---
 
@@ -235,7 +236,7 @@ To finish the sphere one maps $h=\omega\sin\theta/\cos^n\theta$ and applies Bedn
 <div class="cs-a">
 <strong>Teacher.</strong> Track the signed volume enclosed. For any smooth $f:S^2\to\mathbb{R}^3$,
 $$V(f)=\frac13\int_{S^2}f\cdot\bigl(f_\theta\times f_\varphi\bigr)\,d\theta\,d\varphi.$$
-For an embedding with the outward frame this is the enclosed volume (divergence theorem, $\nabla\cdot\mathbf{x}=3$). For an immersion it counts volume with multiplicity and sign. $V(\iota)=4\pi/3$. For $\alpha(p)=-p$ one has $\alpha&#95;{\theta}\times\alpha&#95;{\varphi}=(-\mathbf{r}&#95;{\theta})\times(-\mathbf{r}&#95;{\varphi})=\mathbf{r}&#95;{\theta}\times\mathbf{r}&#95;{\varphi}$ while $\alpha=-\mathbf{r}$, so $V(\alpha)=-4\pi/3$. Along any regular homotopy $V$ is a continuous function of one real variable, so the intermediate-value theorem produces an $s^*$ with $V(f&#95;{s^*})=0$. That is halfway, in the crudest sense. Morin's halfway model is the geometric refinement: a quarter turn carries it to itself with its two sides swapped, which forces $V=0$ by symmetry.
+For an embedding with the outward frame this is the enclosed volume (divergence theorem, $\nabla\cdot\mathbf{x}=3$). For an immersion it counts volume with multiplicity and sign. $V(\iota)=4\pi/3$. For $\alpha(p)=-p$ one has $\alpha&#95;{\theta}\times\alpha&#95;{\varphi}=(-\mathbf{r}&#95;{\theta})\times(-\mathbf{r}&#95;{\varphi})=\mathbf{r}&#95;{\theta}\times\mathbf{r}&#95;{\varphi}$ while $\alpha=-\mathbf{r}$, so $V(\alpha)=-4\pi/3$. Along any regular homotopy $V$ is a continuous function of one real variable, so the intermediate-value theorem produces an $s^{\ast}$ with $V(f&#95;{s^{\ast}})=0$. That is halfway, in the crudest sense. Morin's halfway model is the geometric refinement: a quarter turn carries it to itself with its two sides swapped, which forces $V=0$ by symmetry.
 </div>
 
 For the illegal homotopy $F&#95;{s}$ the integrand is one line: $F&#95;{s}\cdot(\mathbf{F}&#95;{\theta}\times\mathbf{F}&#95;{\varphi})=(1-2s)\sin\theta$, so
@@ -312,7 +313,7 @@ It crosses zero at $s=\tfrac12$, which is exactly where $F&#95;{s}$ creases: the
     a.setAttribute('cx', X(s)); a.setAttribute('cy', Y(Sv[k2])); b.setAttribute('cx', X(s)); b.setAttribute('cy', Y(Vv[k2]));
     document.getElementById('ev-sync-detail').textContent = 'V / (4π/3) = ' + f2(Vv[k2]) + '   ·   S / 4π = ' + f2(Sv[k2]) + (k2 === 100 ? '   ·   F is not an immersion here' : '');
     document.getElementById('ev-sync-title').textContent = k2 === 100 ? 's = ½: the sphere is flattened to a doubly covered disk. Signed volume 0, and the surface has creased.'
-      : s < 0.5 ? 'Squashing the sphere. The signed volume falls linearly; the normals tilt toward the equator.'
+      : s < 0.5 ? 'Squashing the sphere. The signed volume falls linearly; the normals tilt toward the vertical.'
       : 'Past the crease: the sphere is reflected. Signed volume negative. Normal alignment ends at −⅓, which is not what α gives.';
   }
   sl.addEventListener('input', on);
@@ -332,13 +333,13 @@ The Student's wrong turns are the ones a first pass at this subject tends to tak
     <tr><th>Tempting claim</th><th>Fact</th></tr>
   </thead>
   <tbody>
-    <tr><td>$H=(1-t)f&#95;{0}+tf&#95;{1}$ is a regular homotopy.</td><td>It is a homotopy of maps. Rank drops. See $F&#95;{s}$.</td></tr>
+    <tr><td>$H=(1-t)f&#95;{0}+tf&#95;{1}$ is a regular homotopy.</td><td>It is a homotopy of maps. Rank can drop. See $F&#95;{s}$.</td></tr>
     <tr><td>$\partial&#95;{\theta}(1,0,0)=\mathbf{0}$.</td><td>Differentiate the chart, not the point. $\mathbf{r}&#95;{\theta}(1,0,0)=(0,0,-1)$.</td></tr>
     <tr><td>Jacobian of $f:\mathbb{R}^n\to\mathbb{R}^m$ is $n\times m$.</td><td>$m\times n$. For immersions $S^2\to\mathbb{R}^3$ it is $3\times 2$; there is no determinant.</td></tr>
-    <tr><td>$\det J=-1$ means a saddle.</td><td>It means orientation reversal. A saddle is a critical point, which requires $\det J=0$ (in the square case).</td></tr>
+    <tr><td>$\det J=-1$ means a saddle.</td><td>It means orientation reversal. A saddle is a critical point of a scalar function (gradient zero, Hessian indefinite), a different notion.</td></tr>
     <tr><td>$S^2\times[0,1]$ is a ball.</td><td>It is a spherical shell. The ball is $D^3$.</td></tr>
     <tr><td>Smale's hairy ball theorem.</td><td>Poincaré–Brouwer. Smale classified immersions of $S^2$.</td></tr>
-    <tr><td>Thurston's magic formula ($J(g&#95;{t})>0$) proves eversion.</td><td>Smale proved existence. Thurston gave corrugations. Bednorz wrote a ruled family.</td></tr>
+    <tr><td>Thurston's magic formula ($\det J(g&#95;{t})>0$) proves eversion.</td><td>Smale proved existence. Thurston gave corrugations. The Bednorzes wrote a ruled family.</td></tr>
     <tr><td>Eversion forbids self-intersection and uses contact / Reeb foliations.</td><td>Self-intersection is the point. Contact geometry is a different chapter.</td></tr>
     <tr><td>The complex exponential at $(0,\pi/2)$ has $\det J=-1$.</td><td>$\det J=e^{2x}=1$ there. The map is a local diffeomorphism everywhere.</td></tr>
   </tbody>
@@ -348,8 +349,8 @@ The Student's wrong turns are the ones a first pass at this subject tends to tak
 
 # The arc
 {: #the-arc}
-Topology gives the grammar: open sets, continuity, connectedness, homotopy ([Vols. I–II](/blog/2026/08/17/circling-the-sphere)). Calculus gives the language: charts, $J&#95;{f}$, $\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}\neq\mathbf{0}$. Function spaces give the question: is $\operatorname{Imm}(S^2,\mathbb{R}^3)$ path-connected? Circles in the plane say no, by $\pi&#95;{1}(S^1)=\mathbb{Z}$. One dimension up, the same instinct produces $\pi&#95;{2}(V&#95;{3,2})$, and that group is zero. Smale's theorem is that computation plus a fibration argument. Morin, Thurston, and Bednorz are what you do if you want to *see* a path.
+Topology gives the grammar: open sets, continuity, connectedness, homotopy ([Vols. I–II](/blog/2026/08/17/circling-the-sphere)). Calculus gives the language: charts, $J&#95;{f}$, $\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}\neq\mathbf{0}$. Function spaces give the question: is $\operatorname{Imm}(S^2,\mathbb{R}^3)$ path-connected? For circles in the plane the answer is no, by $\pi&#95;{1}(S^1)=\mathbb{Z}$. One dimension up, the same instinct produces $\pi&#95;{2}(V&#95;{3,2})$, and that group is zero. Smale's theorem is that computation plus a fibration argument. Morin, Thurston, and the Bednorzes are what you need if you want to *see* a path.
 
 These six volumes circle the sphere, starting from the definition of an open set, until the picture and the equation are the same object.
 
-**Further reading.** S. Smale, *A classification of immersions of the two-sphere*, Trans. Amer. Math. Soc. 90 (1958). A. Bednorz and W. Bednorz, [arXiv:1711.10466](https://arxiv.org/abs/1711.10466). S. Levy, D. Maxwell, T. Munzner, *Outside In*, Geometry Center, 1994. Guillemin–Pollack, *Differential Topology*. J. Munkres, *Topology*. A. Hatcher, *Algebraic Topology* (free online). M. Hirsch, *Immersions of manifolds*, Trans. AMS 93 (1959). H. Whitney, *On regular closed curves in the plane*, Compositio Math. 4 (1937).
+**Further reading.** S. Smale, *A classification of immersions of the two-sphere*, Trans. Amer. Math. Soc. 90 (1958). A. Bednorz and W. Bednorz, [arXiv:1711.10466](https://arxiv.org/abs/1711.10466). S. Levy, D. Maxwell, T. Munzner, *Outside In*, Geometry Center, 1994. Guillemin–Pollack, *Differential Topology*. J. Munkres, *Topology*. A. Hatcher, *Algebraic Topology* (free online). M. Hirsch, *Immersions of manifolds*, Trans. Amer. Math. Soc. 93 (1959). H. Whitney, *On regular closed curves in the plane*, Compositio Math. 4 (1937).

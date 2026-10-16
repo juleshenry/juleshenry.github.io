@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Sphere Eversion, Vol. II: Paths and Homotopy"
 date: 2026-08-17 12:01:00
+description: "Homotopy and the fundamental group built from paths, a lifting proof that π₁(S¹) = ℤ, and why πₖ(Sⁿ) = 0 whenever k < n."
 categories: differential topology
 mathjax: true
 ---
@@ -10,9 +11,9 @@ mathjax: true
 
 {% include eversion-kit.html %}
 
-*Homotopy is continuous deformation. This volume builds it from the path of [Vol. I](/blog/2026/08/17/circling-the-sphere), and computes the two facts about spheres that Smale's proof will need.*
+*Homotopy is continuous deformation. This volume builds it from the path of [Vol. I](/blog/2026/08/17/circling-the-sphere) and computes the two facts about spheres that Smale's proof will need.*
 
-[Vol. I](/blog/2026/08/17/circling-the-sphere) ended with a restatement: an eversion is a *path* in the space $\operatorname{Imm}(S^2,\mathbb{R}^3)$. A path in a space of maps is a continuously varying family of maps. That has a name.
+[Vol. I](/blog/2026/08/17/circling-the-sphere) restated the problem: an eversion is a *path* in the space $\operatorname{Imm}(S^2,\mathbb{R}^3)$. A path in a space of maps is a continuously varying family of maps. That has a name.
 
 <div class="cs-toc">
 <strong>Contents</strong>
@@ -38,9 +39,9 @@ mathjax: true
 <strong>Teacher.</strong> A movie of maps. Two maps $f,g:X\to Y$ are <em>homotopic</em> if one can be deformed continuously into the other: there is a continuous $H:X\times[0,1]\to Y$ with $H(\cdot,0)=f$ and $H(\cdot,1)=g$. Freeze the second coordinate at $s$ and you get the frame $H&#95;{s}=H(\cdot,s)$ of the movie. We write $f\simeq g$.
 </div>
 
-The notation $X\times[0,1]$ matters. For $X=S^2$ it is a thickened sphere, a spherical *shell*: each point of the sphere grows a little time-interval. It is not the solid ball. (Calling it a ball is an easy slip, and it is worth getting right: the homotopy parameter is a new direction, not a filling-in.)
+The notation $X\times[0,1]$ matters. For $X=S^2$ it is a thickened sphere, a spherical *shell*: each point of the sphere grows a little time-interval. It is not the solid ball. (Calling it a ball is an easy slip: the homotopy parameter is a new direction, not a filling-in.)
 
-In $\mathbb{R}^n$ every two maps are homotopic, by the **straight-line homotopy**
+Any two maps $X\to\mathbb{R}^n$ are homotopic, by the **straight-line homotopy**
 
 $$H(x,s)=(1-s)\,f(x)+s\,g(x).$$
 
@@ -64,7 +65,7 @@ The same formula works in any *convex* set, because the segment between $f(x)$ a
     <span class="mv-key"><b style="background:#3987e5"></b>γ₀<b style="background:#199e70"></b>γ₁ (drag its handle)<b style="background:#d95926"></b>Hₛ</span>
   </div>
 </div>
-<p class="cs-cap">$H(t,s)=(1-s)\,\gamma&#95;{0}(t)+s\,\gamma&#95;{1}(t)$, with both endpoints held fixed. In the plane this always works. With the origin removed it works exactly when the loop "$\gamma&#95;{0}$ then $\gamma&#95;{1}$ backwards" has winding number $0$ around the hole. Drag the green handle across the hole and watch both facts change together.</p>
+<p class="cs-cap">$H(t,s)=(1-s)\,\gamma&#95;{0}(t)+s\,\gamma&#95;{1}(t)$, with both endpoints held fixed. In the plane this always works. With the origin removed, for these two paths, it works exactly when the loop "$\gamma&#95;{0}$ then $\gamma&#95;{1}$ backwards" has winding number $0$ around the hole. Drag the green handle across the hole and watch both facts change together.</p>
 <script>
 (function () {
   var root = document.getElementById('ev-htpy');
@@ -168,7 +169,7 @@ Now define the **degree** of a loop $\gamma$ at $p(0)$ to be $\tilde\gamma(1)$. 
 
 $$\deg:\pi_1(S^1)\xrightarrow{\ \cong\ }\mathbb{Z}.$$
 
-(It is onto because $t\mapsto p(nt)$ has degree $n$, and one-to-one because two loops with the same lift endpoint have lifts related by a straight-line homotopy in the convex set $\mathbb{R}$, which projects down.)
+(It respects products because the lift of $\gamma$ followed by $\delta$ is $\tilde\gamma$ followed by $\tilde\delta+\deg\gamma$. It is onto because $t\mapsto p(nt)$ has degree $n$, and one-to-one because two loops with the same lift endpoint have lifts related by a straight-line homotopy in the convex set $\mathbb{R}$, which projects down.)
 
 <div id="ev-lift" class="cs-stage" style="height:460px;">
   <div class="cs-hud cs-hud-tl" id="ev-lift-hud"></div>
@@ -314,11 +315,11 @@ CS.mount({
 });
 </script>
 
-There is a real gap in that argument, and it is worth seeing. A continuous loop *can* hit every point of $S^2$: space-filling curves exist. The repair is to first homotope the loop to a smooth one (approximate it by a smooth loop close enough that the straight-line homotopy between them, pushed back onto the sphere, is well defined). A smooth map from a 1-dimensional thing into a 2-dimensional thing has an image of area zero (this is the easy case of **Sard's theorem**), so it misses a point. Then stereographic projection finishes. Therefore
+There is a real gap in that argument. A continuous loop *can* hit every point of $S^2$: space-filling curves exist. The repair is to first homotope the loop to a smooth one (approximate it by a smooth loop close enough that the straight-line homotopy between them, pushed back onto the sphere, is well defined). A smooth map from a 1-dimensional thing into a 2-dimensional thing has an image of area zero (this is the easy case of **Sard's theorem**), so it misses a point. Then stereographic projection finishes. Therefore
 
 $$\pi_1(S^2)=0.$$
 
-Compare the circle: there the loop that goes once around cannot miss a point, and it is exactly the loop that does not shrink.
+Compare the circle: there the loop that goes once around cannot miss a point, which is why this argument cannot shrink it.
 
 ---
 
@@ -334,7 +335,7 @@ The argument for $\pi&#95;{1}(S^2)=0$ works word for word in every dimension whe
 
 *Proof.* Homotope $f:S^k\to S^n$ to a smooth map. Since $k&lt;n$, its image has $n$-dimensional measure zero (Sard), so it misses a point $q$. Stereographic projection from $q$ carries $S^n\setminus\lbrace q\rbrace$ to $\mathbb{R}^n$, where the straight-line homotopy contracts $f$ (to the base point, if we contract toward it). $\square$
 
-We will use exactly one instance of this, in [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V):
+The instance Smale's proof needs, in [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V), is
 
 $$\pi_2(S^3)=0.$$
 

@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Sphere Eversion, Vol. I: Open, Closed, Clopen"
 date: 2026-08-17 12:00:00
+description: "Open, closed and clopen sets, continuity, connectedness, paths and compactness: the topology needed to state Smale's sphere eversion theorem."
 categories: differential topology
 mathjax: true
 ---
@@ -12,13 +13,13 @@ mathjax: true
 
 *One theorem, from the ground up: a sphere can be turned inside out, smoothly, if it is allowed to pass through itself. We start with the definition of an open set.*
 
-Everything is built from definitions, and every figure is an equation you can drag. Along the way, boxed **Student** questions are answered by a **Teacher**. They are the questions a first reading actually raises, and several arrive with a wrong turn already taken: a linear interpolation offered as a regular homotopy, the hairy-ball theorem credited to Smale, $S^2\times[0,1]$ described as a solid ball. The wrong turns are kept on purpose, because each one marks a place where the subject is easy to get wrong.
+Everything is built from definitions, and most figures are equations you can drag. Along the way, boxed **Student** questions are answered by a **Teacher**. They are the questions a first reading actually raises, and several arrive with a wrong turn already taken: a linear interpolation offered as a regular homotopy, the hairy-ball theorem credited to Smale, a "magic formula" for eversion attributed to Thurston. The wrong turns are kept on purpose, because each one marks a place where the subject is easy to get wrong.
 
 <p style="text-align:center;">
-  <img src="/blog/assets/2024/eversion/eversion.gif" alt="Sphere eversion through the Morin halfway model" style="max-width:100%;">
+  <img src="/blog/assets/2024/eversion/eversion.gif" alt="Thurston's corrugation sphere eversion, from the film Outside In" style="max-width:100%;">
 </p>
 
-The still above is a genuine eversion, passing through Morin's halfway model. By the end of [Vol. VI](/blog/2026/08/17/circling-the-sphere-Vol-VI) you will know exactly what it is a picture of, and why its existence was proved before anyone could draw it.
+The animation above is a genuine eversion: Thurston's corrugations, as rendered in the 1994 film *Outside In*. By the end of [Vol. VI](/blog/2026/08/17/circling-the-sphere-Vol-VI) you will know exactly what it is a picture of, and why its existence was proved before anyone could draw it.
 
 <table class="cs-err">
   <thead><tr><th>Vol.</th><th>Topic</th><th>What it contributes to the proof</th></tr></thead>
@@ -198,9 +199,9 @@ Those two facts, plus "$\varnothing$ and the whole space are open", are all we e
 
 Examples that will matter:
 
-- **Metric topologies.** Any set with a distance function, open sets defined by balls exactly as above. This includes $\mathbb{R}^n$, the sphere $S^2$ (with distance measured in $\mathbb{R}^3$), and, crucially, **spaces of maps**. For maps $f,g:S^2\to\mathbb{R}^3$ with derivatives, $d(f,g)=\sup\lVert f-g\rVert+\sup\lVert df-dg\rVert$ is a distance. Two surfaces are close when their points *and their tangent planes* are close. That is the topology in which Smale's theorem lives.
+- **Metric topologies.** Any set with a distance function, open sets defined by balls exactly as above. This includes $\mathbb{R}^n$, the sphere $S^2$ (with distance measured in $\mathbb{R}^3$), and **spaces of maps**. For maps $f,g:S^2\to\mathbb{R}^3$ with continuous derivatives (the space $C^1(S^2,\mathbb{R}^3)$), $d(f,g)=\sup\lVert f-g\rVert+\sup\lVert df-dg\rVert$ is a distance. Two surfaces are close when their points *and their tangent planes* are close. That is the topology in which Smale's theorem lives.
 - **The discrete topology.** Every subset is open. On $\mathbb{Z}$ with its usual distance this is what you get, since $B(n,\tfrac12)=\lbrace n\rbrace$.
-- **The subspace topology.** If $Y\subseteq X$, a set is open in $Y$ when it is $U\cap Y$ for some $U$ open in $X$. Open-ness is relative to the ambient space, and this is where things get interesting.
+- **The subspace topology.** If $Y\subseteq X$, a set is open in $Y$ when it is $U\cap Y$ for some $U$ open in $X$. Openness is relative to the ambient space.
 
 ---
 
@@ -274,7 +275,7 @@ Examples that will matter:
       d: 'A clopen set that is not ∅ or the whole space is exactly a clean split of the space into two pieces that do not touch.' },
     { on: ['Y', 'Ylab', 'b1', 'Yb'], t: 'Close the gap: Y = [0, 3]. The same interval now gives Y ∩ (−½, 3⁄2) = [0, 3⁄2), open in Y.',
       d: 'Its right end 3⁄2 is not included (hollow dot). So this set is open in Y. Is it also closed?' },
-    { on: ['Y', 'Ylab', 'b1', 'Yb', 'poke'], t: 'No. Its complement [3⁄2, 3] is not open in Y: every interval around 3⁄2 reaches back into [0, 3⁄2). No proper clopen subset of [0, 3] exists at all.',
+    { on: ['Y', 'Ylab', 'b1', 'Yb', 'poke'], t: 'No. Its complement [3⁄2, 3] is not open in Y: every interval around 3⁄2 reaches back into [0, 3⁄2). No nonempty proper clopen subset of [0, 3] exists at all.',
       d: 'That last sentence is the theorem "an interval is connected", proved in the text by taking a supremum. It is the engine behind every invariant in this series.' }
   ];
   EV.stepper({ root: root, n: S.length, render: function (i) {
@@ -289,7 +290,7 @@ Examples that will matter:
 
 **Theorem.** The interval $[0,1]$ is connected.
 
-*Proof.* Suppose $A\subseteq[0,1]$ is clopen and contains $0$; we show $A=[0,1]$. Let $s=\sup\lbrace x: [0,x]\subseteq A\rbrace$. Because $A$ is closed, it contains the limit point $s$. Because $A$ is open (in $[0,1]$), if $s&lt;1$ some interval $[s,s+\varepsilon)$ also lies in $A$, contradicting the choice of $s$. So $s=1$ and $A=[0,1]$. If instead $0\notin A$, apply the argument to the complement, which is also clopen. $\square$
+*Proof.* Suppose $A\subseteq[0,1]$ is clopen and contains $0$; we show $A=[0,1]$. Let $s=\sup\lbrace x: [0,x]\subseteq A\rbrace$. Because $A$ is closed, it contains the limit point $s$, so $[0,s]\subseteq A$. Because $A$ is open (in $[0,1]$), if $s&lt;1$ some interval $[s,s+\varepsilon)$ also lies in $A$, contradicting the choice of $s$. So $s=1$ and $A=[0,1]$. If instead $0\notin A$, apply the argument to the complement, which is also clopen. $\square$
 
 This is the completeness of the real numbers, wearing a topological hat. It is the single fact on which the rest of the series leans.
 
@@ -325,7 +326,7 @@ For $f:\mathbb{R}\to\mathbb{R}$ this is exactly $\varepsilon$--$\delta$: take $V
     <span class="mv-key"><b style="background:#c98500"></b>open interval V<b style="background:#d95926"></b>its preimage</span>
   </div>
 </div>
-<p class="cs-cap">Hollow dot: endpoint not included. Filled dot: endpoint included. For the continuous function every preimage is a union of open intervals, wherever you put $V$. For the step function one position of $V$ produces a preimage with a filled endpoint, a point with no room, and that single failure is the discontinuity.</p>
+<p class="cs-cap">Hollow dot: endpoint not included. Filled dot: endpoint included. For the continuous function every preimage is a union of open intervals, wherever you put $V$. For the step function some positions of $V$ produce a preimage with a filled endpoint, a point with no room, and that failure is the discontinuity.</p>
 <script>
 (function () {
   var root = document.getElementById('ev-pre');
@@ -420,7 +421,7 @@ Now the payoff, in three lines.
 
 **Theorem.** The continuous image of a connected space is connected.
 
-*Proof.* If $f:X\to Y$ is continuous and onto and $B\subseteq Y$ is clopen, then $f^{-1}(B)$ is clopen in $X$ (preimages respect complements). If $X$ is connected, $f^{-1}(B)$ is $\varnothing$ or $X$, so $B$ is $\varnothing$ or $Y$. $\square$
+*Proof.* If $f:X\to Y$ is continuous and onto (we may take $Y$ to be the image) and $B\subseteq Y$ is clopen, then $f^{-1}(B)$ is clopen in $X$ (preimages respect complements). If $X$ is connected, $f^{-1}(B)$ is $\varnothing$ or $X$, so $B$ is $\varnothing$ or $Y$. $\square$
 
 **Corollary (intermediate value theorem).** A continuous $f:[0,1]\to\mathbb{R}$ takes every value between $f(0)$ and $f(1)$. (Otherwise a missed value $c$ splits the image into the clopen pieces below and above $c$.)
 
@@ -440,21 +441,21 @@ The **path components** of $X$ are its maximal path-connected pieces; the set of
 
 $$\text{Smale:}\qquad \pi_0\bigl(\operatorname{Imm}(S^2,\mathbb{R}^3)\bigr)=\{\ast\}.$$
 
-A *point* of this space is an entire immersed sphere. A *path* in it is a movie of immersed spheres, each close to the next in both position and tangent planes. An eversion is a path from $\iota$ to $\alpha$.
+A *point* of this space is an entire immersed sphere. A *path* in it is a movie of immersed spheres, changing continuously in both position and tangent planes. An eversion is a path from $\iota$ to $\alpha$.
 
 ---
 
 # Compactness, and why immersions have room
 {: #compactness-and-why-immersions-have-room}
-One more word, because we will use it once in a crucial place.
+One more word, needed here and again in Vol. II.
 
 <div class="ev-def"><strong>Definition (compact).</strong> $K$ is <em>compact</em> if every cover of $K$ by open sets has a finite subcover. In $\mathbb{R}^n$ (Heine–Borel): compact $\iff$ closed and bounded.</div>
 
-$S^2$ is closed and bounded, so compact. The fact we need is: **a continuous real function on a compact space attains its minimum.** Apply it to an immersion $f$, whose tangent vectors $f&#95;{u},f&#95;{v}$ are independent everywhere, so $m=\min\lVert f&#95;{u}\times f&#95;{v}\rVert&gt;0$. The cross product is continuous in the derivatives, so any map $g$ whose derivatives are uniformly close enough to $f$'s (how close depends only on $m$ and on the size of $df$) still has $\lVert g&#95;{u}\times g&#95;{v}\rVert&gt;0$. So every immersion has a ball of immersions around it:
+$S^2$ is closed and bounded, so compact. The fact we need is: **a continuous real function on a compact space attains its minimum.** Apply it to an immersion $f$. At each point, its derivatives $f&#95;{u},f&#95;{v}$ along two perpendicular unit tangent directions are independent, and the length $\lVert f&#95;{u}\times f&#95;{v}\rVert$ (the factor by which $f$ stretches area) does not depend on which pair you pick. So $m=\min\lVert f&#95;{u}\times f&#95;{v}\rVert&gt;0$. The cross product is continuous in the derivatives, so any map $g$ whose derivatives are uniformly close enough to $f$'s (how close depends only on $m$ and on the size of $df$) still has $\lVert g&#95;{u}\times g&#95;{v}\rVert&gt;0$. So every immersion has a ball of immersions around it:
 
 $$\operatorname{Imm}(S^2,\mathbb{R}^3)\ \text{is an open subset of}\ C^1(S^2,\mathbb{R}^3).$$
 
-On a non-compact surface the minimum could be $0$ at infinity and there would be no room. On the sphere there always is. This is the fact that makes wiggling an immersion safe, and wiggling is how every eversion is built.
+On a non-compact surface the infimum could be $0$, approached at infinity, and there would be no room. On the sphere there always is. This is the fact that makes wiggling an immersion safe, and wiggling is how eversions are built.
 
 (The last axiom we need is **Hausdorff**: distinct points have disjoint open neighbourhoods, so limits are unique. Every metric space is Hausdorff. It shows up in the definition of a manifold in Vol. III and nowhere else.)
 

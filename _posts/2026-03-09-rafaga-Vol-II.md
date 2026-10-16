@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Mean-Reverting VIX, Vol. II: Futures, Options and a Flat Smile"
 date: 2026-03-09 12:01:00
+description: "How the log VIX model of Vol. I prices VIX futures and options, how parity reads futures off the option chain, and why its implied volatility smile is flat."
 mathjax: true
 categories: wealth
 ---
@@ -49,7 +50,7 @@ A VIX future with expiry $T$ settles to $\text{VIX}_T$ (to be exact, to the spec
 
 $$F(t,T) = \mathbb E^{\mathbb Q}_t[\text{VIX}_T].$$
 
-Under MRLR, $\ln\text{VIX}_T$ is Gaussian (Vol. I) with, writing $\tau = T - t$ and $\phi = e^{-\kappa\tau}$,
+Under MRLR, $\ln\text{VIX}_T$ is Gaussian (Vol. I) with mean $\mu$ and variance $v$: writing $\tau = T - t$ and $\phi = e^{-\kappa\tau}$,
 
 $$\mu = \phi\ln\text{VIX}_t + (1-\phi)\,\theta, \qquad v = \frac{\sigma^2}{2\kappa}\,(1-\phi^2).$$
 
@@ -59,7 +60,7 @@ $$F(t,T) = \exp\!\Big(\mu + \tfrac{v}{2}\Big) = \text{VIX}_t^{\,\phi}\;\exp\!\Bi
 
 Read it at both ends. For a future about to expire, $\phi\to 1$ and $F\to\text{VIX}_t$. For a distant one, $\phi\to0$ and $F\to e^{\theta + \sigma^2/(4\kappa)}$, a constant: the current VIX stops mattering. Between them the curve bends from spot toward the long-run level. When the VIX is below that level the curve slopes up (**contango**); after a spike it slopes down (**backwardation**).
 
-Both happen. On 29 September 2026, with the VIX at 16.04, the curve was in contango. On 26 September 2011, the day Bao's thesis took its data, the VIX was at 42.3 and the curve was in backwardation. The 2011 futures are not in the thesis; the ones below are what its own calibrated parameters imply ([Vol. IV](/blog/2026/03/09/rafaga-Vol-IV) explains how we know).
+Both happen. On 29 September 2026, with the VIX at 16.04, the curve was in contango. On the morning of 26 September 2011, when Bao downloaded the thesis' quotes, the VIX was at 42.3 and the curve was in backwardation. The 2011 futures are not in the thesis; the ones below are what its own calibrated parameters imply, each range spanning MRLR and the two richer models of [Vol. III](/blog/2026/03/09/rafaga-Vol-III) ([Vol. IV](/blog/2026/03/09/rafaga-Vol-IV) explains how we know).
 
 <table class="cs-err">
   <thead><tr><th></th><th>spot VIX</th><th colspan="4">VIX futures, first four monthly expiries</th></tr></thead>
@@ -76,9 +77,9 @@ Both happen. On 29 September 2026, with the VIX at 16.04, the curve was in conta
 
 For a stock, the futures price is pinned by a trade: buy the stock, finance it, deliver it. That gives $F = S\,e^{r\tau}$ (less dividends), the *cost-of-carry* relation, and it holds because the trade is possible.
 
-For the VIX the trade is impossible ([Vol. I](/blog/2026/03/09/rafaga#what-the-vix-is): you cannot hold the index). So nothing forces $F = \text{VIX}_t\,e^{r\tau}$, and in fact it fails badly. Whaley (1993), the first VIX option model, treated the index as if it were tradable. On 29 September 2026 that would put the October future at $16.04\,e^{0.0446\times0.0595} = 16.08$. The market says 17.59.
+For the VIX the trade is impossible ([Vol. I](/blog/2026/03/09/rafaga#what-the-vix-is): you cannot hold the index). So nothing forces $F = \text{VIX}_t\,e^{r\tau}$, and in fact it fails badly. Whaley (1993), the first VIX option model, treated the index as if it were tradable. On 29 September 2026, with the 4.46% rate read off the option chain below and 0.0595 years to expiry, that would put the October future at $16.04\,e^{0.0446\times0.0595} = 16.08$. The market says 17.59.
 
-This is why the thesis, and this series, never price VIX options off the spot VIX alone. The model produces $F$ from its dynamics, and the market's $F$ is a separate, observable number that the model should match. Whether the thesis' calibration actually matched it is a question for [Vol. V](/blog/2026/03/09/rafaga-Vol-V).
+This is why neither the thesis' models nor this series get $F$ by carrying the spot VIX forward at the interest rate. The model produces $F$ from its dynamics, and the market's $F$ is a separate, observable number that the model should match. Whether the thesis' calibration actually matched it is a question for [Vol. V](/blog/2026/03/09/rafaga-Vol-V).
 
 ---
 
@@ -93,7 +94,7 @@ Take $\mathbb Q$-expectations and discount with $D = e^{-r\tau}$:
 
 $$C - P = D\,(F - K).$$
 
-This is **put–call parity**, and it holds for any model at all. It is also a measuring instrument. Across every strike where both a call and a put have a live bid, $C-P$ is a straight line in $K$ with slope $-D$ and intercept $DF$. Fitting that line on the full Cboe chain of 29 September 2026 (one rate across the four expiries, least squares) gives
+This is **put–call parity**, and it holds for any model at all. It is also a measuring instrument. Across every strike where both a call and a put have a live bid, $C-P$ is a straight line in $K$ with slope $-D$ and intercept $DF$. Fitting that line on the Cboe chain of 29 September 2026 (first four monthly expiries, one rate across all four, least squares) gives
 
 $$r = 4.46\%, \qquad F = 17.59,\ 18.28,\ 18.67,\ 19.41$$
 
@@ -119,10 +120,10 @@ Keep the shape of this formula. In [Vol. III](/blog/2026/03/09/rafaga-Vol-III) t
 
 Prices of options at different strikes are hard to compare by eye. The standard trick converts each price into a single volatility.
 
-<div class="ev-def"><strong>Definition (implied volatility).</strong> Given a call price $C$ on a future $F$ with strike $K$ and expiry $\tau$, the implied volatility is the unique $\sigma_{\text{imp}}$ with
+<div class="ev-def"><strong>Definition (implied volatility).</strong> Given a call price $C$ on a future $F$ with strike $K$ and time to expiry $\tau$, the implied volatility is the unique $\sigma_{\text{imp}}$ with
 $$C = D\big(F\,\Phi(d_1) - K\,\Phi(d_2)\big),\qquad d_{1,2} = \frac{\ln(F/K) \pm \sigma_{\text{imp}}^2\tau/2}{\sigma_{\text{imp}}\sqrt\tau}.$$</div>
 
-The Black price increases with $\sigma$, so the inversion is well defined, and a one-dimensional root-finder solves it. The thesis uses exactly this definition (its Eq. 7.11) with the *future* as underlying, and warns against the alternative with the spot VIX as underlying and cost-of-carry drift, which manufactures a skew that isn't there.
+The Black price increases with $\sigma_{\text{imp}}$, so the inversion is well defined, and a one-dimensional root-finder solves it. The thesis uses exactly this definition (its Eq. 7.11) with the *future* as underlying, and warns against the alternative with the spot VIX as underlying and cost-of-carry drift, which manufactures a skew that isn't there.
 
 Plot implied volatility against strike and you get the **smile** (or skew) of the market. For S&P 500 options it slopes *down*: crash puts are expensive. For VIX options it slopes *up*, because a crash in the S&P is a spike in the VIX, and VIX calls are the crash insurance.
 
@@ -131,19 +132,19 @@ Plot implied volatility against strike and you get the **smile** (or skew) of th
 # The flat smile
 {: #flat-smile}
 
-Here is the theorem that motivates the rest of the thesis.
+Here is the result that motivates the rest of the thesis.
 
 <div class="ev-def"><strong>Proposition.</strong> Under MRLR, the implied volatility of a VIX call against the model future is the same at every strike:
 $$\sigma_{\text{imp}}(K) = \sqrt{v/\tau} = \sigma\sqrt{\frac{1-e^{-2\kappa\tau}}{2\kappa\tau}}.$$</div>
 
 *Proof.* The MRLR price is Black's formula with total variance $v$. Setting $\sigma_{\text{imp}}^2\tau = v$ reproduces it at every strike, and the inversion is unique. $\square$
 
-A log-normal model has a flat smile. Now look at the market. Below is the implied volatility of every October 2026 VIX call with a live bid and open interest, against the parity future $F = 17.59$: grey bars are bid-to-ask. (The three lines are the calibrated models of [Vol. V](/blog/2026/03/09/rafaga-Vol-V); ignore them for now.)
+A log-normal model has a flat smile. Now look at the market. Below is the implied volatility of the October 2026 VIX calls with a live bid and open interest, strikes up to 50, against the parity future $F = 17.59$: grey bars run from bid to ask. (The three lines are the calibrated models of [Vol. V](/blog/2026/03/09/rafaga-Vol-V); ignore them for now. The dotted MRLR line rises only because it is drawn against the market future, not its own.)
 
 <div class="vx-fig"><img src="/blog/assets/2026/rafaga/skew_2026-10-21.png" alt="Implied volatility smile of October 2026 VIX calls with MRLR, MRLRJ and MRLRSV fits"></div>
 <p class="cs-cap">VIX call implied volatility, 21 Oct 2026 expiry, quoted 29 Sep 2026. From about 0.75 at the money to about 2.0 at a strike of 50.</p>
 
-The smile is not flat. It is a wall: implied volatility nearly triples between the money and a strike of 50. Put numbers on it. Take MRLR with its variance set to match the at-the-money option ($\sigma_{\text{imp}} = 0.75$ at $K = 17.5$) and price the out-of-the-money calls:
+The smile is not flat. It is a wall: implied volatility nearly triples between the money and a strike of 50. Put numbers on it. Take MRLR with its future at 17.59 and its variance set to match the at-the-money option ($\sigma_{\text{imp}} = 0.75$ at $K = 17.5$) and price the out-of-the-money calls:
 
 <table class="cs-err">
   <thead><tr><th>strike</th><th>market bid / ask</th><th>flat-smile (MRLR) price</th></tr></thead>

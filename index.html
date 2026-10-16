@@ -20,11 +20,20 @@ layout: default
     </p>
   </div>
 
-  <figure class="postcards">
-    <video src="/images/hello/hello-panel-1.mp4" poster="/images/hello/hello-panel-1-placeholder.jpg" width="480" height="480" autoplay muted loop playsinline preload="metadata" aria-label="The word Hello cycling through translations over photographs of each country"></video>
-    <video src="/images/hello/hello-panel-2.mp4" poster="/images/hello/hello-panel-2-placeholder.jpg" width="320" height="320" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-    <video src="/images/hello/hello-panel-3.mp4" poster="/images/hello/hello-panel-3-placeholder.jpg" width="320" height="320" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-    <figcaption>Hello, one language per frame. Made with <a href="/blog/2026/03/30/Mr-Worldwide">Mr. Worldwide</a>.</figcaption>
+  <figure class="hero-figures">
+    <a class="hero-fig" href="/blog/series/sphere-eversion">
+      <img src="/images/home/sphere-eversion.webp" width="640" height="640" fetchpriority="high" alt="The halfway point of a sphere eversion: an orange and blue surface passing through itself">
+      <span class="hero-fig-label">Sphere Eversion</span>
+    </a>
+    <a class="hero-fig" href="/blog/series/abel-ruffini">
+      <img src="/images/home/abel-ruffini.webp" width="320" height="320" alt="Heat map of the size of p(z) = z⁵ − z − 1 over the complex plane, with dark wells at its five roots">
+      <span class="hero-fig-label">Abel–Ruffini</span>
+    </a>
+    <a class="hero-fig" href="/blog/series/primitive-sets">
+      <img src="/images/home/primitive-sets.webp" width="320" height="320" alt="The integers 1 to 34 in a grid with the primes highlighted">
+      <span class="hero-fig-label">Primitive Sets</span>
+    </a>
+    <figcaption>Figures from three of the series. Each tile opens one.</figcaption>
   </figure>
 </section>
 
@@ -37,15 +46,3 @@ layout: default
   <h2 class="section-label" id="h-notes">Essays and project notes <a href="/blog/#h-notes">All of them &rarr;</a></h2>
   {% include post-list.html limit=5 %}
 </section>
-
-<script>
-  // Autoplaying loops are decoration: hold them on the poster frame for
-  // visitors who ask for reduced motion.
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.postcards video').forEach(function (v) {
-      v.removeAttribute('autoplay');
-      v.pause();
-      v.setAttribute('controls', '');
-    });
-  }
-</script>

@@ -2,6 +2,7 @@
 layout: post
 title: "Back-of-the-Envelope: Sphere Eversion, Vol. IV: Curves in the Plane"
 date: 2026-08-17 12:03:00
+description: "The turning number of a plane curve, why no regular homotopy can change it, and why the Gauss map degree does not obstruct sphere eversion."
 categories: differential topology
 mathjax: true
 ---
@@ -12,7 +13,7 @@ mathjax: true
 
 *One dimension down, eversion is impossible, and the reason is an integer. This volume finds the integer, proves it cannot change, and shows exactly what goes wrong when you cheat.*
 
-Recall from [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III): an immersion is a smooth map whose derivative never drops rank, and a regular homotopy is a path of immersions. Everting $S^2$ means joining $\iota(p)=p$ to $\alpha(p)=-p$ by such a path. Before trying, do the same thing for $S^1$ in $\mathbb{R}^2$.
+Recall from [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III): an immersion is a smooth map whose derivative never drops rank, and a regular homotopy is a path of immersions. Everting $S^2$ means joining $\iota(p)=p$ to $\alpha(p)=-p$ by such a path. Before trying, do the same thing for $S^1$ in $\mathbb{R}^2$, with one adjustment: there $p\mapsto-p$ is a rotation by $\pi$, so the map that turns the circle inside out is a reflection, $(x,y)\mapsto(x,-y)$.
 
 <div class="cs-toc">
 <strong>Contents</strong>
@@ -152,9 +153,9 @@ Step through five curves. On the left, $\gamma$ and its unit tangent $\mathbf{T}
 
 # Whitney--Graustein
 {: #whitney-graustein}
-<div class="ev-def"><strong>Theorem (Whitney 1937, conjectured by Graustein).</strong> Two immersions $S^1\to\mathbb{R}^2$ are regularly homotopic if and only if they have the same turning number.</div>
+<div class="ev-def"><strong>Theorem (<a href="https://www.numdam.org/item/CM_1937__4__276_0">Whitney 1937</a>; statement and proof suggested by Graustein).</strong> Two immersions $S^1\to\mathbb{R}^2$ are regularly homotopic if and only if they have the same turning number.</div>
 
-**Why $\tau$ cannot change.** Along a regular homotopy $\gamma&#95;{s}$ the velocity $\gamma&#95;{s}'(t)$ is never zero, so $\mathbf{T}&#95;{s}=\gamma&#95;{s}'/\lVert\gamma&#95;{s}'\rVert$ is defined and depends continuously on $(s,t)$. Then $\tau(\gamma&#95;{s})$ is a continuous function of $s$ with values in $\mathbb{Z}$. By [Vol. I](/blog/2026/08/17/circling-the-sphere), a continuous map from the connected space $[0,1]$ to the discrete space $\mathbb{Z}$ is constant. That is the whole proof, and it uses regularity exactly once: to divide by $\lVert\gamma&#95;{s}'\rVert$.
+**Why $\tau$ cannot change.** Along a regular homotopy $\gamma&#95;{s}$ the velocity $\gamma&#95;{s}'(t)$ is never zero, so $\mathbf{T}&#95;{s}=\gamma&#95;{s}'/\lVert\gamma&#95;{s}'\rVert$ is defined and depends continuously on $(s,t)$. By the homotopy lifting of [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II), its angle $\theta&#95;{s}(t)$ can be chosen continuous in $(s,t)$, so $\tau(\gamma&#95;{s})$ is a continuous function of $s$ with values in $\mathbb{Z}$. By [Vol. I](/blog/2026/08/17/circling-the-sphere), a continuous map from the connected space $[0,1]$ to the discrete space $\mathbb{Z}$ is constant. That is the whole proof, and it uses regularity exactly once: to divide by $\lVert\gamma&#95;{s}'\rVert$.
 
 Drop regularity and the argument breaks, visibly. The family below is a perfectly good homotopy. At one instant its velocity vanishes, and at that instant, and only then, $\tau$ jumps.
 
@@ -220,7 +221,7 @@ Drop regularity and the argument breaks, visibly. The family below is a perfectl
     document.getElementById('ev-cusp-av').textContent = a.toFixed(2);
     document.getElementById('ev-cusp-title').textContent = zero
       ? 'a = ½: the velocity at t = π is zero. This curve is not an immersion; it is the only moment the turning number is allowed to change.'
-      : a < 0.5 ? 'a < ½: a dented circle. The inner dent tightens as a grows, but T still turns once. τ = 1.'
+      : a < 0.5 ? 'a < ½: a circle that dents inward once a passes ¼. The dent tightens as a grows, but T still turns once. τ = 1.'
       : 'a > ½: the dent has turned into a small loop. That loop is a full extra turn of T. τ = 2.';
     document.getElementById('ev-cusp-detail').textContent = 'γₐ′(π) = (0, ' + fmt(v) + ')   |γₐ′(π)| = ' + fmt(Math.abs(v)) + (zero ? '   ← rank drop' : '');
   }
@@ -245,15 +246,15 @@ Drop regularity and the argument breaks, visibly. The family below is a perfectl
 
 The computation behind the picture: with $z=e^{it}$, $\gamma&#95;{a}=z+az^2$ and $\gamma&#95;{a}'=iz\,(1+2az)$. The factor $iz$ turns once. The factor $1+2az$ winds around $0$ once if $2a>1$ and not at all if $2a<1$. So $\tau=1$ for $a<\tfrac12$, $\tau=2$ for $a>\tfrac12$, and at $a=\tfrac12$ the factor vanishes at $z=-1$, which is $t=\pi$.
 
-**Why equal $\tau$ is enough.** Rescale both curves to length $2\pi$ and parametrize by arc length (both steps are regular homotopies), so $\gamma&#95;{i}'(t)=e^{i\theta&#95;{i}(t)}$ with $\theta&#95;{i}(2\pi)-\theta&#95;{i}(0)=2\pi\tau$. Interpolate the *angles*, not the curves: $\theta&#95;{s}=(1-s)\theta&#95;{0}+s\theta&#95;{1}$. Integrating $e^{i\theta&#95;{s}}$ need not give a closed curve, so subtract the average:
+**Why equal $\tau$ is enough.** Let $\gamma&#95;{0}$ and $\gamma&#95;{1}$ have the same turning number $\tau$. Rescale both to length $2\pi$ and parametrize by arc length (both steps are regular homotopies), so $\gamma&#95;{j}'(t)=e^{i\theta&#95;{j}(t)}$ with $\theta&#95;{j}(2\pi)-\theta&#95;{j}(0)=2\pi\tau$ for $j=0,1$. Interpolate the *angles*, not the curves: $\theta&#95;{s}=(1-s)\theta&#95;{0}+s\theta&#95;{1}$. Integrating $e^{i\theta&#95;{s}}$ need not give a closed curve, so subtract the average:
 
 $$\gamma_s(t)=\gamma_s(0)+\int_0^t\bigl(e^{i\theta_s(u)}-c_s\bigr)\,du,\qquad c_s=\frac{1}{2\pi}\int_0^{2\pi}e^{i\theta_s(u)}\,du.$$
 
-Now $\gamma&#95;{s}(2\pi)=\gamma&#95;{s}(0)$. The velocity $e^{i\theta&#95;{s}}-c&#95;{s}$ is nonzero as long as $\lvert c&#95;{s}\rvert<1$, and an average of unit vectors has length $1$ only if they all point the same way. When $\tau\neq0$ the angle $\theta&#95;{s}$ must move, so they do not. (When $\tau=0$ one perturbs first to avoid a constant $\theta&#95;{s}$.) At $s=0$ and $s=1$, $c&#95;{s}=0$ because the original curves close up, so the family starts at $\gamma&#95;{0}$ and ends at $\gamma&#95;{1}$.
+Here $\gamma&#95;{s}(0)=(1-s)\gamma&#95;{0}(0)+s\gamma&#95;{1}(0)$, and $\gamma&#95;{s}(2\pi)=\gamma&#95;{s}(0)$ because the integrand averages to zero. The velocity $e^{i\theta&#95;{s}}-c&#95;{s}$ is nonzero as long as $\lvert c&#95;{s}\rvert<1$, and an average of unit vectors has length $1$ only if they all point the same way. When $\tau\neq0$ the angle $\theta&#95;{s}$ must move, since $\theta&#95;{s}(2\pi)-\theta&#95;{s}(0)=2\pi\tau$ for every $s$, so they do not. (When $\tau=0$ one perturbs first to avoid a constant $\theta&#95;{s}$.) At $s=0$ and $s=1$, $c&#95;{s}=0$ because the original curves close up, so the family starts at $\gamma&#95;{0}$ and ends at $\gamma&#95;{1}$.
 
 So the circle cannot be everted in the plane. Turning it inside out reverses the direction of travel, which sends $\tau=+1$ to $\tau=-1$, and no regular homotopy connects them.
 
-The surprise is dimensional. The turning number of a curve is an element of $\pi&#95;{1}(S^1)=\mathbb{Z}$. For a surface in $\mathbb{R}^3$ the analogous invariant lives in $\pi&#95;{2}(V&#95;{3,2})$, and that group is $0$. One extra dimension is enough room for the obstruction to die.
+The surprise is dimensional. The turning number of a curve is an element of $\pi&#95;{1}(S^1)=\mathbb{Z}$. For a surface in $\mathbb{R}^3$ the analogous invariant lives in $\pi&#95;{2}(V&#95;{3,2})$, where $V&#95;{3,2}$ is the space of linearly independent pairs of vectors in $\mathbb{R}^3$. That group is $0$ ([Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V)). One extra dimension is enough room for the obstruction to die.
 
 
 ---
@@ -265,20 +266,20 @@ The surprise is dimensional. The turning number of a curve is an element of $\pi
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> The hairy ball theorem is Poincaré–Brouwer: $S^2$ admits no continuous nowhere-zero tangent vector field. Smale proved a classification of immersions. Different theorem, different decade. The Jacobian-sign story is a confusion with local diffeomorphisms of $\mathbb{R}^n$. What we do compute is a <em>tangential</em> invariant, and its coarsest shadow is the Gauss map.
+<strong>Teacher.</strong> The hairy ball theorem is Poincaré–Brouwer: $S^2$ admits no continuous nowhere-zero tangent vector field. Smale proved a classification of immersions. Different theorem, decades apart. The Jacobian-sign story is a confusion with local diffeomorphisms of $\mathbb{R}^n$. What we do compute is a <em>tangential</em> invariant, and its coarsest shadow is the Gauss map.
 </div>
 
 Given an immersion $f$,
 
 $$\mathbf{n}_f=\frac{\mathbf{f}_u\times\mathbf{f}_v}{\lVert\mathbf{f}_u\times\mathbf{f}_v\rVert}:S^2\to S^2.$$
 
-The **degree** of a map $g:S^n\to S^n$ is the integer that records signed coverings of the target. For the inclusion, $\mathbf{n}&#95;{\iota}(p)=p$, so $\deg\mathbf{n}&#95;{\iota}=1$. Degree is a regular-homotopy invariant (an integer moving continuously cannot jump). Gauss–Bonnet supplies the same integer without Smale: $\deg\mathbf{n}=\tfrac12\chi(S^2)=1$. Every immersion $S^2\looparrowright\mathbb{R}^3$ has Gauss degree $1$. The everted sphere does too. Degree does not forbid eversion.
+The **degree** of a map $g:S^n\to S^n$ is the integer that records signed coverings of the target. For the inclusion, $\mathbf{n}&#95;{\iota}(p)=p$, so $\deg\mathbf{n}&#95;{\iota}=1$. Degree is a regular-homotopy invariant (an integer moving continuously cannot jump). Gauss–Bonnet supplies the same integer without Smale: for any immersion the total Gauss curvature $\int K\,dA$ equals both $4\pi\deg\mathbf{n}$ and $2\pi\chi(S^2)$, so $\deg\mathbf{n}=\tfrac12\chi(S^2)=1$. Every immersion $S^2\looparrowright\mathbb{R}^3$ has Gauss degree $1$. The everted sphere does too. Degree does not forbid eversion.
 
 The canvas is an ellipsoid, not a round sphere, so that $\mathbf{n}$ is not the identity. For
 
 $$\mathbf{f}(\theta,\varphi)=(a\sin\theta\cos\varphi,\;b\sin\theta\sin\varphi,\;c\cos\theta)$$
 
-the Gauss map is the normalization of $(x/a^2,\,y/b^2,\,z/c^2)$. The ellipsoid is convex, so its Gauss map is a bijection onto $S^2$: it covers the target exactly once, degree $1$. The orange point on the right follows the unit normal as the white point tours the ellipsoid.
+the Gauss map is the normalization of $(x/a^2,\,y/b^2,\,z/c^2)$. The ellipsoid is strictly convex, so its Gauss map is a bijection onto $S^2$: it covers the target exactly once, degree $1$. The orange point on the right follows the unit normal as the white point tours the ellipsoid.
 
 <div id="cs-gauss" class="cs-stage" style="height:440px;">
   <div class="cs-hud cs-hud-tl">left: ellipsoid f<br>right: n<sub>f</sub> on the unit sphere</div>
@@ -346,4 +347,4 @@ CS.mount({
 });
 </script>
 
-The Gauss map remembers only the normal $\mathbf{n}=\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}/\lVert\cdot\rVert$, and its degree is the same for every immersed sphere. The circle case suggests the right move: in the plane the invariant was the direction of the *whole* derivative $\gamma'$, not a normal. For surfaces the whole derivative is a pair of vectors, a 2-frame. Where that pair lives, and why the space it lives in has no room for an obstruction, is the next volume.
+The Gauss map remembers only the normal $\mathbf{n}=(\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v})/\lVert\cdot\rVert$, and its degree is the same for every immersed sphere. The circle case suggests the right move: in the plane the invariant was the direction of the *whole* derivative $\gamma'$ (for a curve the normal is just $\mathbf{T}$ turned through a right angle, so nothing is lost). For surfaces the whole derivative is a pair of vectors, a 2-frame, and the normal records only the oriented plane the pair spans. Why the space of such pairs, $V&#95;{3,2}$, has no room for an obstruction is the next volume.
