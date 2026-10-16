@@ -1,0 +1,4 @@
+# Live sites for the top of the Projects page, in display order.
+# Format: name shown on the card | URL | description
+glottosphere.com | https://glottosphere.com | A free multilingual dictionary where every word in a definition is a link, with profiles of thousands of the world's languages.
+1wg.ai | https://1wg.ai | One World Gazette: world news gathered across languages and summarized by a retrieval-augmented pipeline.

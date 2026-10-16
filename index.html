@@ -1,0 +1,51 @@
+---
+layout: default
+---
+{%- assign latest = site.posts | where_exp: "p", "p.redirect_to == nil" | first -%}
+{%- include series-info.html title=latest.title -%}
+<section class="hero">
+  <div>
+    <h1>Hi, I&rsquo;m Julian.</h1>
+    <p class="hero-lede">
+      I work on commodity trading systems in Houston. Here I write long explanations of hard
+      mathematics, derivations included, and build open-source tools for languages.
+    </p>
+    <p class="hero-links">
+      <a class="btn" href="/blog/">Start reading</a>
+      <a href="/about">About me</a>
+    </p>
+    <p class="hero-latest">
+      <span class="kicker">Latest <span aria-hidden="true">·</span> <time datetime="{{ latest.date | date: '%Y-%m-%d' }}">{{ latest.date | date: '%-d %b %Y' }}</time></span>
+      <a href="{{ latest.url }}">{{ plain_title }}</a>
+    </p>
+  </div>
+
+  <figure class="postcards">
+    <video src="/images/hello/hello-panel-1.mp4" poster="/images/hello/hello-panel-1-placeholder.jpg" width="480" height="480" autoplay muted loop playsinline preload="metadata" aria-label="The word Hello cycling through translations over photographs of each country"></video>
+    <video src="/images/hello/hello-panel-2.mp4" poster="/images/hello/hello-panel-2-placeholder.jpg" width="320" height="320" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <video src="/images/hello/hello-panel-3.mp4" poster="/images/hello/hello-panel-3-placeholder.jpg" width="320" height="320" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <figcaption>Hello, one language per frame. Made with <a href="/blog/2026/03/30/Mr-Worldwide">Mr. Worldwide</a>.</figcaption>
+  </figure>
+</section>
+
+<section aria-labelledby="h-series">
+  <h2 class="section-label" id="h-series">Series <a href="/blog/#h-series">Chapter lists &rarr;</a></h2>
+  {% include series-shelf.html compact=true %}
+</section>
+
+<section aria-labelledby="h-notes">
+  <h2 class="section-label" id="h-notes">Essays and project notes <a href="/blog/#h-notes">All of them &rarr;</a></h2>
+  {% include post-list.html limit=5 %}
+</section>
+
+<script>
+  // Autoplaying loops are decoration: hold them on the poster frame for
+  // visitors who ask for reduced motion.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.postcards video').forEach(function (v) {
+      v.removeAttribute('autoplay');
+      v.pause();
+      v.setAttribute('controls', '');
+    });
+  }
+</script>

@@ -1,0 +1,33 @@
+{%- comment -%}
+  Parses a post title into its parts. Assign-only: renders nothing.
+  "Back-of-the-Envelope: Sphere Eversion, Vol. VI: Seeing the Eversion"
+    series_name:    Sphere Eversion
+    series_num:     VI
+    display_title:  Seeing the Eversion
+    plain_title:    Sphere Eversion, Vol. VI: Seeing the Eversion
+  The "Back-of-the-Envelope:" prefix is always dropped. Titles that are not
+  part of a series keep an empty series_name; a few known one-off labels
+  ("Undergraduate Thesis: ...") are split off into title_label instead.
+{%- endcomment -%}
+{%- assign plain_title = include.title | remove_first: 'Back-of-the-Envelope:' | strip -%}
+{%- assign series_name = "" -%}
+{%- assign series_num = "" -%}
+{%- assign title_label = "" -%}
+{%- assign display_title = plain_title -%}
+{%- if plain_title contains ', Vol. ' -%}
+  {%- assign title_halves = plain_title | split: ', Vol. ' -%}
+  {%- assign series_name = title_halves | first -%}
+  {%- assign series_tail = plain_title | remove_first: series_name | remove_first: ', Vol. ' -%}
+  {%- assign series_num = series_tail | split: ':' | first | strip -%}
+  {%- assign display_title = series_tail | remove_first: series_num | remove_first: ':' | strip -%}
+{%- else -%}
+  {%- assign title_labels = "Undergraduate Thesis" | split: '|' -%}
+  {%- for label in title_labels -%}
+    {%- assign label_prefix = label | append: ':' -%}
+    {%- assign title_head = plain_title | slice: 0, label_prefix.size -%}
+    {%- if title_head == label_prefix -%}
+      {%- assign title_label = label -%}
+      {%- assign display_title = plain_title | remove_first: label_prefix | strip -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}

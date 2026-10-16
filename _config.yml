@@ -1,0 +1,34 @@
+title: Julian Henry
+tagline: Writing on math and software
+description: >-
+  Julian Henry is a software engineer in Houston. He writes about math and
+  builds open-source tools.
+author: Julian Henry
+url: https://juleshenry.github.io
+github_url: https://github.com/juleshenry
+# Public CV PDF (no phone/email) — generated from private jhenry_cv repo
+resume_url: /assets/Julian-Henry-CV.pdf
+social_image: /images/social-card.png
+
+markdown: kramdown
+permalink: /blog/:year/:month/:day/:title
+future: true
+kramdown:
+  input: GFM
+  math_engine: mathjax
+  syntax_highlighter: rouge
+  # Markdown '#' becomes <h2>: the page title is the only <h1>
+  header_offset: 1
+
+# Repo plumbing and personal files that should not be served as part of the site
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - scripts
+  - vendor
+  - sunday-copyedit-hn.ics
+  - "fundamental theorem de moivre.png"
+  - images/julian-headshot.jpg
+  - images/desayuno-san-salvador.jpg

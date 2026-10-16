@@ -1,0 +1,90 @@
+---
+layout: default
+---
+{%- include series-info.html title=page.title -%}
+{%- assign minutes = content | strip_html | number_of_words | divided_by: 220 | plus: 1 -%}
+<article class="post-page">
+  <header class="post-head">
+    {%- if series_name != "" %}
+    <p class="kicker"><a href="/blog/#series-{{ series_name | slugify }}">{{ series_name }}</a> <span aria-hidden="true">·</span> Vol. {{ series_num }}</p>
+    {%- elsif title_label != "" %}
+    <p class="kicker">{{ title_label }}</p>
+    {%- endif %}
+    <h1>{{ display_title }}</h1>
+    <p class="meta">
+      <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: '%-d %b %Y' }}</time>
+      {%- unless page.redirect_to %} <span aria-hidden="true">·</span> {{ minutes }} min read{% endunless %}
+    </p>
+  </header>
+
+  <div class="post">
+    {%- if page.redirect_to %}
+    <p><a href="{{ page.redirect_to }}">Continue to {{ display_title }}</a></p>
+    {%- else %}
+    {{ content }}
+    {%- endif %}
+  </div>
+
+  {%- unless page.redirect_to %}
+  <footer class="post-foot">
+    {%- if series_name != "" -%}
+      {%- comment -%} Walk the series in reading order to find the neighbours of this volume. {%- endcomment -%}
+      {%- assign numerals = "I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII" | split: "," -%}
+      {%- assign needle = series_name | append: ', Vol. ' -%}
+      {%- assign vols = site.posts | where_exp: "p", "p.title contains needle" -%}
+      {%- assign prev_vol = nil -%}
+      {%- assign next_vol = nil -%}
+      {%- assign last_vol = nil -%}
+      {%- assign passed_current = false -%}
+      {%- for n in numerals -%}
+        {%- assign vol_tag = needle | append: n | append: ':' -%}
+        {%- for v in vols -%}
+          {%- if v.redirect_to -%}{%- continue -%}{%- endif -%}
+          {%- if v.title contains vol_tag -%}
+            {%- if passed_current and next_vol == nil -%}
+              {%- assign next_vol = v -%}
+              {%- assign next_num = n -%}
+              {%- assign next_chapter = v.title | split: vol_tag | last | strip -%}
+            {%- endif -%}
+            {%- if v.url == page.url -%}
+              {%- assign passed_current = true -%}
+              {%- assign prev_vol = last_vol -%}
+              {%- assign prev_num = last_num -%}
+              {%- assign prev_chapter = last_chapter -%}
+            {%- endif -%}
+            {%- assign last_vol = v -%}
+            {%- assign last_num = n -%}
+            {%- assign last_chapter = v.title | split: vol_tag | last | strip -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor %}
+    <nav class="vol-nav" aria-label="{{ series_name }}">
+      {%- if prev_vol %}
+      <a class="vol-nav-prev" href="{{ prev_vol.url }}">
+        <span class="kicker"><span aria-hidden="true">←</span> Vol. {{ prev_num }}</span>
+        <span class="vol-nav-title">{{ prev_chapter }}</span>
+      </a>
+      {%- endif %}
+      {%- if next_vol %}
+      <a class="vol-nav-next" href="{{ next_vol.url }}">
+        <span class="kicker">Vol. {{ next_num }} <span aria-hidden="true">→</span></span>
+        <span class="vol-nav-title">{{ next_chapter }}</span>
+      </a>
+      {%- else %}
+      <a class="vol-nav-next" href="/blog/#h-series">
+        <span class="kicker">End of series <span aria-hidden="true">→</span></span>
+        <span class="vol-nav-title">Pick another one</span>
+      </a>
+      {%- endif %}
+    </nav>
+    {%- endif %}
+    <div class="post-author">
+      <img src="/images/julian-headshot-square.jpg" alt="" width="64" height="64" loading="lazy">
+      <div>
+        <p><strong>Julian Henry</strong> works on commodity trading systems in Houston and writes long explanations of mathematics.</p>
+        <p class="post-foot-links"><a href="/blog/">All writing</a> <span aria-hidden="true">·</span> <a href="/selected-works">Projects</a> <span aria-hidden="true">·</span> <a href="/about">About</a> <span aria-hidden="true">·</span> <a href="/blog/atom.xml">RSS</a></p>
+      </div>
+    </div>
+  </footer>
+  {%- endunless %}
+</article>

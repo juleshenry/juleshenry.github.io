@@ -1,0 +1,22 @@
+{%- comment -%}
+  Posts that are not volumes of a series, newest first. Redirect stubs are
+  skipped. limit=N caps the list (home page).
+{%- endcomment -%}
+{%- assign shown = 0 -%}
+<ul class="post-list">
+{%- for post in site.posts -%}
+  {%- if post.redirect_to -%}{%- continue -%}{%- endif -%}
+  {%- if post.title contains ', Vol. ' -%}{%- continue -%}{%- endif -%}
+  {%- if include.limit and shown >= include.limit -%}{%- break -%}{%- endif -%}
+  {%- assign shown = shown | plus: 1 %}
+  <li>
+    <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%b %Y' }}</time>
+    <div>
+      <a href="{{ post.url }}">{{ post.title | remove_first: 'Back-of-the-Envelope:' | strip }}</a>
+      {%- if post.description %}
+      <p>{{ post.description }}</p>
+      {%- endif %}
+    </div>
+  </li>
+{%- endfor %}
+</ul>

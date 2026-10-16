@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'en' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#000000">
+    {% include meta.html %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&display=swap">
+    <link rel="stylesheet" href="/stylesheets/site.css">
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="/blog/atom.xml">
+    <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32.png">
+    <link rel="shortcut icon" href="/blog/favicon.ico">
+    <link rel="apple-touch-icon" href="/blog/apple-touch-icon.png">
+    {% if page.mathjax %}
+    <!-- MathJax Configuration -->
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      chtml: {
+        matchFontHeight: false
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        renderActions: {
+          addMenu: []
+        }
+      }
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    {% endif %}
+  </head>
+
+  <body{% if page.layout == 'post' %} class="page-post"{% endif %}>
+    <a class="skip-link" href="#main_content">Skip to content</a>
+
+    <header class="masthead">
+      <a class="masthead-name" href="/">{{ site.title }}</a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="/blog/"{% if page.url contains '/blog' %} aria-current="page"{% endif %}>Writing</a></li>
+          <li><a href="/selected-works"{% if page.url contains 'selected-works' %} aria-current="page"{% endif %}>Projects</a></li>
+          <li><a href="/about"{% if page.url contains '/about' %} aria-current="page"{% endif %}>About</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main_content">
+      {{ content }}
+    </main>
+
+    <footer class="site-foot">
+      <p>&copy; 2018&ndash;{{ site.time | date: '%Y' }} {{ site.author }}</p>
+      <ul>
+        <li><a href="{{ site.github_url }}">GitHub</a></li>
+        <li><a href="/blog/atom.xml">RSS</a></li>
+        <li><a href="{{ site.resume_url }}">CV</a></li>
+      </ul>
+    </footer>
+
+    {% if content contains 'language-mermaid' %}
+    <!-- Mermaid: render ```mermaid code blocks as diagrams -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: false,
+        // The site is dark-only: light text and lines so diagrams stay readable
+        theme: 'dark',
+        themeVariables: {
+          background: '#000000',
+          primaryColor: '#12233a',
+          primaryTextColor: '#f0f0f0',
+          primaryBorderColor: '#4da3ff',
+          lineColor: '#d0d0d0',
+          textColor: '#f0f0f0',
+          actorBkg: '#12233a',
+          actorBorder: '#4da3ff',
+          actorTextColor: '#f0f0f0',
+          actorLineColor: '#8a8a8a',
+          signalColor: '#d0d0d0',
+          signalTextColor: '#f0f0f0',
+          labelBoxBkgColor: '#12233a',
+          labelTextColor: '#f0f0f0',
+          loopTextColor: '#f0f0f0',
+          noteBkgColor: '#3a3320',
+          noteTextColor: '#f0f0f0',
+          noteBorderColor: '#c98500',
+          sequenceNumberColor: '#000000'
+        },
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true }
+      });
+      // Find all <pre><code class="language-mermaid"> blocks and render them
+      const codeBlocks = document.querySelectorAll('code.language-mermaid');
+      for (let i = 0; i < codeBlocks.length; i++) {
+        const code = codeBlocks[i];
+        const pre = code.parentElement;
+        const container = document.createElement('div');
+        container.className = 'mermaid';
+        container.textContent = code.textContent;
+        pre.parentNode.replaceChild(container, pre);
+      }
+      await mermaid.run();
+    </script>
+    {% endif %}
+
+    {% if content contains 'THREE' %}
+    <!-- Three.js: only on posts whose figures use it (they wait for window.THREE) -->
+    <script type="module">
+      import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.module.js';
+      window.THREE = THREE;
+    </script>
+    {% endif %}
+  </body>
+</html>

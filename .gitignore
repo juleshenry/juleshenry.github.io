@@ -1,0 +1,9 @@
+/.bundle/
+/_site/
+/vendor/bundle/
+
+# Personal files kept on disk, never published
+/sunday-copyedit-hn.ics
+/fundamental theorem de moivre.png
+/images/julian-headshot.jpg
+/images/desayuno-san-salvador.jpg

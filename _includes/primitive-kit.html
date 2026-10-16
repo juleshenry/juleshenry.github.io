@@ -1,0 +1,106 @@
+<style>
+  .pv { --pv-bg:#121212; --pv-ink:#f0f0f0; --pv-ink2:#c3c2b7; --pv-line:#2f2f2f;
+    background:var(--pv-bg); color:var(--pv-ink); border:1px solid var(--pv-line); border-radius:8px;
+    padding:16px; margin:2em 0 0.6em; font-size:15px; line-height:1.45; }
+  .pv svg { display:block; width:100%; height:auto; touch-action:none; user-select:none; -webkit-user-select:none; }
+  .pv svg text { font-family:inherit; fill:var(--pv-ink); }
+  .pv .pv-title { font-weight:600; margin-bottom:4px; }
+  .pv .pv-sub { color:var(--pv-ink2); font-size:14px; min-height:2.9em; margin-bottom:8px; }
+  .pv .pv-read { color:var(--pv-ink2); font-size:14px; margin-top:8px; min-height:1.5em; font-variant-numeric:tabular-nums; }
+  .pv .pv-read b { color:var(--pv-ink); font-weight:600; }
+  .pv .pv-ctl { display:flex; gap:8px 12px; align-items:center; margin-top:12px; flex-wrap:wrap; }
+  .pv .pv-ctl label { color:var(--pv-ink2); font-size:14px; display:flex; align-items:center; gap:6px; }
+  .pv .pv-ctl input[type="range"] { width:180px; max-width:46vw; }
+  .pv button, .pv select { font:inherit; font-size:14px; color:var(--pv-ink); background:#1f1f1f; border:1px solid #444; border-radius:6px; padding:5px 12px; cursor:pointer; }
+  .pv button:hover:not(:disabled) { border-color:var(--pv-ink2); }
+  .pv button:disabled { opacity:.4; cursor:default; }
+  .pv button.on { border-color:#d95926; color:#fff; }
+  .pv .pv-key { color:var(--pv-ink2); font-size:13px; }
+  .pv .pv-key b { display:inline-block; width:14px; height:10px; border-radius:2px; vertical-align:middle; margin:0 4px 0 10px; }
+  .pv .pv-hit { cursor:pointer; }
+  .pv-cap { color:#a8a79f; font-size:0.92em; margin:0 0 1.8em; }
+  .pv-def { border:1px solid #2f2f2f; background:#161616; border-radius:8px; padding:0.8em 1em; margin:1.3em 0; }
+  .pv-def > strong:first-child { color:#6fa8f0; }
+  .pv-q, .pv-a { padding:0.8em 1em; margin:1.5em 0 0.6em; border-radius:0 8px 8px 0; }
+  .pv-q { border-left:3px solid #d95926; background:rgba(217,89,38,0.08); }
+  .pv-a { border-left:3px solid #3987e5; background:rgba(57,135,229,0.08); }
+  .pv-q strong { color:#f08a5d; }
+  .pv-a strong { color:#6fa8f0; }
+  .pv-toc { margin:1.6em 0 2em; padding:1em 1.2em; background:rgba(18,18,18,0.85); border:1px solid rgba(255,255,255,0.12); border-radius:8px; }
+  .pv-toc > strong { display:block; color:#e8e8e8; margin-bottom:0.55em; font-weight:600; }
+  .pv-toc ol { margin:0; padding-left:1.3em; color:#c4c4c4; }
+  .pv-toc li { margin:0.28em 0; line-height:1.45; }
+  .pv-toc a { color:#f08a5d; }
+  .pv-tab { width:100%; border-collapse:collapse; font-size:0.95em; margin:1em 0 2em; background:#141414 !important; color:#e8e8e8; border:1px solid rgba(255,255,255,0.14); }
+  .pv-tab th, .pv-tab td { border:1px solid rgba(255,255,255,0.12); padding:0.6em 0.8em; vertical-align:top; color:#e8e8e8 !important; background:transparent !important; font-weight:400; }
+  .pv-tab thead th { background:rgba(217,89,38,0.16) !important; color:#fafafa !important; font-weight:600; }
+  .pv-tab tbody tr:nth-child(even) td { background:rgba(255,255,255,0.04) !important; }
+  .pv-ex { border:1px dashed #3a3a3a; border-radius:8px; padding:0.7em 1em; margin:1.2em 0; }
+  .pv-ex summary { cursor:pointer; color:#c3c2b7; }
+</style>
+<script>
+(function () {
+  if (window.PV) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  var PV = window.PV = {
+    C: { bg:'#121212', ink:'#f0f0f0', ink2:'#c3c2b7', grid:'#2a2a2a', dim:'#555', blue:'#3987e5', orange:'#d95926', aqua:'#199e70', gold:'#e0a100', red:'#e5484d' },
+    el: function (tag, attrs, parent) {
+      var e = document.createElementNS(NS, tag);
+      for (var a in attrs) e.setAttribute(a, attrs[a]);
+      if (parent) parent.appendChild(e);
+      return e;
+    },
+    text: function (parent, x, y, s, attrs) {
+      var t = PV.el('text', Object.assign({ x: x, y: y }, attrs || {}), parent);
+      t.textContent = s;
+      return t;
+    },
+    clear: function (g) { while (g.firstChild) g.removeChild(g.firstChild); },
+    path: function (pts) {
+      var d = '';
+      for (var i = 0; i < pts.length; i++) d += (i ? 'L' : 'M') + pts[i][0].toFixed(2) + ',' + pts[i][1].toFixed(2);
+      return d;
+    },
+    // pointer position in SVG user units
+    pt: function (svg, e) {
+      var p = svg.createSVGPoint();
+      p.x = e.clientX; p.y = e.clientY;
+      return p.matrixTransform(svg.getScreenCTM().inverse());
+    },
+    // drag handler: cb(point) on press and move
+    drag: function (svg, target, cb) {
+      var on = false;
+      target.addEventListener('pointerdown', function (e) { on = true; target.setPointerCapture && target.setPointerCapture(e.pointerId); cb(PV.pt(svg, e)); e.preventDefault(); });
+      target.addEventListener('pointermove', function (e) { if (!on) return; cb(PV.pt(svg, e)); e.preventDefault(); });
+      target.addEventListener('pointerup', function () { on = false; });
+      target.addEventListener('pointercancel', function () { on = false; });
+    },
+    // number theory helpers
+    primes: function (n) {
+      var s = new Uint8Array(n + 1), out = [];
+      for (var i = 2; i <= n; i++) {
+        if (s[i]) continue;
+        out.push(i);
+        for (var j = i * i; j <= n; j += i) s[j] = 1;
+      }
+      return out;
+    },
+    factor: function (n) {
+      var f = [];
+      for (var p = 2; p * p <= n; p++) while (n % p === 0) { f.push(p); n /= p; }
+      if (n > 1) f.push(n);
+      return f;
+    },
+    P: function (n) { var f = PV.factor(n); return f[f.length - 1]; },
+    f: function (a) { return 1 / (a * Math.log(a)); },
+    // is n in L_a ?  a | n and every prime of n/a is >= P(a)
+    inL: function (n, a) {
+      if (n % a) return false;
+      var c = n / a, Pa = PV.P(a);
+      if (c === 1) return true;
+      return PV.factor(c)[0] >= Pa;
+    },
+    fmt: function (x, d) { return x.toFixed(d == null ? 3 : d); }
+  };
+})();
+</script>

@@ -1,0 +1,64 @@
+{%- comment -%}
+  <title>, description, canonical, social tags and structured data. A post's
+  description is its own `description:` front matter, else its series blurb,
+  else the site's. A post's share image is its card in images/social/ (made by
+  scripts/make_social_cards.mjs), else the site card.
+{%- endcomment -%}
+{%- assign meta_desc = page.description | default: site.description -%}
+{%- if page.layout == 'post' -%}
+  {%- include series-info.html title=page.title -%}
+  {%- assign meta_title = plain_title | append: ' · ' | append: site.title -%}
+  {%- if series_name != "" and page.description == nil -%}
+    {%- assign meta_series = site.data.series | where: "name", series_name | first -%}
+    {%- if meta_series.blurb -%}
+      {%- assign meta_desc = 'Vol. ' | append: series_num | append: ' of ' | append: series_name | append: '. ' | append: meta_series.blurb -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- elsif page.url == '/' -%}
+  {%- assign meta_title = site.title | append: ' · ' | append: site.tagline -%}
+{%- else -%}
+  {%- assign meta_title = page.title | append: ' · ' | append: site.title -%}
+{%- endif -%}
+{%- assign meta_desc = meta_desc | strip_html | strip_newlines | strip -%}
+{%- assign meta_url = site.url | append: page.url -%}
+{%- assign meta_image = site.social_image -%}
+{%- if page.layout == 'post' -%}
+  {%- assign card_path = page.path | split: '/' | last | replace: '.md', '.png' | prepend: '/images/social/' -%}
+  {%- assign card = site.static_files | where: "path", card_path | first -%}
+  {%- if card -%}{%- assign meta_image = card_path -%}{%- endif -%}
+{%- endif -%}
+<title>{{ meta_title | escape }}</title>
+<meta name="description" content="{{ meta_desc | escape }}">
+<meta name="author" content="{{ site.author }}">
+{%- if page.redirect_to %}
+<meta http-equiv="refresh" content="0; url={{ page.redirect_to }}">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{{ page.redirect_to }}">
+{%- else %}
+<link rel="canonical" href="{{ meta_url }}">
+{%- endif %}
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:title" content="{{ meta_title | escape }}">
+<meta property="og:description" content="{{ meta_desc | escape }}">
+<meta property="og:url" content="{{ meta_url }}">
+<meta property="og:image" content="{{ site.url }}{{ meta_image }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ meta_title | escape }}">
+{%- if page.layout == 'post' %}
+<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+<meta property="article:author" content="{{ site.author }}">
+{%- endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ meta_title | escape }}">
+<meta name="twitter:description" content="{{ meta_desc | escape }}">
+<meta name="twitter:image" content="{{ site.url }}{{ meta_image }}">
+{%- capture person_json -%}
+{"@type":"Person","name":{{ site.author | jsonify }},"url":"{{ site.url }}/about","image":"{{ site.url }}/images/julian-headshot-square.jpg","jobTitle":"Software engineer","address":{"@type":"PostalAddress","addressLocality":"Houston","addressRegion":"TX","addressCountry":"US"},"alumniOf":{"@type":"CollegeOrUniversity","name":"University of Pennsylvania"},"sameAs":["{{ site.github_url }}"]}
+{%- endcapture -%}
+{%- if page.layout == 'post' and page.redirect_to == nil %}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":{{ plain_title | jsonify }},"description":{{ meta_desc | jsonify }},"datePublished":"{{ page.date | date_to_xmlschema }}","url":"{{ meta_url }}","mainEntityOfPage":"{{ meta_url }}","image":"{{ site.url }}{{ meta_image }}","author":{{ person_json }}}</script>
+{%- elsif page.url == '/' or page.url == '/about' %}
+<script type="application/ld+json">{"@context":"https://schema.org",{{ person_json | remove_first: '{' }}</script>
+{%- endif %}

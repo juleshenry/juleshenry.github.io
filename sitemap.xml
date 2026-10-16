@@ -1,0 +1,15 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- assign latest = site.posts | where_exp: "p", "p.redirect_to == nil" | first %}
+  <url><loc>{{ site.url }}/</loc><lastmod>{{ latest.date | date_to_xmlschema }}</lastmod></url>
+  <url><loc>{{ site.url }}/blog/</loc><lastmod>{{ latest.date | date_to_xmlschema }}</lastmod></url>
+  <url><loc>{{ site.url }}/selected-works</loc></url>
+  <url><loc>{{ site.url }}/about</loc></url>
+{%- for post in site.posts %}
+  {%- if post.redirect_to %}{% continue %}{% endif %}
+  <url><loc>{{ site.url }}{{ post.url }}</loc><lastmod>{{ post.last_modified_at | default: post.date | date_to_xmlschema }}</lastmod></url>
+{%- endfor %}
+</urlset>
