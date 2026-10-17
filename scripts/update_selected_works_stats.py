@@ -10,6 +10,7 @@ from selected_works_sites.txt.
 
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import os
@@ -164,6 +165,10 @@ def thumb(image: str, href: str) -> str:
     """Card thumbnail. A duplicate of the title link, so hidden from keyboard and screen readers."""
     if not image:
         return ""
+    # Pages caches images for 10 minutes; a content hash makes a replaced thumbnail show at once
+    local = ROOT / image.lstrip("/")
+    if local.is_file():
+        image += "?v=" + hashlib.sha1(local.read_bytes()).hexdigest()[:8]
     return (
         f'\n      <a class="work-thumb" href="{html.escape(href)}" tabindex="-1" aria-hidden="true">'
         f'<img src="{html.escape(image)}" alt="" width="160" height="120" loading="lazy" decoding="async"></a>'
