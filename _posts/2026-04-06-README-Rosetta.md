@@ -96,8 +96,8 @@ pip install readme-rosetta
 # Translate to 5 languages
 readme-rosetta --langs es fr de ja zh
 
-# Use a specific model
-readme-rosetta --model llama3.2 --langs ar hi ko
+# A bigger model for non-Latin scripts
+readme-rosetta --model qwen2.5:14b --langs ar hi ko
 
 # Dry run (preview without writing)
 readme-rosetta --dry-run --langs es
@@ -110,7 +110,7 @@ Configuration can also live in `pyproject.toml`:
 
 ```toml
 [tool.readme-rosetta]
-model = "llama3.2"
+model = "qwen2.5:14b"
 langs = ["es", "fr", "de", "ja", "zh"]
 ```
 

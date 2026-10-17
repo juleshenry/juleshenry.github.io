@@ -14,10 +14,10 @@ mathjax: true
 [Vol. II](/blog/2024/07/24/Black-Scholes-Merton-Vol-II) derived
 
 $$
-C \;=\; S_t\,\Phi(d_1) - K e^{-r\tau}\,\Phi(d_2), \qquad d_{1,2} \;=\; \frac{\ln(S_t/K)+\bigl(r\pm\tfrac12\sigma^2\bigr)\tau}{\sigma\sqrt{\tau}}, \tag{1}
+C \;=\; S_t\,\Phi(d_1) - K e^{-r\tau}\,\Phi(d_2), \qquad d_{1,2} \;=\; \frac{\ln(S_t/K)+\bigl(r\pm\tfrac12\sigma^2\bigr)\tau}{\sigma\sqrt{\tau}}, \tag{8}
 $$
 
-by integrating the payoff against a lognormal whose drift is $r$. The rain check ($S=K=100$, $\tau=1$, $r=5\%$, $\sigma=20\%$) costs $10.45$. This volume reaches $(1)$ by two other roads, then revisits the assumptions of [Vol. I](/blog/2024/07/24/Black-Scholes-Merton#3-the-bsm-assumptions).
+by integrating the payoff against a lognormal whose drift is $r$. The rain check ($S=K=100$, $\tau=1$, $r=5\%$, $\sigma=20\%$) costs $10.45$. This volume reaches $(8)$ by two other roads, then revisits the assumptions of [Vol. I](/blog/2024/07/24/Black-Scholes-Merton#3-the-bsm-assumptions).
 
 - [The heat equation](#1-the-heat-equation)
 - [Change of numeraire](#2-change-of-numeraire)
@@ -30,15 +30,15 @@ by integrating the payoff against a lognormal whose drift is $r$. The rain check
 # 1. The heat equation
 {: #1-the-heat-equation}
 
-Vol. II never wrote a differential equation for the option price. Black and Scholes did; it was their route. It needs Itô's lemma, Vol. II's $(3)$: for $dX=a\,dt+b\,dW$,
+Vol. II never wrote a differential equation for the option price. Black and Scholes did; it was their route. It needs Itô's lemma, Vol. II's $(2)$: for $dX=a\,dt+b\,dW$,
 
 $$
-df(t,X_t) \;=\; \Bigl(f_t + a f_x + \tfrac12 b^2 f_{xx}\Bigr)dt + b f_x\,dW_t. \tag{3}
+df(t,X_t) \;=\; \Bigl(f_t + a f_x + \tfrac12 b^2 f_{xx}\Bigr)dt + b f_x\,dW_t. \tag{2}
 $$
 
 ## The hedge
 
-Let $V(S,t)$ be the option's price, and hold the portfolio $\Pi=-V+\Delta S$: short one option, long $\Delta$ shares. Expand $dV$ with $(3)$, using $dS=\mu S\,dt+\sigma S\,dW$:
+Let $V(S,t)$ be the option's price, and hold the portfolio $\Pi=-V+\Delta S$: short one option, long $\Delta$ shares. Expand $dV$ with $(2)$, using $dS=\mu S\,dt+\sigma S\,dW$:
 
 $$
 d\Pi \;=\; -\Bigl(V_t+\mu S V_S+\tfrac12\sigma^2S^2V_{SS}\Bigr)dt - \sigma S V_S\,dW + \Delta\bigl(\mu S\,dt+\sigma S\,dW\bigr).
@@ -53,7 +53,7 @@ $$
 A riskless portfolio must earn the riskless rate, $d\Pi=r\Pi\,dt$, or there is a free lunch. Setting the two equal gives the Black–Scholes **PDE**:
 
 $$
-V_t + rS V_S + \tfrac12\sigma^2 S^2 V_{SS} - rV \;=\; 0, \tag{17}
+V_t + rS V_S + \tfrac12\sigma^2 S^2 V_{SS} - rV \;=\; 0, \tag{9}
 $$
 
 with $V(S,T)=(S-K)^+$. The $dW$ cancellation eats $\mu$, just as $\Delta=2/3$ did on the two-leaf tree. For the rain-check numbers, $\Delta=V_S=\Phi(d_1)\approx 0.637$.
@@ -80,7 +80,7 @@ $$
 W(x,\tilde\tau) \;=\; \int_{-\infty}^{\infty} G(x-y,\tilde\tau)\,W(y,0)\,dy, \qquad G(x,\tilde\tau)=\frac{1}{\sqrt{4\pi\tilde\tau}}\exp\Bigl(-\frac{x^2}{4\tilde\tau}\Bigr).
 $$
 
-$G$ is the density of $\mathcal{N}(0,2\tilde\tau)$, and $2\tilde\tau=\sigma^2\tau=\mathrm{Var}(\ln S_T)$ under $\mathbb{Q}$. The heat kernel *is* the lognormal of Vol. II, written in log-coordinates, and the integral above, with the substitutions undone, is Vol. II's discounted expectation $(6)$. Evaluating it is the same completing-the-square, and returns $(1)$. **Feynman–Kac**, in this instance, is that sentence: the solution of the PDE is an expectation against the process.
+$G$ is the density of $\mathcal{N}(0,2\tilde\tau)$, and $2\tilde\tau=\sigma^2\tau=\mathrm{Var}(\ln S_T)$ under $\mathbb{Q}$. The heat kernel *is* the lognormal of Vol. II, written in log-coordinates, and the integral above, with the substitutions undone, is Vol. II's discounted expectation $(7)$. Evaluating it is the same completing-the-square, and returns $(8)$. **Feynman–Kac**, in this instance, is that sentence: the solution of the PDE is an expectation against the process.
 
 What this road buys you is *numerics*. When the payoff or the boundary makes the integral intractable (an American put, an option on the average price), the PDE is still a PDE, and finite differences on a grid solve it.
 
@@ -89,7 +89,7 @@ What this road buys you is *numerics*. When the payoff or the boundary makes the
 # 2. Change of numeraire
 {: #2-change-of-numeraire}
 
-The two $\Phi$'s in $(1)$ are both probabilities that the call finishes in the money, $\lbrace S_T>K\rbrace$. Yet $\Phi(d_1)\approx 0.637$ and $\Phi(d_2)\approx 0.560$. Same event, two probabilities. The explanation is that they are measured in different units of account. To say that precisely we first need the tool Vol. II asserted: changing probabilities without changing the spread.
+The two $\Phi$'s in $(8)$ are both probabilities that the call finishes in the money, $\lbrace S_T>K\rbrace$. Yet $\Phi(d_1)\approx 0.637$ and $\Phi(d_2)\approx 0.560$. Same event, two probabilities. The explanation is that they are measured in different units of account. To say that precisely we first need the tool Vol. II asserted: changing probabilities without changing the spread.
 
 The calculation below follows Fabrice Douglas Rouah, *Four Derivations of the Black-Scholes Formula*. The original host is gone. A copy is [here](/blog/assets/2024/bsm/Black-Scholes-Formula-Rouah.pdf); the [Wayback capture of 19 July 2024](https://web.archive.org/web/20240719130017/https://www.frouah.com/finance%20notes/Black%20Scholes%20Formula.pdf) is the provenance.
 
@@ -118,13 +118,13 @@ $$
 The process in parentheses is Wiener plus a constant drift $\theta=(\mu-r)/\sigma$, the **market price of risk**: excess return per unit of volatility. Girsanov with that $\theta$ makes $W^{\mathbb{Q}}_t=W_t+\theta t$ a Wiener process under $\mathbb{Q}$, and
 
 $$
-dS_t \;=\; r S_t\,dt + \sigma S_t\,dW_t^{\mathbb{Q}}. \tag{5}
+dS_t \;=\; r S_t\,dt + \sigma S_t\,dW_t^{\mathbb{Q}}. \tag{10}
 $$
 
 This is what Vol. II assumed by analogy with the tree: $\mu$ becomes $r$, $\sigma$ stays. Under $\mathbb{Q}$,
 
 $$
-S_T \;=\; S_t\exp\Bigl(\bigl(r-\tfrac12\sigma^2\bigr)\tau + \sigma\sqrt{\tau}\,Z\Bigr), \qquad Z\sim\mathcal{N}(0,1). \tag{7}
+S_T \;=\; S_t\exp\Bigl(\bigl(r-\tfrac12\sigma^2\bigr)\tau + \sigma\sqrt{\tau}\,Z\Bigr), \qquad Z\sim\mathcal{N}(0,1). \tag{6}
 $$
 
 ## Two numeraires
@@ -138,7 +138,7 @@ A **numeraire** is the unit you quote prices in. Dollars: the money-market accou
       <th>Measure</th>
       <th>Martingale</th>
       <th>Exercise probability</th>
-      <th>Role in (1)</th>
+      <th>Role in (8)</th>
     </tr>
   </thead>
   <tbody>
@@ -171,7 +171,7 @@ $$
 \frac{S_T}{S_t e^{r\tau}}.
 $$
 
-Under $\mathbb{Q}$, from $(7)$,
+Under $\mathbb{Q}$, from $(6)$,
 
 $$
 \frac{S_T}{S_t e^{r\tau}}
@@ -185,7 +185,7 @@ $$
 \mathbb{Q}^{S}(S_T>K) \;=\; \Phi(d_1).
 $$
 
-The asset-or-nothing is therefore $S_t\,\Phi(d_1)$: today's share, times the exercise probability *in share units*. The cash-or-nothing is $Ke^{-r\tau}\,\Phi(d_2)$: discounted strike, times the exercise probability *in dollar units*. That is $(1)$, with both $\Phi$'s now ordinary probabilities, each belonging to the numeraire that multiplies it. No integral was completed; the square was completed once, inside Girsanov.
+The asset-or-nothing is therefore $S_t\,\Phi(d_1)$: today's share, times the exercise probability *in share units*. The cash-or-nothing is $Ke^{-r\tau}\,\Phi(d_2)$: discounted strike, times the exercise probability *in dollar units*. That is $(8)$, with both $\Phi$'s now ordinary probabilities, each belonging to the numeraire that multiplies it. No integral was completed; the square was completed once, inside Girsanov.
 
 Why is the share-measure probability higher? Under $\mathbb{Q}^S$, outcomes are weighted by how many dollars the share is worth in them. The in-the-money outcomes are exactly the ones where the share is worth a lot, so they get more weight. $\Phi(d_1)-\Phi(d_2)$ is that reweighting.
 
@@ -236,15 +236,15 @@ The same skeleton prices three cousins, once you name what $q$ is.
 - A call on a **foreign currency** (Garman–Kohlhagen). Holding euros earns the euro interest rate $r_f$; that rate is $q$.
 - A call on a **futures** contract (Black, 1976). You put up no cash to hold the futures, so you save the financing $r$. That saving is a yield $q=r$, and the formula collapses to $e^{-r\tau}\bigl[F\Phi(d_1)-K\Phi(d_2)\bigr]$: the bond-numeraire formula above, with a constant rate.
 
-A **discrete cash** dividend of size $D$ just before $T$ is a different animal: $S_T$ is then a lognormal minus $D$, which is not lognormal, and $(1)$ as written does not apply. The common patch is to subtract the present value of $D$ from $S_t$ and apply $(1)$ to what is left. And a discrete dividend revives early exercise for American calls: just before the stock goes ex-dividend, the call holder may do better to exercise and collect $D$ than to watch the share price drop by $D$.
+A **discrete cash** dividend of size $D$ just before $T$ is a different animal: $S_T$ is then a lognormal minus $D$, which is not lognormal, and $(8)$ as written does not apply. The common patch is to subtract the present value of $D$ from $S_t$ and apply $(8)$ to what is left. And a discrete dividend revives early exercise for American calls: just before the stock goes ex-dividend, the call holder may do better to exercise and collect $D$ than to watch the share price drop by $D$.
 
 ## The smile
 
 Where it was spent: one $\sigma$, constant, for every strike and every path. That is what made $\ln S_T$ a single Gaussian.
 
-Volatility is the one input to $(1)$ you cannot read off a screen, so the market reads it backwards. Given a quoted price, the **implied volatility** $\sigma_{\mathrm{imp}}$ is the number you feed into $(1)$ to recover that quote. Our formula at $20\%$ says $10.45$; if the market shows $12$, implied vol is some number above $20\%$. Traders quote "vol $22$" rather than a dollar price, because that number compares across strikes and tenors.
+Volatility is the one input to $(8)$ you cannot read off a screen, so the market reads it backwards. Given a quoted price, the **implied volatility** $\sigma_{\mathrm{imp}}$ is the number you feed into $(8)$ to recover that quote. Our formula at $20\%$ says $10.45$; if the market shows $12$, implied vol is some number above $20\%$. Traders quote "vol $22$" rather than a dollar price, because that number compares across strikes and tenors.
 
-If the model were right, $\sigma_{\mathrm{imp}}$ would be the same for every strike. It is not. Before October 1987, equity implied vols were roughly flat. After the crash, out-of-the-money puts, insurance against another one, traded at prices no single $\sigma$ could fit. Plot $\sigma_{\mathrm{imp}}$ against strike and you get a U in currencies (a **smile**) and a downward slope in equities (a **smirk**: crash insurance is dear). Traders using $(1)$ this way are using it as a language. They do not believe $\ln S_T$ is Gaussian.
+If the model were right, $\sigma_{\mathrm{imp}}$ would be the same for every strike. It is not. Before October 1987, equity implied vols were roughly flat. After the crash, out-of-the-money puts, insurance against another one, traded at prices no single $\sigma$ could fit. Plot $\sigma_{\mathrm{imp}}$ against strike and you get a U in currencies (a **smile**) and a downward slope in equities (a **smirk**: crash insurance is dear). Traders using $(8)$ this way are using it as a language. They do not believe $\ln S_T$ is Gaussian.
 
 The smile is the market telling you which assumption to drop. Each fix corresponds to a line of Vol. II's derivation.
 
@@ -259,7 +259,7 @@ The smile is the market telling you which assumption to drop. Each fix correspon
 - **Jumps.** Wiener paths are continuous; a crash is a gap. Merton (1976) added Poisson jumps with lognormal sizes on top of the Wiener process. Conditional on the number of jumps, $\ln S_T$ is Gaussian, so the price is a Poisson-weighted *sum* of $\Phi$-pairs. You cannot hedge a jump with $\Delta$ shares, so the market is no longer complete, and the price is no longer unique: it depends on what the market charges for jump risk.
 - **Local volatility.** Or let $\sigma=\sigma(S,t)$, fitted so that every quoted strike is recovered exactly (Dupire, 1994). One function reproduces the whole smile today. But $S_T$ is then typically not lognormal, and the two-$\Phi$ formula is being used as a quoting dictionary, not as a model.
 
-A deterministic but time-varying $\sigma(t)$, by contrast, changes nothing: $s^2=\int_t^T\sigma(u)^2\,du$ is still one number, and $(1)$ survives with that $s$. That is the **term structure** of volatility, and it is the one perturbation of $\sigma$ that the formula absorbs.
+A deterministic but time-varying $\sigma(t)$, by contrast, changes nothing: $s^2=\int_t^T\sigma(u)^2\,du$ is still one number, and $(8)$ survives with that $s$. That is the **term structure** of volatility, and it is the one perturbation of $\sigma$ that the formula absorbs.
 
 ## Everything else
 
@@ -295,7 +295,7 @@ The assumptions are doing a lot of work. They are why a rain check on a stock ha
 # What was proved
 {: #what-was-proved}
 
-The theorem we proved is narrower than the word "option." It prices a European call on a stock that pays no dividend, driven by one Wiener process with a constant $\sigma$, in a market where you can trade continuously and without cost, and borrow or lend at a known rate $r$. In that complete market, the unique no-arbitrage price of $(S_T-K)^+$ is $(1)$. We reached it three ways: an integral against a lognormal, the heat equation, and a change of unit. Using that theorem as a price, as a quoting convention, or as the first term of an approximation is a separate decision.
+The theorem we proved is narrower than the word "option." It prices a European call on a stock that pays no dividend, driven by one Wiener process with a constant $\sigma$, in a market where you can trade continuously and without cost, and borrow or lend at a known rate $r$. In that complete market, the unique no-arbitrage price of $(S_T-K)^+$ is $(8)$. We reached it three ways: an integral against a lognormal, the heat equation, and a change of unit. Using that theorem as a price, as a quoting convention, or as the first term of an approximation is a separate decision.
 
 Three volumes: the contract and its assumptions; the noise, the lognormal, and the integral; heat, numeraires, and nuance. The rain check is $10.45$.
 
@@ -310,7 +310,7 @@ Cheers.
 - F. Black and M. Scholes, [The Pricing of Options and Corporate Liabilities](https://www.cs.princeton.edu/courses/archive/fall09/cos323/papers/black_scholes73.pdf), *JPE* 81 (1973).
 - R. C. Merton, [Theory of Rational Option Pricing](https://www.jstor.org/stable/3003143), *Bell Journal* 4 (1973).
 - J. C. Cox, S. A. Ross, and M. Rubinstein, [Option Pricing: A Simplified Approach](https://www.sciencedirect.com/science/article/pii/0304405X79900151), *J. Financial Economics* 7 (1979). The $n$-step tree.
-- K. Itô, [On Stochastic Differential Equations](https://projecteuclid.org/euclid.memo/1183518816), *Mem. AMS* (1951).
+- K. Itô, [On Stochastic Differential Equations](https://doi.org/10.1090/memo/0004), *Mem. AMS* (1951).
 - J. Hull, *Options, Futures, and Other Derivatives*.
 - S. Shreve, *Stochastic Calculus for Finance II*.
 - E. Derman and M. B. Miller, *The Volatility Smile*.

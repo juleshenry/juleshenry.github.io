@@ -61,7 +61,7 @@ The animation above is a genuine eversion: Thurston's corrugations, as rendered 
 
 Here is the target, stated once in full so that every word can be earned later. Let $\iota(p)=p$ be the standard sphere and $\alpha(p)=-p$ its antipodal copy, whose inside faces out.
 
-<div class="ev-def"><strong>Theorem (Smale, 1958).</strong> The space $\operatorname{Imm}(S^2,\mathbb{R}^3)$ of immersions of the 2-sphere in 3-space is path-connected. In particular there is a path of immersions from $\iota$ to $\alpha$: a sphere eversion.</div>
+<div class="ev-def"><strong>Theorem (Smale, 1959).</strong> The space $\operatorname{Imm}(S^2,\mathbb{R}^3)$ of immersions of the 2-sphere in 3-space is path-connected. In particular there is a path of immersions from $\iota$ to $\alpha$: a sphere eversion.</div>
 
 "Immersion" is [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III). This volume is about the words *space* and *path-connected*.
 

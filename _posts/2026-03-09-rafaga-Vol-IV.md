@@ -83,7 +83,7 @@ So the code here has to choose, and states its choices ([`calibration.jl`](https
 </table>
 
 <div class="cs-q"><strong>The tempting claim:</strong> Calibration is one call to an optimizer. Take the last traded prices of one expiry, run Nelder–Mead from a sensible starting guess ($\kappa = 5$, $\theta = 2.8$, $\sigma = 1$, $\lambda = 2$, $\eta = 2$), keep the parameters positive with <code>abs()</code>, and it converges to physically meaningful values with an error under 3%.</div>
-<div class="cs-a"><strong>The data says:</strong> <em>Last traded prices</em> can be hours or days stale. One starting point finds one optimum. And <code>abs()</code> makes the loss non-smooth exactly where the optimizer is working. None of that makes the fit wrong, but none of it can tell a good fit from a lucky one. The last section of this volume shows what "physically meaningful" parameters turn out to mean.</div>
+<div class="cs-a"><strong>The data says:</strong> <em>Last traded prices</em> can be hours or days stale. One starting point finds one optimum. And <code>abs()</code> puts a kink in the loss wherever a parameter crosses zero, which is where a poorly identified $\kappa$ tends to wander. None of that makes the fit wrong, but none of it can tell a good fit from a lucky one. The last section of this volume shows what "physically meaningful" parameters turn out to mean.</div>
 
 ---
 

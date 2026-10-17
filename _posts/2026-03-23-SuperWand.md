@@ -31,7 +31,7 @@ Each region gets mapped to a color from the chosen theme. The 18 themes are hand
 
 | Theme | Vibe |
 |-------|------|
-| Tropical | Orange, coral, lime, dodger blue |
+| Tropical | Orange, orange-red, lime green, dodger blue |
 | Cyberpunk | Cyan, magenta, yellow, pure blue |
 | Vaporwave | Pink, sky blue, mint, lavender |
 | Arctic | Azure, ice blue, steel blue, snow |
@@ -68,12 +68,12 @@ Each gradient has a polarity parameter that controls where the 50/50 blend lands
 
 ## Palette Transfer
 
-Eighteen themes is a lot, but the best palettes are already out there in photographs. `-palette-from` runs the same KMeans region finder on a reference image, takes its `k` cluster centers as a custom theme and applies it with luminance matching. Here a flat vector illustration borrows the palette of a mantis shrimp, and then of plankton from Austin's Lady Bird Lake:
+Eighteen themes is a lot, but the best palettes are already out there in photographs. `--palette-from` runs the same KMeans region finder on a reference image, takes its `k` cluster centers as a custom theme and applies it with luminance matching. Here a flat vector illustration borrows the palette of a mantis shrimp, and then of plankton from Austin's Lady Bird Lake:
 
 ![Palette transfer](https://raw.githubusercontent.com/juleshenry/superwand/main/examples/demos/palette_transfer.webp)
 
 ```bash
-superwand rocket.jpeg -palette-from mantis_shrimp.jpeg -k 6
+superwand rocket.jpeg --palette-from mantis_shrimp.jpeg -k 6
 ```
 
 ## SuperWand Studio
@@ -100,11 +100,11 @@ pip install superwand
 ```
 
 ```bash
-superwand zebra.png -theme Urban
+superwand zebra.png --theme Urban
 ```
 
 ```bash
-superwand charizard.png -theme Vaporwave -k 6 -gradient radial
+superwand charizard.png --theme Vaporwave -k 6 --gradient radial
 ```
 
 The `-k` flag controls the number of color regions. More regions means finer-grained recoloring. For simple posterized art (like the Charizard), 4 regions works well. For photographs with subtle gradients, 6-8 regions capture more detail.
@@ -112,9 +112,9 @@ The `-k` flag controls the number of color regions. More regions means finer-gra
 A few more:
 
 ```bash
-superwand charizard.png -gif                                  # animated cycle through all 18 themes
-superwand skyline.jpg -theme Midnight -k 5 -match luminance -o out/
-superwand charizard.png -palette -k 4                         # print the dominant colors as hex
+superwand charizard.png --gif                                 # animated cycle through all 18 themes
+superwand skyline.jpg --theme Midnight -k 5 --match luminance -o out/
+superwand charizard.png --palette -k 4                        # print the dominant colors as hex
 superwand --list-themes
 css-retheme site.css Tropical -o site_tropical.css
 ```

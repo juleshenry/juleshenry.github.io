@@ -12,7 +12,7 @@ For centuries, multiplying two $n$-digit numbers meant performing $n^2$ single-d
 
 This series follows the algorithms that broke the $O(n^2)$ barrier: Karatsuba's $O(n^{1.585})$ divide-and-conquer trick, the polynomial interpolation of Toom-Cook, the Fourier-analytic machinery of Schönhage-Strassen, and the 2019 result of Harvey and van der Hoeven reaching $O(n \log n)$, long conjectured to be the floor. [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV) examines the parallel with sorting that made that conjecture so easy to believe. [Vol. V](/blog/2026/10/08/On-Multiplication-Vol-V) covers a 2026 preprint claiming to go *below* $n \log n$, what that does to the parallel, and the conclusion of the series.
 
-A caveat: the fastest of these algorithms only win at absurd sizes. Harvey and van der Hoeven's proof applies only to numbers with more than $2^{1729^{12}}$ bits. The observable universe holds about $10^{80}$ atoms, so no number that large could ever be written down, even at one bit per atom. Algorithms like this are called *galactic*. Nobody will run them; their value is in what they prove is possible.
+A caveat: the fastest of these algorithms only win at absurd sizes. Harvey and van der Hoeven's proof applies only to numbers with at least $2^{1729^{12}}$ bits. The observable universe holds about $10^{80}$ atoms, so no number that large could ever be written down, even at one bit per atom. Algorithms like this are called *galactic*. Nobody will run them; their value is in what they prove is possible.
 
 # Schoolbook Multiplication: Fundamentally $O(n^2)$
 

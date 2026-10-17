@@ -142,7 +142,7 @@ ax.set_yticks([])
 for s in ax.spines.values():
     s.set_visible(False)
 
-fig.suptitle(r"The tradeoff integrates to a quarter-turn: $\arctan 1=\pi/4$",
+fig.suptitle(r"The tradeoff integrates to $\arctan 1=\pi/4$",
              color=TEXT, fontsize=13, y=1.03)
 save(fig, "arctan.png")
 

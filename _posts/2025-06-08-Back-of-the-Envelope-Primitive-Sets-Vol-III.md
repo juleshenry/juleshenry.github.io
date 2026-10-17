@@ -68,7 +68,7 @@ $$
 1 - \frac12 - \frac13 + \frac16 \;=\; \frac13 \;=\; \Bigl(1-\frac12\Bigr)\Bigl(1-\frac13\Bigr).
 $$
 
-The same pattern continues for any finite list (the sieve of Eratosthenes): the events "divisible by $q$" for distinct primes $q$ multiply, because a number is divisible by $q$ and $q'$ if and only if it is divisible by $qq'$. In probability language, divisibility by distinct primes gives *independent events*. Hence
+The same pattern continues for any finite list (Legendre's inclusion–exclusion form of the sieve of Eratosthenes): the events "divisible by $q$" for distinct primes $q$ multiply, because a number is divisible by $q$ and $q'$ if and only if it is divisible by $qq'$. In probability language, divisibility by distinct primes gives *independent events*. Hence
 
 $$
 d(L_a) \;=\; \frac{1}{a} \prod_{q < P(a)}\Bigl(1 - \frac{1}{q}\Bigr).
@@ -274,7 +274,7 @@ $$
 Sum over $A$ and use the budget:
 
 $$
-f(A) \;\approx\text{at most}\; e^{\gamma} \sum_{a \in A} d(L_a) \;\le\; e^{\gamma} \cdot 1 \;=\; e^{\gamma} \approx 1.781.
+f(A) \;\lesssim\; e^{\gamma} \sum_{a \in A} d(L_a) \;\le\; e^{\gamma} \cdot 1 \;=\; e^{\gamma} \approx 1.781.
 $$
 
 Even with the $\approx$, this proves Erdős's theorem, because the constant hidden in it does not depend on $A$. The ratio $a\log P(a)\, d(L_a) = \log p \prod_{q<p}(1-1/q)$ depends only on $p = P(a)$, is positive, and tends to $e^{-\gamma}$, so it is at least some fixed $c > 0$ (the smallest value is about $0.519$, at $p = 7$). Then $1/(a\log a) \le d(L_a)/c$ for every $a$, and $f(A) \le 1/c \approx 1.93$ for every primitive $A$.

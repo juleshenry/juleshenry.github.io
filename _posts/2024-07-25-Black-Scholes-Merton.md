@@ -196,7 +196,7 @@ A dividend is cash paid to whoever holds the share. The option holder does not g
 # 3. The BSM assumptions
 {: #3-the-bsm-assumptions}
 
-Black–Scholes–Merton is a theorem, and a theorem has hypotheses. Here they are, stated once, before any of them is used. Each is followed by what it means for the stock in your brokerage account, and whether it is true.
+Black–Scholes–Merton is a theorem, and a theorem has hypotheses. Here they are, stated once, before any of them is used. Each is followed by what it means for the stock in your brokerage account and, where the question makes sense, whether it is true.
 
 1. **The stock follows geometric Brownian motion.** Its percentage moves are random, continuous (no overnight gaps), and have a constant average rate $\mu$ and a constant size $\sigma$, the **volatility**. The consequence, derived in Vol. II, is that $S_T$ is lognormal. *True-ish*: daily returns are roughly bell-shaped, but crashes happen more often than a bell curve allows, and $\sigma$ drifts over time.
 2. **There is a constant, known risk-free rate $r$.** You may borrow or lend any amount at $r$, and the same $r$ applies both ways. *Approximately*: Treasury bills set $r$, but you borrow at more than you lend, and rates change.

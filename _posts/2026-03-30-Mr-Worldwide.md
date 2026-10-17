@@ -36,7 +36,7 @@ Generating a GIF is easy. Pillow does that in five lines. The hard problem is re
 
 "Hello" in English uses Latin characters. "こんにちは" uses Japanese hiragana. "مرحبا" uses Arabic script (right-to-left). "สวัสดี" uses Thai. "ሰላም" uses Ethiopic. "བཀྲ་ཤིས་བདེ་ལེགས" uses Tibetan. Each of these scripts needs a different font, and many system fonts cover only a handful.
 
-Mr. Worldwide bundles two dozen Google Noto fonts. For each translation, it picks the matching Noto face from the language code, or failing that from the Unicode range of its characters: Arabic → NotoSansArabic, Devanagari → NotoSansDevanagari, Chinese → NotoSansSC, Japanese → NotoSansJP, and so on.
+Mr. Worldwide bundles two dozen Google Noto fonts. For each translation, it picks the matching Noto face from the language code, or failing that from the Unicode range of its characters: Arabic → NotoSansArabic, Devanagari → NotoSansDevanagari, Chinese → NotoSansSC, Japanese → NotoSansJP, and so on. One limit: the per-character colour modes (`--rainbow`, `--use_flag_colors`) draw each glyph separately, so in those modes Arabic letters do not join, Hebrew runs left to right, and Thai and Tamil marks lose their base letters.
 
 Font sizing is automatic too. "Hello" is five compact Latin letters; "こんにちは" is five wide kana. The tool measures the rendered width of each translation and shrinks the font only as far as needed to fit 90% of the frame width, so nothing clips and short words stay large.
 

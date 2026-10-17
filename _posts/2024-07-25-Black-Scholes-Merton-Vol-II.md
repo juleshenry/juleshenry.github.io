@@ -201,7 +201,7 @@ $W_t$ is a bad model for a stock. It can be negative, and a $\\$100$ stock and a
 You already know the ODE $dS=\mu S\,dt$, whose solution is $S_t=S_0 e^{\mu t}$. The model used here is that ODE plus noise, scaled by the current price so the *percentage* move is Wiener. That is **geometric Brownian motion**:
 
 $$
-dS_t \;=\; \mu S_t\,dt + \sigma S_t\,dW_t. \tag{2}
+dS_t \;=\; \mu S_t\,dt + \sigma S_t\,dW_t. \tag{1}
 $$
 
 Read it as a recipe for a short interval $dt$:
@@ -215,9 +215,9 @@ A dollar in the **money-market account** (riskless savings at a constant rate $r
 
 ![Geometric Brownian motion: stock paths, which stay positive](/blog/assets/2024/bsm/gbm-paths.png)
 
-Each path is one draw of $W$, turned into a price by $(2)$. A European call with the dashed strike pays the excess over $100$ if the path ends above the line, and zero otherwise.
+Each path is one draw of $W$, turned into a price by $(1)$. A European call with the dashed strike pays the excess over $100$ if the path ends above the line, and zero otherwise.
 
-The solution of $(2)$ is *not* $S_0 e^{\mu t}$ times a noise factor. The exponent needs a correction, and the correction comes from a term calculus usually throws away.
+The solution of $(1)$ is *not* $S_0 e^{\mu t}$ times a noise factor. The exponent needs a correction, and the correction comes from a term calculus usually throws away.
 
 ## The term calculus drops
 
@@ -258,14 +258,14 @@ $$
 Feed in $\Delta x=a\,\Delta t+b\,\Delta W$. The table kills $(\Delta t)^2$ and $\Delta t\,\Delta W$, and sends $(\Delta x)^2\to b^2\Delta t$. What remains is
 
 $$
-df(t,X_t) \;=\; \Bigl(f_t + a f_x + \tfrac12 b^2 f_{xx}\Bigr)dt + b f_x\,dW_t. \tag{3}
+df(t,X_t) \;=\; \Bigl(f_t + a f_x + \tfrac12 b^2 f_{xx}\Bigr)dt + b f_x\,dW_t. \tag{2}
 $$
 
 The first two terms in the $dt$ coefficient are the ordinary chain rule. The third is the leftover we just computed on $W^2$. For $f(x)=x^2$ and $X=W$ ($a=0$, $b=1$, $f_{xx}=2$), the correction is $dt$, and $d(W^2)=2W\,dW+dt$. At $t=1$ the extra $+1$ is the gap in the figure. This is a derivation by Taylor's theorem and a check on one path, not a proof in full generality.
 
 ## The stock is lognormal
 
-Apply $(3)$ to $f(x)=\ln x$ and to the stock $(2)$. Then $f_x=1/x$, $f_{xx}=-1/x^2$, and the leftover is $-\tfrac12\sigma^2\,dt$:
+Apply $(2)$ to $f(x)=\ln x$ and to the stock $(1)$. Then $f_x=1/x$, $f_{xx}=-1/x^2$, and the leftover is $-\tfrac12\sigma^2\,dt$:
 
 $$
 \begin{aligned}
@@ -279,7 +279,7 @@ $$
 The right side has constant coefficients, so integrating is just adding. Integrate from $t$ to $T$. Write $\tau=T-t$, and $W_T-W_t\stackrel{d}{=}\sqrt{\tau}\,Z$ with $Z\sim\mathcal{N}(0,1)$:
 
 $$
-S_T \;=\; S_t\exp\Bigl(\bigl(\mu-\tfrac12\sigma^2\bigr)\tau + \sigma\sqrt{\tau}\,Z\Bigr). \tag{4}
+S_T \;=\; S_t\exp\Bigl(\bigl(\mu-\tfrac12\sigma^2\bigr)\tau + \sigma\sqrt{\tau}\,Z\Bigr). \tag{3}
 $$
 
 This *is* the lognormal of §2, with
@@ -339,7 +339,7 @@ The constant $m+s^2/2$ comes out. What remains is a normal density with mean $m+
 $$
 \mathbb{E}\bigl[S_T\,1_{\{S_T>K\}}\bigr]
 \;=\;
-e^{m+s^2/2}\,\Phi\Bigl(\frac{-\ln K+m+s^2}{s}\Bigr). \tag{14}
+e^{m+s^2/2}\,\Phi\Bigl(\frac{-\ln K+m+s^2}{s}\Bigr). \tag{4}
 $$
 
 The cutoff turned the full MGF factor into that factor times a $\Phi$. The mean-shift $m\mapsto m+s^2$ is the only difference between the two $\Phi$ arguments. Combining,
@@ -348,18 +348,18 @@ $$
 \mathbb{E}[(S_T-K)^+]
 \;=\;
 e^{m+s^2/2}\,\Phi(d_{+}) - K\,\Phi(d_{-}),
-\tag{15}
+\tag{5}
 $$
 
 $$
 d_{+} \;=\; \frac{-\ln K+m+s^2}{s}, \qquad d_{-} \;=\; \frac{-\ln K+m}{s}.
 $$
 
-If the premium were the discounted expected payoff under this law, it would be $e^{-r\tau}$ times $(15)$. **That is the shape of Black–Scholes**: two $\Phi$'s, a share piece and a cash piece. What remains is to decide *which* $m$ to feed it.
+If the premium were the discounted expected payoff under this law, it would be $e^{-r\tau}$ times $(5)$. **That is the shape of Black–Scholes**: two $\Phi$'s, a share piece and a cash piece. What remains is to decide *which* $m$ to feed it.
 
 ## Why not $\mu$: a two-leaf tree
 
-The tempting move is to use the physical $m$ from $(4)$, the one with $\mu$ in it. That is wrong, and a cartoon shows why.
+The tempting move is to use the physical $m$ from $(3)$, the one with $\mu$ in it. That is wrong, and a cartoon shows why.
 
 A stock trades at $100$. In one year it is either $200$ or $50$. No interest. A call struck at $100$ pays $100$ or $0$.
 
@@ -411,7 +411,7 @@ A tree calibrated to $r=5\%$, $\sigma=20\%$, one year, $S=K=100$, with Cox–Ros
 
 ![n-step Cox–Ross–Rubinstein tree walking to 10.45](/blog/assets/2024/bsm/crr-convergence.png)
 
-The $n=2$ dip is a coarse histogram of a bell curve. From $n=2$ on, the values climb steadily toward $10.45$. That is the number. The closed form is the integral $(15)$, with the *fair-game* $(m,s)$.
+The drop from $n=1$ to $n=2$ is the tree's odd-even wobble. With $S=K$, an even number of steps puts a node exactly at the strike, where the call pays nothing, so even trees price low and odd ones high. Along the even sizes in the table the values climb steadily toward $10.45$. That is the number. The closed form is the integral $(5)$, with the *fair-game* $(m,s)$.
 
 ## Pinning $m$ by elementary statistics
 
@@ -430,23 +430,23 @@ $$
 Equivalently,
 
 $$
-S_T \;=\; S_t\exp\Bigl(\bigl(r-\tfrac12\sigma^2\bigr)\tau + \sigma\sqrt{\tau}\,Z\Bigr), \qquad Z\sim\mathcal{N}(0,1)\text{ under }\mathbb{Q}, \tag{7}
+S_T \;=\; S_t\exp\Bigl(\bigl(r-\tfrac12\sigma^2\bigr)\tau + \sigma\sqrt{\tau}\,Z\Bigr), \qquad Z\sim\mathcal{N}(0,1)\text{ under }\mathbb{Q}, \tag{6}
 $$
 
-which is $(4)$ with $\mu$ replaced by $r$. The letter $\mathbb{Q}$ names this risk-neutral law. The call is its discounted expected payoff:
+which is $(3)$ with $\mu$ replaced by $r$. The letter $\mathbb{Q}$ names this risk-neutral law. The call is its discounted expected payoff:
 
 $$
-C \;=\; e^{-r\tau}\,\mathbb{E}^{\mathbb{Q}}\bigl[(S_T-K)^+\bigr]. \tag{6}
+C \;=\; e^{-r\tau}\,\mathbb{E}^{\mathbb{Q}}\bigl[(S_T-K)^+\bigr]. \tag{7}
 $$
 
 The claim that $\sigma$ is untouched, in continuous time, is **Girsanov's theorem**; here it is asserted by analogy with the tree, and [Vol. III](/blog/2024/07/24/Black-Scholes-Merton-Vol-III#2-change-of-numeraire) derives it from a ratio of two Gaussian densities. Two traders who disagree about $\mu$ still agree on $C$ if they agree on $\sigma$. $\Delta=2/3$ did not ask who thought the stock would double.
 
 ## Plug in
 
-Feed the risk-neutral $(m,s)$ into $(15)$. Then $e^{m+s^2/2}=S_t e^{r\tau}$, so the discounted share-piece is $S_t\Phi(d_1)$ and the discounted cash-piece is $K e^{-r\tau}\Phi(d_2)$, where $d_1$ and $d_2$ are $d_{+}$ and $d_{-}$ written out:
+Feed the risk-neutral $(m,s)$ into $(5)$. Then $e^{m+s^2/2}=S_t e^{r\tau}$, so the discounted share-piece is $S_t\Phi(d_1)$ and the discounted cash-piece is $K e^{-r\tau}\Phi(d_2)$, where $d_1$ and $d_2$ are $d_{+}$ and $d_{-}$ written out:
 
 $$
-C \;=\; S_t\,\Phi(d_1) - K e^{-r\tau}\,\Phi(d_2), \tag{1}
+C \;=\; S_t\,\Phi(d_1) - K e^{-r\tau}\,\Phi(d_2), \tag{8}
 $$
 
 $$
@@ -514,4 +514,4 @@ For the rain-check numbers, $P\approx 5.57$, and $C-P=4.88$, the $\sigma=0$ row.
 # Where this goes
 {: #where-this-goes}
 
-The derivation used a lognormal, one integral, and a tree. Black and Scholes did not do it this way: they wrote a partial differential equation, and it turns out to be the heat equation in disguise. And the two $\Phi$'s in $(1)$ are probabilities of the *same* event, $\lbrace S_T>K\rbrace$, yet they differ; a change of numeraire explains why. Those are the first two stops in Vol. III. The third is the list of assumptions from Vol. I, now that we have seen exactly where each one was spent.
+The derivation used a lognormal, one integral, and a tree. Black and Scholes did not do it this way: they wrote a partial differential equation, and it turns out to be the heat equation in disguise. And the two $\Phi$'s in $(8)$ are probabilities of the *same* event, $\lbrace S_T>K\rbrace$, yet they differ; a change of numeraire explains why. Those are the first two stops in Vol. III. The third is the list of assumptions from Vol. I, now that we have seen exactly where each one was spent.

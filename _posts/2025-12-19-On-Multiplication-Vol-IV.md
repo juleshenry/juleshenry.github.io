@@ -40,7 +40,7 @@ It is also a statement about a *model*. The proof counts comparisons, and it bin
 
 ### Multiplication: Counting Convolutions
 
-Now consider multiplying two $n$-bit integers. The output is a $2n$-bit number, and each bit in its upper half can depend on every input bit from both operands. The "mixing" that must occur, the convolution of $n$ digits with $n$ digits, produces $2n - 1$ output coefficients, each of which is a sum of products involving up to $n$ terms.
+Now consider multiplying two $n$-bit integers. The output is a $2n$-bit number, and each bit in its upper half can depend on every input bit from both operands. The "mixing" involved, the convolution of $n$ digits with $n$ digits, produces $2n - 1$ output coefficients, each of which is a sum of products involving up to $n$ terms.
 
 It is tempting to run the same kind of argument here. The FFT is the canonical way to compute a length-$n$ convolution, and a radix-2 FFT performs $\frac{n}{2} \log_2 n$ butterfly operations, each combining two values. The data must pass through $\log_2 n$ stages, with $O(n)$ work per stage. Surely any algorithm that computes the same convolution must, in some sense, perform the same total information routing?
 

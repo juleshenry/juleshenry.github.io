@@ -22,7 +22,7 @@ The number to look at is the classical baseline's accuracy. Averaged over the 25
 
 The baseline is not parameter-matched either. The quantum circuit alternates three blocks of 16 $XX$ and 16 $ZZ$ couplings between each data qubit and the readout qubit with two blocks of 16 $R_x$ and 16 $R_y$ single-qubit rotations. That is $3 \times 32 + 2 \times 32 = 160$ trainable angles, about three times the classical network's 55.
 
-The pattern is well documented. Bowles, Ahmed and Schuld ran a large benchmark of published quantum classifiers in 2024 and found that properly tuned classical models outperformed them nearly across the board, and that removing the entanglement from the quantum models often did not hurt them. A comparison where the quantum model wins against a weak baseline is the usual failure mode of this literature, and this one is an instance of it.
+The pattern is well documented. Bowles, Ahmed and Schuld ran a large benchmark of published quantum classifiers in 2024 and found that out-of-the-box classical models outperformed them nearly across the board, and that removing the entanglement from the quantum models often did not hurt them. A comparison where the quantum model wins against a weak baseline is the usual failure mode of this literature, and this one is an instance of it.
 
 ## The circuit is classically easy
 
@@ -63,7 +63,7 @@ Under the short schedule, the simulator reproduces the TensorFlow Quantum headli
 
 One objection is that the tuning itself is noisy, because the learning rate is chosen on only about 40 validation images. On bosmina against brachionus, the untuned quantum network beats the tuned one, 83.9% to 77.4%. To rule this out, give the quantum network an unfair advantage: for every fold, keep whichever of its two versions scores higher on the test set. Even this oracle loses to logistic regression by 9.1 points and to the SVM by 15.2 points on average, and it wins none of the 25 pairs against the SVM.
 
-Two other phases point the same way. The Phase 5 multi-class experiment, which does not tune its classical baseline at all, still shows the classical network ahead at every class count from three up. And the Phase 7 expressibility measurement, which reports a KL divergence of exactly 0.0000 at every circuit depth, is an artifact. For 17 qubits, the fidelity between two random states is almost always close to $2^{-17} \approx 7.6 \times 10^{-6}$. With 75 histogram bins on $[0,1]$, both the circuit's distribution and the reference distribution land entirely in the first bin, so their divergence is zero whatever the circuit does.
+Two other phases point the same way. The Phase 5 multi-class experiment, which does not tune its classical baseline at all, still shows the classical network ahead at every class count from three up. And the Phase 7 expressibility measurement, which reports a KL divergence of exactly 0.0000 at every circuit depth, is an artifact. For 17 qubits, the fidelity between two random states is typically of order $2^{-17} \approx 7.6 \times 10^{-6}$. With 75 histogram bins on $[0,1]$, both the circuit's distribution and the reference distribution land entirely in the first bin, so their divergence is zero whatever the circuit does.
 
 ## What would parity with a CNN take?
 

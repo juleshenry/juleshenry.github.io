@@ -246,7 +246,7 @@ Together with the identity $I$, they form a basis for all $2 \times 2$ Hermitian
 
 ### Hermitian Matrices: The Matrices of Measurement
 
-In quantum mechanics, anything you can physically **measure** (energy, position, momentum) is represented by a Hermitian matrix. Their eigenvalues are always real numbers, which makes sense because measurement results are real. That is not a coincidence; it is the reason physicists use them.
+In quantum mechanics, anything you can physically **measure** (energy, position, momentum) is represented by a Hermitian operator; on a finite set of qubits, that is a Hermitian matrix. Their eigenvalues are always real numbers, which makes sense because measurement results are real. That is not a coincidence; it is the reason physicists use them.
 
 A matrix $A$ is **Hermitian** (also called self-adjoint) if $A = A^\dagger$: it equals its own conjugate transpose. Equivalently, every diagonal entry is real and each entry above the diagonal is the complex conjugate of its mirror image below.
 
@@ -968,7 +968,7 @@ For a condensed, hand-written sketch of the derivation based on Nielsen and Chua
 
 ### Sources
 
-L. K. Grover. "A fast quantum mechanical algorithm for database search." Nov. 19, 1996. arXiv: quant-ph/9605043.
+L. K. Grover. "A fast quantum mechanical algorithm for database search." *Proceedings of the 28th ACM Symposium on Theory of Computing* (STOC), May 1996, pp. 212–219. arXiv: quant-ph/9605043.
 
 C. H. Bennett, E. Bernstein, G. Brassard, U. Vazirani. "Strengths and weaknesses of quantum computing." *SIAM Journal on Computing* 26(5), 1997. arXiv: quant-ph/9701001.
 

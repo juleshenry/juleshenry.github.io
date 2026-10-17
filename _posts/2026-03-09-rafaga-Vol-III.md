@@ -44,7 +44,7 @@ and add the jumps to the rubber band of [Vol. I](/blog/2026/03/09/rafaga):
 
 Jumps are upward only. That is the physics of fear: the VIX spikes up and decays down, and the decay is already handled by mean reversion. A mean log-jump of $1/\eta = 0.3$ means the typical jump multiplies the VIX by $e^{0.3}\approx1.35$. Because a jump is a shock to $\ln\text{VIX}$, mean reversion then pulls it back at the same speed as any other shock.
 
-This model is due to Psychoyios, Dotsis and Markellos (2010); the thesis develops its futures, options, hedging and convexity formulas. What it costs us is the Gaussian. $\ln\text{VIX}_T$ is now a Gaussian plus a random sum of decayed exponential jumps, and there is no closed-form density, so no $\Phi(d_1)$.
+This model is due to Psychoyios, Dotsis and Markellos (2010), who also priced its futures and options; the thesis adds time-dependent parameters, hedging and convexity formulas. What it costs us is the Gaussian. $\ln\text{VIX}_T$ is now a Gaussian plus a random sum of decayed exponential jumps, and there is no closed-form density, so no $\Phi(d_1)$.
 
 ---
 

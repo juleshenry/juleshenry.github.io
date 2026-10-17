@@ -17,7 +17,7 @@ Every integer greater than $1$ factors uniquely into primes. That is the uniquen
 
 Take any collection of integers greater than $1$ in which no element divides another. Weigh each integer $a$ by $1/(a\log a)$. Among all such collections, finite or infinite, **the primes are the heaviest.**
 
-That is the Erdős primitive set conjecture, in print by 1974, proved by Jared Duker Lichtman in 2022. The [paper is here](https://arxiv.org/abs/2202.02384). I first met the statement in locked-down Boston and was sure it had to be true. This series is a walk from "what does divide mean?" to the $\pi/4$ that finishes the argument. Every term is defined before it is used. The published paper has extra numerical bounds for small primes and a separate estimate for the prime $2$; we will say exactly where those enter, and we will not pretend the napkin is the paper.
+That is the Erdős primitive set conjecture, posed by Erdős in 1986 and proved by Jared Duker Lichtman in 2022. The [paper is here](https://arxiv.org/abs/2202.02384). I first met the statement in locked-down Boston and was sure it had to be true. This series is a walk from "what does divide mean?" to the $\pi/4$ that finishes the argument. Every term is defined before it is used. The published paper has extra numerical bounds for small primes and a separate estimate for the prime $2$; we will say exactly where those enter, and we will not pretend the napkin is the paper.
 
 The calculus we need is substitution in integrals, the chain rule, and one named derivative: $\frac{d}{du}\arctan u = \frac{1}{1+u^2}$, with $\arctan 1 = \pi/4$. Throughout, $\log$ means the natural logarithm (what a calculus book calls $\ln$). So $\log e = 1$, and $\log 8 = 3\log 2$.
 
@@ -28,7 +28,7 @@ The calculus we need is substitution in integrals, the chain rule, and one named
     <tr><td><strong>II</strong></td><td>The Erdős sum</td><td>The scale $f(A)=\sum 1/(a\log a)$, why it sits on the knife-edge between finite and infinite, and why the primes score $1.6366$.</td></tr>
     <tr><td><strong>III</strong></td><td>Territories and the $e^\gamma$ bound</td><td>Each $a$ gets a private territory $L_a$. Primitivity makes them disjoint, which gives a density budget of $1$, and Mertens turns the budget into $f(A)\lt e^\gamma\approx 1.781$.</td></tr>
     <tr><td><strong>IV</strong></td><td>Slots and the $\sqrt v$ packing</td><td>Compete prime by prime. Composites convert density at a discount $1/(1+v)$, and nearly-prime composites cannot fill more than $\sqrt v$ of a slot.</td></tr>
-    <tr><td><strong>V</strong></td><td>The quarter-turn</td><td>Discount against packing integrates to $\pi/4$. Every odd prime beats its composites; the prime $2$ is handled separately; what is still open.</td></tr>
+    <tr><td><strong>V</strong></td><td>The quarter-circle</td><td>Discount against packing integrates to $\pi/4$. Every odd prime beats its composites; the prime $2$ is handled separately; what is still open.</td></tr>
   </tbody>
 </table>
 

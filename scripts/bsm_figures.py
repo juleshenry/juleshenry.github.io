@@ -245,3 +245,23 @@ axes[1].set_yticks([])
 fig.suptitle("A stock is a product of returns, not a sum of dollars",
              color=TEXT, fontsize=13, y=1.04)
 save(fig, "normal-vs-lognormal.png")
+
+
+# --- coin-flip walk → Brownian motion ---------------------------------------
+# Each panel is its own fair walk with steps of exactly ±sqrt(1/n), as in the text.
+rng = np.random.default_rng(7)
+fig, axes = plt.subplots(1, 3, figsize=(12.6, 4.0), facecolor=BG, sharey=True)
+for ax, n, title in zip(axes, [15, 60, 480],
+                        ["15 coin-flip steps", "60 steps", "480 steps (looks continuous)"]):
+    steps = rng.choice([-1.0, 1.0], size=n) * sqrt(1 / n)
+    t = np.linspace(0, 1, n + 1)
+    W = np.concatenate([[0.0], np.cumsum(steps)])
+    style(ax, title)
+    ax.axhline(0, color="#444", lw=1)
+    ax.step(t, W, where="post", color=CYAN, lw=1.8 if n < 480 else 1.2)
+    ax.set_xlim(0, 1)
+    ax.set_xlabel("time t", color=MUTED)
+axes[0].set_ylabel(r"position $W_t$", color=MUTED)
+fig.suptitle(r"A fair coin-flip walk with steps $\pm\sqrt{\Delta t}$ becomes Brownian motion",
+             color=TEXT, fontsize=13, y=1.04)
+save(fig, "random-walk-to-brownian.png")

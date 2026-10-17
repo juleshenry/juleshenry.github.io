@@ -272,7 +272,7 @@ $$
 
 Because it is $1728 + 1$. The dimension has to be larger than the expansion constant $K = 1728$, and $1729$ is the first integer that is. The authors chose the simplest proof over the smallest constant, and they [outline refinements](https://hal.science/hal-02070778) (Section 5.4) that bring $K$ down to about $8$, so that any $d \ge 9$ would do.
 
-The appearance of **1729**, Ramanujan's famous "taxicab number" and the smallest number expressible as the sum of two cubes in two different ways, is a coincidence, but a poetic one. It comes about only because $1728$ happens to be $12^3$, so that $1729 = 12^3 + 1^3$, which is also $10^3 + 9^3$. But it is fitting that the algorithm that seemed, for a while, to close the book on multiplication complexity should bear, in its constant, an echo of Hardy's taxi ride to visit Ramanujan.
+The appearance of **1729**, Ramanujan's famous "taxicab number" and the smallest number expressible as the sum of two cubes in two different ways, is, as far as the paper says, a coincidence, but a poetic one. The analysis produces $1728$, which happens to be $12^3$, so that $1729 = 12^3 + 1^3$, which is also $10^3 + 9^3$. But it is fitting that the algorithm that seemed, for a while, to close the book on multiplication complexity should bear, in its constant, an echo of Hardy's taxi ride to visit Ramanujan.
 
 The price of all this machinery is the size at which it starts to work. The proof as written applies only to inputs of at least $2^{1729^{12}}$ bits. To put that number in perspective:
 - The observable universe contains roughly $10^{80}$ atoms.

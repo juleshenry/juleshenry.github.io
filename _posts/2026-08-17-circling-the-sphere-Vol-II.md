@@ -249,7 +249,7 @@ CS.mount({
 
 The **winding number** of a loop $\gamma$ in $\mathbb{R}^2\setminus\lbrace 0\rbrace$ is the degree of $\gamma/\lVert\gamma\rVert$, a loop on the unit circle. The straight-line homotopy $(1-s)\gamma+s\,\gamma/\lVert\gamma\rVert$ never hits $0$, so $\mathbb{R}^2\setminus\lbrace 0\rbrace$ and $S^1$ have the same loops up to homotopy: $\pi&#95;{1}(\mathbb{R}^2\setminus\lbrace 0\rbrace)\cong\mathbb{Z}$. That is the missing proof for the first widget.
 
-Keep this pattern in mind; it is the whole of [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) in miniature. A covering map $E\to B$ with discrete fibre $F$ (here $\mathbb{R}\to S^1$, fibre $\mathbb{Z}$), plus the fact that $E$ has no interesting loops, computes the loops of $B$ from the points of $F$.
+Keep this pattern in mind; it is the core of [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) in miniature. A covering map $E\to B$ with discrete fibre $F$ (here $\mathbb{R}\to S^1$, fibre $\mathbb{Z}$), plus the fact that $E$ has no interesting loops, computes the loops of $B$ from the points of $F$.
 
 ---
 

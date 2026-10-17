@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Back-of-the-Envelope: Primitive Sets, Vol. V: The Quarter-Turn"
+title: "Back-of-the-Envelope: Primitive Sets, Vol. V: The Quarter-Circle"
 date: 2025-06-08 12:04:00
 description: "How the composite discount and the √v packing bound integrate to π/4, proving every odd prime Erdős-strong, and how Lichtman handles the prime 2."
 categories: number-theory
@@ -11,7 +11,7 @@ mathjax: true
 
 {% include primitive-kit.html %}
 
-*Conversion against packing. The best a slot of composites can do is an integral, the integral is an arctangent, and the arctangent is a quarter of a half-turn: $\pi/4\approx 0.785$ of the prime it is trying to replace.*
+*Conversion against packing. The best a slot of composites can do is an integral, the integral is an arctangent, and the arctangent is $\pi/4\approx 0.785$, the area of a quarter-circle. That is the fraction of the prime's score a challenger can reach.*
 
 [Vol. IV](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-IV) left us inside a single slot $A_n$ of composites with two facts in tension. An element at distance-from-prime $v$ converts density into score at rate about $e^\gamma/(1+v)$, and the elements closer to prime than $v$ can spend at most about $\sqrt v$ of the slot's density $d(L_n)$. This volume finds the best a challenger can do under both constraints, and then finishes the theorem.
 
@@ -242,7 +242,7 @@ graph TD
 2. **Ruler** ([Vol. II](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-II)). $f(A)=\sum 1/(a\log a)$, on the knife-edge: infinite over all integers, $1.6366$ over the primes.
 3. **Budget** ([Vol. III](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-III)). Territories $L_a$ are disjoint for primitive $A$, so $\sum d(L_a)\le 1$. Mertens converts density to score at rate $e^\gamma$, giving $f(A)\lt e^\gamma = 1.781$.
 4. **Slots and discount** ([Vol. IV](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-IV)). Compete prime by prime. A composite converts at the discounted rate $e^\gamma/(1+v)$, and nearly-prime composites can fill at most $\sqrt v$ of a slot.
-5. **Quarter-turn** (this volume). Discount against packing integrates to $\int_0^1 \frac{du}{1+u^2}=\pi/4$. Every odd prime beats its composites by more than $9.9\%$. The prime $2$ is handled by a direct bound, $1.60 \lt 1.6366$.
+5. **Quarter-circle** (this volume). Discount against packing integrates to $\int_0^1 \frac{du}{1+u^2}=\pi/4$. Every odd prime beats its composites by more than $9.9\%$. The prime $2$ is handled by a direct bound, $1.60 \lt 1.6366$.
 
 The theorem says something simple enough to tell after one semester: among all the ways to pick integers so that none divides another, the primes are the heaviest, when each integer $a$ is weighed by $1/(a\log a)$. The reason, on a napkin, is local. In the slot of numbers with smallest prime factor $p$, a composite converts density at a discount $1/(1+v)$, the dangerous nearly-prime composites cannot spend more than density $\sqrt{v}$ of the slot, and the integral of that tradeoff is the area of a quarter of the unit circle. For every odd prime, that is strictly worse than taking $p$ itself.
 

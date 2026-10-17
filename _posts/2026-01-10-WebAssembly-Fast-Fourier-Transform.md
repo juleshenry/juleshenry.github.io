@@ -305,9 +305,9 @@ The scaling tells the whole story. From 128 kbit to 32 Mbit the fitted exponents
 - Balanced $n \times n$ products only.
 - Below about 12 kbit, V8 still wins by 1.2–1.9×.
 - Power-of-two padding creates a sawtooth: each time the transform size doubles, the FFT time nearly doubles too. Just past each step the speedup falls to 1.8–2.5× from 80 kbit up, about 1.5× at 40 kbit, and a tie with V8 at 640 limbs (20 kbit), which lies between the benchmark sizes.
-- End-to-end only pays off from about 1,024 limbs, because the hex round trip costs about half the multiply.
+- End-to-end only pays off from about 1,024 limbs, because at that size the hex round trip costs about half as much as V8's multiply.
 - Exactness rests on verification plus the residue check, not a proof. Cancelling multi-coefficient errors are not ruled out, though none were observed.
-- Adversarial inputs cost one retry (~2.2×), and two at 1M limbs, which makes that case 1.5× slower than V8.
+- Adversarial inputs cost one retry (~2×), and two at 1M limbs, which makes that case 1.5× slower than V8.
 - The WASM FFT needs about $5N$ doubles (~170 MB at 1M limbs). wasm32's 4 GB address space caps operands near 16M limbs.
 
 Next steps: `wide-arithmetic` 64-bit digits once engines ship it, mixed-radix or truncated FFTs to remove the sawtooth, Toom-3 for 128–400 limbs, worker threads for large transforms, and an NTT for proof-level exactness.

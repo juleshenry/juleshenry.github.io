@@ -85,7 +85,7 @@ against $f(3)\approx 0.303$. Small bunches like these are a rout. The work is to
 Here is a sufficient condition, from the 2019 bound. For $a \in A_p$ one has $p(a) = p$, so $a \in L_p$, and therefore $L_a \subset L_p$. By disjointness, $\sum_{a \in A_p} d(L_a) \le d(L_p)$. Combining with $f(a) \approx\text{at most } e^{\gamma}\, d(L_a)$,
 
 $$
-f(A_p) \;\approx\text{at most}\; e^{\gamma}\, d(L_p) \;=\; e^{\gamma} \cdot \frac{1}{p} \prod_{q < p}\Bigl(1 - \frac{1}{q}\Bigr).
+f(A_p) \;\lesssim\; e^{\gamma}\, d(L_p) \;=\; e^{\gamma} \cdot \frac{1}{p} \prod_{q < p}\Bigl(1 - \frac{1}{q}\Bigr).
 $$
 
 We want this $\le 1/(p\log p)$. Cancel $1/p$: it is enough that
@@ -178,7 +178,7 @@ $$
 \bigl[Q,\; Q^{1/\sqrt{v}}\bigr).
 $$
 
-The one genuinely hard lemma in the paper, which we will not prove, is that the sets $L_{ac}$ ranging over $a \in A_n$ and over such $c$ remain pairwise disjoint, and all sit inside $L_n$, as long as $A$ is primitive and uniformly $v$-close. Primitivity is essential: the weaker "no one is an L-multiple of another" is enough for ordinary disjointness of the $L_a$, but not for the copies. (That is why the $e^{\gamma}$ bound is essentially sharp for that weaker class, while primitive sets can be pushed down to $f(\mathcal{P})$.) Everything after this lemma is Euler products, Mertens, and calculus.
+The paper's key lemma, which we will not prove, is that the sets $L_{ac}$ ranging over $a \in A_n$ and over such $c$ remain pairwise disjoint, and all sit inside $L_n$, as long as $A$ is primitive and uniformly $v$-close. Primitivity is essential: the weaker "no one is an L-multiple of another" is enough for ordinary disjointness of the $L_a$, but not for the copies. (That is why the $e^{\gamma}$ bound is essentially sharp for that weaker class, while primitive sets can be pushed down to $f(\mathcal{P})$.) Everything after this lemma is Euler products, Mertens, and calculus.
 
 Granting disjointness of the copies, their densities add, and cannot exceed $d(L_n)$. For each fixed $a$, the primes of $c$ lie below $Q^{1/\sqrt v}$, while $P(a)^v > a^{\ast} \ge Q$ puts $P(a)$ above $Q^{1/v} > Q^{1/\sqrt v}$. So $P(ac) = P(a)$, the copy $L_{ac}$ is just $L_a$ scaled by $c$, and $d(L_{ac}) = d(L_a)/c$. The total copy-density attached to one $a$ is therefore $d(L_a)$ times $\sum 1/c$.
 
@@ -286,4 +286,4 @@ Inside one slot $A_n$ of composites we now hold two opposing facts, both functio
 - **Conversion.** An element at level $v$ turns density into score at rate about $e^{\gamma}/(1+v)$. Small $v$ is valuable.
 - **Packing.** All the elements with $v(a) < v$ together spend at most about $\sqrt{v}$ of the ambient density $d(L_n)$. Small $v$ is scarce.
 
-A challenger wants nearly prime composites, and there are not many of them. [Vol. V](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-V) plays the two facts against each other and finds that the most a challenger can score under both is a quarter-turn: $\pi/4$ of the prime's score.
+A challenger wants nearly prime composites, and there are not many of them. [Vol. V](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-V) plays the two facts against each other and finds that the most a challenger can score under both is $\pi/4$ of the prime's score, the area of a quarter-circle.

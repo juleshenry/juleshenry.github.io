@@ -16,7 +16,7 @@ mathjax: true
 [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) proved that $\iota(p)=p$ and $\alpha(p)=-p$ lie in the same path-component of $\operatorname{Imm}(S^2,\mathbb{R}^3)$. It did not produce a path. Nobody could picture one at first. The first explicit eversions came from Arnold Shapiro (around 1960, unpublished), Tony Phillips (published 1966), and Bernard Morin (late 1960s), who was blind. Here are three windows onto such a path.
 
 <p style="text-align:center;">
-  <img src="/blog/assets/2024/eversion/eversion.gif" alt="Sphere eversion through the Morin halfway model" style="max-width:100%;">
+  <img src="/blog/assets/2024/eversion/eversion.gif" alt="Thurston's corrugation sphere eversion, from the film Outside In" style="max-width:100%;">
 </p>
 
 <div class="cs-toc">
@@ -353,4 +353,4 @@ Topology gives the grammar: open sets, continuity, connectedness, homotopy ([Vol
 
 These six volumes circle the sphere, starting from the definition of an open set, until the picture and the equation are the same object.
 
-**Further reading.** S. Smale, *A classification of immersions of the two-sphere*, Trans. Amer. Math. Soc. 90 (1958). A. Bednorz and W. Bednorz, [arXiv:1711.10466](https://arxiv.org/abs/1711.10466). S. Levy, D. Maxwell, T. Munzner, *Outside In*, Geometry Center, 1994. Guillemin–Pollack, *Differential Topology*. J. Munkres, *Topology*. A. Hatcher, *Algebraic Topology* (free online). M. Hirsch, *Immersions of manifolds*, Trans. Amer. Math. Soc. 93 (1959). H. Whitney, *On regular closed curves in the plane*, Compositio Math. 4 (1937).
+**Further reading.** S. Smale, *A classification of immersions of the two-sphere*, Trans. Amer. Math. Soc. 90 (1959). A. Bednorz and W. Bednorz, [arXiv:1711.10466](https://arxiv.org/abs/1711.10466). S. Levy, D. Maxwell, T. Munzner, *Outside In*, Geometry Center, 1994. Guillemin–Pollack, *Differential Topology*. J. Munkres, *Topology*. A. Hatcher, *Algebraic Topology* (free online). M. Hirsch, *Immersions of manifolds*, Trans. Amer. Math. Soc. 93 (1959). H. Whitney, *On regular closed curves in the plane*, Compositio Math. 4 (1937).

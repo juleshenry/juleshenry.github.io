@@ -146,7 +146,7 @@ The parameters that are pinned down have moved a long way since 2011.
   <tbody>
     <tr><td>spot VIX</td><td>42.3</td><td>16.04</td></tr>
     <tr><td>jump rate $\lambda$</td><td>60–170 per year</td><td>5.2 per year</td></tr>
-    <tr><td>mean log-jump $1/\eta$</td><td>0.10–0.15 (VIX +11–16%)</td><td>0.30 (VIX +35%)</td></tr>
+    <tr><td>mean log-jump $1/\eta$</td><td>0.10–0.15 (VIX +10–16%)</td><td>0.30 (VIX +35%)</td></tr>
     <tr><td>diffusion $\sigma$</td><td>1.5–3.0</td><td>0.35</td></tr>
     <tr><td>MRLRSV vol-of-vol $\sigma_v$</td><td>0.57–1.98</td><td>14.5 (3.2–14.5 over all four)</td></tr>
   </tbody>
@@ -182,7 +182,7 @@ Every fit so far is one expiry with its own parameters. A model of how the VIX *
     <tr><td>MRLRSV*</td><td>16.1%</td><td>12.1%</td><td>29.0%</td><td>31.1%</td><td>35%</td></tr>
   </tbody>
 </table>
-<p class="cs-cap">*The joint MRLRSV fit hit its time limit, so its errors are an upper bound. The gap to the per-maturity fits is far larger than any plausible optimizer slack.</p>
+<p class="cs-cap">*The joint MRLRSV fit hit its time limit, so a converged fit could only lower its loss. The gap to the per-maturity fits is far larger than any plausible optimizer slack.</p>
 
 The per-maturity success does not carry over. The best model, MRLRJ with $\kappa = 1.2$, $\sigma = 0.47$, $\lambda = 2.3$, $\eta = 3.1$, prices only half the quotes inside the spread. A constant-parameter mean-reverting log model can fit one VIX smile at a time; it cannot fit four of them together. The thesis half-anticipates this by letting $\sigma_t$ vary with time, but a vol-of-vol that changes per maturity is per-maturity calibration again, in a different coat.
 

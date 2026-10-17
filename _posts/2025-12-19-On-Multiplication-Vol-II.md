@@ -81,7 +81,7 @@ $$
 \omega_N = e^{2\pi i / N}
 $$
 
-so that $\omega_N^k = (\omega_N)^k$. We will usually drop the subscript $N$ when the context is clear.
+so that $\omega_N^k = (\omega_N)^k$. We will usually drop the subscript $N$ when the context is clear. The positive exponent follows CLRS; signal-processing texts usually write $e^{-2\pi i/N}$, and nothing below depends on the choice.
 
 Four algebraic properties of the roots of unity drive the FFT:
 
