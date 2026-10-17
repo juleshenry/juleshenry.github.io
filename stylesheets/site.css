@@ -1418,6 +1418,27 @@ mjx-container[jax="CHTML"]:not([display="true"]) {
   margin-top: 1.1em;
 }
 
+.about-hello {
+  margin: 2rem 0 0;
+  max-width: 16rem;
+}
+
+.about-hello img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 2px;
+}
+
+.about-hello figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
 .about-actions {
   display: flex;
   flex-wrap: wrap;
