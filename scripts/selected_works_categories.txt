@@ -12,7 +12,7 @@
 mr.worldwide | /blog/2026/03/30/Mr-Worldwide | Turns one word into a looping GIF of its translations in 80+ languages. |  | /images/projects/mr.worldwide.webp
 readme_rosetta | /blog/2026/04/06/README-Rosetta | Translates READMEs and Sphinx docs into 70+ languages with a local LLM.
 polyglot-poster | | Turns photos of a French textbook into a wall poster in six languages: English, Spanish, Portuguese, Italian, French and Korean.
-vulgultra | | Vulgar Latin in reverse: a Romance conlang optimized with simulated annealing.
+vulgultra | | Vulgar Latin in reverse: a Romance conlang optimized with simulated annealing. |  | /images/projects/vulgultra.webp
 
 ## Math and science
 intersekt | /blog/2026/01/10/WebAssembly-Fast-Fourier-Transform | Karatsuba and FFT big-integer multiplication in WebAssembly, benchmarked against V8's BigInt. |  | /images/projects/intersekt.webp
