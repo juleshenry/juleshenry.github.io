@@ -11,7 +11,7 @@ resume_url: /assets/Julian-Henry-CV.pdf
 social_image: /images/social-card.png
 # Cloudflare Web Analytics site token (cookie-free). The beacon loads only in
 # production builds (GitHub Pages), never in local `jekyll serve`.
-cf_web_analytics_token: ""
+cf_web_analytics_token: "d5728ee420a34ddf8c8482d41b9bcb28"
 
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
