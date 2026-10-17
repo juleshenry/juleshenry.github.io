@@ -42,79 +42,15 @@ mathjax: true
 <strong>Teacher.</strong> There is no such formula, and the first existence proof is Smale's. What Thurston gave, in the 1970s (animated in the 1994 film <em>Outside In</em>), is a <em>construction</em>, which is itself a proof of Smale's theorem: corrugate the surface so that it has slack, pass the ripples through one another, then iron the ripples out. No condition like $\det J(g&#95;{t})>0$ comes into it. The actual local move is a normal oscillation.
 </div>
 
+The obvious move is to push the northern hemisphere down and the southern one up until they pass through each other. That works everywhere except along the equator. The band joining the two hemispheres is pulled into a tight loop, and pulling a loop tight ends in a crease: the same kink that the turning number of [Vol. IV](/blog/2026/08/17/circling-the-sphere-Vol-IV) says a curve cannot avoid.
+
+Thurston's fix is to corrugate the sphere first, with $k$ ripples running from pole to pole like the segments of a pumpkin:
+
 $$
-\mathbf{f}_\varepsilon(\theta,\varphi)=\bigl(1+\varepsilon\sin\theta\sin(k\varphi)\bigr)\,\mathbf{r}(\theta,\varphi).
+\mathbf{f}_\varepsilon(\theta,\varphi)=\bigl(1+\varepsilon\sin^k\theta\,\sin(k\varphi)\bigr)\,\mathbf{r}(\theta,\varphi),\qquad 0<\varepsilon<1.
 $$
 
-The amplitude $\varepsilon\sin\theta$ dies at the poles, so the poles do not move. For $\lvert\varepsilon\rvert<1$ the radial factor never vanishes, and a computation of $\mathbf{f}&#95;{\theta}\times\mathbf{f}&#95;{\varphi}$ shows that its component along $\mathbf{r}$ is $\rho^2\sin\theta$ with $\rho=1+\varepsilon\sin\theta\sin(k\varphi)>0$, while the ripple only adds tangential terms. So the cross product is never zero away from the chart poles. This is an immersion for every $\varepsilon$ in that range (an embedding, even: each ray from the origin meets it once), except at the poles themselves: for $k\ge2$ the factor $\sin\theta\sin(k\varphi)$ has a conical kink there. The amplitude $\varepsilon\sin^k\theta$ removes it (it makes $\rho$ a polynomial in $x$ and $y$), and the rest of the argument is unchanged. It is **not** an eversion. It is the ingredient that makes Thurston's eversion work: extra wiggles so that later, when you try to pass sheets through each other, you have room.
-
-A tempting shortcut is to corrugate and then multiply $z$ by a factor passing through zero. That second step is $F&#95;{s}$ from [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III) again, crease and all. Here there is no second step. The two colours are the two sides of the surface. Drag both sliders as far as they go: the colours never trade places, and $\min\rho$ stays positive.
-
-<div id="cs-corr" class="cs-stage" style="height:460px;">
-  <div class="cs-hud cs-hud-tl" id="cs-corr-hud">corrugation</div>
-  <div class="cs-hud cs-hud-tr"><span style="color:#6fa8f0;">outside</span> <span style="color:#f08a5d;">inside</span></div>
-  <div class="cs-ctrl">
-    <label>ε <input type="range" id="cs-eps" min="0" max="70" value="0"> <span id="cs-eps-v">0.00</span></label>
-    <label>k <input type="range" id="cs-k" min="2" max="10" value="4"> <span id="cs-k-v">4</span></label>
-  </div>
-</div>
-<p class="cs-cap">$\mathbf{f}&#95;{\varepsilon}=(1+\varepsilon\sin\theta\sin(k\varphi))\,\mathbf{r}$. Blue is the outside, orange the inside. Increase $\varepsilon$: petals, no fold. This is slack, not eversion.</p>
-
-<script>
-CS.mount({
-  id: 'cs-corr',
-  height: 460,
-  cam: [0, 0.2, 4.0],
-  setup: function (api) {
-    var T = api.THREE;
-    var geo = new T.SphereGeometry(1, 72, 48);
-    var pos = geo.getAttribute('position');
-    var orig = new Float32Array(pos.array);
-    var front = new T.MeshStandardMaterial({
-      color: 0x3987e5, metalness: 0.28, roughness: 0.48,
-      side: T.FrontSide, transparent: true, opacity: 0.88
-    });
-    var back = new T.MeshStandardMaterial({
-      color: 0xd95926, metalness: 0.28, roughness: 0.48,
-      side: T.BackSide, transparent: true, opacity: 0.88
-    });
-    api.group.add(new T.Mesh(geo, front));
-    api.group.add(new T.Mesh(geo, back));
-    api.group.add(new T.Mesh(geo, new T.MeshBasicMaterial({
-      color: 0x9ec3f0, wireframe: true, transparent: true, opacity: 0.1, side: T.DoubleSide
-    })));
-    var hud = document.getElementById('cs-corr-hud');
-    function apply() {
-      var eps = parseFloat(document.getElementById('cs-eps').value) / 100;
-      var k = parseInt(document.getElementById('cs-k').value, 10);
-      document.getElementById('cs-eps-v').textContent = eps.toFixed(2);
-      document.getElementById('cs-k-v').textContent = String(k);
-      var arr = pos.array;
-      var minR = 1e9;
-      for (var i = 0; i < pos.count; i++) {
-        var x = orig[3 * i], y = orig[3 * i + 1], z = orig[3 * i + 2];
-        var th = Math.acos(Math.max(-1, Math.min(1, z)));
-        var ph = Math.atan2(y, x);
-        var rho = 1 + eps * Math.sin(th) * Math.sin(k * ph);
-        if (rho < minR) minR = rho;
-        arr[3 * i] = rho * x;
-        arr[3 * i + 1] = rho * y;
-        arr[3 * i + 2] = rho * z;
-      }
-      pos.needsUpdate = true;
-      geo.computeVertexNormals();
-      if (hud) {
-        hud.innerHTML = 'ρ = 1 + ε sin θ sin kφ<br>min ρ = ' + minR.toFixed(3) +
-          (minR > 0.02 ? '  (immersion)' : '  (collapsed)');
-      }
-    }
-    document.getElementById('cs-eps').addEventListener('input', apply);
-    document.getElementById('cs-k').addEventListener('input', apply);
-    apply();
-    return null;
-  }
-});
-</script>
+On its own this does nothing. The radial factor stays positive, so every ray from the origin still meets the surface once: it is an embedded sphere, only bumpier. (The power $\sin^k\theta$ keeps the poles smooth, since $\sin^k\theta\sin(k\varphi)$ is the polynomial $\operatorname{Im}(x+iy)^k$.) What the ripples buy is room. With them in place the halves can pass through each other without pulling anything tight. The loops that form sit in the ripples, and rotating the band's two edges half a turn against each other unwinds them. Then the ripples are ironed out. The animation at the top of this page is that sequence: ripples appear, the halves pass through each other, the band twists, the ripples flatten.
 
 ---
 
@@ -130,7 +66,7 @@ z&= h\sin(n\varphi) - \frac{t}{n}\cos(n\varphi) - q\,t\,h.
 \end{aligned}
 $$
 
-Parameters: $n=2$ (Morin band) or $n=3$ (Boy band), $q=\tfrac23$, and $p=1-\lvert qt\rvert$, the paper's choice, which always satisfies their smoothness inequality
+Parameters: $n=2$ (the Morin band; $n=3$ gives a band through a Boy surface), $q=\tfrac23$, and $p=1-\lvert qt\rvert$, the paper's choice, which always satisfies their smoothness inequality
 
 $$(n-1)p\bigl(1-q\lvert t\rvert\bigr)+qt^2>0.$$
 
@@ -138,32 +74,25 @@ The coordinates are $(\varphi,h)\in S^1\times\mathbb{R}$. At $t=0$, $n=2$ this i
 
 <div id="cs-bednorz" class="cs-stage" style="height:500px;">
   <div class="cs-hud cs-hud-tl" id="cs-bed-hud">Bednorz ruled band</div>
-  <div class="cs-hud cs-hud-tr"><span style="color:#6fa8f0;">front</span> <span style="color:#f08a5d;">back</span></div>
+  <div class="cs-hud cs-hud-tr"><span style="color:#ffd166;">rim A</span> <span style="color:#7ee0b5;">rim B</span></div>
   <div class="cs-ctrl">
-    <label>t <input type="range" id="cs-bt" min="-150" max="150" value="0"> <span id="cs-bt-v">0.00</span></label>
-    <label>n
-      <select id="cs-bn">
-        <option value="2" selected>2 (Morin)</option>
-        <option value="3">3 (Boy)</option>
-      </select>
-    </label>
+    <button type="button" id="cs-bplay">Play</button>
+    <label>t <input type="range" id="cs-bt" min="-150" max="150" value="-150"> <span id="cs-bt-v">-1.50</span></label>
   </div>
 </div>
-<p class="cs-cap">Equation (4) of Bednorz–Bednorz, $q=2/3$, $p=1-\lvert qt\rvert$, $h\in[-2.3,2.3]$. The poles are not closed; what you see is the formula, not a screenshot of <em>Outside In</em>. At $t=0$, $n=2$ you are looking at the ruled Morin halfway. At $n=3$, $t=0$ you are looking at a ruled Boy surface, an immersion of $\mathbb{RP}^2$.</p>
+<p class="cs-cap">Equation (4) of Bednorz–Bednorz with $n=2$, $q=2/3$, $p=1-\lvert qt\rvert$, $h\in[-2.3,2.3]$, drawn with $z$ up. Press play, or drag $t$, and watch the rims. Rim A starts above rim B and ends below it. Drag to turn the band. At $t=0$ the band is the four-sheeted Morin halfway model. The polar caps are left off, so you see the band only.</p>
 
 <script>
 CS.mount({
   id: 'cs-bednorz',
   height: 500,
   cam: [0, 0.6, 6.2],
-  rotX: 0.45,
+  rotX: 0.3,
+  noSpin: true,
   setup: function (api) {
     var T = api.THREE;
-    var nH = 70, nP = 110;
-    var geo = new T.PlaneGeometry(1, 1, nP, nH);
-    var pos = geo.getAttribute('position');
-    function bednorz(h, phi, t, n) {
-      var q = 2 / 3;
+    var H = 2.3, RIM = 0.22, nH = 64, nP = 110, n = 2, q = 2 / 3;
+    function bednorz(h, phi, t) {
       var p = 1 - Math.abs(q * t);
       var s = Math.sin(phi), c = Math.cos(phi);
       var sn = Math.sin(n * phi), cn = Math.cos(n * phi);
@@ -174,51 +103,69 @@ CS.mount({
         h * sn - (t / n) * cn - q * t * h
       ];
     }
+    // One grid per strip of the band: the body, and a thin collar at each rim
+    function strip(h0, h1, rows) { return { h0: h0, h1: h1, rows: rows, geo: new T.PlaneGeometry(1, 1, nP, rows) }; }
+    var body = strip(-H + RIM, H - RIM, nH);
+    var rimA = strip(H - RIM, H, 3);
+    var rimB = strip(-H, -H + RIM, 3);
+    var strips = [body, rimA, rimB];
+    var slider = document.getElementById('cs-bt');
+    var playBtn = document.getElementById('cs-bplay');
+    var playing = false, dir = 1;
     function fill() {
-      var t = parseFloat(document.getElementById('cs-bt').value) / 100;
-      var n = parseInt(document.getElementById('cs-bn').value, 10);
+      var t = parseFloat(slider.value) / 100;
       document.getElementById('cs-bt-v').textContent = t.toFixed(2);
-      var arr = pos.array;
-      var i, maxR = 0;
-      for (i = 0; i < pos.count; i++) {
-        var col = i % (nP + 1);
-        var row = (i / (nP + 1)) | 0;
-        var phi = (col / nP) * Math.PI * 2 - Math.PI;
-        var h = -2.3 + 4.6 * (row / nH);
-        var xyz = bednorz(h, phi, t, n);
-        arr[3 * i] = xyz[0];
-        arr[3 * i + 1] = xyz[1];
-        arr[3 * i + 2] = xyz[2];
-        var r = Math.hypot(xyz[0], xyz[1], xyz[2]);
-        if (r > maxR) maxR = r;
-      }
+      var maxR = 0;
+      strips.forEach(function (st) {
+        var arr = st.geo.getAttribute('position').array;
+        for (var i = 0; i < arr.length / 3; i++) {
+          var col = i % (nP + 1);
+          var row = (i / (nP + 1)) | 0;
+          var phi = (col / nP) * Math.PI * 2 - Math.PI;
+          var h = st.h0 + (st.h1 - st.h0) * (row / st.rows);
+          var xyz = bednorz(h, phi, t);
+          // the paper's z is vertical; (x, y, z) -> (x, z, -y) is a rotation, so the sides keep their colours
+          arr[3 * i] = xyz[0];
+          arr[3 * i + 1] = xyz[2];
+          arr[3 * i + 2] = -xyz[1];
+          var r = Math.hypot(xyz[0], xyz[1], xyz[2]);
+          if (r > maxR) maxR = r;
+        }
+      });
       var sc = maxR > 1e-6 ? 2.15 / maxR : 1;
-      for (i = 0; i < arr.length; i++) arr[i] *= sc;
-      pos.needsUpdate = true;
-      geo.computeVertexNormals();
+      strips.forEach(function (st) {
+        var attr = st.geo.getAttribute('position');
+        for (var i = 0; i < attr.array.length; i++) attr.array[i] *= sc;
+        attr.needsUpdate = true;
+        st.geo.computeVertexNormals();
+      });
       var hud = document.getElementById('cs-bed-hud');
-      var q = 2 / 3;
-      var p = 1 - Math.abs(q * t);
-      if (hud) {
-        hud.innerHTML = 'n = ' + n + ', t = ' + t.toFixed(2) + ', p = ' + p.toFixed(2) + ', q = 2/3' +
-          (Math.abs(t) < 0.03 ? '<br>halfway' : '');
-      }
+      if (hud) hud.innerHTML = 't = ' + t.toFixed(2) + (Math.abs(t) < 0.03 ? '<br>halfway (Morin)' : '');
     }
-    api.group.add(new T.Mesh(geo, new T.MeshStandardMaterial({
-      color: 0x3987e5, metalness: 0.32, roughness: 0.42,
-      side: T.FrontSide, transparent: true, opacity: 0.86
-    })));
-    api.group.add(new T.Mesh(geo, new T.MeshStandardMaterial({
-      color: 0xd95926, metalness: 0.32, roughness: 0.42,
-      side: T.BackSide, transparent: true, opacity: 0.86
-    })));
-    api.group.add(new T.Mesh(geo, new T.MeshBasicMaterial({
+    function side(color, s) {
+      return new T.MeshStandardMaterial({ color: color, metalness: 0.32, roughness: 0.42, side: s, transparent: true, opacity: 0.86 });
+    }
+    api.group.add(new T.Mesh(body.geo, side(0x3987e5, T.FrontSide)));
+    api.group.add(new T.Mesh(body.geo, side(0xd95926, T.BackSide)));
+    api.group.add(new T.Mesh(body.geo, new T.MeshBasicMaterial({
       color: 0xe2e8f0, wireframe: true, transparent: true, opacity: 0.07, side: T.DoubleSide
     })));
-    document.getElementById('cs-bt').addEventListener('input', fill);
-    document.getElementById('cs-bn').addEventListener('change', fill);
+    api.group.add(new T.Mesh(rimA.geo, new T.MeshStandardMaterial({ color: 0xffd166, roughness: 0.5, side: T.DoubleSide })));
+    api.group.add(new T.Mesh(rimB.geo, new T.MeshStandardMaterial({ color: 0x7ee0b5, roughness: 0.5, side: T.DoubleSide })));
+    function setPlaying(on) { playing = on; playBtn.textContent = on ? 'Pause' : 'Play'; playBtn.classList.toggle('on', on); }
+    playBtn.addEventListener('click', function () {
+      if (!playing && Math.abs(parseFloat(slider.value)) >= 150) dir = parseFloat(slider.value) > 0 ? -1 : 1;
+      setPlaying(!playing);
+    });
+    slider.addEventListener('input', function () { setPlaying(false); fill(); });
     fill();
-    return null;
+    return function () {
+      if (!playing) return;
+      var v = parseFloat(slider.value) + dir * 0.9;
+      if (v >= 150 || v <= -150) { v = Math.max(-150, Math.min(150, v)); setPlaying(false); }
+      slider.value = v;
+      fill();
+    };
   }
 });
 </script>
