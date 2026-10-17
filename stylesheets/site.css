@@ -1363,7 +1363,6 @@ mjx-container[jax="CHTML"]:not([display="true"]) {
 }
 
 .post-foot-links {
-  margin-top: 0.4rem;
   font-family: var(--font-mono);
   font-size: 0.76rem;
   letter-spacing: 0.07em;
@@ -1648,6 +1647,22 @@ mjx-container[jax="CHTML"]:not([display="true"]) {
   .work.has-thumb {
     grid-template-columns: 6rem minmax(0, 1fr);
     column-gap: 0.9rem;
+  }
+
+  /* keep the post's footer links on one line beside the headshot */
+  .post-author {
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 0.9rem;
+  }
+
+  .post-author img {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .post-author .post-foot-links {
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
   }
 
   .hero-fig-label {
