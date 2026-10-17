@@ -1,4 +1,4 @@
 # Live sites for the top of the Projects page, in display order.
 # Format: name shown on the card | URL | description | optional thumbnail (320×240 WebP)
 glottosphere.com | https://glottosphere.com | A free multilingual dictionary where every word in a definition is a link, with profiles of thousands of the world's languages. | /images/projects/glottosphere.webp
-1wg.ai | https://1wg.ai | One World Gazette: world news gathered across languages and summarized by a retrieval-augmented pipeline.
+1wg.ai | https://1wg.ai | One World Gazette: world news gathered across languages and summarized by a retrieval-augmented pipeline. | /images/projects/1wg.ai.webp
