@@ -52,9 +52,19 @@ All three are linear-time passes. And that is precisely the problem. The preprin
 
 > Scanning an array of $\Theta(n)$ stored bits at each of $\Theta(\log n)$ transform levels already costs $\Theta(n \log n)$.
 
-Harvey and van der Hoeven had eliminated every cost *except* the passes. What remained was the bare skeleton of a Fourier transform: $\log n$ levels, each one a sweep over all the data. It is easy to look at that skeleton and conclude that nothing better is possible; [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV) calls it saturating the bandwidth. The preprint looks at the same skeleton and asks whether several levels can be done in fewer than several sweeps.
+Harvey and van der Hoeven had eliminated every cost *except* the passes. What remained was the bare skeleton of a Fourier transform: $\log n$ levels, each one a sweep over all the data. It is easy to look at that skeleton and conclude that nothing better is possible; [Vol. IV](/blog/2025/12/19/On-Multiplication-Vol-IV) calls it saturating the bandwidth.
 
-It needs two savings, one for movement and one for arithmetic. Write $V$ for the number of bits stored on the tape:
+David Harvey held exactly that view, and describes it in [a note](https://web.maths.unsw.edu.au/~davidharvey/research/subnlogn.pdf) dated October 20, 2026. First he splits the $n \log n$ in two:
+
+> The crucial question now is where the $O(n \log n)$ term comes from. In the Boolean circuit model, it arises entirely from the cost of the butterfly arithmetic; everything else is negligible. In the Turing model, there are additional data rearrangement costs, such as transposing arrays, which also contribute $O(n \log n)$.
+
+Then he says how he rated the chances of either one coming down:
+
+> If you had asked me two weeks ago for my subjective estimate of the probability that either of these $O(n \log n)$ contributions could be improved, I think I would have guessed roughly 0.01% for the data rearrangement steps, and precisely zero for the arithmetic steps. In the past, I have tried, perhaps half-heartedly, to invent faster matrix transposition algorithms. But it has never, ever, even remotely occurred to me to launch an attack on the butterfly arithmetic. Since I first learned about FFTs several decades ago, this barrier has always seemed to be woven into the fabric of the universe, a hard physical limit like the speed of light.
+>
+> But the Model now asserts that we can in fact go faster than light.
+
+("The Model" is his name for the system that wrote the preprint.) The preprint looks at the same skeleton and asks whether several levels can be done in fewer than several sweeps. It needs two savings, one for each of Harvey's two costs: movement and arithmetic. Write $V$ for the number of bits stored on the tape:
 
 | Task | Obvious cost | Claimed cost |
 |---|---|---|
@@ -171,6 +181,8 @@ and half of that is held in reserve to absorb stray $\log \log n$ factors. Hence
 
 Almost everything else. The pipeline is still Harvey and van der Hoeven's: Chinese remaindering onto prime axes, Gaussian resampling onto power-of-two axes, Bluestein's chirp trick, Nussbaumer's synthetic roots of unity. The new machine even *calls* the 2019 algorithm: the small polynomial products at the bottom are handed to "the established $O(n \log n)$ multiplier" as an ordinary subroutine. Harvey-van der Hoeven has not been overthrown. It has been demoted to a library call.
 
+One parameter did change: the number of dimensions. The 2019 paper fixed $d = 1729$. Here $d \approx (\lg n)^{\epsilon}$ grows with $n$, because the saving in the table above is a power of $d$ and only adds up if $d$ does. Harvey, who had $d$ growing in early drafts of the 2019 paper, does not expect that to cause trouble: "When $d$ grows with $n$, one must be more careful with certain estimates, but it introduces no essential difficulties."
+
 # The Companion: A Fourier Transform Below $n \log n$
 
 The second manuscript, *An explicit power saving for the exact discrete Fourier transform* (dated September 25), reuses the complex gadget for a different theorem: the discrete Fourier transform of *any* length $n$ can be computed in
@@ -222,16 +234,17 @@ The curve is a familiar one. The large early gains were slack that the original 
 
 The word *conditional* is load-bearing throughout, and the repository is scrupulous about it. Its README calls the work "conditional on the original OpenAI #109 framework" and says it is "not full formal verification, independent human peer review, a worldwide priority claim, or a practical multiplication benchmark." It adds that its "finite replay and written review do not formally verify the multiplication theorem." The dashboard's methodology note is just as blunt: "No full-theorem verification is inferred from tests or certificates." If the foundation moves, the whole tower moves with it.
 
-The table records the first four days. The repository and the dashboard carry the current figure.
+The table records the first four days. By October 20, David Harvey gave the best exponent as about $0.9983$, that is, $\kappa \approx 0.0017$. The repository and the dashboard carry the current figure.
 
 # How Sure Are We?
 
-Not yet sure. Here is the state of the evidence on October 11, 2026, five days after the release.
+Not yet sure. Here is the state of the evidence in October 2026, within two weeks of the release.
 
 - **Provenance.** Both manuscripts are machine-written. OpenAI's README says the collection was produced by an unreleased internal model that was posed roughly 4,000 open problems, and that it "includes results at different stages of verification."
 - **Formal verification.** About 42% of the collection's headline results have Lean formalizations. The Fourier-transform paper is among them: the catalogue lists Lean statements for its transform and convolution theorems. The integer-multiplication paper is **not**. It rests on its 73 pages of prose.
 - **Track record.** The day after release, three manuscripts in the collection were withdrawn over a sign error and fourteen more were revised. The README warns that "some of the unformalized results could have issues." That is the process working as intended, and also a reminder of which category the multiplication paper is in.
 - **Scrutiny.** The proof is public, explicit about every constant, and being picked over by a great many people at once. The finite combinatorics is easy to recheck (the snippet above reproduces the paper's numbers). The hard part is the other sixty pages: the claim that the gadget's saving survives contact with an actual tape machine (padding, precision, descriptors, cleanup) at every depth of the recursion.
+- **An expert reading.** On October 20, David Harvey published his assessment. His executive summary is one sentence: "I have not checked most of the details, but I think that the claimed $o(n \log n)$ bound is plausible." He says he could not get through the paper's prose and learned the argument by questioning an AI model. The arithmetic gadget, the one for butterflies, he then checked by hand: "As far as I can see, the gadget does what it's supposed to do. I have worked through all the steps pretty carefully, and I think it checks out." Of the amplification that turns its finite saving into a power of $\log n$, he writes: "I also think I believe the tensor amplification machinery." Still open, by his own list: how the extra linear operations and the synthetic roots of unity interact with the amplification, how to go from $2 \times \cdots \times 2$ arrays to $r \times \cdots \times r$, how the rest of the 2019 algorithm behaves when $d$ grows at the required rate, and "the big one: data rearrangement costs in the Turing model. I haven't even begun to look into this yet." That last item is the address swap above, and the theorem is stated for Turing machines.
 
 If the multiplication proof breaks, the Fourier result, which rebuilds the gadget for itself and is formalized in Lean, still stands in its own model. And notice that the conclusion below does not depend on the outcome. Its main point is that the $n \log n$ floor was never proved, and that is true either way.
 
@@ -305,7 +318,7 @@ Everything else was conjecture or intuition. Schönhage and Strassen *proposed* 
 - Fourier transforms by linear circuits with **bounded coefficients** (Morgenstern, 1973);
 - Boolean circuits, **conditionally** on an unproved conjecture about network coding (Afshani, Freksen, Kamma and Larsen, 2019).
 
-Two of those buy their lower bound by forbidding something, and the third is on loan from a conjecture. None of them constrains ordinary, off-line multiplication on tapes.
+Two of those buy their lower bound by forbidding something, and the third is on loan from a conjecture. None of them constrains ordinary, off-line multiplication on tapes. And if the preprint holds, the loan is called in: Harvey points out that, together with the 2019 circuit lower bound, the new result disproves the conjecture that lower bound rests on, Li and Li's network coding conjecture of 2004.
 
 So where is the true floor? Write $M(n)$ for the real cost of multiplying $n$-bit integers. It lies somewhere in the gap
 
@@ -313,7 +326,11 @@ $$
 \Omega(n) \;\le\; M(n) \;\le\; O\!\left(n \,(\log n)^{1-\kappa}\right),
 $$
 
-and for now no theorem says where. It might be $n \log \log n$. It might be $n$, which is what a pointer machine already achieves. A lower bound may yet be found. What has changed is that the question no longer comes with a default answer.
+and for now no theorem says where. It might be $n \log \log n$. It might be $n$, which is what a pointer machine already achieves. A lower bound may yet be found.
+
+Harvey proposes a name for the open quantity: the *exponent of integer multiplication*, the infimum of the $\alpha$ for which multiplication runs in $O(n (\log n)^{\alpha})$. It was believed to be $1$; the preprint claims it is less. He also marks where the present line of attack runs out. In the 2019 algorithm, Gaussian resampling costs $O(n (\log n)^{3/4})$ in total, and a refinement sketched in that paper brings it to $O(n (\log n)^{1/2})$, so "without further improvements here, or a completely different approach that does not rely on Gaussian resampling, it does not seem possible to do better than $\alpha = 1/2$."
+
+What has changed is that the question no longer comes with a default answer.
 
 ## Sorting Was a Different Problem
 
@@ -373,6 +390,7 @@ That is the lesson. $n \log n$ was never a fact about multiplication. It was a f
 
 - OpenAI, "[Integer multiplication below n log n](https://github.com/openai/math/blob/main/preprints/Integer-multiplication-below-n-log-n-September-23-2026/paper.pdf)" (preprint, September 23, 2026).
 - OpenAI, "[An explicit power saving for the exact discrete Fourier transform](https://github.com/openai/math/blob/main/preprints/An-explicit-power-saving-for-the-exact-discrete-Fourier-transform-September-25-2026/main.pdf)" (preprint, September 25, 2026).
+- D. Harvey, "[On the recently proposed o(n log n) integer multiplication algorithm](https://web.maths.unsw.edu.au/~davidharvey/research/subnlogn.pdf)" (note, October 20, 2026).
 - [The OpenAI collection](https://github.com/openai/math), with its verification notes and revision history.
 - [Community improvements to the exponent](https://github.com/CrocSwap/integer-mult-bounds), conditional on the preprint.
 - [Beyond n log n](https://beyond-n-log-n.netlify.app/), a live dashboard of that effort: reviewed bounds, open claims and forks.
@@ -383,4 +401,5 @@ That is the lesson. $n \log n$ was never a fact about multiplication. It was a f
 - J. Morgenstern, "Note on a lower bound of the linear complexity of the fast Fourier transform," *Journal of the ACM* 20 (1973).
 - M. S. Paterson, M. J. Fischer and A. R. Meyer, "An improved overlap argument for on-line multiplication" (1974).
 - P. Afshani, C. B. Freksen, L. Kamma and K. G. Larsen, "Lower bounds for multiplication via network coding" (ICALP 2019).
+- Z. Li and B. Li, "Network coding in undirected networks," CISS (2004).
 - H. Buhrman, R. Cleve, M. Koucký, B. Loff and F. Speelman, "Computing with a full memory: catalytic space" (STOC 2014).

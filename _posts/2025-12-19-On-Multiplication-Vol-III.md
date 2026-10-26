@@ -209,9 +209,9 @@ $$
 \mathbb{Z}[x]/(x^{s_1 \cdots s_d} - 1) \;\cong\; \mathbb{Z}[x_1, \ldots, x_d]/(x_1^{s_1}-1, \ldots, x_d^{s_d}-1)
 $$
 
-On the left is one long cyclic convolution. On the right is the same computation arranged on an $s_1 \times \cdots \times s_d$ grid, where it can be done with a multi-dimensional Fourier transform: one-dimensional transforms along each axis in turn.
+On the left is one long cyclic convolution. On the right is the same computation arranged on an $s_1 \times \cdots \times s_d$ grid, where it can be done with a multi-dimensional Fourier transform: one-dimensional transforms along each axis in turn. This step is known as the Agarwal–Cooley rearrangement, after a 1977 paper on digital convolution.
 
-Two points are easy to get wrong. The number of dimensions $d$ is a fixed constant. It does not grow with $n$; it will turn out to be $1729$. And the sides are not small: each $s_i$ grows like the $d$-th root of the input. What the grid buys is that a transform along one axis only needs roots of unity of order about $n^{1/d}$, however long the whole array is. That is the escape from the constraint that pinned Schönhage-Strassen at $\sqrt{n}$.
+Two points are easy to get wrong. In the paper, the number of dimensions $d$ is a fixed constant. It does not grow with $n$; it will turn out to be $1729$. And the sides are not small: each $s_i$ grows like the $d$-th root of the input. What the grid buys is that a transform along one axis only needs roots of unity of order about $n^{1/d}$, however long the whole array is. That is the escape from the constraint that pinned Schönhage-Strassen at $\sqrt{n}$.
 
 The coefficients are treated as complex numbers in fixed-point arithmetic, carried to a number of bits proportional to $\log n$. The paper bounds the rounding error at every step, so that rounding the final answer recovers the exact integers.
 
@@ -240,6 +240,12 @@ Note what has and has not changed. The recursion is still there. Harvey and van 
 
 ## How the Pieces Fit Together
 
+Harvey summarizes the reduction himself in [a note](https://web.maths.unsw.edu.au/~davidharvey/research/subnlogn.pdf) he wrote on the 2026 preprint of [Vol. V](/blog/2026/10/08/On-Multiplication-Vol-V):
+
+> We start with two $n$-bit integers. After a series of reductions that I will not attempt to explain (Agarwal–Cooley CRT rearrangement, Gaussian resampling, etc), we reduce to the problem of computing a Nussbaumer-style DFT (discrete Fourier transform) of a certain $(d - 1)$-dimensional array of size $r \times \cdots \times r$, whose entries lie in the ring $R = \mathbb{C}[y]/(y^r + 1)$. Here $d$ is a fixed dimension parameter (independent of $n$) and $r$ is a power of two, of size roughly $n^{1/d}$. The coefficient ring $R$ contains a principal $2r$-th root of unity, namely $y$, and this is the "synthetic" root of unity used to define the DFTs. Thus, the DFT may be computed by an FFT (fast Fourier transform) algorithm, which amounts to performing a series of "butterflies", i.e., maps $(a, b) \mapsto (a + b, a - b)$ operating on pairs of complex numbers, together with multiplications by powers of $y$, which are just shifts and negations. The complex numbers themselves are represented as fixed point approximations with $p = O(\log n)$ bits of precision.
+
+He then counts the butterflies over $\mathbb{C}$: $\tfrac12 r^d \log_2(r^{d-1})$, one for every two of the $r^d$ complex numbers at each of $\log_2(r^{d-1})$ levels. Each butterfly costs $O(\log n)$ bit operations, the $r^d$ complex numbers of $p$ bits each come to a constant times $n$ bits, and $\log_2(r^{d-1})$ is close to $\log_2 n$. In his words, "one can already see the $O(n \log n)$ shape of the final complexity bound in this butterfly count."
+
 The full algorithm, stripped to its skeleton:
 
 1. **Split** the $n$-bit inputs into about $n / \log n$ chunks of about $\log n$ bits each.
@@ -254,13 +260,17 @@ The full algorithm, stripped to its skeleton:
 
 6. **Invert** the transform and the resampling, round to integers, propagate carries and reassemble the product.
 
-Everything except step 5 costs $O(n \log n)$. Step 5 makes about $K n / n'$ recursive calls on inputs of $n' = n^{1/d + o(1)}$ bits, which is the recurrence from the start of this section:
+Everything except step 5 costs $O(n \log n)$. Counted in logic gates, nearly all of that is the butterfly additions and subtractions; on a Turing machine, rearranging the data on tape, such as transposing the array, costs $O(n \log n)$ as well. Step 5 makes about $K n / n'$ recursive calls on inputs of $n' = n^{1/d + o(1)}$ bits, which is the recurrence from the start of this section:
 
 $$
 M(n) \;<\; \frac{K n}{n'}\, M(n') + O(n \log n)
 $$
 
-The paper shows that $K = 1728$ is enough, whatever $d$ is. Each level therefore costs $K/d$ times the one above, and for any $d > 1728$ the levels form a convergent geometric series:
+Everything rides on $K$. In Harvey's words:
+
+> The key point is that the "expansion factor" $K$ is an absolute constant, independent of $d$. In the paper we show that one may take $K = 1728$; this arises from analysing the zero-padding and encoding steps that occur during the various reductions.
+
+Each level therefore costs $K/d$ times the one above, and for any $d > 1728$ the levels form a convergent geometric series:
 
 $$
 M(n) = O(n \log n) \cdot \left(1 + \frac{K}{d} + \left(\frac{K}{d}\right)^2 + \cdots\right) = O(n \log n)
@@ -270,7 +280,9 @@ $$
 
 ## Why 1729?
 
-Because it is $1728 + 1$. The dimension has to be larger than the expansion constant $K = 1728$, and $1729$ is the first integer that is. The authors chose the simplest proof over the smallest constant, and they [outline refinements](https://hal.science/hal-02070778) (Section 5.4) that bring $K$ down to about $8$, so that any $d \ge 9$ would do.
+Because it is $1728 + 1$. The dimension has to be larger than the expansion constant $K = 1728$, and $1729$ is the first integer that is. The authors chose the simplest proof over the smallest constant, and they [outline refinements](https://hal.science/hal-02070778) (Section 5.4) that bring $K$ down to $8$, so that any $d \ge 9$ would do.
+
+Fixing $d$ at all was a choice made for simplicity. "For simplicity, in [the paper] we keep $d$ constant, since all we need is $d > K$," Harvey writes. "In fact, in the initial stages of writing [the paper], we had $d$ increasing with $n$, and only later in the project did we decide to fix $d$." The growing version returned in 2026: the algorithm of [Vol. V](/blog/2026/10/08/On-Multiplication-Vol-V) needs $d$ to increase with $n$.
 
 The appearance of **1729**, Ramanujan's famous "taxicab number" and the smallest number expressible as the sum of two cubes in two different ways, is, as far as the paper says, a coincidence, but a poetic one. The analysis produces $1728$, which happens to be $12^3$, so that $1729 = 12^3 + 1^3$, which is also $10^3 + 9^3$. But it is fitting that the algorithm that seemed, for a while, to close the book on multiplication complexity should bear, in its constant, an echo of Hardy's taxi ride to visit Ramanujan.
 
