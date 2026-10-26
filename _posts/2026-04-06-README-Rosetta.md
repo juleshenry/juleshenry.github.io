@@ -3,6 +3,8 @@ layout: post
 title: "README Rosetta: Docs in Every Language"
 date: 2026-04-06
 description: "A CLI that translates READMEs and Sphinx docs with a local Ollama model, and the checks that stop the model from mangling code and links."
+kind: project
+thumbnail: "/images/projects/readme_rosetta.webp"
 ---
 
 Most open source projects have English-only documentation. This is a barrier. A significant percentage of the global developer population reads English as a second language, and for many, the friction of parsing a technical README in a non-native language is enough to keep them from adopting a tool they would otherwise love.

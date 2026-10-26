@@ -4,6 +4,7 @@ title: "An Analytical Essay on Rafael Troyo's 'El Rubí'"
 date: 2018-12-19
 description: "An undergraduate essay, in Spanish, on how Rafael Ángel Troyo's story 'El rubí' uses the fantastic to approach a taboo subject."
 lang: es
+kind: essay
 ---
 *Un ensayo escrito en 2018 para la [profesora Almeyda-Cohen](https://www.colby.edu/people/people-directory/ana-almeyda-cohen/), en la clase de español 223.*
 

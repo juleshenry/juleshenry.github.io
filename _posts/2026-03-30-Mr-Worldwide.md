@@ -4,6 +4,8 @@ title: "Mr. Worldwide: Multilingual GIFs"
 date: 2026-03-30
 categories: python gif polyglot
 description: "A Python script that turns one word into a looping GIF of its translations in 80+ languages, and how it handles fonts and contrast."
+kind: project
+thumbnail: "/images/projects/mr.worldwide.webp"
 ---
 
 [Mr. Worldwide](https://github.com/juleshenry/mr.worldwide) takes one word (`Hello` or `Love`, the two it ships translations for) and turns it into a looping GIF. Each frame is a translation in a different language, optionally over a country photograph. English, then Spanish, and on through Tibetan, Japanese, Amharic, Yoruba, and the rest of the 80+ languages.

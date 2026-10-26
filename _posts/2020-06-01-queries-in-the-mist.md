@@ -3,6 +3,7 @@ layout: post
 title: "Undergraduate Thesis: Queries in the Mist"
 date: 2020-06-01
 description: "My 2020 undergraduate thesis at Penn: can fake traffic hide real web activity? A classifier attack on the ISP Pollution tool, with the PDF."
+kind: thesis
 ---
 
 *Queries in the Mist: Obfuscation as a Privacy Mechanism* is my undergraduate thesis in computer science at the University of Pennsylvania, completed in April 2020 and advised by Rajeev Alur.

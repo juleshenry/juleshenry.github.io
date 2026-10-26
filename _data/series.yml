@@ -2,33 +2,40 @@
 # Writing pages, on the series' landing page (blog/series/<slug>.html), and as
 # the meta description of a volume that has no description of its own.
 # `prereqs` is optional: what the series itself says a reader needs.
+# `image` is the figure on the series card (home and Writing pages).
 # `name` must match the series name in the post titles ("<name>, Vol. N: ...").
 # A series with no entry here still lists; it just has no blurb.
 
 - name: "On Multiplication"
   topic: Algorithms
+  image: "/images/projects/intersekt.webp"
   blurb: "How multiplying big integers got faster: schoolbook n², Karatsuba, the FFT, n log n, and a 2026 preprint claiming to go lower."
 
 - name: "Abel–Ruffini"
   topic: Algebra
+  image: "/images/home/abel-ruffini.webp"
   blurb: "Why no formula in radicals solves every quintic: Arnold's short proof by loops and commutators, then the Galois-theory version that names specific unsolvable quintics."
   prereqs: "Vol. I follows Arnold's 1963–64 lectures to Moscow high-school students: complex numbers, loops and permutations, with commutators built on the page."
 
 - name: "Sphere Eversion"
   topic: Topology
+  image: "/images/home/sphere-eversion.webp?v=c677788a"
   blurb: "Why a sphere can be turned inside out without a crease and a circle in the plane cannot, from open sets to Smale's theorem."
 
 - name: "Mean-Reverting VIX"
   topic: Quant finance
+  image: "/images/projects/rafaga.webp"
   blurb: "Models the VIX as a mean-reverting process, prices its futures and options, and shows what one day's option chain can and cannot identify."
   prereqs: "A first-year calculus course. Every other idea is built on the page."
 
 - name: "Primitive Sets"
   topic: Number theory
+  image: "/images/home/primitive-sets.webp"
   blurb: "Why the primes outweigh every other set of integers where none divides another: the shape of Lichtman's 2022 proof, starting from divisibility."
   prereqs: "Substitution in integrals, the chain rule, and the derivative of arctan."
 
 - name: "Black-Scholes-Merton"
   topic: Quant finance
+  image: "/blog/assets/2024/bsm/gbm-paths.png"
   blurb: "What an option is, the Black–Scholes price of a call derived from scratch, and what happens to the formula when each assumption fails."
   prereqs: "Calculus, a little differential equations, and a first statistics course."

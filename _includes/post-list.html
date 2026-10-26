@@ -1,21 +1,26 @@
 {%- comment -%}
-  Posts that are not volumes of a series, newest first. Redirect stubs are
-  skipped. limit=N caps the list (home page).
+  Posts that are not volumes of a series, newest first, as cards: thumbnail
+  (front matter `thumbnail:`), title, date and kind, description, and links.
+  Redirect stubs are skipped. limit=N caps the list.
 {%- endcomment -%}
 {%- assign shown = 0 -%}
-<ul class="post-list">
+<ul class="cards">
 {%- for post in site.posts -%}
   {%- if post.redirect_to -%}{%- continue -%}{%- endif -%}
   {%- if post.title contains ', Vol. ' -%}{%- continue -%}{%- endif -%}
   {%- if include.limit and shown >= include.limit -%}{%- break -%}{%- endif -%}
   {%- assign shown = shown | plus: 1 %}
-  <li>
-    <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%b %Y' }}</time>
-    <div>
-      <a href="{{ post.url }}">{{ post.title | remove_first: 'Back-of-the-Envelope:' | strip }}</a>
+  <li class="card{% if post.thumbnail %} has-thumb{% endif %}">
+    {%- if post.thumbnail %}
+    <a class="card-thumb" href="{{ post.url }}" tabindex="-1" aria-hidden="true"><img src="{{ post.thumbnail }}" alt="" width="320" height="240" loading="lazy" decoding="async"></a>
+    {%- endif %}
+    <div class="card-body">
+      <h3><a href="{{ post.url }}">{{ post.title | remove_first: 'Back-of-the-Envelope:' | strip }}</a></h3>
+      <p class="card-meta"><time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%B %-d, %Y' }}</time>{% if post.kind %} <span class="badge badge--{{ post.kind }}">{{ post.kind }}</span>{% endif %}</p>
       {%- if post.description %}
       <p>{{ post.description }}</p>
       {%- endif %}
+      <p class="pills"><a class="pill" href="{{ post.url }}">Read</a> <a class="pill" href="{{ post.url }}#cite">Cite</a></p>
     </div>
   </li>
 {%- endfor %}

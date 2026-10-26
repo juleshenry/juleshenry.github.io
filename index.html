@@ -1,47 +1,110 @@
 ---
 layout: default
 ---
-{%- assign latest = site.posts | where_exp: "p", "p.redirect_to == nil" | first -%}
-{%- include series-info.html title=latest.title -%}
-<section class="hero">
-  <div>
-    <h1>Hi,</h1>
-    <p class="hero-lede">
-      Herein I assemble longform explanations of mathematics and describe ongoing projects.
-    </p>
-    <p class="hero-links">
-      <a class="btn" href="/blog/">Start reading</a>
-      <a href="/about">About me</a>
-    </p>
-    <p class="hero-latest">
-      <span class="kicker">Latest <span aria-hidden="true">·</span> <time datetime="{{ latest.date | date: '%Y-%m-%d' }}">{{ latest.date | date: '%-d %b %Y' }}</time></span>
-      <a href="{{ latest.url }}">{{ plain_title }}</a>
-    </p>
-  </div>
+<article class="home">
+  <h1>{{ site.author }}: {{ site.tagline }}</h1>
 
-  <figure class="hero-figures">
-    <a class="hero-fig" href="/blog/series/sphere-eversion">
-      <img src="/images/home/sphere-eversion.webp?v=c677788a" width="640" height="640" fetchpriority="high" alt="Morin's halfway model of a sphere eversion: a band, blue on one side and orange on the other, passing through itself, with its two rims in gold and green">
-      <span class="hero-fig-label">Sphere Eversion</span>
-    </a>
-    <a class="hero-fig" href="/blog/series/abel-ruffini">
-      <img src="/images/home/abel-ruffini.webp" width="320" height="320" alt="Heat map of the size of p(z) = z⁵ − z − 1 over the complex plane, with dark wells at its five roots">
-      <span class="hero-fig-label">Abel–Ruffini</span>
-    </a>
-    <a class="hero-fig" href="/blog/series/primitive-sets">
-      <img src="/images/home/primitive-sets.webp" width="320" height="320" alt="The integers 1 to 34 in a grid with the primes highlighted">
-      <span class="hero-fig-label">Primitive Sets</span>
-    </a>
-    <figcaption>Figures from three of the series. Each tile opens one.</figcaption>
-  </figure>
-</section>
+  <p>
+    I am a software engineer in Houston. I write long-form explanations of mathematics, derivations
+    included, and build open-source tools for human languages. Recent work includes six-volume series on
+    <a href="/blog/series/abel-ruffini">why no formula in radicals solves the quintic</a> and on
+    <a href="/blog/series/sphere-eversion">how a sphere turns inside out</a>, and
+    <a href="https://glottosphere.com">glottosphere.com</a>, a dictionary in which every word of a
+    definition is a link.
+  </p>
+  <p>
+    I studied computer science at the University of Pennsylvania, graduating in 2020 with
+    <a href="{% post_url 2020-06-01-queries-in-the-mist %}">a thesis on obfuscation as a privacy mechanism</a>.
+    Many of the volumes carry interactive figures you can drag and step through.
+  </p>
 
-<section aria-labelledby="h-series">
-  <h2 class="section-label" id="h-series">Series <a href="/blog/#h-series">Chapter lists &rarr;</a></h2>
-  {% include series-shelf.html compact=true %}
-</section>
+  <p class="pills">
+    <a class="pill" href="{{ site.resume_url }}">CV</a>
+    <a class="pill" href="{{ site.github_url }}">GitHub</a>
+    <a class="pill" href="/blog/">Writing</a>
+    <a class="pill" href="/selected-works">Projects</a>
+    <a class="pill" href="/blog/atom.xml">RSS</a>
+  </p>
 
-<section aria-labelledby="h-notes">
-  <h2 class="section-label" id="h-notes">Essays and project notes <a href="/blog/#h-notes">All of them &rarr;</a></h2>
-  {% include post-list.html limit=5 %}
-</section>
+  <section aria-labelledby="updates">
+    <h2 id="updates">Updates</h2>
+    {% include updates.html limit=5 %}
+    <p class="pills">
+      <a class="pill" href="/blog/">All writing</a>
+      <a class="pill" href="/blog/atom.xml">Atom feed</a>
+    </p>
+  </section>
+
+  <section aria-labelledby="interests">
+    <h2 id="interests">Interests</h2>
+    <ul class="interests">
+      <li>
+        <strong>Mathematics from first principles:</strong> multi-volume series that prove one theorem or
+        derive one formula end to end, namely
+        <a href="/blog/series/abel-ruffini">Abel–Ruffini</a>,
+        <a href="/blog/series/sphere-eversion">Sphere Eversion</a>,
+        <a href="/blog/series/on-multiplication">On Multiplication</a>,
+        <a href="/blog/series/primitive-sets">Primitive Sets</a>,
+        <a href="/blog/series/mean-reverting-vix">Mean-Reverting VIX</a> and
+        <a href="/blog/series/black-scholes-merton">Black-Scholes-Merton</a>, plus standalone explainers
+        such as <a href="{% post_url 2024-09-13-grovers-search %}">Grover's Search</a>.
+      </li>
+      <li>
+        <strong>Human languages:</strong> <a href="https://glottosphere.com">glottosphere.com</a>, a
+        multilingual dictionary; <a href="https://1wg.ai">1wg.ai</a>, world news gathered across
+        languages; <a href="{% post_url 2026-03-30-Mr-Worldwide %}">Mr. Worldwide</a>,
+        <a href="{% post_url 2026-04-06-README-Rosetta %}">README Rosetta</a>,
+        <a href="https://github.com/juleshenry/polyglot-poster">polyglot-poster</a> and
+        <a href="https://github.com/juleshenry/vulgultra">vulgultra</a>, a Romance conlang.
+      </li>
+      <li>
+        <strong>Software and numerics:</strong>
+        <a href="{% post_url 2026-01-10-WebAssembly-Fast-Fourier-Transform %}">intersekt</a>, big-integer
+        multiplication in WebAssembly; <a href="{% post_url 2025-02-18-vakyume %}">vakyume</a>, textbook
+        equations turned into verified Python and C++ solvers;
+        <a href="https://github.com/juleshenry/rafaga">rafaga</a>, VIX models in Julia; and the developer
+        tools <a href="{% post_url 2026-04-13-ghee %}">ghee</a> and
+        <a href="{% post_url 2025-09-10-Tatuagem %}">tatuagem</a>.
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="series">
+    <h2 id="series">Series</h2>
+    {% include series-cards.html %}
+  </section>
+
+  <section aria-labelledby="notes">
+    <h2 id="notes">Notes and essays</h2>
+    {%- assign notes_year = "" %}
+    {%- for post in site.posts -%}
+      {%- if post.redirect_to -%}{%- continue -%}{%- endif -%}
+      {%- if post.title contains ', Vol. ' -%}{%- continue -%}{%- endif -%}
+      {%- assign y = post.date | date: '%Y' -%}
+      {%- if y != notes_year -%}
+        {%- unless notes_year == "" %}
+    </ol>
+        {%- endunless %}
+    <h3 class="year">{{ y }}</h3>
+    <ol class="pubs">
+        {%- assign notes_year = y -%}
+      {%- endif %}
+      <li>
+        <a href="{{ post.url }}">{{ post.title | remove_first: 'Back-of-the-Envelope:' | strip }}</a>.
+        {{ post.description }}
+        {%- if post.kind %} <span class="badge badge--{{ post.kind }}">{{ post.kind }}</span>{% endif %}
+      </li>
+    {%- endfor %}
+    </ol>
+  </section>
+
+  <section aria-labelledby="education">
+    <h2 id="education">Education</h2>
+    <ul class="pubs">
+      <li>
+        <strong>University of Pennsylvania</strong>, Bachelor of Applied Science in Computer Science, 2020.
+        Thesis: <a href="{% post_url 2020-06-01-queries-in-the-mist %}">Queries in the Mist</a>.
+      </li>
+    </ul>
+  </section>
+</article>

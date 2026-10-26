@@ -1,0 +1,39 @@
+---
+layout: null
+permalink: /llms.txt
+---
+{%- assign numerals = "I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII" | split: "," -%}
+# {{ site.author }}
+
+> {{ site.role }} in {{ site.location }}. {{ site.bio }}
+
+Posts are in English except one essay in Spanish. Math in the HTML is TeX source, typeset in the browser by MathJax.
+
+## Series
+{% for info in site.data.series %}
+{%- assign needle = info.name | append: ', Vol. ' -%}
+{%- assign vols = site.posts | where_exp: "p", "p.title contains needle" %}
+- [{{ info.name }}]({{ site.url }}/blog/series/{{ info.name | slugify }}): {{ info.blurb }}
+{%- for n in numerals -%}
+  {%- assign vol_tag = needle | append: n | append: ':' -%}
+  {%- for v in vols -%}
+    {%- if v.redirect_to -%}{%- continue -%}{%- endif -%}
+    {%- if v.title contains vol_tag %}
+  - [Vol. {{ n }}: {{ v.title | split: vol_tag | last | strip }}]({{ site.url }}{{ v.url }}){% if v.description %}: {{ v.description }}{% endif %}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor %}
+{%- endfor %}
+
+## Notes and essays
+{% for post in site.posts -%}
+  {%- if post.redirect_to or post.title contains ', Vol. ' -%}{%- continue -%}{%- endif %}
+- [{{ post.title | remove_first: 'Back-of-the-Envelope:' | strip }}]({{ site.url }}{{ post.url }}) ({{ post.date | date: '%Y-%m-%d' }}): {{ post.description }}
+{%- endfor %}
+
+## More
+
+- [Projects]({{ site.url }}/selected-works): live sites and open-source tools, with links to code and write-ups
+- [CV]({{ site.url }}{{ site.resume_url }})
+- [GitHub]({{ site.github_url }})
+- [Atom feed]({{ site.url }}/blog/atom.xml)

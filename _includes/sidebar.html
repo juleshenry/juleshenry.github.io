@@ -1,0 +1,31 @@
+{%- comment -%}
+  The author box on every page: a column beside the content on wide screens,
+  a row above it on narrow ones. Name, role and links come from _config.yml.
+{%- endcomment -%}
+<aside class="profile" aria-label="Author">
+  <a class="profile-photo" href="/" tabindex="-1" aria-hidden="true"><img src="/images/julian-headshot-square.jpg" alt="" width="440" height="440"></a>
+  <div class="profile-id">
+    <p class="profile-name"><a href="/">{{ site.author }}</a></p>
+    <p class="profile-role">{{ site.role }}</p>
+  </div>
+  <p class="profile-bio">{{ site.bio }}</p>
+  <ul class="profile-links">
+    <li>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      {{ site.location }}
+    </li>
+    <li>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9.5 12 5l10 4.5-10 4.5L2 9.5Z"/><path d="M6 11.5v4.5c3.5 2.7 8.5 2.7 12 0v-4.5"/></svg>
+      {{ site.school }}
+    </li>
+    <li>
+      <a href="{{ site.resume_url }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6v18h12V7l-4-4Z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>CV (PDF)</a>
+    </li>
+    <li>
+      <a href="{{ site.github_url }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.3-4-2-6-2.5m12 4.5v-3.4a3 3 0 0 0-.8-2.3c2.7-.3 5.5-1.3 5.5-6a4.7 4.7 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.5 2.6 5.5 2.9 5.5 2.9a4.3 4.3 0 0 0-.1 3.2A4.7 4.7 0 0 0 4 9.3c0 4.6 2.8 5.7 5.5 6a3 3 0 0 0-.8 2.3V21"/></svg>GitHub</a>
+    </li>
+    <li>
+      <a href="/blog/atom.xml"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11a8 8 0 0 1 8 8M5 5a14 14 0 0 1 14 14"/><circle cx="6" cy="18" r="1.2"/></svg>RSS</a>
+    </li>
+  </ul>
+</aside>

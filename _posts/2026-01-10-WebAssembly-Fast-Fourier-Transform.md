@@ -4,6 +4,8 @@ title: "The Fast Fourier Transform in WebAssembly"
 date: 2026-01-10
 mathjax: true
 description: "Why no WebAssembly Karatsuba can beat V8's BigInt multiply, and how a SIMD floating-point FFT does, by up to 4.5× in kernel time."
+kind: study
+thumbnail: "/images/projects/intersekt.webp"
 ---
 
 The [On Multiplication](/blog/2025/12/19/On-Multiplication) series covers the theory of multiplication algorithms, the whole arc from schoolbook to Karatsuba to Schönhage-Strassen to the galactic Harvey-van der Hoeven result. Theory is cheap. So here is a concrete question: can hand-built WebAssembly multiply big integers faster than the JavaScript engine's own `BigInt`?

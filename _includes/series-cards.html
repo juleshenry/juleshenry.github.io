@@ -1,0 +1,63 @@
+{%- comment -%}
+  One card per multi-volume series, newest series first: its figure, name,
+  blurb and every volume in reading order. Series are derived from post titles
+  ("Name, Vol. N: Chapter"), so a new volume or a new series shows up without
+  touching this file. Topic, blurb and figure come from _data/series.yml.
+{%- endcomment -%}
+{%- assign numerals = "I,II,III,IV,V,VI,VII,VIII,IX,X,XI,XII" | split: "," -%}
+{%- assign seen_series = "|" -%}
+<ol class="papers">
+{%- for post in site.posts -%}
+  {%- if post.redirect_to -%}{%- continue -%}{%- endif -%}
+  {%- include series-info.html title=post.title -%}
+  {%- if series_name == "" -%}{%- continue -%}{%- endif -%}
+  {%- assign series_key = series_name | append: '|' -%}
+  {%- assign series_probe = '|' | append: series_key -%}
+  {%- if seen_series contains series_probe -%}{%- continue -%}{%- endif -%}
+  {%- assign seen_series = seen_series | append: series_key -%}
+
+  {%- assign card_name = series_name -%}
+  {%- assign card_slug = card_name | slugify -%}
+  {%- assign needle = card_name | append: ', Vol. ' -%}
+  {%- assign vols = site.posts | where_exp: "p", "p.title contains needle" -%}
+  {%- assign info = site.data.series | where: "name", card_name | first -%}
+  {%- assign vol_count = 0 -%}
+  {%- assign total_minutes = 0 -%}
+  {%- assign first_url = post.url -%}
+  {%- capture vol_items -%}
+    {%- for n in numerals -%}
+      {%- assign vol_tag = needle | append: n | append: ':' -%}
+      {%- for v in vols -%}
+        {%- if v.redirect_to -%}{%- continue -%}{%- endif -%}
+        {%- if v.title contains vol_tag -%}
+          {%- if vol_count == 0 -%}{%- assign first_url = v.url -%}{%- endif -%}
+          {%- assign vol_count = vol_count | plus: 1 -%}
+          {%- assign minutes = v.content | strip_html | number_of_words | divided_by: 220 | plus: 1 -%}
+          {%- assign total_minutes = total_minutes | plus: minutes -%}
+          {%- assign chapter = v.title | split: vol_tag | last | strip %}
+        <li><a href="{{ v.url }}"><span class="vol-num">{{ n }}</span>{{ chapter }}</a></li>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  {%- endcapture %}
+  <li class="paper" id="series-{{ card_slug }}">
+    {%- if info.image %}
+    <a class="paper-fig" href="/blog/series/{{ card_slug }}" tabindex="-1" aria-hidden="true">
+      <img src="{{ info.image }}" alt="" loading="lazy" decoding="async">
+      <span class="paper-badge">{% if info.topic %}{{ info.topic }} {% endif %}{{ post.date | date: '%Y' }}</span>
+    </a>
+    {%- endif %}
+    <div class="paper-text">
+      <h3 class="paper-title"><a href="/blog/series/{{ card_slug }}">{{ card_name }}</a></h3>
+      <p class="paper-meta">{{ vol_count }} volumes <span aria-hidden="true">·</span> {{ total_minutes }} min</p>
+      {%- if info.blurb %}
+      <p class="paper-blurb">{{ info.blurb }}</p>
+      {%- endif %}
+      <ol class="paper-vols" aria-label="{{ card_name }}, volumes in reading order">
+        {{- vol_items }}
+      </ol>
+      <p class="pills"><a class="pill" href="{{ first_url }}">Start with Vol. I</a></p>
+    </div>
+  </li>
+{%- endfor %}
+</ol>

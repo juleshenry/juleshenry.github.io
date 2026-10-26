@@ -4,6 +4,7 @@ title: "Back-of-the-Envelope: Grover's Search"
 date: 2024-09-13
 mathjax: true
 description: "Grover's algorithm as two mirrors rotating a vector: why it needs about √N queries, and why running it longer makes it worse."
+kind: explainer
 ---
 
 {% include grover-kit.html %}

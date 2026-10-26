@@ -16,19 +16,22 @@ Then open `http://localhost:4000`. To check a build without touching the repo, p
 | Path | What it is |
 |---|---|
 | `_posts/` | Every post. Stubs with `redirect_to:` forward to wherever the post moved and are hidden from the index. |
-| `_layouts/default.html`, `_layouts/post.html` | Page shell and post template. |
+| `_layouts/default.html`, `_layouts/post.html` | Page shell (top bar, author sidebar, footer) and post template (contents sidebar, citation). |
+| `_includes/sidebar.html` | The author box on every page; name, role, bio, location and school come from `_config.yml`. |
 | `_layouts/series.html`, `blog/series/` | One landing page per series: blurb, prerequisites, volumes with their descriptions and reading times. |
-| `_includes/series-shelf.html` | The series listing on the home and Writing pages. |
-| `_includes/post-list.html` | The listing of posts that are not part of a series. |
+| `_includes/series-cards.html` | One card per series (figure, blurb, every volume) on the home and Writing pages. |
+| `_includes/updates.html` | The dated Updates list on the home page; volumes of one series published the same day collapse into one entry. |
+| `_includes/post-list.html` | Cards for the posts that are not part of a series (Writing page). |
 | `_includes/series-info.html` | Splits a post title into series, volume and chapter. |
 | `_includes/*-kit.html` | Shared styles and helpers for the interactive figures in each series. |
-| `_data/series.yml` | Topic and one-line blurb per series. |
+| `_data/series.yml` | Topic, one-line blurb and card figure per series. |
 | `stylesheets/site.css` | The whole theme, starting with the `@font-face` rules. |
-| `fonts/` | Source Serif 4 and JetBrains Mono, self-hosted (SIL OFL, see `fonts/OFL.txt`). |
-| `images/home/`, `images/projects/` | The three series figures on the home page; Projects card thumbnails. |
+| `fonts/` | JetBrains Mono for code, self-hosted (SIL OFL, see `fonts/OFL.txt`). Everything else uses the system sans-serif. |
+| `images/home/`, `images/projects/` | Series card figures; Projects card thumbnails (also used as post thumbnails). |
 | `selected-works.html` | The Projects page. Generated; do not edit by hand. |
 | `images/social/` | One 1200×630 share card per post, named after the post file. Generated. |
 | `sitemap.xml`, `robots.txt` | Every page and post except redirect stubs, for search engines. |
+| `llms.txt` | Plain-text index of every series, volume and post with descriptions, for language models. |
 | `scripts/` | The Projects generator, the share-card generator, and the figure scripts for individual posts. |
 
 ## Writing a post
@@ -42,6 +45,8 @@ title: "Title of the post"
 date: 2026-10-09
 description: "One sentence. Shown under the title on the Writing page and used as the meta description."
 mathjax: true   # only if the post has math
+kind: project   # posts outside a series: project, study, explainer, essay or thesis (the badge)
+thumbnail: "/images/projects/name.webp"   # optional: the image on its Writing page card
 ---
 ```
 
@@ -49,7 +54,7 @@ The URL comes from `date:` in the front matter, not from the filename.
 
 ### Share cards
 
-Each post gets its own card for link previews: the series and volume (or the date), the title, and for a series the row of numeral tiles. Once a post's title is final, run
+Each post gets its own card for link previews: the series and volume (or the date), the title, and for a series the row of numeral pills. The site's own card, `images/social-card.png`, is made from `author`, `tagline` and `bio` in `_config.yml`. Once a post's title is final, run
 
 ```bash
 node scripts/make_social_cards.mjs        # cards for posts that have none yet

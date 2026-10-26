@@ -1,9 +1,14 @@
 title: Julian Henry
-tagline: Writing on math and software
+tagline: Mathematics and Human Languages
 description: >-
   Julian Henry is a software engineer in Houston. He writes about math and
   builds open-source tools.
 author: Julian Henry
+# The author box on every page (_includes/sidebar.html)
+role: Software engineer
+bio: Long-form mathematics, derivations included, and open-source tools for human languages.
+location: Houston, Texas
+school: University of Pennsylvania
 url: https://juleshenry.github.io
 github_url: https://github.com/juleshenry
 # Public CV PDF (no phone/email) — generated from private jhenry_cv repo

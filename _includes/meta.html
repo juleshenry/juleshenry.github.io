@@ -65,12 +65,12 @@
 <meta name="twitter:description" content="{{ meta_desc | escape }}">
 <meta name="twitter:image" content="{{ site.url }}{{ meta_image }}">
 {%- capture person_json -%}
-{"@type":"Person","name":{{ site.author | jsonify }},"url":"{{ site.url }}/about","image":"{{ site.url }}/images/julian-headshot-square.jpg","jobTitle":"Software engineer","address":{"@type":"PostalAddress","addressLocality":"Houston","addressRegion":"TX","addressCountry":"US"},"alumniOf":{"@type":"CollegeOrUniversity","name":"University of Pennsylvania"},"sameAs":["{{ site.github_url }}"]}
+{"@type":"Person","name":{{ site.author | jsonify }},"url":"{{ site.url }}/","image":"{{ site.url }}/images/julian-headshot-square.jpg","jobTitle":"Software engineer","address":{"@type":"PostalAddress","addressLocality":"Houston","addressRegion":"TX","addressCountry":"US"},"alumniOf":{"@type":"CollegeOrUniversity","name":"University of Pennsylvania"},"sameAs":["{{ site.github_url }}"]}
 {%- endcapture -%}
 {%- if page.layout == 'post' and page.redirect_to == nil %}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":{{ plain_title | jsonify }},"description":{{ meta_desc | jsonify }},"datePublished":"{{ page.date | date_to_xmlschema }}","url":"{{ meta_url }}","mainEntityOfPage":"{{ meta_url }}","image":"{{ site.url }}{{ meta_image }}","author":{{ person_json }}}</script>
 {%- elsif page.layout == 'series' %}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":{{ page.title | jsonify }},"description":{{ meta_desc | jsonify }},"url":"{{ meta_url }}","image":"{{ site.url }}{{ meta_image }}","author":{{ person_json }}}</script>
-{%- elsif page.url == '/' or page.url == '/about' %}
+{%- elsif page.url == '/' %}
 <script type="application/ld+json">{"@context":"https://schema.org",{{ person_json | remove_first: '{' }}</script>
 {%- endif %}

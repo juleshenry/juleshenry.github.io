@@ -7,7 +7,6 @@ layout: null
   <url><loc>{{ site.url }}/</loc><lastmod>{{ latest.date | date_to_xmlschema }}</lastmod></url>
   <url><loc>{{ site.url }}/blog/</loc><lastmod>{{ latest.date | date_to_xmlschema }}</lastmod></url>
   <url><loc>{{ site.url }}/selected-works</loc></url>
-  <url><loc>{{ site.url }}/about</loc></url>
 {%- assign series_pages = site.pages | where: "layout", "series" %}
 {%- for sp in series_pages %}
   <url><loc>{{ site.url }}{{ sp.url }}</loc></url>

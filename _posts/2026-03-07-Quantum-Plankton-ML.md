@@ -4,6 +4,8 @@ title: "Quantum Plankton Under Compression"
 date: 2026-03-07
 mathjax: true
 description: "A quantum neural network beats a classical one at classifying plankton only while the baseline is undertrained. Tuned fairly, logistic regression wins, and the circuit is classically simulable anyway."
+kind: study
+thumbnail: "/images/projects/quantum-plankton-ml.webp"
 ---
 
 *A quantum neural network can beat a classical one at telling plankton apart, on 20 of 25 tasks and with a convincing p-value. This post shows where that result comes from, why the quantum model could never have had an advantage, and what it would take for a model of this kind to match a CNN.*

@@ -55,8 +55,8 @@ layout: default
     {%- if info.prereqs %}
     <p class="series-prereqs"><span class="kicker">What you need</span> {{ info.prereqs }}</p>
     {%- endif %}
-    <p class="hero-links">
-      <a class="btn" href="{{ first_url }}">Start with Vol. I</a>
+    <p class="pills">
+      <a class="pill pill--primary" href="{{ first_url }}">Start with Vol. I</a>
       <span class="series-years">{% if first_year == last_year %}{{ first_year }}{% else %}{{ first_year }}–{{ last_year }}{% endif %}</span>
     </p>
   </header>

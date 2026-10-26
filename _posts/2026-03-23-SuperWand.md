@@ -3,6 +3,8 @@ layout: post
 title: "SuperWand: Image Retheming"
 date: 2026-03-23
 description: "A Python tool that clusters an image's colors with k-means and swaps them for one of 18 themes or another photo's palette, with examples."
+kind: project
+thumbnail: "/images/projects/superwand.webp"
 ---
 
 [SuperWand](https://github.com/juleshenry/superwand) takes an image, identifies its dominant color regions using KMeans clustering, and replaces those colors with any of 18 curated aesthetic themes (Vaporwave, Cyberpunk, Tropical, Arctic and so on) or with a palette taken from another photo. It is a magic wand for recoloring. Point it at a posterized Charizard, pick "Midnight," and out comes a moonlit dragon.

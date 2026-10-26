@@ -22,6 +22,8 @@ try {
   playwright = createRequire(execSync('npm root -g').toString().trim() + '/')('playwright');
 }
 
+// The face in the card's footer, inlined so setContent needs no file access
+const HEADSHOT = 'data:image/jpeg;base64,' + readFileSync(root + 'images/julian-headshot-square.jpg').toString('base64');
 const NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 const LABELS = ['Undergraduate Thesis'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -99,9 +101,15 @@ const seriesCards = readFileSync(root + '_data/series.yml', 'utf8')
   })
   .filter((c) => volumes[c.series]);
 
+// The site's own card (home, Writing, Projects): name, tagline and bio from _config.yml,
+// written to images/social-card.png
+const config = readFileSync(root + '_config.yml', 'utf8');
+const configField = (k) => (config.match(new RegExp(`^${k}:\\s*(.*)$`, 'm')) || [, ''])[1].trim();
+const siteCard = { kind: 'site', name: '../social-card', chapter: configField('author'), topic: configField('tagline'), blurb: configField('bio') };
+
 // Drop cards whose post is gone or became a redirect
 mkdirSync(outDir, { recursive: true });
-const cards = [...posts, ...seriesCards];
+const cards = [...posts, ...seriesCards, siteCard];
 const live = new Set(cards.map((p) => p.name + '.png'));
 for (const f of readdirSync(outDir)) {
   if (f.endsWith('.png') && !live.has(f)) {
@@ -120,7 +128,10 @@ function cardHtml(p) {
   let kicker;
   let tiles = '';
   let desc = '';
-  if (p.kind === 'series') {
+  if (p.kind === 'site') {
+    kicker = esc(p.topic);
+    desc = `<p class="desc">${esc(p.blurb)}</p>`;
+  } else if (p.kind === 'series') {
     const vols = NUMERALS.filter((n) => volumes[p.series].has(n));
     kicker = `${p.topic ? esc(p.topic) + ' <span class="dot">·</span> ' : ''}Series of ${vols.length}`;
     tiles = `<div class="tiles">${vols.map((n) => `<span class="tile">${n}</span>`).join('')}</div>`;
@@ -137,39 +148,42 @@ function cardHtml(p) {
     if (p.fm.description) desc = `<p class="desc">${esc(p.fm.description)}</p>`;
   }
   return `<!doctype html><html><head><meta charset="utf-8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=block">
 <style>
-  html, body { margin: 0; background: #000; }
-  .card { position: relative; box-sizing: border-box; width: 1200px; height: 630px; padding: 80px 88px 0; overflow: hidden; }
-  .kicker { margin: 0; font: 500 22px/1.4 'JetBrains Mono', monospace; letter-spacing: .09em; text-transform: uppercase; color: #4da3ff; }
-  .dot { color: #4da3ff; }
-  h1 { margin: 20px 0 0; font: 600 84px/1.06 'Source Serif 4', serif; font-optical-sizing: auto; letter-spacing: -.02em; color: #fff; }
+  html, body { margin: 0; background: #fff; }
+  .card { position: relative; box-sizing: border-box; width: 1200px; height: 630px; padding: 76px 88px 0 96px; overflow: hidden;
+          font-family: 'Inter', system-ui, sans-serif; border-left: 12px solid #1d4ed8; }
+  .kicker { margin: 0; font-size: 24px; font-weight: 700; line-height: 1.4; letter-spacing: .04em; text-transform: uppercase; color: #1d4ed8; }
+  .dot { color: #1d4ed8; }
+  h1 { margin: 18px 0 0; font-size: 80px; font-weight: 700; line-height: 1.08; letter-spacing: -.025em; color: #0f172a; }
   h1 sup { font-size: .55em; line-height: 0; }
-  .desc { margin: 24px 0 0; max-width: 960px; font: 400 30px/1.42 'Source Serif 4', serif; color: #dcdde0;
+  .desc { margin: 24px 0 0; max-width: 980px; font-size: 30px; line-height: 1.42; color: #334155;
           display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
-  .tiles { position: absolute; left: 88px; bottom: 130px; display: flex; gap: 10px; }
-  .tile { box-sizing: border-box; min-width: 70px; height: 70px; padding: 0 14px; display: flex; align-items: center; justify-content: center;
-          border: 2px solid #3b3d43; font: 700 24px 'JetBrains Mono', monospace; letter-spacing: .06em; color: #fff; }
-  .tile.on { background: #4da3ff; border-color: #4da3ff; color: #000; }
-  .foot { position: absolute; left: 88px; right: 88px; bottom: 56px; display: flex; justify-content: space-between; align-items: baseline;
-          font: 500 24px 'JetBrains Mono', monospace; color: #9c9ea6; }
-  .foot b { font: 600 30px 'Source Serif 4', serif; color: #fff; }
+  .tiles { position: absolute; left: 96px; bottom: 148px; display: flex; gap: 10px; }
+  .tile { box-sizing: border-box; min-width: 72px; height: 52px; padding: 0 20px; display: flex; align-items: center; justify-content: center;
+          border: 2px solid #cbd5e1; border-radius: 999px; font-size: 22px; font-weight: 700; color: #1f2937; }
+  .tile.on { background: #1d4ed8; border-color: #1d4ed8; color: #fff; }
+  .foot { position: absolute; left: 96px; right: 88px; bottom: 44px; display: flex; justify-content: space-between; align-items: center;
+          padding-top: 24px; border-top: 2px solid #e5e7eb; font-size: 24px; color: #64748b; }
+  .who { display: flex; align-items: center; gap: 18px; }
+  .who img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+  .who b { font-size: 30px; font-weight: 700; color: #0f172a; }
 </style></head><body>
 <div class="card">
   <p class="kicker">${kicker}</p>
   <h1>${titleHtml(p.chapter)}</h1>
   ${desc}
   ${tiles}
-  <div class="foot"><b>Julian Henry</b><span>juleshenry.github.io</span></div>
+  <div class="foot"><span class="who"><img src="${HEADSHOT}" alt=""><b>Julian Henry</b></span><span>juleshenry.github.io</span></div>
 </div>
 <script>
   // Shrink the title until it clears the tiles (or the footer), then trim the blurb
   document.fonts.ready.then(() => {
     const h1 = document.querySelector('h1');
     const desc = document.querySelector('.desc');
-    const floor = (document.querySelector('.tiles') || document.querySelector('.foot')).getBoundingClientRect().top - 36;
+    const floor = (document.querySelector('.tiles') || document.querySelector('.foot')).getBoundingClientRect().top - 32;
     const bottom = () => (desc || h1).getBoundingClientRect().bottom;
-    let size = 84;
+    let size = 80;
     while (bottom() > floor && size > 52) h1.style.fontSize = (size -= 2) + 'px';
     for (let lines = 2; desc && bottom() > floor && lines > 0; lines--) desc.style.webkitLineClamp = lines;
     if (desc && bottom() > floor) desc.remove();

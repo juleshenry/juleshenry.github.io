@@ -3,12 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="color-scheme" content="dark">
-    <meta name="theme-color" content="#000000">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#ffffff">
     {% include meta.html %}
 
-    <link rel="preload" href="/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/stylesheets/site.css">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="/blog/atom.xml">
     <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg">
@@ -40,30 +38,37 @@
     {% endif %}
   </head>
 
-  <body{% if page.layout == 'post' %} class="page-post"{% endif %}>
+  <body{% if page.layout == 'post' %} class="page-post"{% elsif page.url == '/' %} class="page-home"{% endif %}>
     <a class="skip-link" href="#main_content">Skip to content</a>
 
     <header class="masthead">
-      <a class="masthead-name" href="/">{{ site.title }}</a>
-      <nav aria-label="Primary">
-        <ul>
-          <li><a href="/blog/"{% if page.url contains '/blog' %} aria-current="page"{% endif %}>Writing</a></li>
-          <li><a href="/selected-works"{% if page.url contains 'selected-works' %} aria-current="page"{% endif %}>Projects</a></li>
-          <li><a href="/about"{% if page.url contains '/about' %} aria-current="page"{% endif %}>About</a></li>
-        </ul>
-      </nav>
+      <div class="masthead-inner">
+        <a class="masthead-name" href="/">{{ site.title }}</a>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="/#updates">Updates</a></li>
+            <li><a href="/#series">Series</a></li>
+            <li><a href="/blog/"{% if page.url contains '/blog' %} aria-current="page"{% endif %}>Writing</a></li>
+            <li><a href="/selected-works"{% if page.url contains 'selected-works' %} aria-current="page"{% endif %}>Projects</a></li>
+            <li><a href="{{ site.resume_url }}">CV</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <main id="main_content">
-      {{ content }}
-    </main>
+    <div class="page">
+      {% include sidebar.html %}
+      <main id="main_content">
+        {{ content }}
+      </main>
+    </div>
 
     <footer class="site-foot">
       <p>&copy; 2018&ndash;{{ site.time | date: '%Y' }} {{ site.author }}</p>
       <ul>
         <li><a href="{{ site.github_url }}">GitHub</a></li>
         <li><a href="/blog/atom.xml">RSS</a></li>
-        <li><a href="{{ site.resume_url }}">CV</a></li>
+        <li><a href="/llms.txt">llms.txt</a></li>
       </ul>
     </footer>
 
@@ -78,28 +83,28 @@
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
       mermaid.initialize({
         startOnLoad: false,
-        // The site is dark-only: light text and lines so diagrams stay readable
-        theme: 'dark',
+        // Light page: pale blue boxes, slate lines, the site's link blue for borders
+        theme: 'base',
         themeVariables: {
-          background: '#000000',
-          primaryColor: '#12233a',
-          primaryTextColor: '#f0f0f0',
-          primaryBorderColor: '#4da3ff',
-          lineColor: '#d0d0d0',
-          textColor: '#f0f0f0',
-          actorBkg: '#12233a',
-          actorBorder: '#4da3ff',
-          actorTextColor: '#f0f0f0',
-          actorLineColor: '#8a8a8a',
-          signalColor: '#d0d0d0',
-          signalTextColor: '#f0f0f0',
-          labelBoxBkgColor: '#12233a',
-          labelTextColor: '#f0f0f0',
-          loopTextColor: '#f0f0f0',
-          noteBkgColor: '#3a3320',
-          noteTextColor: '#f0f0f0',
-          noteBorderColor: '#c98500',
-          sequenceNumberColor: '#000000'
+          background: '#ffffff',
+          primaryColor: '#eff6ff',
+          primaryTextColor: '#0f172a',
+          primaryBorderColor: '#1d4ed8',
+          lineColor: '#475569',
+          textColor: '#0f172a',
+          actorBkg: '#eff6ff',
+          actorBorder: '#1d4ed8',
+          actorTextColor: '#0f172a',
+          actorLineColor: '#94a3b8',
+          signalColor: '#334155',
+          signalTextColor: '#0f172a',
+          labelBoxBkgColor: '#eff6ff',
+          labelTextColor: '#0f172a',
+          loopTextColor: '#0f172a',
+          noteBkgColor: '#fff7ed',
+          noteTextColor: '#0f172a',
+          noteBorderColor: '#c2410c',
+          sequenceNumberColor: '#ffffff'
         },
         securityLevel: 'loose',
         flowchart: { useMaxWidth: true, htmlLabels: true }

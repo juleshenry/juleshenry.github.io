@@ -3,6 +3,7 @@ layout: default
 ---
 {%- include series-info.html title=page.title -%}
 {%- assign minutes = content | strip_html | number_of_words | divided_by: 220 | plus: 1 -%}
+<div class="post-grid">
 <article class="post-page">
   <header class="post-head">
     {%- if series_name != "" %}
@@ -78,10 +79,76 @@ layout: default
       {%- endif %}
     </nav>
     {%- endif %}
-    <div class="post-author">
-      <img src="/images/julian-headshot-square.jpg" alt="" width="64" height="64" loading="lazy">
-      <p class="post-foot-links"><a href="/blog/">All writing</a> <span aria-hidden="true">·</span> <a href="/selected-works">Projects</a> <span aria-hidden="true">·</span> <a href="/about">About</a> <span aria-hidden="true">·</span> <a href="/blog/atom.xml">RSS</a></p>
-    </div>
+    {%- assign cite_key = page.date | date: '%Y' | prepend: 'henry' | append: page.slug | slugify | remove: '-' %}
+    <details class="cite" id="cite">
+      <summary>Cite this {% if series_name != "" %}volume{% else %}post{% endif %}</summary>
+      <pre><code>@misc{ {{- cite_key }},
+  author       = {Henry, Julian},
+  title        = { {{- plain_title -}} },
+  year         = { {{- page.date | date: '%Y' -}} },
+  month        = { {{- page.date | date: '%B' -}} },
+  howpublished = {\url{ {{- site.url }}{{ page.url -}} }},
+  note         = {Blog post}
+}</code></pre>
+    </details>
   </footer>
   {%- endunless %}
 </article>
+{%- unless page.redirect_to %}
+<nav class="post-toc" aria-label="Contents" hidden>
+  <p class="post-toc-label">Contents</p>
+  <ol></ol>
+</nav>
+{%- endunless %}
+</div>
+{%- unless page.redirect_to %}
+<script>
+  /* A link to #cite (the "Cite" pill on the Writing page) opens the citation. */
+  (function () {
+    var cite = document.getElementById('cite');
+    function openCite() { if (cite && location.hash === '#cite') cite.open = true; }
+    openCite();
+    window.addEventListener('hashchange', openCite);
+  })();
+
+  /* Contents sidebar: the post's top-level section headings (h2, or h3 when a
+     post starts its sections at '##'), with the section being read highlighted. */
+  (function () {
+    var body = document.querySelector('.post');
+    var nav = document.querySelector('.post-toc');
+    if (!body || !nav) return;
+    var heads = body.querySelectorAll('h2[id]');
+    if (!heads.length) heads = body.querySelectorAll('h3[id]');
+    if (heads.length < 3) return;
+    var list = nav.querySelector('ol');
+    var links = [];
+    heads.forEach(function (h) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent;
+      li.appendChild(a);
+      list.appendChild(li);
+      links.push(a);
+    });
+    nav.hidden = false;
+    document.body.classList.add('has-toc');
+    var queued = false;
+    function mark() {
+      queued = false;
+      var line = window.innerHeight * 0.3;
+      var current = -1;
+      heads.forEach(function (h, i) {
+        if (h.getBoundingClientRect().top <= line) current = i;
+      });
+      links.forEach(function (a, i) {
+        a.classList.toggle('is-current', i === current);
+      });
+    }
+    window.addEventListener('scroll', function () {
+      if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, { passive: true });
+    mark();
+  })();
+</script>
+{%- endunless %}
