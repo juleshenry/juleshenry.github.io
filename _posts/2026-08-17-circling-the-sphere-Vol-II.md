@@ -39,7 +39,7 @@ It is instructive to pin down what a homotopy is before using one.
 A homotopy is a movie of maps. Two maps $f,g:X\to Y$ are <em>homotopic</em> if one can be deformed continuously into the other: there is a continuous $H:X\times[0,1]\to Y$ with $H(\cdot,0)=f$ and $H(\cdot,1)=g$. Freeze the second coordinate at $s$ and you get the frame $H&#95;{s}=H(\cdot,s)$ of the movie. We write $f\simeq g$.
 </div>
 
-The notation $X\times[0,1]$ matters. For $X=S^2$ it is a thickened sphere, a spherical *shell*: each point of the sphere grows a little time-interval. It is not the solid ball. (Calling it a ball is an easy slip: the homotopy parameter is a new direction, not a filling-in.)
+The notation $X\times[0,1]$ matters. For $X=S^2$ it is a thickened sphere, a spherical *shell*: each point of the sphere grows a little time-interval, pointing in a new direction.
 
 Any two maps $X\to\mathbb{R}^n$ are homotopic, by the **straight-line homotopy**
 

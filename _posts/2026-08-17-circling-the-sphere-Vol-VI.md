@@ -25,7 +25,6 @@ mathjax: true
   <li><a href="#slack-that-does-not-crease">Slack that does not crease</a></li>
   <li><a href="#a-formula-that-actually-everts-a-band">A formula that actually everts a band</a></li>
   <li><a href="#a-volume-that-must-cross-zero">A volume that must cross zero</a></li>
-  <li><a href="#common-mistakes">Common mistakes</a></li>
   <li><a href="#the-arc">The arc</a></li>
 </ol>
 </div>
@@ -35,11 +34,11 @@ mathjax: true
 # Slack that does not crease
 {: #slack-that-does-not-crease}
 <div class="cs-q">
-It is instructive to chase down Thurston's "magic formula", the one that is supposed to prove eversion.
+It is instructive to ask how Thurston turned the sphere inside out.
 </div>
 
 <div class="cs-a">
-There is no such formula, and the first existence proof is Smale's. What Thurston gave, in the 1970s (animated in the 1994 film <em>Outside In</em>), is a <em>construction</em>, which is itself a proof of Smale's theorem: corrugate the surface so that it has slack, pass the ripples through one another, then iron the ripples out. No condition like $\det J(g&#95;{t})>0$ comes into it. The actual local move is a normal oscillation: a wiggle of the surface back and forth along its normal direction.
+Smale's proof shows that an eversion exists without exhibiting one. What Thurston gave, in the 1970s (animated in the 1994 film <em>Outside In</em>), is a <em>construction</em>, which is itself a proof of Smale's theorem: corrugate the surface so that it has slack, pass the ripples through one another, then iron the ripples out. The local move is a normal oscillation: a wiggle of the surface back and forth along its normal direction.
 </div>
 
 The obvious move is to push the northern hemisphere down and the southern one up until they pass through each other. That works everywhere except along the equator. The band joining the two hemispheres is pulled into a tight loop, and pulling a loop tight ends in a crease: the same kink that the turning number of [Vol. IV](/blog/2026/08/17/circling-the-sphere-Vol-IV) says a curve cannot avoid.
@@ -192,7 +191,7 @@ $$V(F_s)=(1-2s)\,\frac{4\pi}{3}.$$
 
 It crosses zero at $s=\tfrac12$, which is exactly where $F&#95;{s}$ creases: the cheap way to reach zero volume is to flatten. A genuine eversion must also pass through $V=0$, but with a surface that is still immersed, its self-intersections arranged so that positive and negative volume cancel.
 
-**A tempting alternative.** It is natural to measure "halfway" by the alignment of normals instead, $S(s)=\int&#95;{S^2}\mathbf{n}&#95;{0}\cdot\mathbf{n}&#95;{s}\,dA$, and to expect $S$ to run from $4\pi$ to $-4\pi$ along an eversion. It does not. The normal is computed from the pushed frame, and $d\alpha=-I$ flips both frame vectors, so $\mathbf{n}&#95;{\alpha}(p)=\mathbf{n}&#95;{\iota}(p)=p$ and $S=+4\pi$ at the end. What changes under eversion is not the normal but its relation to the position: at $\alpha(p)=-p$ the normal $p$ points *inward*. Signed volume sees that; normal alignment does not. Both are plotted below for $F&#95;{s}$, with $\alpha$'s values marked.
+**Normals cannot measure it.** Consider the alignment of normals, $S(s)=\int&#95;{S^2}\mathbf{n}&#95;{0}\cdot\mathbf{n}&#95;{s}\,dA$. Along an eversion it does not run from $4\pi$ to $-4\pi$. The normal is computed from the pushed frame, and $d\alpha=-I$ flips both frame vectors, so $\mathbf{n}&#95;{\alpha}(p)=\mathbf{n}&#95;{\iota}(p)=p$ and $S=+4\pi$ at the end. What changes under eversion is not the normal but its relation to the position: at $\alpha(p)=-p$ the normal $p$ points *inward*. Signed volume sees that; normal alignment does not. Both are plotted below for $F&#95;{s}$, with $\alpha$'s values marked.
 
 <div class="mviz" id="ev-sync" tabindex="0" aria-label="Signed volume and normal alignment along the crease homotopy">
   <div class="mv-title" id="ev-sync-title"></div>
@@ -268,29 +267,6 @@ It crosses zero at $s=\tfrac12$, which is exactly where $F&#95;{s}$ creases: the
 })();
 </script>
 
-
----
-
-# Common mistakes
-{: #common-mistakes}
-The wrong turns in the question boxes are the ones a first pass at this subject tends to take. Here is the answer key.
-
-<table class="cs-err">
-  <thead>
-    <tr><th>Tempting claim</th><th>Fact</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>$H=(1-t)f&#95;{0}+tf&#95;{1}$ is a regular homotopy.</td><td>It is a homotopy of maps. Rank can drop. See $F&#95;{s}$.</td></tr>
-    <tr><td>$\partial&#95;{\theta}(1,0,0)=\mathbf{0}$.</td><td>Differentiate the chart, not the point. $\mathbf{r}&#95;{\theta}(1,0,0)=(0,0,-1)$.</td></tr>
-    <tr><td>Jacobian of $f:\mathbb{R}^n\to\mathbb{R}^m$ is $n\times m$.</td><td>$m\times n$. For immersions $S^2\to\mathbb{R}^3$ it is $3\times 2$; there is no determinant.</td></tr>
-    <tr><td>$\det J=-1$ means a saddle.</td><td>It means orientation reversal. A saddle is a critical point of a scalar function (gradient zero, Hessian indefinite), a different notion.</td></tr>
-    <tr><td>$S^2\times[0,1]$ is a ball.</td><td>It is a spherical shell. The ball is $D^3$.</td></tr>
-    <tr><td>Smale's hairy ball theorem.</td><td>Poincaré–Brouwer. Smale classified immersions of $S^2$.</td></tr>
-    <tr><td>Thurston's magic formula ($\det J(g&#95;{t})>0$) proves eversion.</td><td>Smale proved existence. Thurston gave corrugations. The Bednorzes wrote a ruled family.</td></tr>
-    <tr><td>Eversion forbids self-intersection and uses contact / Reeb foliations.</td><td>Self-intersection is the point. Contact geometry is a different chapter.</td></tr>
-    <tr><td>The complex exponential at $(0,\pi/2)$ has $\det J=-1$.</td><td>$\det J=e^{2x}=1$ there. The map is a local diffeomorphism everywhere.</td></tr>
-  </tbody>
-</table>
 
 ---
 

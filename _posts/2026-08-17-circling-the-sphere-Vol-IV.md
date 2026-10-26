@@ -262,11 +262,11 @@ The surprise is dimensional. The turning number of a curve is an element of $\pi
 # The Gauss map is not the obstruction
 {: #the-gauss-map-is-not-the-obstruction}
 <div class="cs-q">
-It is worth pinning down which invariant we actually compute. Two half-remembered answers are that Jacobians must stay positive, and that it has something to do with the hairy ball theorem of Smale.
+It is worth pinning down which invariant we actually compute.
 </div>
 
 <div class="cs-a">
-The hairy ball theorem is Poincaré–Brouwer: $S^2$ admits no continuous nowhere-zero tangent vector field (a choice, at each point $p$, of a vector in the tangent plane at $p$). Smale proved a classification of immersions. Different theorem, decades apart. The Jacobian-sign story is a confusion with local diffeomorphisms of $\mathbb{R}^n$. What we do compute is a <em>tangential</em> invariant, and its coarsest shadow is the Gauss map.
+It is a <em>tangential</em> invariant, built from the derivative of the immersion, and its coarsest shadow is the Gauss map.
 </div>
 
 Given an immersion $f$,

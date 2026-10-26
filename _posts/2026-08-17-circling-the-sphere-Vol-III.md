@@ -15,8 +15,6 @@ mathjax: true
 
 In [Vol. I](/blog/2026/08/17/circling-the-sphere) we built topological spaces, continuity, and paths; in [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II), homotopies and $\pi&#95;{1}$. Topology alone cannot see a crease: a homotopy is allowed to squash a sphere flat, fold it, and unfold it. The eversion problem is only interesting once we ask for *smooth* maps whose derivative never degenerates. This volume adds exactly that much calculus.
 
-As in Vol. I, the boxed questions are the ones it is instructive to stop and ask on a first reading, wrong turns included, and the exposition after each one sets it straight.
-
 <div class="cs-toc">
 <strong>Contents</strong>
 <ol>
@@ -132,7 +130,7 @@ It is instructive to see a nonzero derivative, say for a curve that wraps around
 <div class="cs-a">
 Take the equator as a curve $\gamma:[0,2\pi]\to S^2$,
 $$\gamma(t)=(\cos t,\;\sin t,\;0).$$
-Then $\gamma'(t)=(-\sin t,\;\cos t,\;0)\neq\mathbf{0}$. At $t=0$ this is $(0,1,0)$, which is $\mathbf{r}&#95;{\varphi}$ at $(1,0,0)$. A tempting wrong answer is $\gamma(t)=(\sin(\pi t),0,\cos(\pi t))$, offered as the equator with $\varphi$ fixed at $0$. For $t\in[0,1]$ that is a meridian, a semicircle from north pole to south, and at its midpoint the velocity is $(0,0,-\pi)$, pointing down the meridian rather than around the equator. Wrapping around $S^2$ means the image of $\gamma$ is a closed loop that is not contractible in $S^2\setminus\lbrace\text{two poles}\rbrace$. We will need that loop.
+Then $\gamma'(t)=(-\sin t,\;\cos t,\;0)\neq\mathbf{0}$. At $t=0$ this is $(0,1,0)$, which is $\mathbf{r}&#95;{\varphi}$ at $(1,0,0)$. Wrapping around $S^2$ means the image of $\gamma$ is a closed loop that is not contractible in $S^2\setminus\lbrace\text{two poles}\rbrace$. We will need that loop.
 </div>
 
 ---
@@ -144,7 +142,7 @@ It is worth asking what an immersion is, what a Jacobian is, and what happens wh
 </div>
 
 <div class="cs-a">
-For $f:\mathbb{R}^n\to\mathbb{R}^m$ the Jacobian is the $m\times n$ matrix of first partials: rows are outputs, columns are inputs. (Not $n\times m$, an easy slip.) The <strong>differential</strong> $df&#95;{p}$ sends the velocity of a curve $c$ through $p$ to the velocity of $f\circ c$ through $f(p)$. It is a linear map $T&#95;{p}M\to T&#95;{f(p)}N$, and in coordinates its matrix is the Jacobian. An <strong>immersion</strong> $f:M\to N$ is a smooth map whose differential is injective at every $p$. For $f:S^2\to\mathbb{R}^3$, in local coordinates $(u,v)$, that is the statement that the $3\times 2$ matrix
+For $f:\mathbb{R}^n\to\mathbb{R}^m$ the Jacobian is the $m\times n$ matrix of first partials: rows are outputs, columns are inputs. The <strong>differential</strong> $df&#95;{p}$ sends the velocity of a curve $c$ through $p$ to the velocity of $f\circ c$ through $f(p)$. It is a linear map $T&#95;{p}M\to T&#95;{f(p)}N$, and in coordinates its matrix is the Jacobian. An <strong>immersion</strong> $f:M\to N$ is a smooth map whose differential is injective at every $p$. For $f:S^2\to\mathbb{R}^3$, in local coordinates $(u,v)$, that is the statement that the $3\times 2$ matrix
 $$
 J_f=\begin{pmatrix}
 \partial_u f_1 & \partial_v f_1 \\
@@ -155,7 +153,7 @@ $$
 has rank $2$ everywhere, equivalently $\mathbf{f}&#95;{u}\times\mathbf{f}&#95;{v}\neq\mathbf{0}$. There is no single determinant to watch: the components of that cross product are, up to sign, the three $2\times 2$ minors of $J&#95;{f}$ (the determinants of the $2\times 2$ matrices made by keeping two of its three rows), and rank $2$ means they never vanish together.
 </div>
 
-For a map $\mathbb{R}^n\to\mathbb{R}^n$, $\det J<0$ means the map reverses orientation (it turns a right-handed frame into a left-handed one, as a mirror does), and a continuous $\det J$ can change sign only by passing through $0$. A negative determinant does **not** mean a saddle; saddles of a scalar function are read off its Hessian, a different matrix. The complex exponential $f(x,y)=(e^x\cos y,\,e^x\sin y)$ has $\det J=e^{2x}>0$ everywhere, so it is a local diffeomorphism with no critical point at all. That step is the **inverse function theorem**: a smooth map with $\det J\neq0$ at a point has a smooth inverse near that point, which is what *local diffeomorphism* means (a *diffeomorphism* is a smooth bijection with a smooth inverse). Where $\det J$ vanishes, the map is not a local diffeomorphism there.
+For a map $\mathbb{R}^n\to\mathbb{R}^n$, $\det J<0$ means the map reverses orientation (it turns a right-handed frame into a left-handed one, as a mirror does), and a continuous $\det J$ can change sign only by passing through $0$. The complex exponential $f(x,y)=(e^x\cos y,\,e^x\sin y)$ has $\det J=e^{2x}>0$ everywhere, so it is a local diffeomorphism with no critical point at all. That step is the **inverse function theorem**: a smooth map with $\det J\neq0$ at a point has a smooth inverse near that point, which is what *local diffeomorphism* means (a *diffeomorphism* is a smooth bijection with a smooth inverse). Where $\det J$ vanishes, the map is not a local diffeomorphism there.
 
 Self-intersection is allowed. A figure-eight $\gamma(t)=(\sin 2t,\,\sin t)$ is an immersion ($\gamma'$ never vanishes), and it crosses itself. An **embedding** is an immersion that is a homeomorphism onto its image; when the domain is compact, as $S^2$ is, any injective immersion is one, because a continuous bijection from a compact space onto a Hausdorff space always has a continuous inverse. The standard sphere $\iota(p)=p$ is an embedding. Mid-eversion surfaces are immersions and not embeddings.
 
@@ -255,7 +253,7 @@ Smale's theorem says that any two $C^2$ immersions of $S^2$ in $E^3$ are regular
 </div>
 
 <div class="cs-a">
-$S^2\times[0,1]$ is a <em>thickened sphere</em>: a spherical shell, not the ball. Each point of $S^2$ grows an interval. A homotopy of maps $S^2\to\mathbb{R}^3$ is a single map
+$S^2\times[0,1]$ is a <em>thickened sphere</em>: a spherical shell. Each point of $S^2$ grows an interval. A homotopy of maps $S^2\to\mathbb{R}^3$ is a single map
 $$F:S^2\times[0,1]\to\mathbb{R}^3.$$
 It is a <strong>regular homotopy</strong> when each slice $F(\,\cdot\,,s)$ is an immersion. Straight-line interpolation between immersions is a homotopy of smooth maps, but in general not a regular homotopy. It routinely drops rank.
 </div>
