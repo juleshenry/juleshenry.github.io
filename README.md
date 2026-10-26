@@ -20,7 +20,6 @@ Then open `http://localhost:4000`. To check a build without touching the repo, p
 | `_includes/sidebar.html` | The author box on every page; name, role, bio, location and school come from `_config.yml`. |
 | `_layouts/series.html`, `blog/series/` | One landing page per series: blurb, prerequisites, volumes with their descriptions and reading times. |
 | `_includes/series-cards.html` | One card per series (figure, blurb, every volume) on the home page. |
-| `_includes/updates.html` | The dated Updates list on the home page; volumes of one series published the same day collapse into one entry. |
 | `_includes/post-list.html` | Cards for the posts that are not part of a series (home page). |
 | `_includes/series-info.html` | Splits a post title into series, volume and chapter. |
 | `_includes/*-kit.html` | Shared styles and helpers for the interactive figures in each series. |
