@@ -21,7 +21,6 @@ layout: default
   <p class="pills">
     <a class="pill" href="{{ site.resume_url }}">CV</a>
     <a class="pill" href="{{ site.github_url }}">GitHub</a>
-    <a class="pill" href="/blog/">Writing</a>
     <a class="pill" href="/selected-works">Projects</a>
     <a class="pill" href="/blog/atom.xml">RSS</a>
   </p>
@@ -29,10 +28,6 @@ layout: default
   <section aria-labelledby="updates">
     <h2 id="updates">Updates</h2>
     {% include updates.html limit=5 %}
-    <p class="pills">
-      <a class="pill" href="/blog/">All writing</a>
-      <a class="pill" href="/blog/atom.xml">Atom feed</a>
-    </p>
   </section>
 
   <section aria-labelledby="interests">
@@ -76,26 +71,7 @@ layout: default
 
   <section aria-labelledby="notes">
     <h2 id="notes">Notes and essays</h2>
-    {%- assign notes_year = "" %}
-    {%- for post in site.posts -%}
-      {%- if post.redirect_to -%}{%- continue -%}{%- endif -%}
-      {%- if post.title contains ', Vol. ' -%}{%- continue -%}{%- endif -%}
-      {%- assign y = post.date | date: '%Y' -%}
-      {%- if y != notes_year -%}
-        {%- unless notes_year == "" %}
-    </ol>
-        {%- endunless %}
-    <h3 class="year">{{ y }}</h3>
-    <ol class="pubs">
-        {%- assign notes_year = y -%}
-      {%- endif %}
-      <li>
-        <a href="{{ post.url }}">{{ post.title | remove_first: 'Back-of-the-Envelope:' | strip }}</a>.
-        {{ post.description }}
-        {%- if post.kind %} <span class="badge badge--{{ post.kind }}">{{ post.kind }}</span>{% endif %}
-      </li>
-    {%- endfor %}
-    </ol>
+    {% include post-list.html %}
   </section>
 
   <section aria-labelledby="education">

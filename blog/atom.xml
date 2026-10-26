@@ -4,7 +4,7 @@ layout: feed
  <title>{{ site.title }}</title>
  <subtitle>{{ site.tagline }}</subtitle>
  <link href="{{ site.url }}/blog/atom.xml" rel="self" type="application/atom+xml"/>
- <link href="{{ site.url }}/blog/" rel="alternate" type="text/html"/>
+ <link href="{{ site.url }}/" rel="alternate" type="text/html"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
  <id>http://juleshenry.github.io/blog</id>
  <author>

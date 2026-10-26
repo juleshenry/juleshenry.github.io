@@ -5,7 +5,6 @@ layout: null
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {%- assign latest = site.posts | where_exp: "p", "p.redirect_to == nil" | first %}
   <url><loc>{{ site.url }}/</loc><lastmod>{{ latest.date | date_to_xmlschema }}</lastmod></url>
-  <url><loc>{{ site.url }}/blog/</loc><lastmod>{{ latest.date | date_to_xmlschema }}</lastmod></url>
   <url><loc>{{ site.url }}/selected-works</loc></url>
 {%- assign series_pages = site.pages | where: "layout", "series" %}
 {%- for sp in series_pages %}

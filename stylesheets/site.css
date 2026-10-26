@@ -657,16 +657,7 @@ main section:first-of-type > h2,
   padding-left: 0.2rem;
 }
 
-/* Notes and essays by year, numbered like a publication list */
-.year {
-  margin: 1.4rem 0 0.5rem;
-  font-size: 1.05rem;
-}
-
-h2 + .year {
-  margin-top: 0;
-}
-
+/* Education, styled like a publication list */
 .pubs {
   display: grid;
   gap: 0.5rem;
@@ -812,7 +803,7 @@ ul.pubs {
   margin-top: 0.8rem;
 }
 
-/* ── Post cards (Writing page) ──────────────────────────────────────────── */
+/* ── Post cards (home page) ─────────────────────────────────────────────── */
 .cards {
   display: grid;
   gap: 1rem;

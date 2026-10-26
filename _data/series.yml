@@ -1,8 +1,8 @@
-# Topic and one-line blurb for each multi-volume series, shown on the home and
-# Writing pages, on the series' landing page (blog/series/<slug>.html), and as
+# Topic and one-line blurb for each multi-volume series, shown on the home
+# page, on the series' landing page (blog/series/<slug>.html), and as
 # the meta description of a volume that has no description of its own.
 # `prereqs` is optional: what the series itself says a reader needs.
-# `image` is the figure on the series card (home and Writing pages).
+# `image` is the figure on the series card on the home page.
 # `name` must match the series name in the post titles ("<name>, Vol. N: ...").
 # A series with no entry here still lists; it just has no blurb.
 

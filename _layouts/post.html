@@ -72,7 +72,7 @@ layout: default
         <span class="vol-nav-title">{{ next_chapter }}</span>
       </a>
       {%- else %}
-      <a class="vol-nav-next" href="/blog/#h-series">
+      <a class="vol-nav-next" href="/#series">
         <span class="kicker">End of {{ series_name }} <span aria-hidden="true">→</span></span>
         <span class="vol-nav-title">Pick another series</span>
       </a>
@@ -103,7 +103,7 @@ layout: default
 </div>
 {%- unless page.redirect_to %}
 <script>
-  /* A link to #cite (the "Cite" pill on the Writing page) opens the citation. */
+  /* A link to #cite (the "Cite" pill on a post card) opens the citation. */
   (function () {
     var cite = document.getElementById('cite');
     function openCite() { if (cite && location.hash === '#cite') cite.open = true; }
