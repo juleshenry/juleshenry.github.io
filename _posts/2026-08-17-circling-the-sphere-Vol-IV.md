@@ -29,11 +29,11 @@ Recall from [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III): an immersi
 # Circling in one dimension less
 {: #circling-in-one-dimension-less}
 <div class="cs-q">
-<strong>Student.</strong> Why can't we just push it through? And if a sphere can turn inside out, can a circle?
+If a sphere can turn inside out, it is instructive to drop a dimension and ask whether a circle can.
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> A circle cannot, not in the plane. That is the Whitney–Graustein theorem, and it is the reason eversion feels impossible.
+A circle cannot, not in the plane. That is the Whitney–Graustein theorem, and it is the reason eversion feels impossible.
 </div>
 
 An immersed closed curve $\gamma:S^1\to\mathbb{R}^2$ has a unit tangent $\mathbf{T}(t)=\gamma'(t)/\lVert\gamma'(t)\rVert\in S^1$. The **turning number** is how many times $\mathbf{T}$ wraps the unit circle,
@@ -262,24 +262,24 @@ The surprise is dimensional. The turning number of a curve is an element of $\pi
 # The Gauss map is not the obstruction
 {: #the-gauss-map-is-not-the-obstruction}
 <div class="cs-q">
-<strong>Student.</strong> So what invariant do we actually compute? I have read that Jacobians must stay positive, and something about the hairy ball theorem of Smale.
+It is worth pinning down which invariant we actually compute. Two half-remembered answers are that Jacobians must stay positive, and that it has something to do with the hairy ball theorem of Smale.
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> The hairy ball theorem is Poincaré–Brouwer: $S^2$ admits no continuous nowhere-zero tangent vector field. Smale proved a classification of immersions. Different theorem, decades apart. The Jacobian-sign story is a confusion with local diffeomorphisms of $\mathbb{R}^n$. What we do compute is a <em>tangential</em> invariant, and its coarsest shadow is the Gauss map.
+The hairy ball theorem is Poincaré–Brouwer: $S^2$ admits no continuous nowhere-zero tangent vector field (a choice, at each point $p$, of a vector in the tangent plane at $p$). Smale proved a classification of immersions. Different theorem, decades apart. The Jacobian-sign story is a confusion with local diffeomorphisms of $\mathbb{R}^n$. What we do compute is a <em>tangential</em> invariant, and its coarsest shadow is the Gauss map.
 </div>
 
 Given an immersion $f$,
 
 $$\mathbf{n}_f=\frac{\mathbf{f}_u\times\mathbf{f}_v}{\lVert\mathbf{f}_u\times\mathbf{f}_v\rVert}:S^2\to S^2.$$
 
-The **degree** of a map $g:S^n\to S^n$ is the integer that records signed coverings of the target. For the inclusion, $\mathbf{n}&#95;{\iota}(p)=p$, so $\deg\mathbf{n}&#95;{\iota}=1$. Degree is a regular-homotopy invariant (an integer moving continuously cannot jump). Gauss–Bonnet supplies the same integer without Smale: for any immersion the total Gauss curvature $\int K\,dA$ equals both $4\pi\deg\mathbf{n}$ and $2\pi\chi(S^2)$, so $\deg\mathbf{n}=\tfrac12\chi(S^2)=1$. Every immersion $S^2\looparrowright\mathbb{R}^3$ has Gauss degree $1$. The everted sphere does too. Degree does not forbid eversion.
+The **degree** of a map $g:S^2\to S^2$ counts signed coverings. Pick a target point $y$ such that $g$ is a local diffeomorphism near each of its preimages, and count $+1$ for each preimage where $g$ preserves orientation and $-1$ where it reverses it. The identity has degree $1$: one preimage, orientation kept. The antipodal map $p\mapsto-p$ has degree $-1$: one preimage, and it turns the outward side of the sphere inward. Wrapping the sphere twice around its axis, $(\theta,\varphi)\mapsto(\theta,2\varphi)$, has degree $2$. Hopf's theorem says the count does not depend on $y$ and does not change under homotopy, which makes degree the integer of $\pi&#95;{2}(S^2)\cong\mathbb{Z}$ from [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II#higher-homotopy-groups). We will not need that theorem, because the Gauss maps of the two ends of an eversion turn out to be literally the same map. For the inclusion, $\mathbf{n}&#95;{\iota}(p)=p$. For the everted sphere, $\alpha&#95;{\theta}\times\alpha&#95;{\varphi}=(-\mathbf{r}&#95;{\theta})\times(-\mathbf{r}&#95;{\varphi})=\mathbf{r}&#95;{\theta}\times\mathbf{r}&#95;{\varphi}$, so $\mathbf{n}&#95;{\alpha}(p)=p$ as well. Whatever can be read off the Gauss map, degree included, is identical at the two ends. The Gauss map does not forbid eversion. (Readers who know Gauss–Bonnet can say more. With $K$ the Gauss curvature, the product of the two principal curvatures (the most and the least the surface bends, over all directions at that point), and $\chi$ the Euler characteristic, $V-E+F$ for any way of cutting the surface into polygons, which is $2$ for the sphere, the total curvature $\int K\,dA$ equals both $4\pi\deg\mathbf{n}$ and $2\pi\chi(S^2)=4\pi$. So every immersion $S^2\looparrowright\mathbb{R}^3$ has Gauss degree $1$.)
 
 The canvas is an ellipsoid, not a round sphere, so that $\mathbf{n}$ is not the identity. For
 
 $$\mathbf{f}(\theta,\varphi)=(a\sin\theta\cos\varphi,\;b\sin\theta\sin\varphi,\;c\cos\theta)$$
 
-the Gauss map is the normalization of $(x/a^2,\,y/b^2,\,z/c^2)$. The ellipsoid is strictly convex, so its Gauss map is a bijection onto $S^2$: it covers the target exactly once, degree $1$. The orange point on the right follows the unit normal as the white point tours the ellipsoid.
+the Gauss map is the normalization of $(x/a^2,\,y/b^2,\,z/c^2)$. The ellipsoid is strictly convex, so its Gauss map is a bijection onto $S^2$: for each unit vector $\mathbf{u}$ exactly one point of the ellipsoid sticks out farthest in the direction $\mathbf{u}$ (it maximizes $\mathbf{u}\cdot\mathbf{x}$), and the outward normal there is $\mathbf{u}$. It covers the target exactly once, degree $1$. The orange point on the right follows the unit normal as the white point tours the ellipsoid.
 
 <div id="cs-gauss" class="cs-stage" style="height:440px;">
   <div class="cs-hud cs-hud-tl">left: ellipsoid f<br>right: n<sub>f</sub> on the unit sphere</div>

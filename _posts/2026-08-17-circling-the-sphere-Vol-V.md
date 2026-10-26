@@ -31,16 +31,16 @@ mathjax: true
 # The whole derivative
 {: #the-whole-derivative}
 <div class="cs-q">
-<strong>Student.</strong> The Gauss map didn't obstruct anything. What does?
+The Gauss map obstructed nothing. It is instructive to ask what could.
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> The pair of tangent vectors itself. At each point an immersion $f$ hands you two linearly independent vectors $(\mathbf{f}&#95;{u},\mathbf{f}&#95;{v})$. The space of all such pairs is where the invariant lives.
+Look at the pair of tangent vectors itself. At each point an immersion $f$ hands you two linearly independent vectors $(\mathbf{f}&#95;{u},\mathbf{f}&#95;{v})$. The space of all such pairs is where the invariant lives.
 </div>
 
 <div class="ev-def"><strong>Definition (Stiefel manifold).</strong> $V&#95;{n,k}$ is the space of $k$-tuples of linearly independent vectors in $\mathbb{R}^n$.</div>
 
-The pair $(\mathbf{f}&#95;{u},\mathbf{f}&#95;{v})$ lies in $V&#95;{3,2}$. One dimension down, the velocity $\gamma'$ of an immersed plane curve lies in $V&#95;{2,1}=\mathbb{R}^2\setminus\lbrace 0\rbrace$, which has the homotopy type of $S^1$, and the class of $\gamma'$ in $\pi&#95;{1}(V&#95;{2,1})=\mathbb{Z}$ is precisely the turning number. Whitney–Graustein *is* the one-dimensional case of the theorem this volume proves.
+The pair $(\mathbf{f}&#95;{u},\mathbf{f}&#95;{v})$ lies in $V&#95;{3,2}$. One dimension down, the velocity $\gamma'$ of an immersed plane curve lies in $V&#95;{2,1}=\mathbb{R}^2\setminus\lbrace 0\rbrace$, which Vol. II's homotopy $(1-s)v+s\,v/\lVert v\rVert$ squeezes onto the unit circle $S^1$, and the class of $\gamma'$ in $\pi&#95;{1}(V&#95;{2,1})=\mathbb{Z}$ is precisely the turning number. Whitney–Graustein *is* the one-dimensional case of the theorem this volume proves.
 
 There is a catch. A frame needs coordinates $(u,v)$, and the sphere has no global coordinates with independent partials: a nowhere-zero field $\partial&#95;{u}$ on all of $S^2$ would be a hairy ball combed flat, and Poincaré–Brouwer says that is impossible. So we cannot simply map the whole sphere to $V&#95;{3,2}$. Smale's invariant works around this by using a disk, where coordinates do exist. We will get there; first, the tools.
 
@@ -48,13 +48,13 @@ There is a catch. A frame needs coordinates $(u,v)$, and the sphere has no globa
 
 # Fibre bundles and fibrations
 {: #fibre-bundles-and-fibrations}
-<div class="ev-def"><strong>Definition (fibre bundle).</strong> A map $\pi:E\to B$ such that each point of $B$ has a neighbourhood $U$ with $\pi^{-1}(U)\cong U\times F$, compatibly with the projection to $U$. $F$ is the <em>fibre</em>.</div>
+<div class="ev-def"><strong>Definition (fibre bundle).</strong> A map $\pi:E\to B$ such that each point of $B$ has a neighbourhood $U$ with $\pi^{-1}(U)\cong U\times F$, by a homeomorphism that sends the part over each point $u$ to $\lbrace u\rbrace\times F$. $F$ is the <em>fibre</em>.</div>
 
 Locally a product, globally perhaps twisted. The cylinder $S^1\times[0,1]$ and the Möbius band are both bundles over the circle with fibre an interval; only the first is a product. Three examples:
 
 - **The covering $\mathbb{R}\to S^1$** from [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II). Fibre $\mathbb{Z}$, discrete.
 - **The quaternion double cover $S^3\to SO(3)$**, below. Fibre $\lbrace\pm1\rbrace$, discrete.
-- **$SO(3)\to S^2$, $R\mapsto R\,e&#95;{3}$** (where does the rotation send the north pole). Fibre: the rotations fixing $e&#95;{3}$, a circle $SO(2)$.
+- **$SO(3)\to S^2$, $R\mapsto R\,e&#95;{3}$** (where does the rotation send the north pole). Fibre: the rotations fixing $e&#95;{3}$, which are the rotations of the $xy$-plane, a circle's worth called $SO(2)$. ($SO(3)$, the rotation group, is defined in the next section.)
 
 Bundles have the **homotopy lifting property** (Vol. II proved it for $\mathbb{R}\to S^1$ by chopping the square into small pieces; the general proof uses the same idea). A map with that property is called a **fibration**, and every fibration comes with a machine for computing homotopy groups:
 
@@ -62,7 +62,7 @@ Bundles have the **homotopy lifting property** (Vol. II proved it for $\mathbb{R
 $$\cdots\to\pi_n(F)\to\pi_n(E)\to\pi_n(B)\to\pi_{n-1}(F)\to\pi_{n-1}(E)\to\cdots\to\pi_0(E)\to\pi_0(B).$$
 </div>
 
-**Exact** means: at each spot, the things killed by the outgoing arrow are exactly the things hit by the incoming one. The map $\pi&#95;{n}(B)\to\pi&#95;{n-1}(F)$ is the interesting one: view an $n$-sphere in $B$ as an $n$-disk with its boundary crushed to the base point, lift the disk to $E$ (homotopy lifting), and look at where its boundary lands: an $(n-1)$-sphere in the fibre over the base point.
+The unlabeled arrows are the obvious ones: $F\to E$ is inclusion and $E\to B$ is the bundle map, and since a map sends spheres to spheres it induces a map of homotopy groups. This theorem is not proved here; every case of it that the series uses is proved directly below. **Exact** means: at each spot, the things killed by the outgoing arrow are exactly the things hit by the incoming one. The map $\pi&#95;{n}(B)\to\pi&#95;{n-1}(F)$ is the interesting one: view an $n$-sphere in $B$ as an $n$-disk with its boundary crushed to the base point, lift the disk to $E$ (homotopy lifting), and look at where its boundary lands: an $(n-1)$-sphere in the fibre over the base point.
 
 The only consequence we need: in a stretch $0\to X\to Y\to 0$ of the sequence, the arrow $X\to Y$ is an isomorphism (at the $\pi&#95;{0}$ end a one-point set $\ast$ plays the role of $0$). Try it on Vol. II's covering. With $E=\mathbb{R}$ (contractible, all $\pi&#95;{n}=0$) and $F=\mathbb{Z}$:
 
@@ -74,15 +74,19 @@ and $\pi&#95;{1}(S^1)\cong\pi&#95;{0}(\mathbb{Z})=\mathbb{Z}$. That is the lifti
 
 # Rotations, quaternions, and the belt
 {: #rotations-quaternions-and-the-belt}
-**$V&#95;{3,2}$ is the rotation group, up to homotopy.** Gram–Schmidt turns a pair of independent vectors into an orthonormal pair, continuously, and the straight-line path from each pair to its Gram–Schmidt output stays independent. So $V&#95;{3,2}$ deformation-retracts onto orthonormal pairs. An orthonormal pair $(v&#95;{1},v&#95;{2})$ extends uniquely to a rotation matrix with columns $(v&#95;{1},\,v&#95;{2},\,v&#95;{1}\times v&#95;{2})$. So
+**$V&#95;{3,2}$ is the rotation group, up to homotopy.** The **rotation group** $SO(3)$ is the set of $3\times 3$ real matrices $R$ with $R^{\mathsf T}R=I$ and $\det R=1$: the linear maps that preserve lengths and orientation. Its columns form an orthonormal basis $(v&#95;{1},v&#95;{2},v&#95;{3})$ with $v&#95;{3}=v&#95;{1}\times v&#95;{2}$. Gram–Schmidt turns a pair of independent vectors into an orthonormal pair, continuously, and the straight-line path from each pair to its Gram–Schmidt output stays independent. So $V&#95;{3,2}$ deformation-retracts onto orthonormal pairs. An orthonormal pair $(v&#95;{1},v&#95;{2})$ extends uniquely to a rotation matrix with columns $(v&#95;{1},\,v&#95;{2},\,v&#95;{1}\times v&#95;{2})$. So
 
 $$V_{3,2}\simeq SO(3).$$
 
-**$SO(3)$ is a sphere with antipodes glued.** A unit quaternion $q=\cos\tfrac\theta2+\sin\tfrac\theta2\,(a\,i+b\,j+c\,k)$ acts on vectors $v\in\mathbb{R}^3$ (as pure quaternions) by $v\mapsto qvq^{-1}$, and that is the rotation by angle $\theta$ about the unit axis $(a,b,c)$. Unit quaternions form $S^3\subset\mathbb{R}^4$. Every rotation arises from exactly two quaternions, $q$ and $-q$. So the map $S^3\to SO(3)$ is a two-sheeted covering, and
+<div class="ev-def"><strong>Definition (deformation retraction).</strong> A <em>deformation retraction</em> of $X$ onto a subspace $A$ is a homotopy from the identity map of $X$ to a map into $A$, during which the points of $A$ stay put. Then $X$ and $A$ are <em>homotopy equivalent</em>, written $X\simeq A$. Every sphere in $X$, and every homotopy of spheres, can be pushed into $A$ by it, so $\pi&#95;{k}(X)\cong\pi&#95;{k}(A)$ for every $k$. Vol. II's homotopy $(1-s)v+s\,v/\lVert v\rVert$ is a deformation retraction of $\mathbb{R}^2\setminus\lbrace 0\rbrace$ onto $S^1$.</div>
+
+**$SO(3)$ is a sphere with antipodes glued.** Quaternions are expressions $a+bi+cj+dk$ with real coefficients, multiplied like polynomials subject to $i^2=j^2=k^2=ijk=-1$. The length of a quaternion is the length of $(a,b,c,d)$ in $\mathbb{R}^4$, and lengths multiply. A unit quaternion $q=\cos\tfrac\theta2+\sin\tfrac\theta2\,(a\,i+b\,j+c\,k)$ acts on vectors $v\in\mathbb{R}^3$, written as pure quaternions $xi+yj+zk$, by $v\mapsto qvq^{-1}$, where for a unit quaternion $q^{-1}$ is $q$ with the signs of its $i$, $j$, $k$ parts flipped. That map preserves length and fixes the axis $(a,b,c)$, and a direct computation shows it is the rotation by angle $\theta$ about that axis. Unit quaternions form $S^3\subset\mathbb{R}^4$. Every rotation turns space by some angle about some axis (a $3\times 3$ rotation matrix always has eigenvalue $1$), so every rotation arises, from exactly two quaternions, $q$ and $-q$. So the map $S^3\to SO(3)$ is a two-sheeted covering, and
 
 $$SO(3)\cong S^3/\lbrace\pm1\rbrace=\mathbb{RP}^3.$$
 
-The long exact sequence of this covering, with fibre $\lbrace\pm1\rbrace$ and $\pi&#95;{1}(S^3)=0$, gives $\pi&#95;{1}(SO(3))\cong\mathbb{Z}/2$. A loop of rotations lifts to a path in $S^3$ that either closes up (trivial loop) or ends at $-1$ times its start (the nontrivial one). Rotating by $2\pi$ about a fixed axis is the nontrivial loop; rotating by $4\pi$ is the trivial one. You can feel this with a belt, or a plate held flat on your palm (Dirac's belt trick, the plate trick):
+Here $S^3/\lbrace\pm1\rbrace$ is the sphere with each point $q$ glued to its antipode $-q$, called real projective space $\mathbb{RP}^3$: a point of it is a pair $\lbrace q,-q\rbrace$, or equivalently a line through the origin of $\mathbb{R}^4$. The map from pairs to rotations is a continuous bijection from a compact space, so its inverse is continuous too, by the fact from [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III#immersions-and-the-matrix-that-must-not-drop-rank), and $\cong$ here is a homeomorphism.
+
+The long exact sequence of this covering, with fibre $\lbrace\pm1\rbrace$ and $\pi&#95;{1}(S^3)=0$, gives $\pi&#95;{1}(SO(3))\cong\mathbb{Z}/2$, the group with two elements in which the non-identity element times itself is the identity. Directly: a loop of rotations lifts to a path in $S^3$ that either closes up or ends at $-1$ times its start. Homotopies lift, and the far end moves within the discrete fibre, so it cannot move: which case occurs is an invariant. A loop whose lift closes up is trivial, because the closed lift shrinks in $S^3$ ($\pi&#95;{1}(S^3)=0$) and the shrinking projects down. So there are exactly two classes. Rotating by $2\pi$ about a fixed axis is the nontrivial loop (its lift $\cos\tfrac\theta2+\sin\tfrac\theta2\,k$ runs from $1$ to $-1$ as $\theta$ goes from $0$ to $2\pi$); rotating by $4\pi$ is the trivial one. You can feel this with a belt, or a plate held flat on your palm (Dirac's belt trick, the plate trick):
 
 <div id="ev-belt" class="cs-stage" style="height:470px;">
   <div class="cs-hud cs-hud-tl" id="ev-belt-hud"></div>
@@ -93,7 +97,7 @@ The long exact sequence of this covering, with fibre $\lbrace\pm1\rbrace$ and $\
     <label><input type="checkbox" id="ev-belt-play" checked> play</label>
   </div>
 </div>
-<p class="cs-cap">The belt is a path of rotations: the frame at distance $u$ along it is $p&#95;{\lambda}(u)\in SO(3)$, drawn as the direction the belt faces. The wall end is fixed at the identity. At $\lambda=0$ the belt carries a full $4\pi$ (or $2\pi$) twist. Slide $\lambda$: for $4\pi$ the explicit null-homotopy $p&#95;{\lambda}(u)=q&#95;{\lambda}(0)^{-1}q&#95;{\lambda}(u)$ untwists it completely with the plate held still. For $2\pi$ the same trick forces the plate to turn, by up to $180^\circ$. No trick can avoid that.</p>
+<p class="cs-cap">The belt is a path of rotations: the frame at distance $u$ along it is $p&#95;{\lambda}(u)\in SO(3)$, drawn as the direction the belt faces. The wall end is fixed at the identity. At $\lambda=0$ the belt carries a full $4\pi$ (or $2\pi$) twist. Slide $\lambda$: for $4\pi$ the explicit homotopy to the constant loop $p&#95;{\lambda}(u)=q&#95;{\lambda}(0)^{-1}q&#95;{\lambda}(u)$ untwists it completely with the plate held still. For $2\pi$ the same trick forces the plate to turn, by up to $180^\circ$. No trick can avoid that.</p>
 <script>
 CS.mount({
   id: 'ev-belt',
@@ -164,19 +168,21 @@ The same sequence one step higher is the one we need. $\pi&#95;{2}$ of the fibre
 
 $$0\to\pi_2(S^3)\xrightarrow{\ \cong\ }\pi_2(SO(3))\to 0.$$
 
+The same conclusion comes straight from the lifting of [Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II#the-circle), with no exact sequence. Take a map $g:S^2\to SO(3)$ and lift it to $S^3$ one point at a time: join $x$ to the base point by a path in $S^2$, lift the image path, and let $\tilde g(x)$ be where the lift ends. Another path gives the same endpoint. Two paths with the same ends differ by a loop, the loop shrinks in $S^2$ because $\pi&#95;{1}(S^2)=0$, and the shrinking lifts; its far end moves within the discrete fibre over $g(x)$, so it cannot move at all. So $g$ is $\tilde g:S^2\to S^3$ followed by the covering. Since $\pi&#95;{2}(S^3)=0$, $\tilde g$ shrinks to a point in $S^3$, and projecting the shrinking down shrinks $g$. Every map $S^2\to SO(3)$ is homotopic to a constant.
+
 ---
 
 # Why the obstruction vanishes
 {: #why-the-obstruction-vanishes}
 <div class="cs-q">
-<strong>Student.</strong> Can you prove that an eversion exists, following Smale's 1959 paper? I can follow the details.
+It is instructive to prove that an eversion exists by following Smale's 1959 paper, details included.
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> The paper is <a href="https://doi.org/10.1090/S0002-9947-1959-0104227-9"><em>A classification of immersions of the two-sphere</em></a>, Trans. Amer. Math. Soc. <strong>90</strong> (1959). It does not use contact structures, Reeb foliations, or a "magic formula" of Thurston. Those are neighbouring subjects that tend to get dragged in. The argument is: regular homotopy classes of immersions $S^2\to\mathbb{R}^n$ are in bijection with $\pi&#95;{2}(V&#95;{n,2})$, and for $n=3$ that group is zero.
+The paper is <a href="https://doi.org/10.1090/S0002-9947-1959-0104227-9"><em>A classification of immersions of the two-sphere</em></a>, Trans. Amer. Math. Soc. <strong>90</strong> (1959). It does not use contact structures, Reeb foliations, or a "magic formula" of Thurston. Those are neighbouring subjects that tend to get dragged in. The argument is: regular homotopy classes of immersions $S^2\to\mathbb{R}^n$ are in bijection with $\pi&#95;{2}(V&#95;{n,2})$, and for $n=3$ that group is zero.
 </div>
 
-First the invariant, stated so that it avoids the hairy-ball catch. Take two immersions $f,g:S^2\to\mathbb{R}^3$. After a regular homotopy of one of them, they agree on a small disk $D&#95;{-}$ around the south pole. The rest of the sphere, $D&#95;{+}=S^2\setminus D&#95;{-}$, is a disk, and on a disk there *are* coordinates $(u,v)$. Each immersion gives a frame field on it, $(\mathbf{f}&#95;{u},\mathbf{f}&#95;{v})$ and $(\mathbf{g}&#95;{u},\mathbf{g}&#95;{v})$: two maps $D&#95;{+}\to V&#95;{3,2}$ that agree on the boundary circle. Glue two disks along their common boundary and you get a sphere. The glued map $S^2\to V&#95;{3,2}$ has a homotopy class
+First the invariant, stated so that it avoids the hairy-ball catch. Take two immersions $f,g:S^2\to\mathbb{R}^3$. After a regular homotopy of one of them, they agree on a small disk $D&#95;{-}$ around the south pole. (Translate $g$ so the two south poles coincide. Its frame there can be moved to $f$'s along a path in $V&#95;{3,2}$, which is connected because $SO(3)$ is: shrinking the angle joins any rotation to the identity. Once the two maps share a point and a frame, both are nearly linear on a tiny disk, and blending them there keeps rank $2$ by the openness of [Vol. I](/blog/2026/08/17/circling-the-sphere#compactness-and-why-immersions-have-room).) The rest of the sphere, $D&#95;{+}=S^2\setminus D&#95;{-}$, is a disk, and on a disk there *are* coordinates $(u,v)$. Each immersion gives a frame field on it, $(\mathbf{f}&#95;{u},\mathbf{f}&#95;{v})$ and $(\mathbf{g}&#95;{u},\mathbf{g}&#95;{v})$: two maps $D&#95;{+}\to V&#95;{3,2}$ that agree on the boundary circle. Glue two disks along their common boundary and you get a sphere. The glued map $S^2\to V&#95;{3,2}$ has a homotopy class
 
 $$\Omega(f,g)\in\pi_2(V_{3,2}).$$
 
@@ -186,7 +192,7 @@ The computation, written so each symbol is a space you can name:
 
 1. $V&#95;{3,2}\simeq SO(3)$, by Gram–Schmidt and the cross product.
 2. $SO(3)\cong\mathbb{RP}^3$, by the quaternion double cover. This is the belt.
-3. The covering $S^3\to\mathbb{RP}^3$ has discrete fibre $\lbrace\pm 1\rbrace$, so its long exact sequence gives $\pi&#95;{2}(\mathbb{RP}^3)\cong\pi&#95;{2}(S^3)$.
+3. The covering $S^3\to\mathbb{RP}^3$ has discrete fibre $\lbrace\pm 1\rbrace$, so maps of $S^2$ lift through it, and $\pi&#95;{2}(\mathbb{RP}^3)\cong\pi&#95;{2}(S^3)$.
 4. $\pi&#95;{k}(S^n)=0$ for $k&lt;n$ ([Vol. II](/blog/2026/08/17/circling-the-sphere-Vol-II)). In particular $\pi&#95;{2}(S^3)=0$: a 2-sphere in a 3-sphere has room to shrink.
 
 Therefore
@@ -247,11 +253,20 @@ So $\Omega(f,g)=0$ for every pair. In particular $\iota(p)=p$ and $\alpha(p)=-p$
 })();
 </script>
 
-**What the theorem costs.** The computation is the easy half. Smale's technical work is to show that restricting an immersion of a disk to its boundary data (the boundary circle and the derivative along it) is a fibration, and that the fibre is weakly homotopy equivalent to the double loop space $\Omega^2V&#95;{n,2}$ (maps of a 2-disk into $V&#95;{n,2}$ with fixed boundary). That is why $\pi&#95;{0}$ of the fibre, the path components of immersions with fixed boundary, is $\pi&#95;{2}(V&#95;{n,2})$. You do not need this machinery to believe the computation above; you need it to believe that the computation classifies immersions.
+**What the theorem says, object by object.** The computation is the easy half, and it is proved above. The hard half is Smale's: that $\Omega(f,g)=0$ really does produce a regular homotopy. Its proof is serious analysis and is not reproduced here, but its statement uses only objects we can now name.
 
-Hirsch (1959) extended this to arbitrary manifolds: when $\dim M&lt;\dim N$, the space of immersions $M\to N$ is weakly homotopy equivalent to the space of *formal immersions*, fibrewise-injective linear maps $TM\to TN$, with no integrability required. That is an early instance of what Gromov later named the **h-principle**: for many geometric problems, if there is no homotopy-theoretic obstruction, there is a solution. Sphere eversion is its most famous consequence.
+- **Immersions of a disk.** $\operatorname{Imm}(D^2,\mathbb{R}^3)$ is the space of immersions of the closed disk $D^2$ (the disk together with its boundary circle), with the $C^1$ distance of [Vol. I](/blog/2026/08/17/circling-the-sphere#topologies). It is homotopy equivalent to $V&#95;{3,2}$: shrinking the disk toward its centre deforms any immersed disk into a smaller and smaller one, which in the limit is nothing but its frame at the centre.
+- **Boundary data.** Restrict an immersion of the disk to its boundary circle, but keep the first derivatives there: the curve the rim traces, and at each of its points the frame $(\mathbf{f}&#95;{u},\mathbf{f}&#95;{v})$, which says how the surface leaves the rim. Call this restriction map $\rho$.
+- **A fibration.** Smale's main technical theorem is that $\rho$ has the homotopy lifting property. In words: however the boundary data moves, an immersed disk with that boundary can be moved along with it, starting from any disk you like.
+- **The fibre.** The fibre of $\rho$ over fixed boundary data is the space of all immersed disks with that boundary: every way of filling in a fixed rim. Smale shows it is *weakly homotopy equivalent* to the double loop space $\Omega^2V&#95;{3,2}$, meaning there is a map between them that induces a bijection on every $\pi&#95;{k}$. The double loop space is the space of maps of a disk into $V&#95;{3,2}$ that send the whole boundary circle to one fixed frame. Crushing the boundary to a point makes each such map a sphere in $V&#95;{3,2}$, which is why its path components are the elements of $\pi&#95;{2}(V&#95;{3,2})$.
 
-**Why $\mathbb{R}^3$ is special.** For $n=4$ the same machine gives $\pi&#95;{2}(V&#95;{4,2})\cong\mathbb{Z}$. (An orthonormal pair $(v&#95;{1},v&#95;{2})$ in $\mathbb{R}^4$ is a point $v&#95;{1}\in S^3$ together with a unit tangent vector $v&#95;{2}$ to $S^3$ there. Unit tangent vectors to $S^3$ form $S^3\times S^2$, because $S^3$, the unit quaternions, has three independent vector fields $qi, qj, qk$; so $V&#95;{4,2}\simeq S^3\times S^2$ and $\pi&#95;{2}=\pi&#95;{2}(S^2)=\mathbb{Z}$.) Immersions $S^2\to\mathbb{R}^4$ therefore have infinitely many regular homotopy classes, detected by the Euler number of the normal bundle (which equals minus twice the algebraic count of double points). For $n\ge5$ the group is $0$ again, because $V&#95;{n,2}$ is $(n-3)$-connected. In $\mathbb{R}^3$ connectivity does not explain the vanishing: $V&#95;{3,2}\simeq SO(3)$ is not even simply connected, and $\pi&#95;{2}$ vanishes because $SO(3)$ is covered by $S^3$.
+Put together: two fillings of the same rim are joined by a regular homotopy that holds the rim fixed exactly when they lie in the same path component of the fibre, and those path components are the elements of $\pi&#95;{2}(V&#95;{3,2})$. That is what $\Omega(f,g)$ measures. Once $f$ and $g$ agree on $D&#95;{-}$, they are two fillings of the rim of $D&#95;{+}$, and $\Omega(f,g)$ names the path component that separates them, or says that none does. Since $\pi&#95;{2}(V&#95;{3,2})=0$, none ever does.
+
+Why the fibration theorem is hard, [Vol. IV](/blog/2026/08/17/circling-the-sphere-Vol-IV#whitney-graustein) already shows. There, once the turning numbers matched, the proof interpolated the derivative data (the angles) and repaired the result into a closed curve by subtracting an average. That repair takes one line, because any loop of nonzero vectors with average zero is the velocity of a closed curve. A field of frames on a disk has no such freedom: a pair $(\mathbf{a},\mathbf{b})$ is $(\mathbf{f}&#95;{u},\mathbf{f}&#95;{v})$ for some $\mathbf{f}$ only if $\partial&#95;{v}\mathbf{a}=\partial&#95;{u}\mathbf{b}$, and a homotopy of frame fields has no reason to respect that. Smale's analysis is the two-dimensional replacement for the one-line repair.
+
+Hirsch (1959) extended this to arbitrary manifolds. A *formal immersion* $M\to N$ is a candidate derivative: a map $M\to N$ together with, at each point, an injective linear map from the tangent space of $M$ there to the tangent space of $N$ at the image point, varying continuously, with no requirement that it be the derivative of anything. The derivative of an immersion is one; a field of frames that fails $\partial&#95;{v}\mathbf{a}=\partial&#95;{u}\mathbf{b}$ is another. Hirsch's theorem: when $\dim M&lt;\dim N$, the space of immersions $M\to N$ is weakly homotopy equivalent to the space of formal immersions. Every candidate derivative can be deformed into a real one, and up to homotopy nothing is gained or lost. That is an early instance of what Gromov later named the **h-principle**: for many geometric problems, if there is no homotopy-theoretic obstruction, there is a solution. Sphere eversion is its most famous consequence.
+
+**Why $\mathbb{R}^3$ is special.** For $n=4$ the same machine gives $\pi&#95;{2}(V&#95;{4,2})\cong\mathbb{Z}$. (An orthonormal pair $(v&#95;{1},v&#95;{2})$ in $\mathbb{R}^4$ is a point $v&#95;{1}\in S^3$ together with a unit tangent vector $v&#95;{2}$ to $S^3$ there. Unit tangent vectors to $S^3$ form $S^3\times S^2$, because $S^3$, the unit quaternions, has three independent vector fields $qi, qj, qk$ (at each $q$ these three are perpendicular to $q$ and to each other, a basis of the tangent space there); so $V&#95;{4,2}\simeq S^3\times S^2$ and $\pi&#95;{2}=\pi&#95;{2}(S^2)=\mathbb{Z}$.) Immersions $S^2\to\mathbb{R}^4$ therefore have infinitely many regular homotopy classes, detected by the normal Euler number. At each point of a surface in $\mathbb{R}^4$ the *normal plane* is the plane perpendicular to the tangent plane, and the Euler number counts, with signs, the zeros of a generic field of normal vectors. It equals minus twice the number of double points, the points where two sheets cross, counted with sign. For $n\ge5$ the group is $0$ again, because $V&#95;{n,2}$ is $(n-3)$-connected, meaning $\pi&#95;{k}(V&#95;{n,2})=0$ for every $k\le n-3$. In $\mathbb{R}^3$ connectivity does not explain the vanishing: $V&#95;{3,2}\simeq SO(3)$ is not even simply connected, and $\pi&#95;{2}$ vanishes because $SO(3)$ is covered by $S^3$.
 
 ---
 

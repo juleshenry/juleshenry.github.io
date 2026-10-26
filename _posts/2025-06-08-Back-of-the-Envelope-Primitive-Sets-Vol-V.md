@@ -230,8 +230,8 @@ graph TD
 
 ![The four numbers that run the argument](/blog/assets/2025/primitivos/constants.png)
 
-<div class="pv-q"><strong>Student.</strong> So where exactly does the napkin stop and the paper start?</div>
-<div class="pv-a"><strong>Teacher.</strong> Three places. First, the disjointness of the copies $L_{ac}$ in <a href="/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-IV#copies-and-the-sqrtv-packing">Vol. IV</a>, which we stated and did not prove; it is the combinatorial heart of the paper and the only essential use of primitivity beyond the 1935 lemma. Second, every "$\approx$" that came from Mertens is, in the paper, an explicit inequality with an explicit error; that is what turns $\pi/4$ into $0.901$ at $p=3$. Third, the global bound $1.60$ when $2\notin A$. The shape of the argument (budget, discount, packing, quarter-turn) is exactly the napkin.</div>
+<div class="pv-q">It is instructive to see exactly where the napkin stops and the paper starts.</div>
+<div class="pv-a">In three places. First, the disjointness of the copies $L_{ac}$ in <a href="/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-IV#copies-and-the-sqrtv-packing">Vol. IV</a>, which we stated and did not prove; it is the combinatorial heart of the paper and the only essential use of primitivity beyond the 1935 lemma. Second, every "$\approx$" that came from Mertens is, in the paper, an explicit inequality with an explicit error; that is what turns $\pi/4$ into $0.901$ at $p=3$. Third, the global bound $1.60$ when $2\notin A$. The shape of the argument (budget, discount, packing, quarter-turn) is exactly the napkin.</div>
 
 ---
 

@@ -212,8 +212,8 @@ Build your own. Click integers to add or remove them. Any divisibility between t
 })();
 </script>
 
-<div class="pv-q"><strong>Student.</strong> Why is $1$ banned? It seems arbitrary.</div>
-<div class="pv-a"><strong>Teacher.</strong> Two reasons, one structural and one numerical. Structurally, $1$ divides everything, so a primitive set containing $1$ is just $\lbrace 1\rbrace$ and the question dies. Numerically, the weight we will use is $1/(a\log a)$, and $\log 1 = 0$: the integer $1$ would weigh infinitely much.</div>
+<div class="pv-q">It is instructive to ask why $1$ is banned, since at first the rule looks arbitrary.</div>
+<div class="pv-a">There are two reasons, one structural and one numerical. Structurally, $1$ divides everything, so a primitive set containing $1$ is just $\lbrace 1\rbrace$ and the question dies. Numerically, the weight we will use is $1/(a\log a)$, and $\log 1 = 0$: the integer $1$ would weigh infinitely much.</div>
 
 <details class="pv-ex"><summary><strong>Check yourself.</strong> Is $\lbrace 4, 6, 9, 10, 15, 25\rbrace$ primitive? How large can a primitive subset of $\lbrace 2,\ldots,20\rbrace$ be?</summary>
 <p>Yes: every element has $\Omega = 2$, so none divides another.</p>
@@ -238,8 +238,8 @@ Once the definition was on the table, it was more interesting than the applicati
 
 Largest in what sense? The first two rulers anyone reaches for both fail, and seeing *how* they fail tells you what the right ruler must look like.
 
-<div class="pv-q"><strong>Student.</strong> Isn't the largest primitive set just the one with the most elements?</div>
-<div class="pv-a"><strong>Teacher.</strong> The primes are infinite. So are the numbers with $\Omega=2$, and with $\Omega = 3$, and so on. Counting says $\infty = \infty = \infty$ and ranks nothing. We need a ruler that sees how the elements are spread out, not just how many there are.</div>
+<div class="pv-q">It is instructive to see why the largest primitive set cannot simply be the one with the most elements.</div>
+<div class="pv-a">The primes are infinite. So are the numbers with $\Omega=2$, and with $\Omega = 3$, and so on. Counting says $\infty = \infty = \infty$ and ranks nothing. We need a ruler that sees how the elements are spread out, not just how many there are.</div>
 
 The natural next ruler is proportion. The **natural density** of a set $S$, when the limit exists, is
 

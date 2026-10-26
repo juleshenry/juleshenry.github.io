@@ -72,8 +72,8 @@ We also write $f(a) = 1/(a\log a)$ for a single integer.</div>
 
 Each integer $a$ is given a positive weight that gets smaller as $a$ gets larger, only slightly faster than $1/a$. (Reminder: $\log$ is $\ln$, so $\log 6 \approx 1.792$, not $\log_{10} 6$.)
 
-<div class="pv-q"><strong>Student.</strong> Why the natural log? Would base $10$ change the answer?</div>
-<div class="pv-a"><strong>Teacher.</strong> No. $\log_{10} a = \log a / \log 10$, so switching base multiplies every weight, and therefore every $f(A)$, by the same constant $\log 10$. Rankings do not change, and the theorem "the primes are heaviest" is true in every base. The constants in this series, such as $1.6366$ below and the bound $e^\gamma \approx 1.781$ of Vol. III, are the natural-log versions.</div>
+<div class="pv-q">It is worth asking why the weight uses the natural log, and whether base $10$ would change the answer.</div>
+<div class="pv-a">It would not. $\log_{10} a = \log a / \log 10$, so switching base multiplies every weight, and therefore every $f(A)$, by the same constant $\log 10$. Rankings do not change, and the theorem "the primes are heaviest" is true in every base. The constants in this series, such as $1.6366$ below and the bound $e^\gamma \approx 1.781$ of Vol. III, are the natural-log versions.</div>
 
 **A small set, computed by hand.** For $A = \lbrace 6, 10, 15\rbrace$:
 

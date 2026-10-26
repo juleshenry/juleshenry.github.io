@@ -104,8 +104,8 @@ $$
 
 Worse: even among odd primes, $(\star)$ is not a theorem. It fails for infinitely many primes, unconditionally. On the Riemann hypothesis it fails for a positive proportion of them (in log-density). The strategy "prove every prime is Erdős-strong via $(\star)$" cannot finish the conjecture. That is one reason the problem sat open.
 
-<div class="pv-q"><strong>Student.</strong> If $(\star)$ fails for infinitely many primes, why doesn't the conjecture fail there too?</div>
-<div class="pv-a"><strong>Teacher.</strong> Because $(\star)$ is what you get when you pretend the composites in the slot convert density into score at the full prime rate $e^\gamma$. They don't. $(\star)$ fails by a hair, a Mertens wobble of relative size tending to $0$. If we can prove composites convert at, say, $79\%$ of the prime rate, the hair is irrelevant. The rest of this volume and the next one earn that $79\%$.</div>
+<div class="pv-q">If $(\star)$ fails for infinitely many primes, it is instructive to ask why the conjecture does not fail there too.</div>
+<div class="pv-a">The reason is that $(\star)$ is what you get when you pretend the composites in the slot convert density into score at the full prime rate $e^\gamma$. They don't. $(\star)$ fails by a hair, a Mertens wobble of relative size tending to $0$. If we can prove composites convert at, say, $79\%$ of the prime rate, the hair is irrelevant. The rest of this volume and the next one earn that $79\%$.</div>
 
 ---
 

@@ -35,11 +35,11 @@ mathjax: true
 # Slack that does not crease
 {: #slack-that-does-not-crease}
 <div class="cs-q">
-<strong>Student.</strong> What is Thurston's magic formula, the one that is supposed to prove eversion?
+It is instructive to chase down Thurston's "magic formula", the one that is supposed to prove eversion.
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> There is no such formula, and the first existence proof is Smale's. What Thurston gave, in the 1970s (animated in the 1994 film <em>Outside In</em>), is a <em>construction</em>, which is itself a proof of Smale's theorem: corrugate the surface so that it has slack, pass the ripples through one another, then iron the ripples out. No condition like $\det J(g&#95;{t})>0$ comes into it. The actual local move is a normal oscillation.
+There is no such formula, and the first existence proof is Smale's. What Thurston gave, in the 1970s (animated in the 1994 film <em>Outside In</em>), is a <em>construction</em>, which is itself a proof of Smale's theorem: corrugate the surface so that it has slack, pass the ripples through one another, then iron the ripples out. No condition like $\det J(g&#95;{t})>0$ comes into it. The actual local move is a normal oscillation: a wiggle of the surface back and forth along its normal direction.
 </div>
 
 The obvious move is to push the northern hemisphere down and the southern one up until they pass through each other. That works everywhere except along the equator. The band joining the two hemispheres is pulled into a tight loop, and pulling a loop tight ends in a crease: the same kink that the turning number of [Vol. IV](/blog/2026/08/17/circling-the-sphere-Vol-IV) says a curve cannot avoid.
@@ -56,7 +56,7 @@ On its own this does nothing. The radial factor stays positive, so every ray fro
 
 # A formula that actually everts a band
 {: #a-formula-that-actually-everts-a-band}
-Existence is not a picture. Shapiro and Phillips used a doubly covered Boy surface as the halfway model; Morin found a four-lobed one with a single quadruple point, and later Apéry gave an algebraic halfway model. A family you can type into a shader is due to Adam and Witold Bednorz, *Analytic sphere eversion using ruled surfaces*, arXiv:1711.10466. They evert a cylinder (the sphere minus two polar caps) through a family of ruled surfaces, then close the caps by a damped inversion. We draw only the cylinder, so that every vertex is the displayed equation, up to one overall scale.
+Existence is not a picture. Every explicit eversion has a *halfway model*, the surface at the midpoint of the movie, where inside and outside are equally exposed. Shapiro and Phillips used a doubly covered Boy surface. Boy's surface (Werner Boy, 1901) is an immersion in $\mathbb{R}^3$ of the projective plane, the sphere with antipodes glued, so running around it twice gives an immersed sphere. Morin found a four-lobed halfway model with a single quadruple point, a point where four sheets of the surface pass through one another, and later Apéry gave one cut out by polynomial equations. A family you can type into a graphics program is due to Adam and Witold Bednorz, *Analytic sphere eversion using ruled surfaces*, arXiv:1711.10466. A *ruled surface* is one swept out by a moving straight line: in the equations below, fixing $\varphi$ and letting $h$ vary traces a line. They take the sphere with its two poles removed, stretched into an infinite cylinder, evert it through a family of ruled surfaces, and then close the two ends back up by a damped inversion. We draw only the cylinder, so that every vertex is the displayed equation, up to one overall scale.
 
 $$
 \begin{aligned}
@@ -66,7 +66,7 @@ z&= h\sin(n\varphi) - \frac{t}{n}\cos(n\varphi) - q\,t\,h.
 \end{aligned}
 $$
 
-Parameters: $n=2$ (the Morin band; $n=3$ gives a band through a Boy surface), $q=\tfrac23$, and $p=1-\lvert qt\rvert$, the paper's choice, which always satisfies their smoothness inequality
+Parameters: $n=2$ (the Morin band; $n=3$ gives a band through a Boy surface), $q=\tfrac23$, and $p=1-\lvert qt\rvert$, the paper's choice, which always satisfies their condition for the band to be an immersion (the paper calls it smoothness)
 
 $$(n-1)p\bigl(1-q\lvert t\rvert\bigr)+qt^2>0.$$
 
@@ -170,18 +170,18 @@ CS.mount({
 });
 </script>
 
-To finish the sphere one maps $h=\omega\cos\theta/\sin^n\theta$ (the paper writes $\omega\sin\theta/\cos^n\theta$, measuring $\theta$ from the equator) and applies the damped inversion of their equations (7)--(8). That is a page of algebra and a second rendering pass. The point of this canvas is narrower: a halfway model you can audit against a paper.
+To finish the sphere one maps $h=\omega\cos\theta/\sin^n\theta$ (the paper writes $\omega\sin\theta/\cos^n\theta$, measuring $\theta$ from the equator) and applies the damped inversion of their equations (7)--(8). An inversion is a map like $\mathbf{x}\mapsto\mathbf{x}/\lVert\mathbf{x}\rVert^2$ that swaps near and far, so it brings the two infinitely distant ends of the cylinder ($h\to\pm\infty$, the poles) in to single points and closes the band into a sphere. The damping factors slow it down far out, so that the closed-up points stay smooth. That is a page of algebra and a second rendering pass. The point of this canvas is narrower: a halfway model you can audit against a paper.
 
 ---
 
 # A volume that must cross zero
 {: #a-volume-that-must-cross-zero}
 <div class="cs-q">
-<strong>Student.</strong> How do I know I am halfway?
+It is worth asking how one knows an eversion is halfway done.
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> Track the signed volume enclosed. For any smooth $f:S^2\to\mathbb{R}^3$,
+Track the signed volume enclosed. For any smooth $f:S^2\to\mathbb{R}^3$,
 $$V(f)=\frac13\int_{S^2}f\cdot\bigl(f_\theta\times f_\varphi\bigr)\,d\theta\,d\varphi.$$
 For an embedding with the outward frame this is the enclosed volume (divergence theorem, $\nabla\cdot\mathbf{x}=3$). For an immersion it counts volume with multiplicity and sign. $V(\iota)=4\pi/3$. For $\alpha(p)=-p$ one has $\alpha&#95;{\theta}\times\alpha&#95;{\varphi}=(-\mathbf{r}&#95;{\theta})\times(-\mathbf{r}&#95;{\varphi})=\mathbf{r}&#95;{\theta}\times\mathbf{r}&#95;{\varphi}$ while $\alpha=-\mathbf{r}$, so $V(\alpha)=-4\pi/3$. Along any regular homotopy $V$ is a continuous function of one real variable, so the intermediate-value theorem produces an $s^{\ast}$ with $V(f&#95;{s^{\ast}})=0$. That is halfway, in the crudest sense. Morin's halfway model is the geometric refinement: a quarter turn carries it to itself with its two sides swapped, which forces $V=0$ by symmetry.
 </div>
@@ -273,7 +273,7 @@ It crosses zero at $s=\tfrac12$, which is exactly where $F&#95;{s}$ creases: the
 
 # Common mistakes
 {: #common-mistakes}
-The Student's wrong turns are the ones a first pass at this subject tends to take. Here is the answer key.
+The wrong turns in the question boxes are the ones a first pass at this subject tends to take. Here is the answer key.
 
 <table class="cs-err">
   <thead>

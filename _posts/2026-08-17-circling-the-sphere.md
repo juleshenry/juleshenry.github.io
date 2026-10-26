@@ -13,7 +13,7 @@ mathjax: true
 
 *One theorem, from the ground up: a sphere can be turned inside out, smoothly, if it is allowed to pass through itself. We start with the definition of an open set.*
 
-Everything is built from definitions, and most figures are equations you can drag. Along the way, boxed **Student** questions are answered by a **Teacher**. They are the questions a first reading actually raises, and several arrive with a wrong turn already taken: a linear interpolation offered as a regular homotopy, the hairy-ball theorem credited to Smale, a "magic formula" for eversion attributed to Thurston. The wrong turns are kept on purpose, because each one marks a place where the subject is easy to get wrong.
+Everything is built from definitions, and most figures are equations you can drag. The prerequisites are multivariable calculus (partial derivatives, the cross product, the divergence theorem) and a first course in linear algebra (rank, determinant, orthonormal bases). Topology and abstract algebra are not assumed; the one algebraic word the series needs, *group*, is defined where it first appears. Along the way, boxed questions mark the places where it is instructive to stop and ask, and the exposition after each one answers it. They are the questions a first reading actually raises, and several arrive with a wrong turn already taken: a linear interpolation offered as a regular homotopy, the hairy-ball theorem credited to Smale, a "magic formula" for eversion attributed to Thurston. The wrong turns are kept on purpose, because each one marks a place where the subject is easy to get wrong.
 
 <p style="text-align:center;">
   <img src="/blog/assets/2024/eversion/eversion.gif" alt="Thurston's corrugation sphere eversion, from the film Outside In" style="max-width:100%;">
@@ -32,6 +32,8 @@ The animation above is a genuine eversion: Thurston's corrugations, as rendered 
     <tr><td><a href="/blog/2026/08/17/circling-the-sphere-Vol-VI">VI</a></td><td>Seeing the eversion</td><td>Corrugations, a ruled formula for the halfway model, and how to tell you are halfway.</td></tr>
   </tbody>
 </table>
+
+**What is proved, and what is explained.** Every theorem the argument uses is either proved on the page or, where a proof is beyond the scope of a blog, stated with each of its objects defined, so that you know exactly what it claims. The existence proof rests on one result of the second kind: the hard half of Smale's theorem, that a vanishing obstruction really does produce a regular homotopy. [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V#why-the-obstruction-vanishes) explains what it says, object by object, and why it is hard, and Vol. VI shows the path it promises. The other results stated without proof (the hairy ball theorem, Hopf's degree theorem, Gauss–Bonnet, the general long exact sequence, the Hopf fibration, immersions in $\mathbb{R}^4$) are asides, explained where they appear; nothing in the argument leans on them.
 
 <div class="cs-toc">
 <strong>Contents</strong>
@@ -52,11 +54,11 @@ The animation above is a genuine eversion: Thurston's corrugations, as rendered 
 # The question
 {: #the-question}
 <div class="cs-q">
-<strong>Student.</strong> What does it even mean to turn a sphere inside out "smoothly"? Couldn't I just push the north pole through the south pole?
+It is instructive to ask what it means to turn a sphere inside out "smoothly", and why one cannot just push the north pole through the south pole.
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> You could, and you would crease it. The theorem is about a <em>path</em> of surfaces, each of them smooth, from the round sphere to the round sphere with its inside facing out. Before we can say "path of surfaces" we need to say what it means for two surfaces to be <em>close</em>. That is what topology is for. We will need very little of it, but we need it exactly.
+Pushing the pole through does turn the sphere inside out, but it creases the surface. The theorem is about a <em>path</em> of surfaces, each of them smooth, from the round sphere to the round sphere with its inside facing out. Before we can say "path of surfaces" we need to say what it means for two surfaces to be <em>close</em>. That is what topology is for. We will need very little of it, but we need it exactly.
 </div>
 
 Here is the target, stated once in full so that every word can be earned later. Let $\iota(p)=p$ be the standard sphere and $\alpha(p)=-p$ its antipodal copy, whose inside faces out.
@@ -199,7 +201,7 @@ Those two facts, plus "$\varnothing$ and the whole space are open", are all we e
 
 Examples that will matter:
 
-- **Metric topologies.** Any set with a distance function, open sets defined by balls exactly as above. This includes $\mathbb{R}^n$, the sphere $S^2$ (with distance measured in $\mathbb{R}^3$), and **spaces of maps**. For maps $f,g:S^2\to\mathbb{R}^3$ with continuous derivatives (the space $C^1(S^2,\mathbb{R}^3)$), $d(f,g)=\sup\lVert f-g\rVert+\sup\lVert df-dg\rVert$ is a distance. Two surfaces are close when their points *and their tangent planes* are close. That is the topology in which Smale's theorem lives.
+- **Metric topologies.** Any set with a *distance function*, open sets defined by balls exactly as above. A distance function is a rule $d(p,q)\ge 0$ that is $0$ only when $p=q$, is symmetric, and obeys the triangle inequality $d(p,r)\le d(p,q)+d(q,r)$. This includes $\mathbb{R}^n$, the sphere $S^2$ (with distance measured in $\mathbb{R}^3$), and **spaces of maps**. For maps $f,g:S^2\to\mathbb{R}^3$ with continuous derivatives (the space $C^1(S^2,\mathbb{R}^3)$), $d(f,g)=\sup\lVert f-g\rVert+\sup\lVert df-dg\rVert$ is a distance, where $df$ is the derivative of $f$ along the sphere, made precise in [Vol. III](/blog/2026/08/17/circling-the-sphere-Vol-III). Two surfaces are close when their points *and their tangent planes* are close. That is the topology in which Smale's theorem lives.
 - **The discrete topology.** Every subset is open. On $\mathbb{Z}$ with its usual distance this is what you get, since $B(n,\tfrac12)=\lbrace n\rbrace$.
 - **The subspace topology.** If $Y\subseteq X$, a set is open in $Y$ when it is $U\cap Y$ for some $U$ open in $X$. Openness is relative to the ambient space.
 
@@ -208,11 +210,11 @@ Examples that will matter:
 # Clopen sets and connectedness
 {: #clopen-sets-and-connectedness}
 <div class="cs-q">
-<strong>Student.</strong> If a set can be both open and closed, what does that look like?
+It is instructive to see what a set that is both open and closed looks like.
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> Like a crack in the space. $\varnothing$ and $X$ are always both; call a set that is both <em>clopen</em>. Any other clopen set $A$ splits $X$ into $A$ and $X\setminus A$, two open pieces with nothing in between. A space with no such split is <em>connected</em>.
+It looks like a crack in the space. $\varnothing$ and $X$ are always both; call a set that is both <em>clopen</em>. Any other clopen set $A$ splits $X$ into $A$ and $X\setminus A$, two open pieces with nothing in between. A space with no such split is <em>connected</em>.
 </div>
 
 <div class="mviz" id="ev-clopen" tabindex="0" aria-label="A clopen subset of a disconnected space, step by step">
@@ -290,7 +292,7 @@ Examples that will matter:
 
 **Theorem.** The interval $[0,1]$ is connected.
 
-*Proof.* Suppose $A\subseteq[0,1]$ is clopen and contains $0$; we show $A=[0,1]$. Let $s=\sup\lbrace x: [0,x]\subseteq A\rbrace$. Because $A$ is closed, it contains the limit point $s$, so $[0,s]\subseteq A$. Because $A$ is open (in $[0,1]$), if $s&lt;1$ some interval $[s,s+\varepsilon)$ also lies in $A$, contradicting the choice of $s$. So $s=1$ and $A=[0,1]$. If instead $0\notin A$, apply the argument to the complement, which is also clopen. $\square$
+*Proof.* Suppose $A\subseteq[0,1]$ is clopen and contains $0$; we show $A=[0,1]$. Let $s=\sup\lbrace x: [0,x]\subseteq A\rbrace$, the least upper bound of that set: the smallest number that is $\ge$ every element of it. It need not belong to the set (the least upper bound of $[0,1)$ is $1$), and every nonempty set of reals with an upper bound has one, because the real line has no gaps. Because $A$ is closed, it contains the limit point $s$, so $[0,s]\subseteq A$. Because $A$ is open (in $[0,1]$), if $s&lt;1$ some interval $[s,s+\varepsilon)$ also lies in $A$, contradicting the choice of $s$. So $s=1$ and $A=[0,1]$. If instead $0\notin A$, apply the argument to the complement, which is also clopen. $\square$
 
 This is the completeness of the real numbers, wearing a topological hat. It is the single fact on which the rest of the series leans.
 
@@ -417,6 +419,8 @@ For $f:\mathbb{R}\to\mathbb{R}$ this is exactly $\varepsilon$--$\delta$: take $V
 })();
 </script>
 
+A continuous bijection whose inverse is also continuous is a **homeomorphism**. Homeomorphic spaces are the same space with the points renamed: open sets on one side match open sets on the other, so no topological question can tell them apart. Stretching $(0,1)$ onto $(0,2)$ is a homeomorphism, and so is $x\mapsto x/(1-\lvert x\rvert)$ from $(-1,1)$ onto all of $\mathbb{R}$, with inverse $y\mapsto y/(1+\lvert y\rvert)$.
+
 Now the payoff, in three lines.
 
 **Theorem.** The continuous image of a connected space is connected.
@@ -435,7 +439,7 @@ That last corollary is the engine of the whole subject. In [Vol. II](/blog/2026/
 {: #paths-and-path-connectedness}
 <div class="ev-def"><strong>Definition (path).</strong> A <em>path</em> in $X$ from $a$ to $b$ is a continuous map $\gamma:[0,1]\to X$ with $\gamma(0)=a$ and $\gamma(1)=b$. $X$ is <em>path-connected</em> if every two points are joined by a path.</div>
 
-Path-connected spaces are connected: a clopen split of $X$ would pull back, along a path joining the two pieces, to a clopen split of $[0,1]$. The converse fails for exotic spaces (the *topologist's sine curve*), but not for anything in this series: for locally path-connected spaces, which include manifolds and the spaces of maps we care about, connected and path-connected agree.
+Path-connected spaces are connected: a clopen split of $X$ would pull back, along a path joining the two pieces, to a clopen split of $[0,1]$. The converse fails for exotic spaces. The *topologist's sine curve*, the graph of $\sin(1/x)$ for $0&lt;x\le 1$ together with the segment $\lbrace 0\rbrace\times[-1,1]$ that it oscillates toward, is connected, yet no path reaches the segment from the graph. Nothing in this series is that wild. A space is *locally path-connected* if every point has arbitrarily small path-connected neighbourhoods; manifolds and the spaces of maps we care about are, and for such spaces connected and path-connected agree.
 
 The **path components** of $X$ are its maximal path-connected pieces; the set of them is written $\pi&#95;{0}(X)$. Now the theorem can be restated with no vague words left except "immersion":
 
@@ -456,6 +460,8 @@ $S^2$ is closed and bounded, so compact. The fact we need is: **a continuous rea
 $$\operatorname{Imm}(S^2,\mathbb{R}^3)\ \text{is an open subset of}\ C^1(S^2,\mathbb{R}^3).$$
 
 On a non-compact surface the infimum could be $0$, approached at infinity, and there would be no room. On the sphere there always is. This is the fact that makes wiggling an immersion safe, and wiggling is how eversions are built.
+
+Compactness gives one more fact of the same kind, used in Vol. II: a continuous map on a compact space is **uniformly continuous**. For each $\varepsilon&gt;0$ a single $\delta&gt;0$ works at every point at once. (If not, there would be pairs of points closer and closer together whose images stay $\varepsilon$ apart; compactness lets those pairs pile up at one point, and continuity fails there.)
 
 (The last axiom we need is **Hausdorff**: distinct points have disjoint open neighbourhoods, so limits are unique. Every metric space is Hausdorff. It shows up in the definition of a manifold in Vol. III and nowhere else.)
 

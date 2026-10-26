@@ -21,6 +21,7 @@
   topic: Topology
   image: "/images/home/sphere-eversion.webp?v=c677788a"
   blurb: "Why a sphere can be turned inside out without a crease and a circle in the plane cannot, from open sets to Smale's theorem."
+  prereqs: "Multivariable calculus and a first course in linear algebra (rank, determinants, orthonormal bases). Topology and homotopy are built on the page."
 
 - name: "Mean-Reverting VIX"
   topic: Quant finance

@@ -32,11 +32,11 @@ mathjax: true
 # Homotopy
 {: #homotopy}
 <div class="cs-q">
-<strong>Student.</strong> What is a homotopy?
+It is instructive to pin down what a homotopy is before using one.
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> A movie of maps. Two maps $f,g:X\to Y$ are <em>homotopic</em> if one can be deformed continuously into the other: there is a continuous $H:X\times[0,1]\to Y$ with $H(\cdot,0)=f$ and $H(\cdot,1)=g$. Freeze the second coordinate at $s$ and you get the frame $H&#95;{s}=H(\cdot,s)$ of the movie. We write $f\simeq g$.
+A homotopy is a movie of maps. Two maps $f,g:X\to Y$ are <em>homotopic</em> if one can be deformed continuously into the other: there is a continuous $H:X\times[0,1]\to Y$ with $H(\cdot,0)=f$ and $H(\cdot,1)=g$. Freeze the second coordinate at $s$ and you get the frame $H&#95;{s}=H(\cdot,s)$ of the movie. We write $f\simeq g$.
 </div>
 
 The notation $X\times[0,1]$ matters. For $X=S^2$ it is a thickened sphere, a spherical *shell*: each point of the sphere grows a little time-interval. It is not the solid ball. (Calling it a ball is an easy slip: the homotopy parameter is a new direction, not a filling-in.)
@@ -137,7 +137,7 @@ A **loop** at $x&#95;{0}$ is a path that starts and ends at $x&#95;{0}$. Two loo
 
 <div class="ev-def"><strong>Definition (fundamental group).</strong> $\pi&#95;{1}(X,x&#95;{0})$ is the set of loops at $x&#95;{0}$ up to homotopy rel endpoints, with concatenation as the product. The identity is the constant loop; the inverse of a loop is the same loop run backwards.</div>
 
-Checking the group laws is a matter of reparametrizing time, and every reparametrization is itself a homotopy. A space in which every loop is homotopic to a constant (and which is path-connected) is **simply connected**: $\pi&#95;{1}=0$. Every convex set is simply connected, by the straight-line homotopy.
+(A **group** is a set with an associative product, an identity element, and an inverse for every element.) Checking the group laws is a matter of reparametrizing time, and every reparametrization is itself a homotopy. A space in which every loop is homotopic to a constant (and which is path-connected) is **simply connected**: $\pi&#95;{1}=0$. A set is **convex** if it contains the segment between any two of its points, and every convex set is simply connected, by the straight-line homotopy. More generally a space is **contractible** if its identity map is homotopic to a constant map: the whole space can be shrunk to a point inside itself. $\mathbb{R}^n$ is contractible, and a contractible space has no interesting loops, or spheres of any dimension.
 
 The widget above shows the first nontrivial example. In $\mathbb{R}^2\setminus\lbrace 0\rbrace$, the loop "$\gamma&#95;{0}$ then $\gamma&#95;{1}$ backwards" is homotopic to a constant exactly when its winding number is $0$. To prove that, we need to define winding number properly, and the cleanest place to do that is the circle.
 
@@ -146,11 +146,11 @@ The widget above shows the first nontrivial example. In $\mathbb{R}^2\setminus\l
 # The circle: π₁(S¹) = ℤ
 {: #the-circle}
 <div class="cs-q">
-<strong>Student.</strong> Why is a loop around the circle not contractible? It seems obvious, but I can't prove it.
+It is instructive to try to prove that a loop around the circle is not contractible. The fact seems obvious; a proof is not.
 </div>
 
 <div class="cs-a">
-<strong>Teacher.</strong> Unroll the circle. Every loop on the circle lifts to a path on the real line, and where the lift ends is an integer that no homotopy can change.
+The trick is to unroll the circle. Every loop on the circle lifts to a path on the real line, and where the lift ends is an integer that no homotopy can change.
 </div>
 
 The map
@@ -163,13 +163,13 @@ wraps the line around the circle infinitely often. It is a **covering map**: eve
 
 *Why.* By compactness of $[0,1]$ (Vol. I), chop time into finitely many pieces, each of which $\gamma$ maps into one small arc. Over a small arc, the covering is a stack of copies, and you have no choice but to stay on the copy you started in. Glue the pieces. $\square$
 
-**Homotopy lifting.** The same argument, applied to a square $[0,1]\times[0,1]$ instead of an interval, lifts homotopies.
+**Homotopy lifting.** The same argument lifts homotopies. Chop the square $[0,1]\times[0,1]$ into a grid fine enough that each small square lands in one small arc (compactness again), then lift the small squares one at a time, row by row. Each new square meets what is already lifted along its left and bottom edges, a connected set, and that pins down which copy of the arc it must use.
 
 Now define the **degree** of a loop $\gamma$ at $p(0)$ to be $\tilde\gamma(1)$. It is an integer, because $p(\tilde\gamma(1))=\gamma(1)=p(0)$. A homotopy of loops lifts to a homotopy of lifts, along which the endpoint moves continuously in $p^{-1}(p(0))=\mathbb{Z}$. By Vol. I's corollary, it cannot move. So:
 
 $$\deg:\pi_1(S^1)\xrightarrow{\ \cong\ }\mathbb{Z}.$$
 
-(It respects products because the lift of $\gamma$ followed by $\delta$ is $\tilde\gamma$ followed by $\tilde\delta+\deg\gamma$. It is onto because $t\mapsto p(nt)$ has degree $n$, and one-to-one because two loops with the same lift endpoint have lifts related by a straight-line homotopy in the convex set $\mathbb{R}$, which projects down.)
+(An **isomorphism** of groups, written $\cong$, is a bijection that respects the products; isomorphic groups are the same group with the elements renamed. Here $\deg$ respects products because the lift of $\gamma$ followed by $\delta$ is $\tilde\gamma$ followed by $\tilde\delta+\deg\gamma$. It is onto because $t\mapsto p(nt)$ has degree $n$, and one-to-one because two loops with the same lift endpoint have lifts related by a straight-line homotopy in the convex set $\mathbb{R}$, which projects down.)
 
 <div id="ev-lift" class="cs-stage" style="height:460px;">
   <div class="cs-hud cs-hud-tl" id="ev-lift-hud"></div>
@@ -249,13 +249,13 @@ CS.mount({
 
 The **winding number** of a loop $\gamma$ in $\mathbb{R}^2\setminus\lbrace 0\rbrace$ is the degree of $\gamma/\lVert\gamma\rVert$, a loop on the unit circle. The straight-line homotopy $(1-s)\gamma+s\,\gamma/\lVert\gamma\rVert$ never hits $0$, so $\mathbb{R}^2\setminus\lbrace 0\rbrace$ and $S^1$ have the same loops up to homotopy: $\pi&#95;{1}(\mathbb{R}^2\setminus\lbrace 0\rbrace)\cong\mathbb{Z}$. That is the missing proof for the first widget.
 
-Keep this pattern in mind; it is the core of [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) in miniature. A covering map $E\to B$ with discrete fibre $F$ (here $\mathbb{R}\to S^1$, fibre $\mathbb{Z}$), plus the fact that $E$ has no interesting loops, computes the loops of $B$ from the points of $F$.
+Keep this pattern in mind; it is the core of [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V) in miniature. A covering map $E\to B$ with discrete fibre $F$, the preimage of a point (here $\mathbb{R}\to S^1$, fibre $\mathbb{Z}$), plus the fact that $E$ has no interesting loops, computes the loops of $B$ from the points of $F$.
 
 ---
 
 # The sphere: π₁(S²) = 0
 {: #the-sphere}
-Now go up a dimension. Take a loop on $S^2$. If it misses some point $q$, then it lives in $S^2\setminus\lbrace q\rbrace$, and **stereographic projection** from $q$ is a homeomorphism $S^2\setminus\lbrace q\rbrace\to\mathbb{R}^2$. In $\mathbb{R}^2$ the straight-line homotopy shrinks the loop to a point. Project back.
+Now go up a dimension. Take a loop on $S^2$. If it misses some point $q$, then it lives in $S^2\setminus\lbrace q\rbrace$, and **stereographic projection** from $q$ is a homeomorphism $S^2\setminus\lbrace q\rbrace\to\mathbb{R}^2$. From the north pole it sends $(x,y,z)$ to $\bigl(x/(1-z),\,y/(1-z)\bigr)$, the point where the line from the pole through $(x,y,z)$ meets the plane $z=0$. In $\mathbb{R}^2$ the straight-line homotopy shrinks the loop to a point. Project back.
 
 <div id="ev-s2loop" class="cs-stage" style="height:440px;">
   <div class="cs-hud cs-hud-tl" id="ev-s2-hud"></div>
@@ -315,7 +315,7 @@ CS.mount({
 });
 </script>
 
-There is a real gap in that argument. A continuous loop *can* hit every point of $S^2$: space-filling curves exist. The repair is to first homotope the loop to a smooth one (approximate it by a smooth loop close enough that the straight-line homotopy between them, pushed back onto the sphere, is well defined). A smooth map from a 1-dimensional thing into a 2-dimensional thing has an image of area zero (this is the easy case of **Sard's theorem**), so it misses a point. Then stereographic projection finishes. Therefore
+There is a real gap in that argument. A continuous loop *can* hit every point of $S^2$: space-filling curves exist. The repair is to replace the loop by a tame one. By uniform continuity ([Vol. I](/blog/2026/08/17/circling-the-sphere#compactness-and-why-immersions-have-room)), chop time into $N$ pieces so short that $\gamma$ moves less than $\tfrac12$ within each. On each piece, let $s(t)$ run along the straight segment in $\mathbb{R}^3$ between the endpoints' images, at the same rate. Then $s(t)$ is within $\tfrac12$ of $\gamma(t)$, so the whole segment from $\gamma(t)$ to $s(t)$ stays at least $\tfrac12$ away from the origin, and pushing it out onto the sphere by $x\mapsto x/\lVert x\rVert$ gives a homotopy on $S^2$ from $\gamma$ to the loop $\beta=s/\lVert s\rVert$. (At $t=0$ nothing moves, so the base point stays put.) Now $\beta$ is $N$ short arcs, and an arc covers no area: cut it into $m$ equal pieces, each fits in a cap of radius $c/m$ for some constant $c$, and the $m$ caps have total area at most about $m\cdot\pi(c/m)^2=\pi c^2/m$, which goes to $0$ as $m$ grows. Finitely many arcs cannot cover the $4\pi$ of area on the sphere, so $\beta$ misses a point, and stereographic projection finishes. (This is the easy case of **Sard's theorem**: a smooth image of something lower-dimensional has zero volume.) Therefore
 
 $$\pi_1(S^2)=0.$$
 
@@ -327,19 +327,19 @@ Compare the circle: there the loop that goes once around cannot miss a point, wh
 {: #higher-homotopy-groups}
 A loop is a map from $S^1$. Replace $S^1$ by $S^k$ and you get the **higher homotopy groups**:
 
-<div class="ev-def"><strong>Definition.</strong> $\pi&#95;{k}(X)$ is the set of maps $S^k\to X$ sending a base point to a base point, up to homotopy that keeps the base point fixed. For $k\ge 1$ it is a group; for $k\ge 2$ it is abelian. $\pi&#95;{0}(X)$ is the set of path components.</div>
+<div class="ev-def"><strong>Definition.</strong> $\pi&#95;{k}(X)$ is the set of maps $S^k\to X$ sending a base point to a base point, up to homotopy that keeps the base point fixed. Crushing the whole boundary of the cube $[0,1]^k$ to a single point gives $S^k$, so the same thing is a map of the cube that sends its entire boundary to the base point. For $k\ge 1$ it is a group: squeeze two cubes into one along the first coordinate and run one map on each half, exactly as loops are concatenated. For $k\ge 2$ it is <em>abelian</em>, meaning the order of the product does not matter: with a second coordinate to move in, the two halves can slide around each other and swap places. $\pi&#95;{0}(X)$ is the set of path components.</div>
 
 The argument for $\pi&#95;{1}(S^2)=0$ works word for word in every dimension where the domain is smaller than the target:
 
 <div class="ev-def"><strong>Theorem.</strong> $\pi&#95;{k}(S^n)=0$ for $k&lt;n$.</div>
 
-*Proof.* Homotope $f:S^k\to S^n$ to a smooth map. Since $k&lt;n$, its image has $n$-dimensional measure zero (Sard), so it misses a point $q$. Stereographic projection from $q$ carries $S^n\setminus\lbrace q\rbrace$ to $\mathbb{R}^n$, where the straight-line homotopy contracts $f$ (to the base point, if we contract toward it). $\square$
+*Proof.* The repair above works in any dimension. Treat $f:S^k\to S^n$ as a map of the cube $[0,1]^k$, and chop the cube into $N^k$ small cubes on each of which $f$ moves less than $\tfrac12$. On each small cube replace $f$ by the polynomial that matches it at the corners and is linear in each coordinate separately, pushed out onto $S^n$. Its values are averages of corner values, all within $\tfrac12$ of $f$, so as before the pushed-out straight-line homotopy joins $f$ to this tame map $\beta$; on the boundary of the big cube every corner value is the base point, so $\beta$ is too. Now cut each small cube into $m^k$ pieces. Each piece lands in a ball of radius $c/m$, so the image of $\beta$ is covered by $N^km^k$ balls of $n$-dimensional volume about $(c/m)^n$ each, a total of order $m^{k-n}$, which goes to $0$ as $m$ grows because $k&lt;n$. So $\beta$ misses a point $q$. Stereographic projection from $q$ carries $S^n\setminus\lbrace q\rbrace$ to $\mathbb{R}^n$, where the straight-line homotopy contracts $f$ (to the base point, if we contract toward it). $\square$
 
 The instance Smale's proof needs, in [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V), is
 
 $$\pi_2(S^3)=0.$$
 
-A 2-sphere inside a 3-sphere always has room to shrink. When the dimensions match, the answer is instead $\pi&#95;{n}(S^n)\cong\mathbb{Z}$, the **degree** again: how many times, with sign, the map covers the target. We met the $n=1$ case above; the $n=2$ case is the degree of the Gauss map in [Vol. IV](/blog/2026/08/17/circling-the-sphere-Vol-IV). And a warning, to show the theorem above is not "obvious": when the domain is *bigger*, things are wild. $\pi&#95;{3}(S^2)\cong\mathbb{Z}$, generated by the Hopf fibration, a map from the 3-sphere onto the 2-sphere that no homotopy can undo.
+A 2-sphere inside a 3-sphere always has room to shrink. When the dimensions match, the answer is instead $\pi&#95;{n}(S^n)\cong\mathbb{Z}$, the **degree** again: how many times, with sign, the map covers the target. We met the $n=1$ case above; the $n=2$ case is the degree of the Gauss map in [Vol. IV](/blog/2026/08/17/circling-the-sphere-Vol-IV). And a warning, to show the theorem above is not "obvious": when the domain is *bigger*, things are wild. $\pi&#95;{3}(S^2)\cong\mathbb{Z}$, generated by the Hopf fibration, a map from the 3-sphere onto the 2-sphere that no homotopy can undo. In the quaternions of [Vol. V](/blog/2026/08/17/circling-the-sphere-Vol-V#rotations-quaternions-and-the-belt) it is $q\mapsto qiq^{-1}$: send a unit quaternion to the point where its rotation carries $(1,0,0)$. Every point of $S^2$ has a whole circle of preimages, and any two of those circles are linked like two rings of a chain.
 
 ---
 

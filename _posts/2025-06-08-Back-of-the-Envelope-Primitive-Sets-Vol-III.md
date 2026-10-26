@@ -207,8 +207,8 @@ In the prefix language the proof is one line: if one word begins with both $a$ a
 
 Because the $L_a$ are disjoint, they cannot cover more than the whole number line.
 
-<div class="pv-q"><strong>Student.</strong> So just add up the densities and get at most $1$?</div>
-<div class="pv-a"><strong>Teacher.</strong> Careful: density is not a measure, and infinitely many densities need not add. Every single integer $\lbrace n\rbrace$ has density $0$, yet the union of all of them is every integer, with density $1$. So "$0+0+0+\cdots = 1$" for densities. We avoid infinite unions entirely.</div>
+<div class="pv-q">It is instructive to see why the obvious shortcut fails: add up the densities and conclude the total is at most $1$.</div>
+<div class="pv-a">Density is not a measure, and infinitely many densities need not add. Every single integer $\lbrace n\rbrace$ has density $0$, yet the union of all of them is every integer, with density $1$. So "$0+0+0+\cdots = 1$" for densities. We avoid infinite unions entirely.</div>
 
 For any *finite* subcollection of $A$, the corresponding $L_a$ are disjoint, the density of their union is the sum of their densities (finite additivity is fine), and a subset of the integers cannot have density greater than $1$. Every finite partial sum of the $d(L_a)$ is therefore $\le 1$. A series of positive terms whose partial sums are all $\le 1$ converges to something $\le 1$ ([Vol. II](/blog/2025/06/08/Back-of-the-Envelope-Primitive-Sets-Vol-II)):
 
